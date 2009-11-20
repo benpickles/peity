@@ -2,28 +2,55 @@
 <html>
 <head>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
-<script src="src/peity.min.js"></script>
+<script src="src/peity.js"></script>
 <script>
   jQuery(function($) {
-    $('span.pie').peity();
+    $('.defaults span').peity();
+
+    // Change defaults.
+    $.fn.peity.defaults.colours = ['C6D9FD', '4D89F9'];
+
+    $('.radius span').each(function() {
+      var elem = $(this);
+      var num = elem.attr('class').match(/r(\d+)/)[1];
+      elem.peity({ radius: num * num + 15 });
+    });
   });
 </script>
 </head>
 <body>
   <h1>Peity Example</h1>
-  <p>
-    <span class="pie">1/12</span>
-    <span class="pie">2/12</span>
-    <span class="pie">3/12</span>
-    <span class="pie">4/12</span>
-    <span class="pie">5/12</span>
-    <span class="pie">6/12</span>
-    <span class="pie">7/12</span>
-    <span class="pie">8/12</span>
-    <span class="pie">9/12</span>
-    <span class="pie">10/12</span>
-    <span class="pie">11/12</span>
-    <span class="pie">12/12</span>
+
+  <h2>Defaults</h2>
+  <p class="defaults">
+    <span>1/12</span>
+    <span>2/12</span>
+    <span>3/12</span>
+    <span>4/12</span>
+    <span>5/12</span>
+    <span>6/12</span>
+    <span>7/12</span>
+    <span>8/12</span>
+    <span>9/12</span>
+    <span>10/12</span>
+    <span>11/12</span>
+    <span>12/12</span>
+  </p>
+
+  <h2>Radius and Colour</h2>
+  <p class="radius">
+    <span class="r1">1/12</span>
+    <span class="r2">2/12</span>
+    <span class="r3">3/12</span>
+    <span class="r4">4/12</span>
+    <span class="r5">5/12</span>
+    <span class="r6">6/12</span>
+    <span class="r7">7/12</span>
+    <span class="r8">8/12</span>
+    <span class="r9">9/12</span>
+    <span class="r10">10/12</span>
+    <span class="r11">11/12</span>
+    <span class="r12">12/12</span>
   </p>
 </body>
 </html>

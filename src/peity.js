@@ -1,13 +1,13 @@
 // Convert something like "<span>8/10</span>" into a small, inline pie chart.
 (function($) {
-  $.fn.peity = function() {
-    var radius = 16;
-    var centre = radius / 2;
+  $.fn.peity = function(options) {
+    var opts = $.extend($.fn.peity.defaults, options);
+    var centre = opts.radius / 2;
 
     this.each(function() {
       var elem = document.createElement('canvas');
-      elem.setAttribute('width', radius);
-      elem.setAttribute('height', radius);
+      elem.setAttribute('width', opts.radius);
+      elem.setAttribute('height', opts.radius);
 
       var span = $(this);
       span.before(elem);
@@ -25,7 +25,7 @@
       canvas.moveTo(centre, centre);
       canvas.arc(centre, centre, centre, 0, Math.PI * 2);
       canvas.closePath();
-      canvas.fillStyle = 'FFF4DD';
+      canvas.fillStyle = opts.colours[0];
       canvas.fill();
 
       // Slice.
@@ -33,10 +33,15 @@
       canvas.moveTo(centre, centre);
       canvas.arc(centre, centre, centre, adjust, slice + adjust);
       canvas.closePath();
-      canvas.fillStyle = 'FF9900';
+      canvas.fillStyle = opts.colours[1];
       canvas.fill();
     });
 
     return this;
+  };
+
+  $.fn.peity.defaults = {
+    colours: ['FFF4DD', 'FF9900'],
+    radius: 16
   };
 })(jQuery);
