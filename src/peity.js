@@ -1,7 +1,7 @@
 // Convert something like "<span>8/10</span>" into a small, inline pie chart.
 (function($) {
   $.fn.peity = function(options) {
-    var opts = $.extend($.fn.peity.defaults, options);
+    var opts = $.extend({}, $.fn.peity.defaults, options);
     var centre = opts.radius / 2;
 
     this.each(function() {
