@@ -13,7 +13,7 @@
       span.before(elem);
       span.hide();
 
-      var values = span.text().split('/');
+      var values = span.text().split(opts.delimeter);
       var v1 = parseInt(values[0]);
       var v2 = parseInt(values[1]);
       var adjust = -Math.PI / 2;
@@ -42,6 +42,7 @@
 
   $.fn.peity.defaults = {
     colours: ['FFF4DD', 'FF9900'],
+    delimeter: '/',
     radius: 16
   };
 })(jQuery);

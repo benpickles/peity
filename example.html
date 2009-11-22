@@ -6,6 +6,7 @@
 <script>
   jQuery(function($) {
     $('.defaults span').peity();
+    $('.delimeter span').peity({ delimeter: ':' });
 
     // Change defaults.
     $.fn.peity.defaults.colours = ['C6D9FD', '4D89F9'];
@@ -35,6 +36,22 @@
     <span>10/12</span>
     <span>11/12</span>
     <span>12/12</span>
+  </p>
+
+  <h2>Use ":" Delimeter</h2>
+  <p class="delimeter">
+    <span>1:12</span>
+    <span>2:12</span>
+    <span>3:12</span>
+    <span>4:12</span>
+    <span>5:12</span>
+    <span>6:12</span>
+    <span>7:12</span>
+    <span>8:12</span>
+    <span>9:12</span>
+    <span>10:12</span>
+    <span>11:12</span>
+    <span>12:12</span>
   </p>
 
   <h2>Radius and Colour</h2>
