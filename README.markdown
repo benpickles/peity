@@ -7,9 +7,9 @@ Peity (sounds like deity) is a simple jQuery plugin to create a mini pie chart f
 
 ### HTML
 
-    &lt;span class="chart_1"&gt;2/10&lt;/span&gt; 
-    &lt;span class="chart_2"&gt;4/10&lt;/span&gt; 
-    &lt;span class="chart_3"&gt;5/10&lt;/span&gt; 
+    <span class="chart_1">2/10</span> 
+    <span class="chart_2">4/10</span> 
+    <span class="chart_3">5/10</span> 
 
 ### Javascript (jquery)
 
