@@ -17,6 +17,12 @@ Peity (sounds like deity) is a simple jQuery plugin to create a mini pie chart f
       $('span').peity();
     });
 
+### Colours
+
+Override default colours of the pie charts with
+
+    $.fn.peity.defaults.colours = ['#CEE9FC', '#334F63'];
+
 ## Updating charts
 
 Peity adds a "change" event trigger to your graph elements, so if you update their data your can regenerate one or more charts by triggering "change" on them.
