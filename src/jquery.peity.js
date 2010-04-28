@@ -1,4 +1,9 @@
-// Convert something like "<span>8/10</span>" into a small, inline pie chart.
+// Peity jQuery plugin
+// (c) 2010 Ben Pickles
+//
+// http://benpickles.github.com/peity/
+//
+// Released under MIT license.
 (function($) {
   $.fn.peity = function(options) {
     var opts = $.extend({}, $.fn.peity.defaults, options);
