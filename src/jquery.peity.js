@@ -18,8 +18,8 @@
 
       var span = $("span", thus).hide();
       var values = span.text().split(opts.delimeter);
-      var v1 = parseInt(values[0]);
-      var v2 = parseInt(values[1]);
+      var v1 = parseFloat(values[0]);
+      var v2 = parseFloat(values[1]);
       var adjust = -Math.PI / 2;
       var slice = (v1 / v2) * Math.PI * 2;
       var canvas = elem.getContext("2d");
