@@ -1,0 +1,119 @@
+body {
+  background: #FFF;
+  color: #222;
+  font-family: Helvetica, Arial, sans-serif;
+  font-size: 13px;
+  line-height: 1.4em;
+  margin: 0;
+  text-align: center;
+}
+
+#fork-me {
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+#fork-me a {
+  background: url("http://s3.amazonaws.com/github/ribbons/forkme_right_white_ffffff.png") no-repeat 0 0;
+  display: block;
+  height: 149px;
+  text-indent: -9999px;
+  width: 149px;
+}
+
+h1 {
+  font-size: 32px;
+  margin: 1em 0 0.4em;
+}
+h2 {
+  font-size: 22px;
+  margin: 1em 0 0.4em;
+}
+h3 {
+  font-size: 18px;
+  margin: 1em 0 0.4em;
+}
+
+p {
+  margin: 0.4em 0;
+}
+
+dd {
+  margin-left: 1em;
+}
+
+pre {
+  background: #EEE;
+  margin: 0.4em 0;
+  padding: 3px 7px;
+}
+pre code {
+  padding: 0;
+}
+
+code {
+  background: #EEE;
+  font-size: 13px;
+  padding: 0.1em 0.2em;
+}
+
+code.html span.attribute {
+  color: red;
+}
+code.html span.string {
+  color: green;
+}
+code.html span.tag {
+  color: blue;
+}
+
+code.javascript span.comment {
+  color: #BD48B3;
+}
+code.javascript span.keywords {
+  color: blue;
+}
+code.javascript span.regexp {
+  color: orange;
+}
+code.javascript span.string {
+  color: green;
+}
+
+#container {
+  margin: 0 auto;
+  text-align: left;
+  width: 800px;
+}
+
+.examples {
+  margin-bottom: 25px;
+  overflow: hidden;
+  padding-bottom: 5px;
+}
+.examples div.html {
+  float: left;
+  width: 320px;
+}
+.examples div.javascript {
+  float: right;
+  width: 470px;
+}
+.examples h4 {
+  color: #333;
+  font-family: monospace;
+  font-size: 13px;
+  font-weight: normal;
+  margin: 0.5em 7px 1px;
+}
+.examples pre {
+  margin: 0 0 -2000px;
+  padding-bottom: 2000px;
+}
+
+#example3 div.html {
+  width: 370px;
+}
+#example3 div.javascript {
+  width: 420px;
+}
