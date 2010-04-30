@@ -10,18 +10,18 @@
 <script>
 $(function() {
   // Just the defaults.
-  $("span.pie").peity();
+  $("span.pie").peity('pie');
 
   // Set a custom colour and/or radius.
   $(".radius span").each(function() {
     var elem = $(this);
     var radius = elem.attr("class").match(/\d+/) * 4;
 
-    elem.peity({ colours: ["#C6D9FD", "#4D89F9"], radius: radius });
+    elem.peity('pie',{ colours: ["#C6D9FD", "#4D89F9"], radius: radius });
   });
 
   // Simple evented example.
-  $("span.graph").peity();
+  $("span.graph").peity('pie');
 
   $("select").change(function(){
     $(this)
@@ -29,9 +29,9 @@ $(function() {
       .html($(this).val() + "/" + 5).change();
   }).change();
 
-  var chartUpdate = function(event, value, max) {
+  var chartUpdate = function(event, value) {
     $("#notice").text(
-      "Chart updated: " + value + "/" + max
+      "Chart updated: " + value
     );
   };
 
@@ -63,7 +63,7 @@ $(function() {
 
   <h3>Basic</h3>
 
-  <p>Simply call <code>peity()</code> on a jQuery selection:</p>
+  <p>Simply call <code>peity('pie')</code> on a jQuery selection:</p>
   <p>
     <span class="pie">1/5</span>
     <span class="pie">226/360</span>
@@ -82,13 +82,13 @@ $(function() {
     <div class="javascript">
       <h4>Javascript</h4>
 
-      <pre><code class="javascript">$("span.pie").peity();</code></pre>
+      <pre><code class="javascript">$("span.pie").peity('pie');</code></pre>
     </div>
   </div>
 
   <h3>Custom Colours and Radius</h3>
 
-  <p>You can pass custom colours and radius to <code>peity({ radius: 42 })</code>.</p>
+  <p>You can pass custom colours and radius to <code>peity('pie',{ radius: 42 })</code>.</p>
 
   <p class="radius">
     <span class="r10">1/10</span>
@@ -128,7 +128,7 @@ $(function() {
   var elem = $(this);
   var radius = elem.attr("class").match(/\d+/) * 4;
 
-  elem.peity({
+  elem.peity('pie',{
     colours: ["#C6D9FD", "#4D89F9"],
     radius: radius
   });
@@ -226,7 +226,7 @@ $(function() {
     <div class="javascript">
       <h4>Javascript</h4>
 
-      <pre><code class="javascript">$("span.graph").peity();
+      <pre><code class="javascript">$("span.graph").peity('pie');
 
 $("select").change(function(){
   $(this)
@@ -243,7 +243,13 @@ var chartUpdate = function(event, value, max) {
 $("span.graph").bind("chart:changed", chartUpdate);</code></pre>
     </div>
   </div>
-
+  <h2>Bar charts</h2>
+  
+  <span class="barchart">1,10,2,3,12,2,5,9,8,7,3,4,5</span>
+  
+  <script type="text/javascript" charset="utf-8">
+    $('.barchart').peity('bar');
+  </script>
   <h2>Defaults</h2>
 
   <p>Default can be overridden like so:</p>
