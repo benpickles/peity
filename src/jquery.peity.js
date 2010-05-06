@@ -5,7 +5,7 @@
 //
 // Released under MIT license.
 (function($) {
-  $.fn.peity = function(type, options) {    
+  $.fn.peity = function(type, options) {
 
     return $(this).each(function() {
       $(this).change(function() {
@@ -15,17 +15,17 @@
       }).trigger("change");
     });
   };
-  
+
   $.fn.peity.graphers = {};
   $.fn.peity.defaults = {};
-  
+
   $.fn.peity.add = function(type, defaults, grapher){
     $.fn.peity.graphers[type] = grapher;
     $.fn.peity.defaults[type] = defaults;
   };
-  
+
   $.fn.peity.add(
-    'pie', 
+    'pie',
     {
       colours: ['#FFF4DD', '#FF9900'],
       delimeter: '/',
@@ -36,9 +36,9 @@
       var elem = document.createElement('canvas');
       elem.setAttribute('width', opts.radius);
       elem.setAttribute('height', opts.radius);
-      
+
       thus.wrapInner("<span />").append(elem);
-      
+
       var span = $("span", thus).hide();
       var values = span.text().split(opts.delimeter);
       var v1 = parseFloat(values[0]);
@@ -46,7 +46,7 @@
       var adjust = -Math.PI / 2;
       var slice = (v1 / v2) * Math.PI * 2;
       var canvas = elem.getContext("2d");
-      
+
       // Plate.
       canvas.beginPath();
       canvas.moveTo(centre, centre);
@@ -54,7 +54,7 @@
       canvas.closePath();
       canvas.fillStyle = opts.colours[0];
       canvas.fill();
-      
+
       // Slice of pie.
       canvas.beginPath();
       canvas.moveTo(centre, centre);
@@ -62,9 +62,57 @@
       canvas.closePath();
       canvas.fillStyle = opts.colours[1];
       canvas.fill();
-      
   });
-  
+
+  $.fn.peity.add(
+    "line",
+    {
+      colour: "#c6d9fd",
+      strokeColour: "#4d89f9",
+      delimeter: ",",
+      height: 16,
+      width: 32
+    },
+    function(thus, opts) {
+      var elem = document.createElement("canvas");
+      elem.setAttribute("width", opts.width);
+      elem.setAttribute("height", opts.height);
+
+      thus.wrapInner("<span />").append(elem);
+
+      var span = $("span", thus).hide();
+      var values = span.text().split(opts.delimeter);
+      var ratio = opts.height / Math.max.apply(Math, values);
+      var width = opts.width / (values.length - 1);
+      var coords = [];
+      var i;
+
+      var canvas = elem.getContext("2d");
+      canvas.beginPath();
+      canvas.moveTo(0, opts.height);
+
+      for (i = 0; i < values.length; i++) {
+        var height = ratio * values[i];
+        var x = i * width;
+        var y = opts.height - height;
+        coords.push({ x: x, y: y });
+        canvas.lineTo(x, y);
+      }
+
+      canvas.lineTo(opts.width, opts.height);
+      canvas.fillStyle = opts.colour;
+      canvas.fill();
+
+      canvas.beginPath();
+      canvas.moveTo(0, coords[0].y);
+      for (i = 0; i < coords.length; i++) {
+        canvas.lineTo(coords[i].x, coords[i].y);
+      }
+      canvas.strokeStyle = opts.strokeColour;
+      canvas.stroke();
+    }
+  );
+
   $.fn.peity.add(
     'bar',
     {
@@ -74,29 +122,27 @@
       width: 32
     },
     function(thus, opts) {
-    
       var elem = document.createElement('canvas');
       elem.setAttribute('width', opts.width);
       elem.setAttribute('height', opts.height);
-    
+
       thus.wrapInner("<span />").append(elem);
-    
+
       var span = $("span", thus).hide();
       var values = span.text().split(opts.delimeter);
       var ratio = opts.height / Math.max.apply(Math, values);
       var width = opts.width / values.length;
-    
+
       var canvas = elem.getContext("2d");
       canvas.fillStyle = opts.colour;
-    
+
       for (var i = 0; i < values.length; i++) {
         var height = ratio * values[i];
         var x = i * width;
         var y = opts.height - height;
-    
+
         canvas.fillRect(x, y, width, height);
-      }    
+      }
     }
   );
-
 })(jQuery);
