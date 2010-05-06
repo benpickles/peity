@@ -1,41 +1,21 @@
 # Peity
 
-Peity (sounds like deity) is a simple jQuery plugin to create a mini pie chart from the contents of an element using canvas.
+Peity (sounds like deity) is a simple jQuery plugin that converts an element's content into a simple mini `canvas` pie, line or bar chart.
 
-## Usage
-
+## Basic Usage
 
 ### HTML
 
-    <span class="chart_1">2/10</span> 
-    <span class="chart_2">4/10</span> 
-    <span class="chart_3">5/10</span> 
+    <span class="pie">3/5</span>
+    <span class="line">3,5,1,6,2</span>
+    <span class="bar">2,5,3,6,2,1</span>
 
-### Javascript (jquery)
+### Javascript (jQuery)
 
-    $(function(){
-      $('span').peity();
-    });
+    $("span.pie").peity("pie");
+    $("span.line").peity("line");
+    $("span.bar").peity("bar");
 
-### Colours
+## Docs
 
-Override default colours of the pie charts with
-
-    $.fn.peity.defaults.colours = ['#CEE9FC', '#334F63'];
-
-## Updating charts
-
-Peity adds a "change" event trigger to your graph elements, so if you update their data your can regenerate one or more charts by triggering "change" on them.
-
-    $('span#chart_1').html("5/10").trigger('change')
-   
-## Subscribing to chart updates
-
-After drawing the chart, Peity elements will trigger the event 'peity:changed', passing current and maximum values as event arguments. This is useful if you want to "listen" to chart updates elsewhere in your code:
-
-    $('span').bind('peity:changed', function(event, new_value, max_value){
-      $('p#notice').html("Chart updated: " + new_value + " out of " + max_value);
-    });
-   
-See a working example in examples/simple.html
-    
+More detailed usage can be found at [benpickles.github.com/peity](http://benpickles.github.com/peity/).

@@ -10,18 +10,19 @@
 <script>
 $(function() {
   // Just the defaults.
-  $("span.pie").peity('pie');
+  $("span.pie").peity("pie");
+  $(".line").peity("line");
+  $(".bar").peity("bar");
 
   // Set a custom colour and/or radius.
   $(".radius span").each(function() {
     var elem = $(this);
     var radius = elem.attr("class").match(/\d+/) * 4;
 
-    elem.peity('pie',{ colours: ["#C6D9FD", "#4D89F9"], radius: radius });
+    elem.peity("pie", { colours: ["#C6D9FD", "#4D89F9"], radius: radius });
   });
 
   // Simple evented example.
-  $("span.graph").peity('pie');
 
   $("select").change(function(){
     $(this)
@@ -35,7 +36,7 @@ $(function() {
     );
   };
 
-  $("span.graph").bind("chart:changed", chartUpdate);
+  $("span.graph").peity("pie").bind("chart:changed", chartUpdate);
 });
 </script>
 </head>
@@ -44,14 +45,15 @@ $(function() {
   <h1>Peity</h1>
 
   <p>Peity (sounds like deity) is a simple <a href="http://jquery.com/">jQuery</a>
-    plugin that converts an element's content into a mini <code>&lt;canvas&gt;</code>
-    pie chart <span class="pie">1/3</span>.</p>
+    plugin that converts an element's content into a simple <code>&lt;canvas&gt;</code>
+    mini pie <span class="pie">2/5</span>
+    line <span class="line">5,3,9,6,5,9,7,3,5,2</span>
+    or bar chart <span class="bar">5,3,9,6,5,9,7,3,5,2</span>.</p>
 
   <dl>
     <dt>Download</dt>
-    <dd><a href="http://github.com/benpickles/peity/raw/master/src/jquery.peity.js">jquery.peity.js</a> (1.5Kb)
-    <dd><a href="http://github.com/benpickles/peity/raw/master/src/jquery.peity.min.js">jquery.peity.min.js</a>
-      (less than 1Kb)</dd>
+    <dd><a href="http://github.com/benpickles/peity/raw/master/src/jquery.peity.js">jquery.peity.js</a> (3.9Kb)
+    <dd><a href="http://github.com/benpickles/peity/raw/master/src/jquery.peity.min.js">jquery.peity.min.js</a> (2.2Kb)</dd>
 
     <dt>Source</dt>
     <dd><a href="http://github.com/benpickles/peity">github.com/benpickles/peity</a></dd>
@@ -59,18 +61,19 @@ $(function() {
 
   <div id="fork-me"><a href="http://github.com/benpickles/peity">Fork me on GitHub</a></div>
 
-  <h2>Usage</h2>
+  <h2>Pie Charts</h2>
 
-  <h3>Basic</h3>
+  <p>Simply call <code>peity("pie")</code> on a jQuery selection. You can also
+    pass <code>colours</code>, <code>radius</code> and <code>delimeter</code>
+    options.</p>
 
-  <p>Simply call <code>peity('pie')</code> on a jQuery selection:</p>
   <p>
     <span class="pie">1/5</span>
     <span class="pie">226/360</span>
     <span class="pie">0.52/1.561</span>
   </p>
 
-  <div class="examples">
+  <div class="example">
     <div class="html">
       <h4>HTML</h4>
 
@@ -82,13 +85,13 @@ $(function() {
     <div class="javascript">
       <h4>Javascript</h4>
 
-      <pre><code class="javascript">$("span.pie").peity('pie');</code></pre>
+      <pre><code class="javascript">$("span.pie").peity("pie");</code></pre>
     </div>
   </div>
 
   <h3>Custom Colours and Radius</h3>
 
-  <p>You can pass custom colours and radius to <code>peity('pie',{ radius: 42 })</code>.</p>
+  <p>You can pass custom colours and radius to <code>peity("pie", { radius: 42 })</code>.</p>
 
   <p class="radius">
     <span class="r10">1/10</span>
@@ -103,7 +106,7 @@ $(function() {
     <span class="r1">10/10</span>
   </p>
 
-  <div class="examples">
+  <div class="example">
     <div class="html">
       <h4>HTML</h4>
 
@@ -128,7 +131,7 @@ $(function() {
   var elem = $(this);
   var radius = elem.attr("class").match(/\d+/) * 4;
 
-  elem.peity('pie',{
+  elem.peity("pie", {
     colours: ["#C6D9FD", "#4D89F9"],
     radius: radius
   });
@@ -136,11 +139,51 @@ $(function() {
     </div>
   </div>
 
-  <h3>Events</h3>
+  <h2>Line Charts</h2>
 
-  <p>Peity adds a "change" event trigger to your graph elements,
-    so if you update their data your can regenerate one or more charts by
-    triggering <code>change()</code> on them.</p>
+  <p>Line charts work on a comma-separated list of digits. Line charts can
+    take the following options: <code>colour</code>, <code>strokeColour</code>,
+    <code>delimeter</code>, <code>width</code> and <code>height</code>.</p>
+
+  <p><span class="line">5,3,9,6,5,9,7,3,5,2</span></p>
+
+  <div class="example line-chart">
+    <div class="html">
+      <h4>HTML</h4>
+      <pre><code class="html">&lt;span class="line"&gt;5,3,9,6,5,9,7,3,5,2&lt;/span&gt;</code></pre>
+    </div>
+
+    <div class="javascript">
+      <h4>Javascript</h4>
+      <pre><code class="javascript">$(".line").peity("line");</code></pre>
+    </div>
+  </div>
+
+  <h2>Bar Charts</h2>
+
+  <p>Bar charts work in the same way as line charts and take the following
+    options: <code>colour</code>, <code>delimeter</code>, <code>width</code>
+    and <code>height</code>.</p>
+
+  <p><span class="bar">5,3,9,6,5,9,7,3,5,2</span></p>
+
+  <div class="example bar-chart">
+    <div class="html">
+      <h4>HTML</h4>
+      <pre><code class="html">&lt;span class="bar"&gt;5,3,9,6,5,9,7,3,5,2&lt;/span&gt;</code></pre>
+    </div>
+
+    <div class="javascript">
+      <h4>Javascript</h4>
+      <pre><code class="javascript">$(".bar").peity("bar");</code></pre>
+    </div>
+  </div>
+
+  <h2>Events</h2>
+
+  <p>Peity adds a "change" event trigger to your graph elements, so if you
+    update their data your can regenerate one or more charts by triggering
+    <code>change()</code> on them.</p>
 
   <ul>
     <li>
@@ -180,7 +223,7 @@ $(function() {
 
   <p id="notice">Nothing's happened yet.</p>
 
-  <div class="examples" id="example3">
+  <div class="example pie-events">
     <div class="html">
       <h4>HTML</h4>
 
@@ -226,9 +269,7 @@ $(function() {
     <div class="javascript">
       <h4>Javascript</h4>
 
-      <pre><code class="javascript">$("span.graph").peity('pie');
-
-$("select").change(function(){
+      <pre><code class="javascript">$("select").change(function(){
   $(this)
     .siblings("span.graph")
     .html($(this).val() + "/" + 5).change();
@@ -240,23 +281,48 @@ var chartUpdate = function(event, value, max) {
   );
 };
 
-$("span.graph").bind("chart:changed", chartUpdate);</code></pre>
+$("span.graph")
+  .peity("pie")
+  .bind("chart:changed", chartUpdate);</code></pre>
     </div>
   </div>
-  <h2>Bar charts</h2>
-  
-  <span class="barchart">1,10,2,3,12,2,5,9,8,7,3,4,5</span>
-  
-  <script type="text/javascript" charset="utf-8">
-    $('.barchart').peity('bar');
-  </script>
+
+  <h2>Custom Chart Types</h2>
+
+  <p>You can easily add your own custom chart type by registering it with
+    Peity with name, defaults and draw function.</p>
+
+  <pre><code class="javascript">$.fn.peity.add("custom", {
+    colour: "#FFCC00"
+  }, function() {
+    ...
+  }
+)</code></pre>
+
   <h2>Defaults</h2>
 
-  <p>Default can be overridden like so:</p>
+  <p>Defaults can be overridden globally like so:</p>
 
-  <pre><code class="javascript">$.fn.peity.defaults.colours = ["#CEE9FC", "#334F63"];
-$.fn.peity.defaults.delimeter = ":";
-$.fn.peity.defaults.radius = 42;</code></pre>
+  <pre><code class="javascript">$.fn.peity.defaults.pie = {
+  colours: ["#FFF4DD", "#FF9900"],
+  delimeter: "/",
+  radius: 16
+};
+
+$.fn.peity.defaults.line = {
+  colour: "#c6d9fd",
+  strokeColour: "#4d89f9",
+  delimeter: ",",
+  height: 16,
+  width: 32
+};
+
+$.fn.peity.defaults.bar = {
+  colour: "#4D89F9",
+  delimeter: ",",
+  height: 16,
+  width: 32
+};</code></pre>
 </div>
 <script type="text/javascript">
 var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");

@@ -14,7 +14,7 @@ body {
   top: 0;
 }
 #fork-me a {
-  background: url("http://s3.amazonaws.com/github/ribbons/forkme_right_white_ffffff.png") no-repeat 0 0;
+  background: url("fork_me.png") no-repeat 0 0;
   display: block;
   height: 149px;
   text-indent: -9999px;
@@ -36,8 +36,12 @@ h3 {
 
 p {
   margin: 0.4em 0;
+  width: 600px;
 }
 
+dl {
+  clear: both;
+}
 dd {
   margin-left: 1em;
 }
@@ -86,34 +90,43 @@ code.javascript span.string {
   width: 800px;
 }
 
-.examples {
+.example {
   margin-bottom: 25px;
   overflow: hidden;
   padding-bottom: 5px;
 }
-.examples div.html {
+.example div.html {
   float: left;
   width: 320px;
 }
-.examples div.javascript {
+.example div.javascript {
   float: right;
   width: 470px;
 }
-.examples h4 {
+.example h4 {
   color: #333;
   font-family: monospace;
   font-size: 13px;
   font-weight: normal;
   margin: 0.5em 7px 1px;
 }
-.examples pre {
+.example pre {
   margin: 0 0 -2000px;
   padding-bottom: 2000px;
 }
 
-#example3 div.html {
+.example.pie-events div.html {
   width: 370px;
 }
-#example3 div.javascript {
+.example.pie-events div.javascript {
   width: 420px;
+}
+
+.example.bar-chart div.html,
+.example.line-chart div.html {
+  width: 420px;
+}
+.example.bar-chart div.javascript,
+.example.line-chart div.javascript {
+  width: 370px;
 }
