@@ -71,6 +71,7 @@
       strokeColour: "#4d89f9",
       delimeter: ",",
       height: 16,
+      max: null,
       width: 32
     },
     function(thus, opts) {
@@ -82,7 +83,8 @@
 
       var span = $("span", thus).hide();
       var values = span.text().split(opts.delimeter);
-      var ratio = opts.height / Math.max.apply(Math, values);
+      var max = Math.max.apply(Math, values.slice(0).concat([opts.max]));
+      var ratio = opts.height / max;
       var width = opts.width / (values.length - 1);
       var coords = [];
       var i;
@@ -119,6 +121,7 @@
       colour: "#4D89F9",
       delimeter: ",",
       height: 16,
+      max: null,
       width: 32
     },
     function(thus, opts) {
@@ -130,7 +133,8 @@
 
       var span = $("span", thus).hide();
       var values = span.text().split(opts.delimeter);
-      var ratio = opts.height / Math.max.apply(Math, values);
+      var max = Math.max.apply(Math, values.slice(0).concat([opts.max]));
+      var ratio = opts.height / max;
       var width = opts.width / values.length;
 
       var canvas = elem.getContext("2d");
