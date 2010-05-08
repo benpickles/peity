@@ -69,6 +69,7 @@
     {
       colour: "#c6d9fd",
       strokeColour: "#4d89f9",
+      strokeWidth: 1,
       delimeter: ",",
       height: 16,
       max: null,
@@ -110,6 +111,7 @@
       for (i = 0; i < coords.length; i++) {
         canvas.lineTo(coords[i].x, coords[i].y);
       }
+      canvas.lineWidth = opts.strokeWidth;
       canvas.strokeStyle = opts.strokeColour;
       canvas.stroke();
     }
