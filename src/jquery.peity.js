@@ -6,14 +6,17 @@
 // Released under MIT license.
 (function($) {
   $.fn.peity = function(type, options) {
+    if (document.createElement("canvas").getContext) {
+      this.each(function() {
+        $(this).change(function() {
+          var value = $(this).html();
+          $.fn.peity.graphers[type]($(this), $.extend({}, $.fn.peity.defaults[type], options));
+          $(this).trigger("chart:changed", value);
+        }).trigger("change");
+      });
+    }
 
-    return this.each(function() {
-      $(this).change(function() {
-        var value = $(this).html();
-        $.fn.peity.graphers[type]($(this), $.extend({}, $.fn.peity.defaults[type], options));
-        $(this).trigger("chart:changed", value);
-      }).trigger("change");
-    });
+    return this;
   };
 
   $.fn.peity.graphers = {};
