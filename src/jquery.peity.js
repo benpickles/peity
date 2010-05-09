@@ -87,7 +87,7 @@
 
       var span = $("span", thus).hide();
       var values = span.text().split(opts.delimeter);
-      var max = Math.max.apply(Math, values.slice(0).concat([opts.max]));
+      var max = Math.max.apply(Math, values.concat([opts.max]));
       var ratio = opts.height / max;
       var width = opts.width / (values.length - 1);
       var coords = [];
@@ -138,7 +138,7 @@
 
       var span = $("span", thus).hide();
       var values = span.text().split(opts.delimeter);
-      var max = Math.max.apply(Math, values.slice(0).concat([opts.max]));
+      var max = Math.max.apply(Math, values.concat([opts.max]));
       var ratio = opts.height / max;
       var width = opts.width / values.length;
 
