@@ -4,7 +4,7 @@
 // http://benpickles.github.com/peity/
 //
 // Released under MIT license.
-(function($) {
+(function($, document) {
   $.fn.peity = function(type, options) {
     if (document.createElement("canvas").getContext) {
       this.each(function() {
@@ -154,4 +154,4 @@
       }
     }
   );
-})(jQuery);
+})(jQuery, document);
