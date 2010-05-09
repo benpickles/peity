@@ -7,7 +7,7 @@
 (function($) {
   $.fn.peity = function(type, options) {
 
-    return $(this).each(function() {
+    return this.each(function() {
       $(this).change(function() {
         var value = $(this).html();
         $.fn.peity.graphers[type]($(this), $.extend({}, $.fn.peity.defaults[type], options));
