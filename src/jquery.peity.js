@@ -59,7 +59,6 @@
       canvas.beginPath();
       canvas.moveTo(centre, centre);
       canvas.arc(centre, centre, centre, 0, Math.PI * 2, false);
-      canvas.closePath();
       canvas.fillStyle = opts.colours[0];
       canvas.fill();
 
@@ -67,7 +66,6 @@
       canvas.beginPath();
       canvas.moveTo(centre, centre);
       canvas.arc(centre, centre, centre, adjust, slice + adjust, false);
-      canvas.closePath();
       canvas.fillStyle = opts.colours[1];
       canvas.fill();
   });
