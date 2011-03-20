@@ -41,18 +41,15 @@
       delimeter: '/',
       radius: 16
     },
-    function($this, opts){
+    function($this, opts) {
       var centre = opts.radius / 2;
-      var elem = createCanvas(opts.radius, opts.radius)
-
-      $this.wrapInner("<span />").append(elem);
-
-      var span = $("span", $this).hide();
-      var values = span.text().split(opts.delimeter);
+      var values = $this.text().split(opts.delimeter)
       var v1 = parseFloat(values[0]);
       var v2 = parseFloat(values[1]);
       var adjust = -Math.PI / 2;
       var slice = (v1 / v2) * Math.PI * 2;
+
+      var elem = createCanvas(opts.radius, opts.radius)
       var canvas = elem.getContext("2d");
 
       // Plate.
@@ -68,6 +65,8 @@
       canvas.arc(centre, centre, centre, adjust, slice + adjust, false);
       canvas.fillStyle = opts.colours[1];
       canvas.fill();
+
+      $this.wrapInner($("<span>").hide()).append(elem)
   });
 
   peity.add(
@@ -83,11 +82,7 @@
     },
     function($this, opts) {
       var elem = createCanvas(opts.width, opts.height)
-
-      $this.wrapInner("<span />").append(elem);
-
-      var span = $("span", $this).hide();
-      var values = span.text().split(opts.delimeter);
+      var values = $this.text().split(opts.delimeter)
       var max = Math.max.apply(Math, values.concat([opts.max]));
       var ratio = opts.height / max;
       var width = opts.width / (values.length - 1);
@@ -118,6 +113,8 @@
       canvas.lineWidth = opts.strokeWidth;
       canvas.strokeStyle = opts.strokeColour;
       canvas.stroke();
+
+      $this.wrapInner($("<span>").hide()).append(elem)
     }
   );
 
@@ -132,11 +129,7 @@
     },
     function($this, opts) {
       var elem = createCanvas(opts.width, opts.height)
-
-      $this.wrapInner("<span />").append(elem);
-
-      var span = $("span", $this).hide();
-      var values = span.text().split(opts.delimeter);
+      var values = $this.text().split(opts.delimeter)
       var max = Math.max.apply(Math, values.concat([opts.max]));
       var ratio = opts.height / max;
       var width = opts.width / values.length;
@@ -151,6 +144,8 @@
 
         canvas.fillRect(x, y, width, height);
       }
+
+      $this.wrapInner($("<span>").hide()).append(elem)
     }
   );
 })(jQuery, document);
