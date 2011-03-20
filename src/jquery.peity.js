@@ -41,13 +41,13 @@
       delimeter: '/',
       radius: 16
     },
-    function(thus, opts){
+    function($this, opts){
       var centre = opts.radius / 2;
       var elem = createCanvas(opts.radius, opts.radius)
 
-      thus.wrapInner("<span />").append(elem);
+      $this.wrapInner("<span />").append(elem);
 
-      var span = $("span", thus).hide();
+      var span = $("span", $this).hide();
       var values = span.text().split(opts.delimeter);
       var v1 = parseFloat(values[0]);
       var v2 = parseFloat(values[1]);
@@ -81,12 +81,12 @@
       max: null,
       width: 32
     },
-    function(thus, opts) {
+    function($this, opts) {
       var elem = createCanvas(opts.width, opts.height)
 
-      thus.wrapInner("<span />").append(elem);
+      $this.wrapInner("<span />").append(elem);
 
-      var span = $("span", thus).hide();
+      var span = $("span", $this).hide();
       var values = span.text().split(opts.delimeter);
       var max = Math.max.apply(Math, values.concat([opts.max]));
       var ratio = opts.height / max;
@@ -130,12 +130,12 @@
       max: null,
       width: 32
     },
-    function(thus, opts) {
+    function($this, opts) {
       var elem = createCanvas(opts.width, opts.height)
 
-      thus.wrapInner("<span />").append(elem);
+      $this.wrapInner("<span />").append(elem);
 
-      var span = $("span", thus).hide();
+      var span = $("span", $this).hide();
       var values = span.text().split(opts.delimeter);
       var max = Math.max.apply(Math, values.concat([opts.max]));
       var ratio = opts.height / max;
