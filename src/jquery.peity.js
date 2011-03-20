@@ -27,6 +27,13 @@
     peity.defaults[type] = defaults;
   };
 
+  function createCanvas(width, height) {
+    var canvas = document.createElement("canvas")
+    canvas.setAttribute("width", width)
+    canvas.setAttribute("height", height)
+    return canvas
+  }
+
   peity.add(
     'pie',
     {
@@ -36,9 +43,7 @@
     },
     function(thus, opts){
       var centre = opts.radius / 2;
-      var elem = document.createElement('canvas');
-      elem.setAttribute('width', opts.radius);
-      elem.setAttribute('height', opts.radius);
+      var elem = createCanvas(opts.radius, opts.radius)
 
       thus.wrapInner("<span />").append(elem);
 
@@ -79,9 +84,7 @@
       width: 32
     },
     function(thus, opts) {
-      var elem = document.createElement("canvas");
-      elem.setAttribute("width", opts.width);
-      elem.setAttribute("height", opts.height);
+      var elem = createCanvas(opts.width, opts.height)
 
       thus.wrapInner("<span />").append(elem);
 
@@ -130,9 +133,7 @@
       width: 32
     },
     function(thus, opts) {
-      var elem = document.createElement('canvas');
-      elem.setAttribute('width', opts.width);
-      elem.setAttribute('height', opts.height);
+      var elem = createCanvas(opts.width, opts.height)
 
       thus.wrapInner("<span />").append(elem);
 
