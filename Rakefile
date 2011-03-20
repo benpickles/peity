@@ -5,7 +5,7 @@ task :default => :minify
 
 desc 'Generate minified version.'
 task :minify do
-  file = File.new('src/jquery.peity.js')
+  file = File.new('jquery.peity.js')
   minified = Closure::Compiler.new.compile(file)
   file.rewind
 
@@ -15,7 +15,7 @@ task :minify do
     total
   }
 
-  File.open('src/jquery.peity.min.js', 'w') do |f|
+  File.open('jquery.peity.min.js', 'w') do |f|
     f.write licence
     f.write minified
   end
