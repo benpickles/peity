@@ -5,12 +5,12 @@
 //
 // Released under MIT license.
 (function($, document) {
-  $.fn.peity = function(type, options) {
+  var peity = $.fn.peity = function(type, options) {
     if (document.createElement("canvas").getContext) {
       this.each(function() {
         $(this).change(function() {
           var value = $(this).html();
-          $.fn.peity.graphers[type]($(this), $.extend({}, $.fn.peity.defaults[type], options));
+          peity.graphers[type]($(this), $.extend({}, peity.defaults[type], options));
           $(this).trigger("chart:changed", value);
         }).trigger("change");
       });
@@ -19,15 +19,15 @@
     return this;
   };
 
-  $.fn.peity.graphers = {};
-  $.fn.peity.defaults = {};
+  peity.graphers = {};
+  peity.defaults = {};
 
-  $.fn.peity.add = function(type, defaults, grapher){
-    $.fn.peity.graphers[type] = grapher;
-    $.fn.peity.defaults[type] = defaults;
+  peity.add = function(type, defaults, grapher){
+    peity.graphers[type] = grapher;
+    peity.defaults[type] = defaults;
   };
 
-  $.fn.peity.add(
+  peity.add(
     'pie',
     {
       colours: ['#FFF4DD', '#FF9900'],
@@ -67,7 +67,7 @@
       canvas.fill();
   });
 
-  $.fn.peity.add(
+  peity.add(
     "line",
     {
       colour: "#c6d9fd",
@@ -120,7 +120,7 @@
     }
   );
 
-  $.fn.peity.add(
+  peity.add(
     'bar',
     {
       colour: "#4D89F9",
