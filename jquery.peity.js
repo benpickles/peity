@@ -55,7 +55,7 @@
       // Plate.
       canvas.beginPath();
       canvas.moveTo(centre, centre);
-      canvas.arc(centre, centre, centre, slice + adjust, adjust, false);
+      canvas.arc(centre, centre, centre, slice + adjust, (slice == 0) ? Math.PI * 2 : adjust, false);
       canvas.fillStyle = opts.colours[0];
       canvas.fill();
 
