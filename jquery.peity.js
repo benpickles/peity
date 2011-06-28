@@ -10,7 +10,7 @@
       this.each(function() {
         $(this).change(function() {
           var value = $(this).html();
-          peity.graphers[type]($(this), $.extend({}, peity.defaults[type], options));
+          peity.graphers[type].call(this, $.extend({}, peity.defaults[type], options));
           $(this).trigger("chart:changed", value);
         }).trigger("change");
       });
@@ -41,7 +41,8 @@
       delimeter: '/',
       radius: 16
     },
-    function($this, opts) {
+    function(opts) {
+      var $this = $(this)
       var centre = opts.radius / 2;
       var values = $this.text().split(opts.delimeter)
       var v1 = parseFloat(values[0]);
@@ -80,7 +81,8 @@
       max: null,
       width: 32
     },
-    function($this, opts) {
+    function(opts) {
+      var $this = $(this)
       var elem = createCanvas(opts.width, opts.height)
       var values = $this.text().split(opts.delimeter)
       var max = Math.max.apply(Math, values.concat([opts.max]));
@@ -127,7 +129,8 @@
       max: null,
       width: 32
     },
-    function($this, opts) {
+    function(opts) {
+      var $this = $(this)
       var elem = createCanvas(opts.width, opts.height)
       var values = $this.text().split(opts.delimeter)
       var max = Math.max.apply(Math, values.concat([opts.max]));
