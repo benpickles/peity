@@ -15,15 +15,16 @@ $(function() {
   $(".bar").peity("bar");
 
   // Set a custom colour and/or radius.
-  $(".radius span").each(function() {
-    var elem = $(this);
-    var radius = elem.attr("class").match(/\d+/) * 4;
-
-    elem.peity("pie", { colours: ["#C6D9FD", "#4D89F9"], radius: radius });
-  });
+  $(".radius span").peity("pie", {
+    colours: function() {
+      return ["#dddddd", this.getAttribute("data-colour")]
+    },
+    radius: function() {
+      return this.getAttribute("data-radius")
+    }
+  })
 
   // Simple evented example.
-
   $("select").change(function(){
     $(this)
       .siblings("span.graph")
@@ -98,48 +99,39 @@ $(function() {
   <p>You can pass custom colours and radius to <code>peity("pie", { radius: 42 })</code>.</p>
 
   <p class="radius">
-    <span class="r10">1/10</span>
-    <span class="r9">2/10</span>
-    <span class="r8">3/10</span>
-    <span class="r7">4/10</span>
-    <span class="r6">5/10</span>
-    <span class="r5">6/10</span>
-    <span class="r4">7/10</span>
-    <span class="r3">8/10</span>
-    <span class="r2">9/10</span>
-    <span class="r1">10/10</span>
+    <span data-colour="red" data-radius="40">1/7</span>
+    <span data-colour="orange" data-radius="36">2/7</span>
+    <span data-colour="yellow" data-radius="32">3/7</span>
+    <span data-colour="green" data-radius="28">4/7</span>
+    <span data-colour="blue" data-radius="24">5/7</span>
+    <span data-colour="indigo" data-radius="20">6/7</span>
+    <span data-colour="violet" data-radius="16">7/7</span>
   </p>
 
   <div class="example">
     <div class="html">
       <h4>HTML</h4>
 
-      <pre><code class="html">&lt;p class="radius"&gt;
-  &lt;span class="r10"&gt;1/10&lt;/span&gt;
-  &lt;span class="r9"&gt;2/10&lt;/span&gt;
-  &lt;span class="r8"&gt;3/10&lt;/span&gt;
-  &lt;span class="r7"&gt;4/10&lt;/span&gt;
-  &lt;span class="r6"&gt;5/10&lt;/span&gt;
-  &lt;span class="r5"&gt;6/10&lt;/span&gt;
-  &lt;span class="r4"&gt;7/10&lt;/span&gt;
-  &lt;span class="r3"&gt;8/10&lt;/span&gt;
-  &lt;span class="r2"&gt;9/10&lt;/span&gt;
-  &lt;span class="r1"&gt;10/10&lt;/span&gt;
-&lt;/p&gt;</code></pre>
+      <pre><code class="html">&lt;span data-colour=&quot;red&quot; data-radius=&quot;40&quot;&gt;1/7&lt;/span&gt;
+&lt;span data-colour=&quot;orange&quot; data-radius=&quot;36&quot;&gt;2/7&lt;/span&gt;
+&lt;span data-colour=&quot;yellow&quot; data-radius=&quot;32&quot;&gt;3/7&lt;/span&gt;
+&lt;span data-colour=&quot;green&quot; data-radius=&quot;28&quot;&gt;4/7&lt;/span&gt;
+&lt;span data-colour=&quot;blue&quot; data-radius=&quot;24&quot;&gt;5/7&lt;/span&gt;
+&lt;span data-colour=&quot;indigo&quot; data-radius=&quot;20&quot;&gt;6/7&lt;/span&gt;
+&lt;span data-colour=&quot;violet&quot; data-radius=&quot;16&quot;&gt;7/7&lt;/span&gt;</code></pre>
     </div>
 
     <div class="javascript">
       <h4>Javascript</h4>
 
-      <pre><code class="javascript">$(".radius span").each(function() {
-  var elem = $(this);
-  var radius = elem.attr("class").match(/\d+/) * 4;
-
-  elem.peity("pie", {
-    colours: ["#C6D9FD", "#4D89F9"],
-    radius: radius
-  });
-});</code></pre>
+      <pre><code class="javascript">$(&quot;.radius span&quot;).peity(&quot;pie&quot;, {
+  colours: function() {
+    return [&quot;#dddddd&quot;, this.getAttribute(&quot;data-colour&quot;)]
+  },
+  radius: function() {
+    return this.getAttribute(&quot;data-radius&quot;)
+  }
+})</code></pre>
     </div>
   </div>
 
