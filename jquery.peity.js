@@ -12,7 +12,7 @@
           var opts = $.extend({}, options)
           var self = this
 
-          $.each(opts || {}, function(name, value) {
+          $.each(opts, function(name, value) {
             if ($.isFunction(value)) opts[name] = value.call(self)
           })
 
