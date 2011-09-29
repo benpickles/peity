@@ -92,6 +92,7 @@
       var $this = $(this)
       var elem = createCanvas(opts.width, opts.height)
       var values = $this.text().split(opts.delimeter)
+      if (values.length == 1) values.push(values[0])
       var max = Math.max.apply(Math, values.concat([opts.max]));
       var ratio = opts.height / max;
       var width = opts.width / (values.length - 1);
