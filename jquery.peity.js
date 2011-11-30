@@ -34,10 +34,18 @@
     peity.defaults[type] = defaults;
   };
 
+  var devicePixelRatio = window.devicePixelRatio || 1
+
   function createCanvas(width, height) {
     var canvas = document.createElement("canvas")
-    canvas.setAttribute("width", width)
-    canvas.setAttribute("height", height)
+    canvas.setAttribute("width", width * devicePixelRatio)
+    canvas.setAttribute("height", height * devicePixelRatio)
+
+    if (devicePixelRatio != 1) {
+      var style = "width:" + width + "px;height:" + height + "px"
+      canvas.setAttribute("style", style)
+    }
+
     return canvas
   }
 
@@ -123,7 +131,7 @@
       for (i = 0; i < coords.length; i++) {
         context.lineTo(coords[i].x, coords[i].y);
       }
-      context.lineWidth = opts.strokeWidth;
+      context.lineWidth = opts.strokeWidth * devicePixelRatio;
       context.strokeStyle = opts.strokeColour;
       context.stroke();
 
