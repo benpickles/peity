@@ -34,10 +34,18 @@
     peity.defaults[type] = defaults;
   };
 
+  var devicePixelRatio = window.devicePixelRatio || 1
+
   function createCanvas(width, height) {
     var canvas = document.createElement("canvas")
-    canvas.setAttribute("width", width)
-    canvas.setAttribute("height", height)
+    canvas.setAttribute("width", width * devicePixelRatio)
+    canvas.setAttribute("height", height * devicePixelRatio)
+
+    if (devicePixelRatio != 1) {
+      var style = "width:" + width + "px;height:" + height + "px"
+      canvas.setAttribute("style", style)
+    }
+
     return canvas
   }
 
@@ -50,31 +58,31 @@
     },
     function(opts) {
       var $this = $(this)
-      var centre = opts.radius / 2;
       var values = $this.text().split(opts.delimeter)
       var v1 = parseFloat(values[0]);
       var v2 = parseFloat(values[1]);
       var adjust = -Math.PI / 2;
       var slice = (v1 / v2) * Math.PI * 2;
 
-      var elem = createCanvas(opts.radius, opts.radius)
-      var canvas = elem.getContext("2d");
+      var canvas = createCanvas(opts.radius, opts.radius)
+      var context = canvas.getContext("2d");
+      var centre = canvas.width / 2;
 
       // Plate.
-      canvas.beginPath();
-      canvas.moveTo(centre, centre);
-      canvas.arc(centre, centre, centre, slice + adjust, (slice == 0) ? Math.PI * 2 : adjust, false);
-      canvas.fillStyle = opts.colours[0];
-      canvas.fill();
+      context.beginPath();
+      context.moveTo(centre, centre);
+      context.arc(centre, centre, centre, slice + adjust, (slice == 0) ? Math.PI * 2 : adjust, false);
+      context.fillStyle = opts.colours[0];
+      context.fill();
 
       // Slice of pie.
-      canvas.beginPath();
-      canvas.moveTo(centre, centre);
-      canvas.arc(centre, centre, centre, adjust, slice + adjust, false);
-      canvas.fillStyle = opts.colours[1];
-      canvas.fill();
+      context.beginPath();
+      context.moveTo(centre, centre);
+      context.arc(centre, centre, centre, adjust, slice + adjust, false);
+      context.fillStyle = opts.colours[1];
+      context.fill();
 
-      $this.wrapInner($("<span>").hide()).append(elem)
+      $this.wrapInner($("<span>").hide()).append(canvas)
   });
 
   peity.add(
@@ -90,41 +98,44 @@
     },
     function(opts) {
       var $this = $(this)
-      var elem = createCanvas(opts.width, opts.height)
+      var canvas = createCanvas(opts.width, opts.height)
       var values = $this.text().split(opts.delimeter)
       if (values.length == 1) values.push(values[0])
       var max = Math.max.apply(Math, values.concat([opts.max]));
-      var ratio = opts.height / max;
-      var width = opts.width / (values.length - 1);
+
+      var context = canvas.getContext("2d");
+      var width = canvas.width
+      var height = canvas.height
+      var ratio = height / max;
+      var point_width = width / (values.length - 1);
       var coords = [];
       var i;
 
-      var canvas = elem.getContext("2d");
-      canvas.beginPath();
-      canvas.moveTo(0, opts.height);
+      context.beginPath();
+      context.moveTo(0, height);
 
       for (i = 0; i < values.length; i++) {
-        var height = ratio * values[i];
-        var x = i * width;
-        var y = opts.height - height;
+        var point_height = ratio * values[i];
+        var x = i * point_width;
+        var y = height - point_height;
         coords.push({ x: x, y: y });
-        canvas.lineTo(x, y);
+        context.lineTo(x, y);
       }
 
-      canvas.lineTo(opts.width, opts.height);
-      canvas.fillStyle = opts.colour;
-      canvas.fill();
+      context.lineTo(width, height);
+      context.fillStyle = opts.colour;
+      context.fill();
 
-      canvas.beginPath();
-      canvas.moveTo(0, coords[0].y);
+      context.beginPath();
+      context.moveTo(0, coords[0].y);
       for (i = 0; i < coords.length; i++) {
-        canvas.lineTo(coords[i].x, coords[i].y);
+        context.lineTo(coords[i].x, coords[i].y);
       }
-      canvas.lineWidth = opts.strokeWidth;
-      canvas.strokeStyle = opts.strokeColour;
-      canvas.stroke();
+      context.lineWidth = opts.strokeWidth * devicePixelRatio;
+      context.strokeStyle = opts.strokeColour;
+      context.stroke();
 
-      $this.wrapInner($("<span>").hide()).append(elem)
+      $this.wrapInner($("<span>").hide()).append(canvas)
     }
   );
 
@@ -139,24 +150,28 @@
     },
     function(opts) {
       var $this = $(this)
-      var elem = createCanvas(opts.width, opts.height)
       var values = $this.text().split(opts.delimeter)
       var max = Math.max.apply(Math, values.concat([opts.max]));
-      var ratio = opts.height / max;
-      var width = opts.width / values.length;
 
-      var canvas = elem.getContext("2d");
-      canvas.fillStyle = opts.colour;
+      var canvas = createCanvas(opts.width, opts.height)
+      var context = canvas.getContext("2d");
+
+      var width = canvas.width
+      var height = canvas.height
+      var ratio = height / max;
+      var bar_width = width / values.length;
+
+      context.fillStyle = opts.colour;
 
       for (var i = 0; i < values.length; i++) {
-        var height = ratio * values[i];
-        var x = i * width;
-        var y = opts.height - height;
+        var bar_height = ratio * values[i];
+        var x = i * bar_width;
+        var y = height - bar_height;
 
-        canvas.fillRect(x, y, width, height);
+        context.fillRect(x, y, bar_width, bar_height);
       }
 
-      $this.wrapInner($("<span>").hide()).append(elem)
+      $this.wrapInner($("<span>").hide()).append(canvas)
     }
   );
 })(jQuery, document);
