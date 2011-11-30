@@ -50,7 +50,6 @@
     },
     function(opts) {
       var $this = $(this)
-      var centre = opts.radius / 2;
       var values = $this.text().split(opts.delimeter)
       var v1 = parseFloat(values[0]);
       var v2 = parseFloat(values[1]);
@@ -59,6 +58,7 @@
 
       var canvas = createCanvas(opts.radius, opts.radius)
       var context = canvas.getContext("2d");
+      var centre = canvas.width / 2;
 
       // Plate.
       context.beginPath();
@@ -94,24 +94,27 @@
       var values = $this.text().split(opts.delimeter)
       if (values.length == 1) values.push(values[0])
       var max = Math.max.apply(Math, values.concat([opts.max]));
-      var ratio = opts.height / max;
-      var width = opts.width / (values.length - 1);
+
+      var context = canvas.getContext("2d");
+      var width = canvas.width
+      var height = canvas.height
+      var ratio = height / max;
+      var point_width = width / (values.length - 1);
       var coords = [];
       var i;
 
-      var context = canvas.getContext("2d");
       context.beginPath();
-      context.moveTo(0, opts.height);
+      context.moveTo(0, height);
 
       for (i = 0; i < values.length; i++) {
-        var height = ratio * values[i];
-        var x = i * width;
-        var y = opts.height - height;
+        var point_height = ratio * values[i];
+        var x = i * point_width;
+        var y = height - point_height;
         coords.push({ x: x, y: y });
         context.lineTo(x, y);
       }
 
-      context.lineTo(opts.width, opts.height);
+      context.lineTo(width, height);
       context.fillStyle = opts.colour;
       context.fill();
 
@@ -139,21 +142,25 @@
     },
     function(opts) {
       var $this = $(this)
-      var canvas = createCanvas(opts.width, opts.height)
       var values = $this.text().split(opts.delimeter)
       var max = Math.max.apply(Math, values.concat([opts.max]));
-      var ratio = opts.height / max;
-      var width = opts.width / values.length;
 
+      var canvas = createCanvas(opts.width, opts.height)
       var context = canvas.getContext("2d");
+
+      var width = canvas.width
+      var height = canvas.height
+      var ratio = height / max;
+      var bar_width = width / values.length;
+
       context.fillStyle = opts.colour;
 
       for (var i = 0; i < values.length; i++) {
-        var height = ratio * values[i];
-        var x = i * width;
-        var y = opts.height - height;
+        var bar_height = ratio * values[i];
+        var x = i * bar_width;
+        var y = height - bar_height;
 
-        context.fillRect(x, y, width, height);
+        context.fillRect(x, y, bar_width, bar_height);
       }
 
       $this.wrapInner($("<span>").hide()).append(canvas)
