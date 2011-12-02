@@ -1,132 +1,122 @@
 body {
-  background: #FFF;
-  color: #222;
-  font-family: Helvetica, Arial, sans-serif;
-  font-size: 13px;
-  line-height: 1.4em;
+  background: #fff;
+  font-family: Baskerville, Georgia, "Times New Roman", serif;
+  font-size: 1em;
+  line-height: 1.5em;
   margin: 0;
-  text-align: center;
+  padding: 0;
 }
 
 #fork-me {
+  background: none;
+  display: block;
+  margin: 0;
+  padding: 0;
   position: absolute;
   right: 0;
   top: 0;
 }
-#fork-me a {
-  background: url("fork_me.png") no-repeat 0 0;
-  display: block;
+#fork-me img {
+  border: none;
   height: 149px;
-  text-indent: -9999px;
   width: 149px;
 }
 
+#container {
+  padding: 10px;
+}
+
 h1 {
-  font-size: 32px;
-  margin: 1em 0 0.4em;
+  font-size: 3em;
+  margin: 0.2em 0 0.4em;
 }
+
 h2 {
-  font-size: 22px;
-  margin: 1em 0 0.4em;
+  font-size: 1.8em;
+  margin: 0.7em 0 0.2em;
 }
+
 h3 {
-  font-size: 18px;
-  margin: 1em 0 0.4em;
+  color: #444;
+  font-size: 1em;
+  margin: 0.7em 0 0;
 }
 
 p {
-  margin: 0.4em 0;
-  width: 600px;
+  margin: 0.2em 0 0.3em;
 }
 
 dl {
-  clear: both;
+  margin: 0.2em 0 0.3em 10px;
 }
+
 dd {
   margin-left: 1em;
 }
 
-pre {
-  background: #EEE;
-  margin: 0.4em 0;
-  padding: 3px 7px;
+footer {
+  display: block;
+  margin: 1em 0;
 }
-pre code {
-  padding: 0;
+
+.version {
+  font-size: 0.6em;
+  font-weight: normal;
+  line-height: 1em;
+}
+
+a {
+  background: #eef;
+  color: #246;
+  padding: 1px 2px;
+}
+a:hover {
+  color: #123;
+  text-decoration: none;
 }
 
 code {
-  background: #EEE;
-  font-size: 13px;
-  padding: 0.1em 0.2em;
+  background: #f4f4ff;
+  border: 1px solid #ddf;
+  padding: 1px 2px;
 }
 
-code.html span.attribute {
-  color: red;
-}
-code.html span.string {
-  color: green;
-}
-code.html span.tag {
-  color: blue;
-}
-
-code.javascript span.comment {
-  color: #BD48B3;
-}
-code.javascript span.keywords {
-  color: blue;
-}
-code.javascript span.regexp {
-  color: orange;
-}
-code.javascript span.string {
-  color: green;
+pre {
+  background: #f4f4ff;
+  border-top: 1px solid #ddf;
+  border-bottom: 1px solid #ddf;
+  line-height: 1.4em;
+  margin: 0.3em -10px;
+  overflow-x: scroll;
+  padding: 0.5em 10px;
 }
 
-#container {
-  margin: 0 auto;
-  text-align: left;
-  width: 800px;
+pre code {
+  background: transparent;
+  border: none;
+  padding: 0;
 }
 
-.example {
-  margin-bottom: 25px;
-  overflow: hidden;
-  padding-bottom: 5px;
-}
-.example div.html {
-  float: left;
-  width: 320px;
-}
-.example div.javascript {
-  float: right;
-  width: 470px;
-}
-.example h4 {
-  color: #333;
-  font-family: monospace;
-  font-size: 13px;
-  font-weight: normal;
-  margin: 0.5em 7px 1px;
-}
-.example pre {
-  margin: 0 0 -2000px;
-  padding-bottom: 2000px;
+@media screen and (min-width: 481px) {
+  body {
+    text-align: center;
+  }
+
+  #container {
+    margin: 0 auto;
+    max-width: 600px;
+    text-align: left;
+  }
+
+  pre {
+    border-right: 1px solid #ddf;
+    border-left: 1px solid #ddf;
+  }
 }
 
-.example.pie-events div.html {
-  width: 370px;
-}
-.example.pie-events div.javascript {
-  width: 420px;
-}
-
-.example.bar-chart div.html,
-.example.line-chart div.html {
-  width: 420px;
-}
-.example.bar-chart div.javascript,
-.example.line-chart div.javascript {
-  width: 370px;
+@media screen and (-webkit-min-device-pixel-ratio: 2) {
+  #fork-me img {
+    height: 74.5px;
+    width: 74.5px;
+  }
 }
