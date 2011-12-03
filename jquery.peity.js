@@ -126,14 +126,16 @@
       context.fillStyle = opts.colour;
       context.fill();
 
-      context.beginPath();
-      context.moveTo(0, coords[0].y);
-      for (i = 0; i < coords.length; i++) {
-        context.lineTo(coords[i].x, coords[i].y);
+      if (opts.strokeWidth) {
+        context.beginPath();
+        context.moveTo(0, coords[0].y);
+        for (i = 0; i < coords.length; i++) {
+          context.lineTo(coords[i].x, coords[i].y);
+        }
+        context.lineWidth = opts.strokeWidth * devicePixelRatio;
+        context.strokeStyle = opts.strokeColour;
+        context.stroke();
       }
-      context.lineWidth = opts.strokeWidth * devicePixelRatio;
-      context.strokeStyle = opts.strokeColour;
-      context.stroke();
 
       $this.wrapInner($("<span>").hide()).append(canvas)
     }
