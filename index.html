@@ -63,6 +63,18 @@ $(function() {
     compatible with any browser that supports <code>&lt;canvas&gt;</code>:
     Chrome, Firefox, IE9, Opera, Safari.</p>
 
+  <nav>
+    <p>
+      Read about <a href="#pie-charts">pie charts</a>,
+      <a href="#line-charts">line charts</a>,
+      <a href="#bar-charts">bar charts</a>,
+      <a href="#events">events</a>,
+      <a href="#tips">tips</a>,
+      <a href="#custom-charts">custom charts</a> and
+      <a href="#defaults">defaults</a>.
+    </p>
+  </nav>
+
   <h2>Download <span class="version">(version 0.5.0)</span></h2>
 
   <dl>
@@ -76,7 +88,7 @@ $(function() {
 
   <a href="http://github.com/benpickles/peity" id="fork-me"><img alt="Fork me on GitHub" src="https://a248.e.akamai.net/assets.github.com/img/e6bef7a091f5f3138b8cd40bc3e114258dd68ddf/687474703a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f7265645f6161303030302e706e67"></a>
 
-  <h2>Pie Charts</h2>
+  <h2 id="pie-charts">Pie Charts</h2>
 
   <p>Simply call <code>peity("pie")</code> on a jQuery selection. You can also
     pass <code>colours</code>, <code>diameter</code> and <code>delimeter</code>
@@ -100,7 +112,7 @@ $(function() {
     <pre><code class="javascript">$("span.pie").peity("pie")</code></pre>
   </div>
 
-  <h2>Line Charts</h2>
+  <h2 id="line-charts">Line Charts</h2>
 
   <p>Line charts work on a comma-separated list of digits. Line charts can
     take the following options: <code>colour</code>, <code>strokeColour</code>,
@@ -117,7 +129,7 @@ $(function() {
     <pre><code class="javascript">$(".line").peity("line")</code></pre>
   </div>
 
-  <h2>Bar Charts</h2>
+  <h2 id="bar-charts">Bar Charts</h2>
 
   <p>Bar charts work in the same way as line charts and take the following
     options: <code>colour</code>, <code>delimeter</code>, <code>width</code>
@@ -133,7 +145,7 @@ $(function() {
     <pre><code class="javascript">$(".bar").peity("bar")</code></pre>
   </div>
 
-  <h2>Events</h2>
+  <h2 id="events">Events</h2>
 
   <p>Peity adds a "change" event trigger to your graph elements, so if you
     update their data your can regenerate one or more charts by triggering
@@ -237,7 +249,7 @@ $("span.graph")
   .bind("chart:changed", chartUpdate)</code></pre>
   </div>
 
-  <h2>Tips</h2>
+  <h2 id="tips">Tips</h2>
 
   <h3>Per-element Colour and Diameter</h3>
 
@@ -276,9 +288,9 @@ $("span.graph")
 })</code></pre>
   </div>
 
-  <h2>Custom Chart Types</h2>
+  <h2 id="custom-charts">Custom Charts</h2>
 
-  <p>You can easily add your own custom chart type by registering it with
+  <p>You can easily add your own custom chart by registering it with
     Peity with name, defaults and the draw function which receives an options
     object.</p>
 
@@ -289,7 +301,7 @@ $("span.graph")
   }
 )</code></pre>
 
-  <h2>Defaults</h2>
+  <h2 id="defaults">Defaults</h2>
 
   <p>Defaults can be overridden globally like so:</p>
 
