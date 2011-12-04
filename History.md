@@ -2,6 +2,7 @@
 
 ## WIP
 
+ * Fix - rename radius to diameter.
  * Allow line charts with no stroke.
  * Support for iPhone 4 retina display.
 

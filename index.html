@@ -13,13 +13,13 @@ $(function() {
   $(".line").peity("line")
   $(".bar").peity("bar")
 
-  // Set a custom colour and/or radius.
-  $(".radius span").peity("pie", {
+  // Set a custom colour and/or diameter.
+  $(".diameter span").peity("pie", {
     colours: function() {
       return ["#dddddd", this.getAttribute("data-colour")]
     },
-    radius: function() {
-      return this.getAttribute("data-radius")
+    diameter: function() {
+      return this.getAttribute("data-diameter")
     }
   })
 
@@ -79,7 +79,7 @@ $(function() {
   <h2>Pie Charts</h2>
 
   <p>Simply call <code>peity("pie")</code> on a jQuery selection. You can also
-    pass <code>colours</code>, <code>radius</code> and <code>delimeter</code>
+    pass <code>colours</code>, <code>diameter</code> and <code>delimeter</code>
     options.</p>
 
   <p>
@@ -100,39 +100,39 @@ $(function() {
     <pre><code class="javascript">$("span.pie").peity("pie")</code></pre>
   </div>
 
-  <h3>Custom Colours and Radius</h3>
+  <h3>Custom Colours and Diameter</h3>
 
-  <p>You can pass custom colours and radius to <code>peity("pie", { radius: 42 })</code>.</p>
+  <p>You can pass custom colours and diameter to <code>peity("pie", { diameter: 42 })</code>.</p>
 
-  <p class="radius">
-    <span data-colour="red" data-radius="40">1/7</span>
-    <span data-colour="orange" data-radius="36">2/7</span>
-    <span data-colour="yellow" data-radius="32">3/7</span>
-    <span data-colour="green" data-radius="28">4/7</span>
-    <span data-colour="blue" data-radius="24">5/7</span>
-    <span data-colour="indigo" data-radius="20">6/7</span>
-    <span data-colour="violet" data-radius="16">7/7</span>
+  <p class="diameter">
+    <span data-colour="red" data-diameter="40">1/7</span>
+    <span data-colour="orange" data-diameter="36">2/7</span>
+    <span data-colour="yellow" data-diameter="32">3/7</span>
+    <span data-colour="green" data-diameter="28">4/7</span>
+    <span data-colour="blue" data-diameter="24">5/7</span>
+    <span data-colour="indigo" data-diameter="20">6/7</span>
+    <span data-colour="violet" data-diameter="16">7/7</span>
   </p>
 
   <div class="example">
     <h3>HTML</h3>
 
-    <pre><code class="html">&lt;span data-colour=&quot;red&quot;    data-radius=&quot;40&quot;&gt;1/7&lt;/span&gt;
-&lt;span data-colour=&quot;orange&quot; data-radius=&quot;36&quot;&gt;2/7&lt;/span&gt;
-&lt;span data-colour=&quot;yellow&quot; data-radius=&quot;32&quot;&gt;3/7&lt;/span&gt;
-&lt;span data-colour=&quot;green&quot;  data-radius=&quot;28&quot;&gt;4/7&lt;/span&gt;
-&lt;span data-colour=&quot;blue&quot;   data-radius=&quot;24&quot;&gt;5/7&lt;/span&gt;
-&lt;span data-colour=&quot;indigo&quot; data-radius=&quot;20&quot;&gt;6/7&lt;/span&gt;
-&lt;span data-colour=&quot;violet&quot; data-radius=&quot;16&quot;&gt;7/7&lt;/span&gt;</code></pre>
+    <pre><code class="html">&lt;span data-colour=&quot;red&quot;    data-diameter=&quot;40&quot;&gt;1/7&lt;/span&gt;
+&lt;span data-colour=&quot;orange&quot; data-diameter=&quot;36&quot;&gt;2/7&lt;/span&gt;
+&lt;span data-colour=&quot;yellow&quot; data-diameter=&quot;32&quot;&gt;3/7&lt;/span&gt;
+&lt;span data-colour=&quot;green&quot;  data-diameter=&quot;28&quot;&gt;4/7&lt;/span&gt;
+&lt;span data-colour=&quot;blue&quot;   data-diameter=&quot;24&quot;&gt;5/7&lt;/span&gt;
+&lt;span data-colour=&quot;indigo&quot; data-diameter=&quot;20&quot;&gt;6/7&lt;/span&gt;
+&lt;span data-colour=&quot;violet&quot; data-diameter=&quot;16&quot;&gt;7/7&lt;/span&gt;</code></pre>
 
     <h3>JavaScript</h3>
 
-    <pre><code class="javascript">$(&quot;.radius span&quot;).peity(&quot;pie&quot;, {
+    <pre><code class="javascript">$(&quot;.diameter span&quot;).peity(&quot;pie&quot;, {
   colours: function() {
     return [&quot;#dddddd&quot;, this.getAttribute(&quot;data-colour&quot;)]
   },
-  radius: function() {
-    return this.getAttribute(&quot;data-radius&quot;)
+  diameter: function() {
+    return this.getAttribute(&quot;data-diameter&quot;)
   }
 })</code></pre>
   </div>
@@ -294,7 +294,7 @@ $("span.graph")
   <pre><code class="javascript">$.fn.peity.defaults.pie = {
   colours: ["<span style="background:#fff4dd">#fff4dd</span>", "<span style="background:#ff9900">#ff9900</span>"],
   delimeter: "/",
-  radius: 16
+  diameter: 16
 }
 
 $.fn.peity.defaults.line = {
