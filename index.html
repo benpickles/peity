@@ -89,52 +89,15 @@ $(function() {
   </p>
 
   <div class="example">
-    <h3>HTML</h3>
+    <h4>HTML</h4>
 
     <pre><code class="html">&lt;span class="pie"&gt;1/5&lt;/span&gt;
 &lt;span class="pie"&gt;226/360&lt;/span&gt;
 &lt;span class="pie"&gt;0.52/1.561&lt;/span&gt;</code></pre>
 
-    <h3>JavaScript</h3>
+    <h4>JavaScript</h4>
 
     <pre><code class="javascript">$("span.pie").peity("pie")</code></pre>
-  </div>
-
-  <h3>Custom Colours and Diameter</h3>
-
-  <p>You can pass custom colours and diameter to <code>peity("pie", { diameter: 42 })</code>.</p>
-
-  <p class="diameter">
-    <span data-colour="red" data-diameter="40">1/7</span>
-    <span data-colour="orange" data-diameter="36">2/7</span>
-    <span data-colour="yellow" data-diameter="32">3/7</span>
-    <span data-colour="green" data-diameter="28">4/7</span>
-    <span data-colour="blue" data-diameter="24">5/7</span>
-    <span data-colour="indigo" data-diameter="20">6/7</span>
-    <span data-colour="violet" data-diameter="16">7/7</span>
-  </p>
-
-  <div class="example">
-    <h3>HTML</h3>
-
-    <pre><code class="html">&lt;span data-colour=&quot;red&quot;    data-diameter=&quot;40&quot;&gt;1/7&lt;/span&gt;
-&lt;span data-colour=&quot;orange&quot; data-diameter=&quot;36&quot;&gt;2/7&lt;/span&gt;
-&lt;span data-colour=&quot;yellow&quot; data-diameter=&quot;32&quot;&gt;3/7&lt;/span&gt;
-&lt;span data-colour=&quot;green&quot;  data-diameter=&quot;28&quot;&gt;4/7&lt;/span&gt;
-&lt;span data-colour=&quot;blue&quot;   data-diameter=&quot;24&quot;&gt;5/7&lt;/span&gt;
-&lt;span data-colour=&quot;indigo&quot; data-diameter=&quot;20&quot;&gt;6/7&lt;/span&gt;
-&lt;span data-colour=&quot;violet&quot; data-diameter=&quot;16&quot;&gt;7/7&lt;/span&gt;</code></pre>
-
-    <h3>JavaScript</h3>
-
-    <pre><code class="javascript">$(&quot;.diameter span&quot;).peity(&quot;pie&quot;, {
-  colours: function() {
-    return [&quot;#dddddd&quot;, this.getAttribute(&quot;data-colour&quot;)]
-  },
-  diameter: function() {
-    return this.getAttribute(&quot;data-diameter&quot;)
-  }
-})</code></pre>
   </div>
 
   <h2>Line Charts</h2>
@@ -147,10 +110,10 @@ $(function() {
   <p><span class="line">5,3,9,6,5,9,7,3,5,2</span></p>
 
   <div class="example">
-    <h3>HTML</h3>
+    <h4>HTML</h4>
     <pre><code class="html">&lt;span class="line"&gt;5,3,9,6,5,9,7,3,5,2&lt;/span&gt;</code></pre>
 
-    <h3>JavaScript</h3>
+    <h4>JavaScript</h4>
     <pre><code class="javascript">$(".line").peity("line")</code></pre>
   </div>
 
@@ -163,10 +126,10 @@ $(function() {
   <p><span class="bar">5,3,9,6,5,9,7,3,5,2</span></p>
 
   <div class="example bar-chart">
-    <h3>HTML</h3>
+    <h4>HTML</h4>
     <pre><code class="html">&lt;span class="bar"&gt;5,3,9,6,5,9,7,3,5,2&lt;/span&gt;</code></pre>
 
-    <h3>JavaScript</h3>
+    <h4>JavaScript</h4>
     <pre><code class="javascript">$(".bar").peity("bar")</code></pre>
   </div>
 
@@ -215,7 +178,7 @@ $(function() {
   <p id="notice">Nothing's happened yet.</p>
 
   <div class="example pie-events">
-    <h3>HTML</h3>
+    <h4>HTML</h4>
 
     <pre><code class="html">&lt;ul&gt;
   &lt;li&gt;
@@ -255,7 +218,7 @@ $(function() {
 
 &lt;p id="notice"&gt;Nothing's happened yet.&lt;/p&gt;</code></pre>
 
-    <h3>JavaScript</h3>
+    <h4>JavaScript</h4>
 
     <pre><code class="javascript">$("select").change(function() {
   $(this)
@@ -272,6 +235,45 @@ var chartUpdate = function(event, value, max) {
 $("span.graph")
   .peity("pie")
   .bind("chart:changed", chartUpdate)</code></pre>
+  </div>
+
+  <h2>Tips</h2>
+
+  <h3>Per-element Colour and Diameter</h3>
+
+  <p>Options can be passed a function that returns the actual value allowing you to do something like this where colours and diameter are derived from the element that Peity is working on.</p>
+
+  <p class="diameter">
+    <span data-colour="red" data-diameter="40">1/7</span>
+    <span data-colour="orange" data-diameter="36">2/7</span>
+    <span data-colour="yellow" data-diameter="32">3/7</span>
+    <span data-colour="green" data-diameter="28">4/7</span>
+    <span data-colour="blue" data-diameter="24">5/7</span>
+    <span data-colour="indigo" data-diameter="20">6/7</span>
+    <span data-colour="violet" data-diameter="16">7/7</span>
+  </p>
+
+  <div class="example">
+    <h4>HTML</h4>
+
+    <pre><code class="html">&lt;span data-colour=&quot;red&quot;    data-diameter=&quot;40&quot;&gt;1/7&lt;/span&gt;
+&lt;span data-colour=&quot;orange&quot; data-diameter=&quot;36&quot;&gt;2/7&lt;/span&gt;
+&lt;span data-colour=&quot;yellow&quot; data-diameter=&quot;32&quot;&gt;3/7&lt;/span&gt;
+&lt;span data-colour=&quot;green&quot;  data-diameter=&quot;28&quot;&gt;4/7&lt;/span&gt;
+&lt;span data-colour=&quot;blue&quot;   data-diameter=&quot;24&quot;&gt;5/7&lt;/span&gt;
+&lt;span data-colour=&quot;indigo&quot; data-diameter=&quot;20&quot;&gt;6/7&lt;/span&gt;
+&lt;span data-colour=&quot;violet&quot; data-diameter=&quot;16&quot;&gt;7/7&lt;/span&gt;</code></pre>
+
+    <h4>JavaScript</h4>
+
+    <pre><code class="javascript">$(&quot;.diameter span&quot;).peity(&quot;pie&quot;, {
+  colours: function() {
+    return [&quot;#dddddd&quot;, this.getAttribute(&quot;data-colour&quot;)]
+  },
+  diameter: function() {
+    return this.getAttribute(&quot;data-diameter&quot;)
+  }
+})</code></pre>
   </div>
 
   <h2>Custom Chart Types</h2>
