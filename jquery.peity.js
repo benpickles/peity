@@ -54,7 +54,7 @@
     {
       colours: ['#FFF4DD', '#FF9900'],
       delimeter: '/',
-      radius: 16
+      diameter: 16
     },
     function(opts) {
       var $this = $(this)
@@ -64,7 +64,7 @@
       var adjust = -Math.PI / 2;
       var slice = (v1 / v2) * Math.PI * 2;
 
-      var canvas = createCanvas(opts.radius, opts.radius)
+      var canvas = createCanvas(opts.diameter, opts.diameter)
       var context = canvas.getContext("2d");
       var centre = canvas.width / 2;
 
