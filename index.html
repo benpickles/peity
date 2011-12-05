@@ -68,9 +68,9 @@ $(function() {
       Read about <a href="#pie-charts">pie charts</a>,
       <a href="#line-charts">line charts</a>,
       <a href="#bar-charts">bar charts</a>,
+      <a href="#custom-charts">custom charts</a>,
       <a href="#events">events</a>,
-      <a href="#tips">tips</a>,
-      <a href="#custom-charts">custom charts</a> and
+      <a href="#tips">tips</a> and
       <a href="#defaults">defaults</a>.
     </p>
   </nav>
@@ -144,6 +144,19 @@ $(function() {
     <h4>JavaScript</h4>
     <pre><code class="javascript">$(".bar").peity("bar")</code></pre>
   </div>
+
+  <h2 id="custom-charts">Custom Charts</h2>
+
+  <p>You can easily add your own custom chart by registering it with
+    Peity with name, defaults and the draw function which receives an options
+    object.</p>
+
+  <pre><code class="javascript">$.fn.peity.add("custom", {
+    colour: "#FFCC00"
+  }, function(opts) {
+    ...
+  }
+)</code></pre>
 
   <h2 id="events">Events</h2>
 
@@ -287,19 +300,6 @@ $("span.graph")
   }
 })</code></pre>
   </div>
-
-  <h2 id="custom-charts">Custom Charts</h2>
-
-  <p>You can easily add your own custom chart by registering it with
-    Peity with name, defaults and the draw function which receives an options
-    object.</p>
-
-  <pre><code class="javascript">$.fn.peity.add("custom", {
-    colour: "#FFCC00"
-  }, function(opts) {
-    ...
-  }
-)</code></pre>
 
   <h2 id="defaults">Defaults</h2>
 
