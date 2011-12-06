@@ -1,6 +1,6 @@
 # History
 
-## WIP
+## Version 0.5.0 - 2011/12/6
 
  * Fix - rename radius to diameter.
  * Allow line charts with no stroke.
