@@ -102,6 +102,7 @@ pre code {
   padding: 0;
 }
 
+/* Browser */
 @media screen and (min-width: 481px) {
   body {
     text-align: center;
@@ -119,6 +120,14 @@ pre code {
   }
 }
 
+/* iPhone */
+@media screen and (max-width: 480px) {
+  html {
+    -webkit-text-size-adjust: none;
+  }
+}
+
+/* Retina */
 @media screen and (-webkit-min-device-pixel-ratio: 2) {
   #fork-me img {
     height: 74.5px;
