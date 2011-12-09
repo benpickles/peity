@@ -161,7 +161,8 @@
       var width = canvas.width
       var height = canvas.height
       var ratio = height / max;
-      var bar_width = width / values.length;
+      var space = devicePixelRatio / 2
+      var bar_width = (width + space) / values.length
 
       context.fillStyle = opts.colour;
 
@@ -170,7 +171,7 @@
         var x = i * bar_width;
         var y = height - bar_height;
 
-        context.fillRect(x, y, bar_width, bar_height);
+        context.fillRect(x, y, bar_width - space, bar_height)
       }
 
       $this.wrapInner($("<span>").hide()).append(canvas)
