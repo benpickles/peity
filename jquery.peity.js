@@ -102,27 +102,29 @@
       var values = $this.text().split(opts.delimeter)
       if (values.length == 1) values.push(values[0])
       var max = Math.max.apply(Math, values.concat([opts.max]));
+      var min = Math.min.apply(Math, values.concat([0]))
 
       var context = canvas.getContext("2d");
       var width = canvas.width
       var height = canvas.height
-      var ratio = height / max;
-      var point_width = width / (values.length - 1);
+      var xQuotient = width / (values.length - 1)
+      var yQuotient = height / (max - min)
+
       var coords = [];
       var i;
 
       context.beginPath();
-      context.moveTo(0, height);
+      context.moveTo(0, height + (min * yQuotient))
 
       for (i = 0; i < values.length; i++) {
-        var point_height = ratio * values[i];
-        var x = i * point_width;
-        var y = height - point_height;
+        var x = i * xQuotient
+        var y = height - (yQuotient * (values[i] - min))
+
         coords.push({ x: x, y: y });
         context.lineTo(x, y);
       }
 
-      context.lineTo(width, height);
+      context.lineTo(width, height + (min * yQuotient))
       context.fillStyle = opts.colour;
       context.fill();
 
@@ -154,24 +156,24 @@
       var $this = $(this)
       var values = $this.text().split(opts.delimeter)
       var max = Math.max.apply(Math, values.concat([opts.max]));
+      var min = Math.min.apply(Math, values.concat([0]))
 
       var canvas = createCanvas(opts.width, opts.height)
       var context = canvas.getContext("2d");
 
       var width = canvas.width
       var height = canvas.height
-      var ratio = height / max;
+      var yQuotient = height / (max - min)
       var space = devicePixelRatio / 2
-      var bar_width = (width + space) / values.length
+      var xQuotient = (width + space) / values.length
 
       context.fillStyle = opts.colour;
 
       for (var i = 0; i < values.length; i++) {
-        var bar_height = ratio * values[i];
-        var x = i * bar_width;
-        var y = height - bar_height;
+        var x = i * xQuotient
+        var y = height - (yQuotient * (values[i] - min))
 
-        context.fillRect(x, y, bar_width - space, bar_height)
+        context.fillRect(x, y, xQuotient - space, yQuotient * values[i])
       }
 
       $this.wrapInner($("<span>").hide()).append(canvas)
