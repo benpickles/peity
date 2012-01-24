@@ -94,6 +94,7 @@
       delimeter: ",",
       height: 16,
       max: null,
+      min: 0,
       width: 32
     },
     function(opts) {
@@ -102,7 +103,7 @@
       var values = $this.text().split(opts.delimeter)
       if (values.length == 1) values.push(values[0])
       var max = Math.max.apply(Math, values.concat([opts.max]));
-      var min = Math.min.apply(Math, values.concat([0]))
+      var min = Math.min.apply(Math, values.concat([opts.min]))
 
       var context = canvas.getContext("2d");
       var width = canvas.width
@@ -150,13 +151,14 @@
       delimeter: ",",
       height: 16,
       max: null,
+      min: 0,
       width: 32
     },
     function(opts) {
       var $this = $(this)
       var values = $this.text().split(opts.delimeter)
       var max = Math.max.apply(Math, values.concat([opts.max]));
-      var min = Math.min.apply(Math, values.concat([0]))
+      var min = Math.min.apply(Math, values.concat([opts.min]))
 
       var canvas = createCanvas(opts.width, opts.height)
       var context = canvas.getContext("2d");
