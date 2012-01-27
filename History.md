@@ -1,5 +1,9 @@
 # History
 
+## Version 0.6.0 - 2012/1/27
+
+ * Line and bar charts now support negative numbers.
+
 ## Version 0.5.0 - 2011/12/6
 
  * Fix - rename radius to diameter.
