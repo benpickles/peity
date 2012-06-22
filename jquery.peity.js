@@ -11,21 +11,13 @@
         $(this).change(function() {
           var opts = $.extend({}, options)
           var self = this
-          var defaults = peity.defaults[type];
-   
+
           $.each(opts, function(name, value) {
             if ($.isFunction(value)) opts[name] = value.call(self)
-          });
-
-          $.each($(this).data(), function(name, value) {
-            if (defaults[name] && !opts[name]) 
-              opts[name] = value;
-            else if (name === 'colour' && !opts['colours']) 
-              opts['colours'] = [defaults['colours'][0], value];
-          });
+          })
 
           var value = $(this).html();
-          peity.graphers[type].call(this, $.extend({}, defaults, opts));
+          peity.graphers[type].call(this, $.extend({}, peity.defaults[type], opts));
           $(this).trigger("chart:changed", value);
         }).trigger("change");
       });
