@@ -18,10 +18,16 @@
           });
 
           $.each($(this).data(), function(name, value) {
-            if (defaults[name] && !opts[name]) 
+            if (defaults[name] && !opts[name]) {
+              if (name === 'colours') {
+                var colours = value.split(',');
+                if (colours.length == 1)
+                  value = [defaults['colours'][0], value];
+                else if (colours.length >= 2)
+                  value = $.map(colours.slice(0, 2), function(c) { return $.trim(c); });
+              }
               opts[name] = value;
-            else if (name === 'colour' && !opts['colours']) 
-              opts['colours'] = [defaults['colours'][0], value];
+            }
           });
 
           var value = $(this).html();
