@@ -9,7 +9,7 @@
     if (document.createElement("canvas").getContext) {
       this.each(function() {
         $(this).change(function() {
-          var opts = $.extend({}, options)
+          var opts = peity.standardize_language($.extend({}, options))
           var self = this
 
           $.each(opts, function(name, value) {
@@ -31,8 +31,17 @@
 
   peity.add = function(type, defaults, grapher){
     peity.graphers[type] = grapher;
-    peity.defaults[type] = defaults;
+    peity.defaults[type] = peity.standardize_language(defaults);
   };
+  
+  peity.standardize_language = function(options){
+      // W3C standard term takes precedence in conflicts.
+      if(options.color) options.colour = options.color;
+      if(options.colors) options.colours = options.colors;
+      if(options.strokeColour) options.strokeColour = options.strokeColor;
+      
+      return options;
+  }
 
   var devicePixelRatio = window.devicePixelRatio || 1
 
