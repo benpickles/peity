@@ -53,12 +53,12 @@
     'pie',
     {
       colours: ['#FFF4DD', '#FF9900'],
-      delimeter: '/',
+      delimiter: '/',
       diameter: 16
     },
     function(opts) {
       var $this = $(this)
-      var values = $this.text().split(opts.delimeter)
+      var values = $this.text().split(opts.delimiter)
       var v1 = parseFloat(values[0]);
       var v2 = parseFloat(values[1]);
       var adjust = -Math.PI / 2;
@@ -91,7 +91,7 @@
       colour: "#c6d9fd",
       strokeColour: "#4d89f9",
       strokeWidth: 1,
-      delimeter: ",",
+      delimiter: ",",
       height: 16,
       max: null,
       min: 0,
@@ -100,7 +100,7 @@
     function(opts) {
       var $this = $(this)
       var canvas = createCanvas(opts.width, opts.height)
-      var values = $this.text().split(opts.delimeter)
+      var values = $this.text().split(opts.delimiter)
       if (values.length == 1) values.push(values[0])
       var max = Math.max.apply(Math, values.concat([opts.max]));
       var min = Math.min.apply(Math, values.concat([opts.min]))
@@ -148,7 +148,7 @@
     'bar',
     {
       colour: "#4D89F9",
-      delimeter: ",",
+      delimiter: ",",
       height: 16,
       max: null,
       min: 0,
@@ -156,7 +156,7 @@
     },
     function(opts) {
       var $this = $(this)
-      var values = $this.text().split(opts.delimeter)
+      var values = $this.text().split(opts.delimiter)
       var max = Math.max.apply(Math, values.concat([opts.max]));
       var min = Math.min.apply(Math, values.concat([opts.min]))
 
