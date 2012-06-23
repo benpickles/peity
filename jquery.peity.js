@@ -9,7 +9,7 @@
     if (document.createElement("canvas").getContext) {
       this.each(function() {
         $(this).change(function() {
-          var opts = $.extend({}, options)
+          var opts = $.extend({}, peity.defaults[type], options)
           var self = this
 
           $.each(opts, function(name, value) {
@@ -17,7 +17,7 @@
           })
 
           var value = $(this).html();
-          peity.graphers[type].call(this, $.extend({}, peity.defaults[type], opts));
+          peity.graphers[type].call(this, opts)
           $(this).trigger("chart:changed", value);
         }).trigger("change");
       });
