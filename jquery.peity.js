@@ -23,7 +23,7 @@
 
           var value = $(this).html();
           peity.graphers[type].call(this, opts)
-          $(this).trigger("chart:changed", value);
+          $(this).trigger("change.peity", value)
         }).trigger("change");
       });
     }

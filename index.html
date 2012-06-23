@@ -39,7 +39,7 @@ $(function() {
     )
   }
 
-  $("span.graph").peity("pie").bind("chart:changed", chartUpdate)
+  $("span.graph").peity("pie").bind("change.peity", chartUpdate)
 })
 </script>
 <script type="text/javascript">
@@ -274,7 +274,7 @@ var chartUpdate = function(event, value, max) {
 
 $("span.graph")
   .peity("pie")
-  .bind("chart:changed", chartUpdate)</code></pre>
+  .bind("change.peity", chartUpdate)</code></pre>
   </div>
 
   <h2 id="tips">Tips</h2>
