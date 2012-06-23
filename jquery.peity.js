@@ -1,7 +1,7 @@
 // Peity jQuery plugin version 0.6.0
 // (c) 2011 Ben Pickles
 //
-// http://benpickles.github.com/peity/
+// http://benpickles.github.com/peity
 //
 // Released under MIT license.
 (function($, document) {
@@ -21,9 +21,9 @@
             if ($.isFunction(value)) opts[name] = value.call(self)
           })
 
-          var value = $(this).html();
-          peity.graphers[type].call(this, opts)
-          $(this).trigger("change.peity", value)
+          var value = $(self).html()
+          peity.graphers[type].call(self, opts)
+          $(self).trigger("change.peity", value)
         }).trigger("change");
       });
     }
