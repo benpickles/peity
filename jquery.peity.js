@@ -24,7 +24,7 @@
                 if (colours.length == 1)
                   value = [defaults['colours'][0], value];
                 else if (colours.length >= 2)
-                  value = $.map(colours.slice(0, 2), function(c) { return $.trim(c); });
+                  value = $.map(colours, function(c) { return $.trim(c); });
               }
               opts[name] = value;
             }
