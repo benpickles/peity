@@ -89,12 +89,12 @@ $(function() {
     <dd><a href="https://github.com/benpickles/peity">github.com/benpickles/peity</a></dd>
   </dl>
 
-  <a href="https://github.com/benpickles/peity"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"></a>
+  <a href="https://github.com/benpickles/peity" id="fork-me"><img src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"></a>
 
   <h2 id="pie-charts">Pie Charts</h2>
 
   <p>Simply call <code>peity("pie")</code> on a jQuery selection. You can also
-    pass <code>colours</code>, <code>diameter</code> and <code>delimeter</code>
+    pass <code>colours</code>, <code>diameter</code> and <code>delimiter</code>
     options.</p>
 
   <p>
@@ -119,7 +119,7 @@ $(function() {
 
   <p>Line charts work on a comma-separated list of digits. Line charts can
     take the following options: <code>colour</code>, <code>strokeColour</code>,
-    <code>strokeWidth</code>, <code>delimeter</code>, <code>max</code>,
+    <code>strokeWidth</code>, <code>delimiter</code>, <code>max</code>,
     <code>min</code>, <code>width</code> and <code>height</code>.</p>
 
   <p>
@@ -141,7 +141,7 @@ $(function() {
   <h2 id="bar-charts">Bar Charts</h2>
 
   <p>Bar charts work in the same way as line charts and take the following
-    options: <code>colour</code>, <code>delimeter</code>, <code>max</code>,
+    options: <code>colour</code>, <code>delimiter</code>, <code>max</code>,
     <code>min</code>, <code>width</code> and <code>height</code>.</p>
 
   <p>
@@ -352,7 +352,7 @@ $("span.graph")
 
   <pre><code class="javascript">$.fn.peity.defaults.pie = {
   colours: ["<span style="background:#fff4dd">#fff4dd</span>", "<span style="background:#ff9900">#ff9900</span>"],
-  delimeter: "/",
+  delimiter: "/",
   diameter: 16
 }
 
@@ -360,7 +360,7 @@ $.fn.peity.defaults.line = {
   colour: : "<span style="background:#c6d9fd">#c6d9fd</span>",
   strokeColour: "<span style="background:#4d89f9">#4d89f9</span>",
   strokeWidth: 1,
-  delimeter: ",",
+  delimiter: ",",
   height: 16,
   max: null,
   min: 0,
@@ -369,7 +369,7 @@ $.fn.peity.defaults.line = {
 
 $.fn.peity.defaults.bar = {
   colour: "<span style="background:#4d89f9">#4d89f9</span>",
-  delimeter: ",",
+  delimiter: ",",
   height: 16,
   max: null,
   min: 0,
