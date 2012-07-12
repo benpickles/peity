@@ -92,7 +92,7 @@ pre {
   border-bottom: 1px solid #ddf;
   line-height: 1.4em;
   margin: 0.3em -10px;
-  overflow-x: scroll;
+  overflow-x: auto;
   padding: 0.5em 10px;
 }
 
