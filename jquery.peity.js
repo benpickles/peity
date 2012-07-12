@@ -9,9 +9,14 @@
     if (document.createElement("canvas").getContext) {
       this.each(function() {
         $(this).change(function() {
-          var opts = $.extend({}, peity.defaults[type], options)
+          var defaults = peity.defaults[type];
+          var opts = $.extend({}, defaults, options)
           var self = this
-
+   
+          $.each($(this).data(), function(name, value) {
+            if (defaults[name] && (!options || !options[name])) opts[name] = value
+          })
+          
           $.each(opts, function(name, value) {
             if ($.isFunction(value)) opts[name] = value.call(self)
           })
