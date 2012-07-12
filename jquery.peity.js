@@ -9,26 +9,17 @@
     if (document.createElement("canvas").getContext) {
       this.each(function() {
         $(this).change(function() {
-          var opts = $.extend({}, peity.defaults[type], options)
-          var self = this
           var defaults = peity.defaults[type];
+          var opts = $.extend({}, defaults, options)
+          var self = this
    
+          $.each($(this).data(), function(name, value) {
+            if (defaults[name] && (!options || !options[name])) opts[name] = value
+          })
+          
           $.each(opts, function(name, value) {
             if ($.isFunction(value)) opts[name] = value.call(self)
-          });
-
-          $.each($(this).data(), function(name, value) {
-            if (defaults[name] && !opts[name]) {
-              if (name === 'colours') {
-                var colours = value.split(',');
-                if (colours.length == 1)
-                  value = [defaults['colours'][0], value];
-                else if (colours.length >= 2)
-                  value = $.map(colours, function(c) { return $.trim(c); });
-              }
-              opts[name] = value;
-            }
-          });
+          })
 
           var value = $(this).html();
           peity.graphers[type].call(this, opts)
