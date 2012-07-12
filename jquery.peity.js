@@ -10,16 +10,14 @@
       this.each(function() {
         $(this).change(function() {
           var defaults = peity.defaults[type];
-          var opts = $.extend({}, defaults, options)
+          var opts = $.extend({}, defaults)
           var self = this
    
           $.each($(this).data(), function(name, value) {
-            if (defaults[name] && (!options || !options[name])) opts[name] = value
+            if (name in defaults) opts[name] = value
           })
-          
-          $.each(opts, function(name, value) {
-            if ($.isFunction(value)) opts[name] = value.call(self)
-          })
+
+          $.extend(opts, options)
 
           var value = $(self).html()
           peity.graphers[type].call(self, opts)

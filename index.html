@@ -72,8 +72,8 @@ $(function() {
       <a href="#line-charts">line charts</a>,
       <a href="#bar-charts">bar charts</a>,
       <a href="#custom-charts">custom charts</a>,
+      <a href="#data-attributes">data-* attributes</a> and
       <a href="#events">events</a>,
-      <a href="#tips">tips</a> and
       <a href="#defaults">defaults</a>.
     </p>
   </nav>
@@ -172,6 +172,35 @@ $(function() {
     ...
   }
 )</code></pre>
+
+  <h2 id="data-attributes">data-* attributes</h2>
+
+  <p>If you use data attributes, Peity will apply their values to the defaults with the same names automatically.</p>
+
+  <p class="pie">
+    <span data-colours='["#eeeeee", "red"]' data-diameter="40">1/7</span>
+    <span data-colours='["#eeeeee", "orange"]' data-diameter="36">2/7</span>
+    <span data-colours='["#eeeeee", "yellow"]' data-diameter="32">3/7</span>
+    <span data-colours='["#eeeeee", "green"]' data-diameter="28">4/7</span>
+    <span data-colours='["#eeeeee", "blue"]' data-diameter="24">5/7</span>
+    <span data-colours='["#eeeeee", "indigo"]' data-diameter="20">6/7</span>
+    <span data-colours='["#eeeeee", "violet"]' data-diameter="16">7/7</span>
+  </p>
+
+  <div class="example">
+    <h4>HTML</h4>
+
+    <pre><code class="html">&lt;span data-colours=&#39;[&quot;#eeeeee&quot;, &quot;red&quot;]&#39;    data-diameter=&quot;40&quot;&gt;2/7&lt;/span&gt;
+&lt;span data-colours=&#39;[&quot;#eeeeee&quot;, &quot;orange&quot;]&#39; data-diameter=&quot;36&quot;&gt;2/7&lt;/span&gt;
+&lt;span data-colours=&#39;[&quot;#eeeeee&quot;, &quot;yellow&quot;]&#39; data-diameter=&quot;32&quot;&gt;3/7&lt;/span&gt;
+&lt;span data-colours=&#39;[&quot;#eeeeee&quot;, &quot;green&quot;]&#39;  data-diameter=&quot;28&quot;&gt;4/7&lt;/span&gt;
+&lt;span data-colours=&#39;[&quot;#eeeeee&quot;, &quot;blue&quot;]&#39;   data-diameter=&quot;24&quot;&gt;5/7&lt;/span&gt;
+&lt;span data-colours=&#39;[&quot;#eeeeee&quot;, &quot;indigo&quot;]&#39; data-diameter=&quot;20&quot;&gt;6/7&lt;/span&gt;
+&lt;span data-colours=&#39;[&quot;#eeeeee&quot;, &quot;violet&quot;]&#39; data-diameter=&quot;16&quot;&gt;7/7&lt;/span&gt;</code></pre>
+    <h4>JavaScript</h4>
+
+    <pre><code class="javascript">$(&quot;.pie span&quot;).peity(&quot;pie&quot;)</code></pre>
+  </div>
 
   <h2 id="events">Events</h2>
 
@@ -275,74 +304,6 @@ var chartUpdate = function(event, value, max) {
 $("span.graph")
   .peity("pie")
   .bind("change.peity", chartUpdate)</code></pre>
-  </div>
-
-  <h2 id="tips">Tips</h2>
-
-  <h3>Per-element Colour and Diameter</h3>
-
-  <p>Options can be passed a function that returns the actual value allowing you to do something like this where colours and diameter are derived from the element that Peity is working on.</p>
-
-  <p class="diameter">
-    <span data-colour="red" data-diameter="40">1/7</span>
-    <span data-colour="orange" data-diameter="36">2/7</span>
-    <span data-colour="yellow" data-diameter="32">3/7</span>
-    <span data-colour="green" data-diameter="28">4/7</span>
-    <span data-colour="blue" data-diameter="24">5/7</span>
-    <span data-colour="indigo" data-diameter="20">6/7</span>
-    <span data-colour="violet" data-diameter="16">7/7</span>
-  </p>
-  
-  <div class="example">
-      <h4>HTML</h4>
-
-      <pre><code class="html">&lt;span data-colour=&quot;red&quot;    data-diameter=&quot;40&quot;&gt;1/7&lt;/span&gt;
-&lt;span data-colour=&quot;orange&quot; data-diameter=&quot;36&quot;&gt;2/7&lt;/span&gt;
-&lt;span data-colour=&quot;yellow&quot; data-diameter=&quot;32&quot;&gt;3/7&lt;/span&gt;
-&lt;span data-colour=&quot;green&quot;  data-diameter=&quot;28&quot;&gt;4/7&lt;/span&gt;
-&lt;span data-colour=&quot;blue&quot;   data-diameter=&quot;24&quot;&gt;5/7&lt;/span&gt;
-&lt;span data-colour=&quot;indigo&quot; data-diameter=&quot;20&quot;&gt;6/7&lt;/span&gt;
-&lt;span data-colour=&quot;violet&quot; data-diameter=&quot;16&quot;&gt;7/7&lt;/span&gt;</code></pre>
-
-      <h4>JavaScript</h4>
-
-      <pre><code class="javascript">$(&quot;.diameter span&quot;).peity(&quot;pie&quot;, {
-    colours: function() {
-      return [&quot;#dddddd&quot;, this.getAttribute(&quot;data-colour&quot;)]
-    },
-    diameter: function() {
-      return this.getAttribute(&quot;data-diameter&quot;)
-    }
-  })</code></pre>
-  </div>
-    
-  <h3>Per-element Colour and Diameter (via data-* attributes)</h3>
-
-  <p>If you use data attributes, Peity will apply their values to the defaults with the same names automatically.</p>
-
-  <p class="pie">
-    <span data-colours='["#eeeeee", "red"]' data-diameter="40">1/7</span>
-    <span data-colours='["#eeeeee", "orange"]' data-diameter="36">2/7</span>
-    <span data-colours='["#eeeeee", "yellow"]' data-diameter="32">3/7</span>
-    <span data-colours='["#eeeeee", "green"]' data-diameter="28">4/7</span>
-    <span data-colours='["#eeeeee", "blue"]' data-diameter="24">5/7</span>
-    <span data-colours='["#eeeeee", "indigo"]' data-diameter="20">6/7</span>
-    <span data-colours='["#eeeeee", "violet"]' data-diameter="16">7/7</span>
-  </p>
-
-  <div class="example">
-    <h4>HTML</h4>
-
-    <pre><code class="html">&lt;span data-colours=&#39;[&quot;#eeeeee&quot;, &quot;red&quot;]&#39;    data-diameter=&quot;40&quot;&gt;2/7&lt;/span&gt;
-&lt;span data-colours=&#39;[&quot;#eeeeee&quot;, &quot;orange&quot;]&#39; data-diameter=&quot;36&quot;&gt;2/7&lt;/span&gt;
-&lt;span data-colours=&#39;[&quot;#eeeeee&quot;, &quot;yellow&quot;]&#39; data-diameter=&quot;32&quot;&gt;3/7&lt;/span&gt;
-&lt;span data-colours=&#39;[&quot;#eeeeee&quot;, &quot;green&quot;]&#39;  data-diameter=&quot;28&quot;&gt;4/7&lt;/span&gt;
-&lt;span data-colours=&#39;[&quot;#eeeeee&quot;, &quot;blue&quot;]&#39;   data-diameter=&quot;24&quot;&gt;5/7&lt;/span&gt;
-&lt;span data-colours=&#39;[&quot;#eeeeee&quot;, &quot;indigo&quot;]&#39; data-diameter=&quot;20&quot;&gt;6/7&lt;/span&gt;
-&lt;span data-colours=&#39;[&quot;#eeeeee&quot;, &quot;violet&quot;]&#39; data-diameter=&quot;16&quot;&gt;7/7&lt;/span&gt;</code></pre>
-    <h4>JavaScript</h4>
-
-    <pre><code class="javascript">$(&quot;.pie span&quot;).peity(&quot;pie&quot;)</code></pre>
   </div>
 
   <h2 id="defaults">Defaults</h2>
