@@ -12,7 +12,7 @@
           var defaults = peity.defaults[type];
           var opts = $.extend({}, defaults)
           var self = this
-   
+
           $.each($(this).data(), function(name, value) {
             if (name in defaults) opts[name] = value
           })
@@ -60,32 +60,27 @@
       diameter: 16
     },
     function(opts) {
-      var $this = $(this)
-      var values = $this.text().split(opts.delimiter)
-      var v1 = parseFloat(values[0]);
-      var v2 = parseFloat(values[1]);
-      var adjust = -Math.PI / 2;
-      var slice = (v1 / v2) * Math.PI * 2;
+      var $this = $(this);
+      var values = $this.text().split(opts.delimiter);
+      var slice = (Math.PI * 2) / values.reduce(function(a, b) { return parseFloat(a) + parseFloat(b); }, 0);
 
-      var canvas = createCanvas(opts.diameter, opts.diameter)
+      var canvas = createCanvas(opts.diameter, opts.diameter);
       var context = canvas.getContext("2d");
       var centre = canvas.width / 2;
 
-      // Plate.
-      context.beginPath();
-      context.moveTo(centre, centre);
-      context.arc(centre, centre, centre, slice + adjust, (slice == 0) ? Math.PI * 2 : adjust, false);
-      context.fillStyle = opts.colours[0];
-      context.fill();
+      // Slices of pie.
+      for (i = 0; i < values.length; i++) {
+        var startAngle = values.slice(0, i).reduce(function(a, b) { return parseFloat(a) + parseFloat(b); }, 0) * slice;
+        var endAngle = values[i] * slice;
 
-      // Slice of pie.
-      context.beginPath();
-      context.moveTo(centre, centre);
-      context.arc(centre, centre, centre, adjust, slice + adjust, false);
-      context.fillStyle = opts.colours[1];
-      context.fill();
+        context.beginPath();
+        context.moveTo(centre, centre);
+        context.arc(centre, centre, centre, startAngle, startAngle + endAngle, false);
+        context.fillStyle = opts.colours[i] ? opts.colours[i] : opts.colours[ i % 2 === 0 ? 0 : 1];
+        context.fill();
+      }
 
-      $this.wrapInner($("<span>").hide()).append(canvas)
+      $this.wrapInner($("<span>").hide()).append(canvas);
   });
 
   peity.add(
