@@ -63,6 +63,7 @@
       var $this = $(this);
       var values = $this.text().split(opts.delimeter);
       var slice = (Math.PI * 2) / values.reduce(function(a, b) { return parseFloat(a) + parseFloat(b); }, 0);
+      var adjust = -Math.PI / 2;
 
       var canvas = createCanvas(opts.diameter, opts.diameter);
       var context = canvas.getContext("2d");
@@ -70,7 +71,7 @@
 
       // Slices of pie.
       for (i = 0; i < values.length; i++) {
-        var startAngle = values.slice(0, i).reduce(function(a, b) { return parseFloat(a) + parseFloat(b); }, 0) * slice;
+        var startAngle = adjust + values.slice(0, i).reduce(function(a, b) { return parseFloat(a) + parseFloat(b); }, 0) * slice;
         var endAngle = values[i] * slice;
 
         context.beginPath();
