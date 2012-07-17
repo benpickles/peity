@@ -61,7 +61,7 @@
     },
     function(opts) {
       var $this = $(this);
-      var values = $this.text().split(opts.delimiter);
+      var values = $this.text().split(opts.delimeter);
       var slice = (Math.PI * 2) / values.reduce(function(a, b) { return parseFloat(a) + parseFloat(b); }, 0);
 
       var canvas = createCanvas(opts.diameter, opts.diameter);
