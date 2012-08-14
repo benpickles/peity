@@ -51,6 +51,7 @@
 
     return canvas
   }
+  peity.createCanvas = createCanvas;
 
   peity.add(
     'pie',
