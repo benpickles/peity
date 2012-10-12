@@ -61,24 +61,26 @@
       var values = $this.text().split(opts.delimeter)
       var v1 = parseFloat(values[0]);
       var v2 = parseFloat(values[1]);
-      var adjust = -Math.PI / 2;
       var slice = (v1 / v2) * Math.PI * 2;
 
       var canvas = createCanvas(opts.diameter, opts.diameter)
       var context = canvas.getContext("2d");
-      var centre = canvas.width / 2;
+      var half = canvas.width / 2
+
+      context.translate(half, half)
+      context.rotate(-Math.PI / 2)
 
       // Plate.
       context.beginPath();
-      context.moveTo(centre, centre);
-      context.arc(centre, centre, centre, slice + adjust, (slice == 0) ? Math.PI * 2 : adjust, false);
+      context.moveTo(0, 0)
+      context.arc(0, 0, half, 0, slice == 0 ? Math.PI * 2 : slice, true)
       context.fillStyle = opts.colours[0];
       context.fill();
 
       // Slice of pie.
       context.beginPath();
-      context.moveTo(centre, centre);
-      context.arc(centre, centre, centre, adjust, slice + adjust, false);
+      context.moveTo(0, 0)
+      context.arc(0, 0, half, 0, slice, false)
       context.fillStyle = opts.colours[1];
       context.fill();
 
