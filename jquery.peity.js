@@ -8,33 +8,24 @@
   var peity = $.fn.peity = function(type, options) {
     if (document.createElement("canvas").getContext) {
       this.each(function() {
-        $(this).change(function() {
-          var defaults = peity.defaults[type];
-          var opts = $.extend({}, defaults)
-          var self = this
-   
-          $.each($(this).data(), function(name, value) {
-            if (name in defaults) opts[name] = value
-          })
+        var defaults = Peity.defaults[type]
+        var opts = $.extend({}, defaults, options)
+        var $this = $(this)
 
-          $.extend(opts, options)
+        $.each($this.data(), function(name, value) {
+          if (name in defaults) opts[name] = value
+        })
 
-          var value = $(self).html()
-          peity.graphers[type].call(self, opts)
-          $(self).trigger("change.peity", value)
-        }).trigger("change");
+        var chart = new Peity(this, type, opts)
+        chart.draw()
+
+        $this.change(function() {
+          chart.draw()
+        })
       });
     }
 
     return this;
-  };
-
-  peity.graphers = {};
-  peity.defaults = {};
-
-  peity.add = function(type, defaults, grapher){
-    peity.graphers[type] = grapher;
-    peity.defaults[type] = defaults;
   };
 
   var devicePixelRatio = window.devicePixelRatio || 1
@@ -53,7 +44,29 @@
   }
   peity.createCanvas = createCanvas;
 
-  peity.add(
+  var Peity = function(elem, type, opts) {
+    this.elem = elem
+    this.type = type
+    this.opts = opts
+  }
+
+  Peity.prototype.draw = function() {
+    Peity.graphers[this.type].call(this, this.opts)
+  }
+
+  Peity.prototype.values = function() {
+    return $(this.elem).text().split(this.opts.delimiter)
+  }
+
+  Peity.graphers = {}
+  Peity.defaults = {}
+
+  Peity.register = function(type, defaults, grapher) {
+    this.defaults[type] = defaults
+    this.graphers[type] = grapher
+  }
+
+  Peity.register(
     'pie',
     {
       colours: ['#FFF4DD', '#FF9900'],
@@ -61,8 +74,8 @@
       diameter: 16
     },
     function(opts) {
-      var $this = $(this)
-      var values = $this.text().split(opts.delimiter)
+      var $elem = $(this.elem)
+      var values = this.values()
       var v1 = parseFloat(values[0]);
       var v2 = parseFloat(values[1]);
       var slice = (v1 / v2) * Math.PI * 2;
@@ -88,10 +101,10 @@
       context.fillStyle = opts.colours[1];
       context.fill();
 
-      $this.wrapInner($("<span>").hide()).append(canvas)
+      $elem.wrapInner($("<span>").hide()).append(canvas)
   });
 
-  peity.add(
+  Peity.register(
     "line",
     {
       colour: "#c6d9fd",
@@ -104,9 +117,9 @@
       width: 32
     },
     function(opts) {
-      var $this = $(this)
+      var $elem = $(this.elem)
       var canvas = createCanvas(opts.width, opts.height)
-      var values = $this.text().split(opts.delimiter)
+      var values = this.values()
       if (values.length == 1) values.push(values[0])
       var max = Math.max.apply(Math, values.concat([opts.max]));
       var min = Math.min.apply(Math, values.concat([opts.min]))
@@ -146,11 +159,11 @@
         context.stroke();
       }
 
-      $this.wrapInner($("<span>").hide()).append(canvas)
+      $elem.wrapInner($("<span>").hide()).append(canvas)
     }
   );
 
-  peity.add(
+  Peity.register(
     'bar',
     {
       colour: "#4D89F9",
@@ -161,8 +174,8 @@
       width: 32
     },
     function(opts) {
-      var $this = $(this)
-      var values = $this.text().split(opts.delimiter)
+      var $elem = $(this.elem)
+      var values = this.values()
       var max = Math.max.apply(Math, values.concat([opts.max]));
       var min = Math.min.apply(Math, values.concat([opts.min]))
 
@@ -184,7 +197,7 @@
         context.fillRect(x, y, xQuotient - space, yQuotient * values[i])
       }
 
-      $this.wrapInner($("<span>").hide()).append(canvas)
+      $elem.wrapInner($("<span>").hide()).append(canvas)
     }
   );
 })(jQuery, document);

@@ -27,19 +27,18 @@ $(function() {
   $(".pie span").peity("pie")
 
   // Simple evented example.
-  $("select").change(function(){
+  $("select").change(function() {
+    var text = $(this).val() + "/" + 5
+
     $(this)
       .siblings("span.graph")
-      .text($(this).val() + "/" + 5).change()
+      .text(text)
+      .change()
+
+    $("#notice").text("Chart updated: " + text)
   }).change()
 
-  var chartUpdate = function(event, value) {
-    $("#notice").text(
-      "Chart updated: " + value
-    )
-  }
-
-  $("span.graph").peity("pie").bind("change.peity", chartUpdate)
+  $("span.graph").peity("pie")
 })
 </script>
 <script type="text/javascript">
