@@ -63,13 +63,17 @@
       var v2 = parseFloat(values[1]);
       var slice = (v1 / v2) * Math.PI * 2;
 
-      var canvas = createCanvas(opts.diameter, opts.diameter)
+      var canvas = $(this).find('canvas')[0]
+      if (!canvas){
+        canvas = createCanvas(opts.diameter, opts.diameter)
+        $this.wrapInner($("<span>").hide()).append(canvas)
+      }
       var context = canvas.getContext("2d");
       var half = canvas.width / 2
 
       context.translate(half, half)
       context.rotate(-Math.PI / 2)
-
+      context.clearRect(0,0,canvas.width, canvas.height);
       // Plate.
       context.beginPath();
       context.moveTo(0, 0)
@@ -83,8 +87,6 @@
       context.arc(0, 0, half, 0, slice, false)
       context.fillStyle = opts.colours[1];
       context.fill();
-
-      $this.wrapInner($("<span>").hide()).append(canvas)
   });
 
   peity.add(
@@ -101,7 +103,12 @@
     },
     function(opts) {
       var $this = $(this)
-      var canvas = createCanvas(opts.width, opts.height)
+      var canvas = $(this).find('canvas')[0]
+      if (!canvas){
+        canvas = createCanvas(opts.width, opts.height)
+        $this.wrapInner($("<span>").hide()).append(canvas)
+      }
+
       var values = $this.text().split(opts.delimeter)
       if (values.length == 1) values.push(values[0])
       var max = Math.max.apply(Math, values.concat([opts.max]));
@@ -116,6 +123,7 @@
       var coords = [];
       var i;
 
+      context.clearRect(0,0,canvas.width, canvas.height);
       context.beginPath();
       context.moveTo(0, height + (min * yQuotient))
 
@@ -141,8 +149,6 @@
         context.strokeStyle = opts.strokeColour;
         context.stroke();
       }
-
-      $this.wrapInner($("<span>").hide()).append(canvas)
     }
   );
 
@@ -161,8 +167,11 @@
       var values = $this.text().split(opts.delimeter)
       var max = Math.max.apply(Math, values.concat([opts.max]));
       var min = Math.min.apply(Math, values.concat([opts.min]))
-
-      var canvas = createCanvas(opts.width, opts.height)
+      var canvas = $(this).find('canvas')[0]
+      if (!canvas){
+        canvas = createCanvas(opts.width, opts.height)
+        $this.wrapInner($("<span>").hide()).append(canvas)
+      }
       var context = canvas.getContext("2d");
 
       var width = canvas.width
@@ -171,6 +180,7 @@
       var space = devicePixelRatio / 2
       var xQuotient = (width + space) / values.length
 
+      context.clearRect(0,0,canvas.width, canvas.height);
       context.fillStyle = opts.colour;
 
       for (var i = 0; i < values.length; i++) {
@@ -179,8 +189,6 @@
 
         context.fillRect(x, y, xQuotient - space, yQuotient * values[i])
       }
-
-      $this.wrapInner($("<span>").hide()).append(canvas)
     }
   );
 })(jQuery, document);
