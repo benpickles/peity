@@ -1,5 +1,9 @@
 # History
 
+## Version 0.6.1 - 2012/10/12
+
+ * Workaround for Linux/Chrome bug when using #arc to draw a full circle not having a zero starting angle.
+
 ## Version 0.6.0 - 2012/1/27
 
  * Line and bar charts now support negative numbers.
