@@ -16,7 +16,7 @@
           if (name in defaults) opts[name] = value
         })
 
-        var chart = new Peity(this, type, opts)
+        var chart = new Peity($this, type, opts)
         chart.draw()
 
         $this.change(function() {
@@ -44,8 +44,8 @@
   }
   peity.createCanvas = createCanvas;
 
-  var Peity = function(elem, type, opts) {
-    this.elem = elem
+  var Peity = function($elem, type, opts) {
+    this.$elem = $elem
     this.type = type
     this.opts = opts
   }
@@ -55,7 +55,7 @@
   }
 
   Peity.prototype.values = function() {
-    return $(this.elem).text().split(this.opts.delimiter)
+    return this.$elem.text().split(this.opts.delimiter)
   }
 
   Peity.graphers = {}
@@ -74,7 +74,6 @@
       diameter: 16
     },
     function(opts) {
-      var $elem = $(this.elem)
       var values = this.values()
       var v1 = parseFloat(values[0]);
       var v2 = parseFloat(values[1]);
@@ -101,7 +100,7 @@
       context.fillStyle = opts.colours[1];
       context.fill();
 
-      $elem.wrapInner($("<span>").hide()).append(canvas)
+      this.$elem.wrapInner($("<span>").hide()).append(canvas)
   });
 
   Peity.register(
@@ -117,7 +116,6 @@
       width: 32
     },
     function(opts) {
-      var $elem = $(this.elem)
       var canvas = createCanvas(opts.width, opts.height)
       var values = this.values()
       if (values.length == 1) values.push(values[0])
@@ -159,7 +157,7 @@
         context.stroke();
       }
 
-      $elem.wrapInner($("<span>").hide()).append(canvas)
+      this.$elem.wrapInner($("<span>").hide()).append(canvas)
     }
   );
 
@@ -174,7 +172,6 @@
       width: 32
     },
     function(opts) {
-      var $elem = $(this.elem)
       var values = this.values()
       var max = Math.max.apply(Math, values.concat([opts.max]));
       var min = Math.min.apply(Math, values.concat([opts.min]))
@@ -197,7 +194,7 @@
         context.fillRect(x, y, xQuotient - space, yQuotient * values[i])
       }
 
-      $elem.wrapInner($("<span>").hide()).append(canvas)
+      this.$elem.wrapInner($("<span>").hide()).append(canvas)
     }
   );
 })(jQuery, document);
