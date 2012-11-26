@@ -54,6 +54,20 @@
     Peity.graphers[this.type].call(this, this.opts)
   }
 
+  Peity.prototype.prepareCanvas = function(width, height) {
+    var canvas = this.canvas
+
+    if (canvas) {
+      this.context.clearRect(0, 0, canvas.width, canvas.height)
+    } else {
+      this.canvas = canvas = createCanvas(width, height)
+      this.$elem.hide().before(canvas)
+      this.context = canvas.getContext("2d")
+    }
+
+    return canvas
+  }
+
   Peity.prototype.values = function() {
     return this.$elem.text().split(this.opts.delimiter)
   }
@@ -79,8 +93,8 @@
       var v2 = parseFloat(values[1]);
       var slice = (v1 / v2) * Math.PI * 2;
 
-      var canvas = createCanvas(opts.diameter, opts.diameter)
-      var context = canvas.getContext("2d");
+      var canvas = this.prepareCanvas(opts.diameter, opts.diameter)
+      var context = this.context
       var half = canvas.width / 2
 
       context.translate(half, half)
@@ -99,8 +113,6 @@
       context.arc(0, 0, half, 0, slice, false)
       context.fillStyle = opts.colours[1];
       context.fill();
-
-      this.$elem.wrapInner($("<span>").hide()).append(canvas)
   });
 
   Peity.register(
@@ -116,13 +128,13 @@
       width: 32
     },
     function(opts) {
-      var canvas = createCanvas(opts.width, opts.height)
       var values = this.values()
       if (values.length == 1) values.push(values[0])
       var max = Math.max.apply(Math, values.concat([opts.max]));
       var min = Math.min.apply(Math, values.concat([opts.min]))
 
-      var context = canvas.getContext("2d");
+      var canvas = this.prepareCanvas(opts.width, opts.height)
+      var context = this.context
       var width = canvas.width
       var height = canvas.height
       var xQuotient = width / (values.length - 1)
@@ -156,8 +168,6 @@
         context.strokeStyle = opts.strokeColour;
         context.stroke();
       }
-
-      this.$elem.wrapInner($("<span>").hide()).append(canvas)
     }
   );
 
@@ -176,8 +186,8 @@
       var max = Math.max.apply(Math, values.concat([opts.max]));
       var min = Math.min.apply(Math, values.concat([opts.min]))
 
-      var canvas = createCanvas(opts.width, opts.height)
-      var context = canvas.getContext("2d");
+      var canvas = this.prepareCanvas(opts.width, opts.height)
+      var context = this.context
 
       var width = canvas.width
       var height = canvas.height
@@ -193,8 +203,6 @@
 
         context.fillRect(x, y, xQuotient - space, yQuotient * values[i])
       }
-
-      this.$elem.wrapInner($("<span>").hide()).append(canvas)
     }
   );
 })(jQuery, document);
