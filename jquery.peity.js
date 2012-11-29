@@ -5,8 +5,11 @@
 //
 // Released under MIT license.
 (function($, document) {
+  var canvasSupported = document.createElement("canvas").getContext
+  var devicePixelRatio = window.devicePixelRatio || 1
+
   var peity = $.fn.peity = function(type, options) {
-    if (document.createElement("canvas").getContext) {
+    if (canvasSupported) {
       this.each(function() {
         var defaults = Peity.defaults[type]
         var opts = $.extend({}, defaults, options)
@@ -27,8 +30,6 @@
 
     return this;
   };
-
-  var devicePixelRatio = window.devicePixelRatio || 1
 
   function createCanvas(width, height) {
     var canvas = document.createElement("canvas")
