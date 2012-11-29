@@ -12,13 +12,14 @@
     if (canvasSupported) {
       this.each(function() {
         var defaults = Peity.defaults[type]
-        var opts = $.extend({}, defaults, options)
+        var data = {}
         var $this = $(this)
 
         $.each($this.data(), function(name, value) {
-          if (name in defaults) opts[name] = value
+          if (name in defaults) data[name] = value
         })
 
+        var opts = $.extend({}, defaults, data, options)
         var chart = new Peity($this, type, opts)
         chart.draw()
 
