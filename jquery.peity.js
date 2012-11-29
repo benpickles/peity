@@ -93,8 +93,8 @@
     },
     function(opts) {
       var values = this.values()
-      var v1 = parseFloat(values[0]);
-      var v2 = parseFloat(values[1]);
+      var v1 = values[0]
+      var v2 = values[1]
       var slice = (v1 / v2) * Math.PI * 2;
 
       var canvas = this.prepareCanvas(opts.diameter, opts.diameter)
