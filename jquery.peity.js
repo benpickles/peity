@@ -95,7 +95,8 @@
       var values = this.values()
       var v1 = values[0]
       var v2 = values[1]
-      var slice = (v1 / v2) * Math.PI * 2;
+      var pi = Math.PI
+      var slice = (v1 / v2) * pi * 2;
 
       var canvas = this.prepareCanvas(opts.diameter, opts.diameter)
       var context = this.context
@@ -103,12 +104,12 @@
 
       context.save()
       context.translate(half, half)
-      context.rotate(-Math.PI / 2)
+      context.rotate(-pi / 2)
 
       // Plate.
       context.beginPath();
       context.moveTo(0, 0)
-      context.arc(0, 0, half, 0, slice == 0 ? Math.PI * 2 : slice, true)
+      context.arc(0, 0, half, 0, slice == 0 ? pi * 2 : slice, true)
       context.fillStyle = opts.colours[0];
       context.fill();
 
