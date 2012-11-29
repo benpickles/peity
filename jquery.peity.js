@@ -32,16 +32,19 @@
   };
 
   function createCanvas(width, height) {
-    var canvas = document.createElement("canvas")
-    canvas.setAttribute("width", width * devicePixelRatio)
-    canvas.setAttribute("height", height * devicePixelRatio)
+    var canvas = $("<canvas>").attr({
+      height: height * devicePixelRatio,
+      width: width * devicePixelRatio
+    })
 
     if (devicePixelRatio != 1) {
-      var style = "width:" + width + "px;height:" + height + "px"
-      canvas.setAttribute("style", style)
+      canvas.css({
+        height: height,
+        width: width
+      })
     }
 
-    return canvas
+    return canvas[0]
   }
   peity.createCanvas = createCanvas;
 
