@@ -101,6 +101,7 @@
       var context = this.context
       var half = canvas.width / 2
 
+      context.save()
       context.translate(half, half)
       context.rotate(-Math.PI / 2)
 
@@ -117,6 +118,8 @@
       context.arc(0, 0, half, 0, slice, false)
       context.fillStyle = opts.colours[1];
       context.fill();
+
+      context.restore()
   });
 
   Peity.register(
