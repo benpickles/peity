@@ -8,7 +8,7 @@
   var canvasSupported = document.createElement("canvas").getContext
   var devicePixelRatio = window.devicePixelRatio || 1
 
-  var peity = $.fn.peity = function(type, options) {
+  $.fn.peity = function(type, options) {
     if (canvasSupported) {
       this.each(function() {
         var defaults = Peity.defaults[type]
@@ -32,23 +32,6 @@
     return this;
   };
 
-  function createCanvas(width, height) {
-    var canvas = $("<canvas>").attr({
-      height: height * devicePixelRatio,
-      width: width * devicePixelRatio
-    })
-
-    if (devicePixelRatio != 1) {
-      canvas.css({
-        height: height,
-        width: width
-      })
-    }
-
-    return canvas[0]
-  }
-  peity.createCanvas = createCanvas;
-
   var Peity = function($elem, type, opts) {
     this.$elem = $elem
     this.type = type
@@ -65,9 +48,21 @@
     if (canvas) {
       this.context.clearRect(0, 0, canvas.width, canvas.height)
     } else {
-      this.canvas = canvas = createCanvas(width, height)
-      this.$elem.hide().before(canvas)
+      canvas = $("<canvas>").attr({
+        height: height * devicePixelRatio,
+        width: width * devicePixelRatio
+      })
+
+      if (devicePixelRatio != 1) {
+        canvas.css({
+          height: height,
+          width: width
+        })
+      }
+
+      this.canvas = canvas = canvas[0]
       this.context = canvas.getContext("2d")
+      this.$elem.hide().before(canvas)
     }
 
     return canvas
