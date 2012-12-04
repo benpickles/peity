@@ -8,10 +8,10 @@
   var canvasSupported = document.createElement("canvas").getContext
   var devicePixelRatio = window.devicePixelRatio || 1
 
-  $.fn.peity = function(type, options) {
+  var peity = $.fn.peity = function(type, options) {
     if (canvasSupported) {
       this.each(function() {
-        var defaults = Peity.defaults[type]
+        var defaults = peity.defaults[type]
         var data = {}
         var $this = $(this)
 
@@ -52,7 +52,7 @@
   }
 
   Peity.prototype.draw = function() {
-    Peity.graphers[this.type].call(this, this.opts)
+    peity.graphers[this.type].call(this, this.opts)
   }
 
   Peity.prototype.prepareCanvas = function(width, height) {
@@ -87,15 +87,15 @@
     })
   }
 
-  Peity.graphers = {}
-  Peity.defaults = {}
+  peity.defaults = {}
+  peity.graphers = {}
 
-  Peity.register = function(type, defaults, grapher) {
+  peity.register = function(type, defaults, grapher) {
     this.defaults[type] = defaults
     this.graphers[type] = grapher
   }
 
-  Peity.register(
+  peity.register(
     'pie',
     {
       colours: ["#ff9900", "#fff4dd", "#ffc66e"],
@@ -150,7 +150,7 @@
     }
   )
 
-  Peity.register(
+  peity.register(
     "line",
     {
       colour: "#c6d9fd",
@@ -206,7 +206,7 @@
     }
   );
 
-  Peity.register(
+  peity.register(
     'bar',
     {
       colours: ["#4D89F9"],
