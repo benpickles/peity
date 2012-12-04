@@ -1,5 +1,13 @@
 # History
 
+## Version 1.0.0 - 2012/12/4
+
+ * Spacing between bars can now be configured.
+ * Pie charts can now be formed of more than 2 segments.
+ * The colours of bar and pie charts can now be set dynamically based on their value.
+ * Re-write of the internals so that the actual `<canvas>` element is only created once and `$.wrapInner` is no longer used to contain everything in a separate `<span>`.
+ * Peity now automatically reads data-* attributes and passes them as options when instantiating a chart. [@buunguyen](https://github.com/buunguyen)
+
 ## Version 0.6.1 - 2012/10/12
 
  * Workaround for Linux/Chrome bug when using #arc to draw a full circle not having a zero starting angle.
