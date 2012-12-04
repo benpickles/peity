@@ -30,6 +30,17 @@ $(function() {
     }
   })
 
+  $(".pie-colours-1").peity("pie", {
+    colours: ["cyan", "magenta", "yellow", "black"]
+  })
+
+  $(".pie-colours-2").peity("pie", {
+    colours: function(_, i, all) {
+      var g = parseInt((i / all.length) * 255)
+      return "rgb(255, " + g + ", 0)"
+    }
+  })
+
   // Using data attributes
   $(".pie span").peity("pie")
 
@@ -116,21 +127,32 @@ $(function() {
   <h2 id="pie-charts">Pie Charts</h2>
 
   <p>Simply call <code>peity("pie")</code> on a jQuery selection. You can also
-    pass <code>colours</code>, <code>diameter</code> and <code>delimiter</code>
-    options.</p>
+    pass <code>colours</code>, <code>delimiter</code> and
+    <code>diameter</code> options. There are two subtly different semantics
+    when drawing pie charts, by using a "/" delimiter it is assumed to mean
+    "three out of five" and only the first two values will be drawn, otherwise
+    all of the values are included in the chart.</p>
 
   <p>
     <span class="pie">1/5</span>
     <span class="pie">226/360</span>
     <span class="pie">0.52/1.561</span>
+    <span class="pie">1,4</span>
+    <span class="pie">226,134</span>
+    <span class="pie">0.52,1.041</span>
+    <span class="pie">1,2,3,2,2</span>
   </p>
 
   <div class="example">
     <h4>HTML</h4>
 
-    <pre><code class="html">&lt;span class="pie"&gt;1/5&lt;/span&gt;
-&lt;span class="pie"&gt;226/360&lt;/span&gt;
-&lt;span class="pie"&gt;0.52/1.561&lt;/span&gt;</code></pre>
+    <pre><code class="html">&lt;span class=&quot;pie&quot;&gt;1/5&lt;/span&gt;
+&lt;span class=&quot;pie&quot;&gt;226/360&lt;/span&gt;
+&lt;span class=&quot;pie&quot;&gt;0.52/1.561&lt;/span&gt;
+&lt;span class=&quot;pie&quot;&gt;1,4&lt;/span&gt;
+&lt;span class=&quot;pie&quot;&gt;226,134&lt;/span&gt;
+&lt;span class=&quot;pie&quot;&gt;0.52,1.041&lt;/span&gt;
+&lt;span class=&quot;pie&quot;&gt;1,2,3,2,2&lt;/span&gt;</code></pre>
 
     <h4>JavaScript</h4>
 
@@ -184,8 +206,8 @@ $(function() {
 
   <h2 id="dynamic-colours">Setting Colours Dynamically</h2>
 
-  <p>A bar chart's colours can be defined dynamically based on the values of
-    the chart. When passing an array its values are cycled, when passing a
+  <p>Bar and pie chart colours can be defined dynamically based on the values
+    of the chart. When passing an array its values are cycled, when passing a
     function it is called once for each value allowing you to define each
     bar's colour. The function is called with a similar signature to
     <code>Array#forEach</code> with the bar's value, its index, and the full
@@ -196,13 +218,17 @@ $(function() {
     <span class="bar-colours-1">5,3,9,6,5,9,7,3,5,2</span>
     <span class="bar-colours-2">5,3,2,-1,-3,-2,2,3,5,2</span>
     <span class="bar-colours-3">0,-3,-6,-4,-5,-4,-7,-3,-5,-2</span>
+    <span class="pie-colours-1">4,7,6,5</span>
+    <span class="pie-colours-2">5,3,9,6,5</span>
   </p>
 
   <div class="example">
     <h4>HTML</h4>
     <pre><code class="html">&lt;span class="bar-colours-1"&gt;5,3,9,6,5,9,7,3,5,2&lt;/span&gt;
 &lt;span class=&quot;bar-colours-2&quot;&gt;5,3,2,-1,-3,-2,2,3,5,2&lt;/span&gt;
-&lt;span class=&quot;bar-colours-3&quot;&gt;0,-3,-6,-4,-5,-4,-7,-3,-5,-2&lt;/span&gt;</code></pre>
+&lt;span class=&quot;bar-colours-3&quot;&gt;0,-3,-6,-4,-5,-4,-7,-3,-5,-2&lt;/span&gt;
+&lt;span class=&quot;pie-colours-1&quot;&gt;4,7,6,5&lt;/span&gt;
+&lt;span class=&quot;pie-colours-2&quot;&gt;5,3,9,6,5&lt;/span&gt;</code></pre>
 
     <h4>JavaScript</h4>
     <pre><code class="javascript">$(".bar-colours-1").peity("bar", {
@@ -216,6 +242,17 @@ $(".bar-colours-2").peity("bar", {
 })
 
 $(".bar-colours-3").peity("bar", {
+  colours: function(_, i, all) {
+    var g = parseInt((i / all.length) * 255)
+    return "rgb(255, " + g + ", 0)"
+  }
+})
+
+$(".pie-colours-1").peity("pie", {
+  colours: ["cyan", "magenta", "yellow", "black"]
+})
+
+$(".pie-colours-2").peity("pie", {
   colours: function(_, i, all) {
     var g = parseInt((i / all.length) * 255)
     return "rgb(255, " + g + ", 0)"
@@ -403,8 +440,8 @@ $("span.graph")
   <p>Defaults can be overridden globally like so:</p>
 
   <pre><code class="javascript">$.fn.peity.defaults.pie = {
-  colours: ["<span style="background:#fff4dd">#fff4dd</span>", "<span style="background:#ff9900">#ff9900</span>"],
-  delimiter: "/",
+  colours: ["<span style="background:#ff9900">#ff9900</span>", "<span style="background:#fff4dd">#fff4dd</span>", "<span style="background:#ffd592">#ffd592</span>"],
+  delimiter: null,
   diameter: 16
 }
 

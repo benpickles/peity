@@ -82,7 +82,9 @@
   }
 
   Peity.prototype.values = function() {
-    return this.$elem.text().split(this.opts.delimiter)
+    return $.map(this.$elem.text().split(this.opts.delimiter), function(value) {
+      return parseFloat(value)
+    })
   }
 
   Peity.graphers = {}
@@ -96,41 +98,57 @@
   Peity.register(
     'pie',
     {
-      colours: ['#FFF4DD', '#FF9900'],
-      delimiter: '/',
+      colours: ["#ff9900", "#fff4dd", "#ffc66e"],
+      delimiter: null,
       diameter: 16
     },
     function(opts) {
+      if (!opts.delimiter) {
+        var delimiter = this.$elem.text().match(/[^0-9\.]/)
+        opts.delimiter = delimiter ? delimiter[0] : ","
+      }
+
       var values = this.values()
-      var v1 = values[0]
-      var v2 = values[1]
-      var pi = Math.PI
-      var slice = (v1 / v2) * pi * 2;
+
+      if (opts.delimiter == "/") {
+        var v1 = values[0]
+        var v2 = values[1]
+        values = [v1, v2 - v1]
+      }
+
+      var i = 0
+      var length = values.length
+      var sum = 0
+
+      for (; i < length; i++) {
+        sum += values[i]
+      }
 
       var canvas = this.prepareCanvas(opts.diameter, opts.diameter)
       var context = this.context
       var half = canvas.width / 2
+      var pi = Math.PI
+      var colours = this.colours()
 
       context.save()
       context.translate(half, half)
       context.rotate(-pi / 2)
 
-      // Plate.
-      context.beginPath();
-      context.moveTo(0, 0)
-      context.arc(0, 0, half, 0, slice == 0 ? pi * 2 : slice, true)
-      context.fillStyle = opts.colours[0];
-      context.fill();
+      for (i = 0; i < length; i++) {
+        var value = values[i]
+        var slice = (value / sum) * pi * 2
 
-      // Slice of pie.
-      context.beginPath();
-      context.moveTo(0, 0)
-      context.arc(0, 0, half, 0, slice, false)
-      context.fillStyle = opts.colours[1];
-      context.fill();
+        context.beginPath()
+        context.moveTo(0, 0)
+        context.arc(0, 0, half, 0, slice, false)
+        context.fillStyle = colours.call(this, value, i, values)
+        context.fill()
+        context.rotate(slice)
+      }
 
       context.restore()
-  });
+    }
+  )
 
   Peity.register(
     "line",
