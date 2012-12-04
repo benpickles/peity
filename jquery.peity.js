@@ -215,6 +215,7 @@
       height: 16,
       max: null,
       min: 0,
+      spacing: devicePixelRatio,
       width: 32
     },
     function(opts) {
@@ -228,7 +229,7 @@
       var width = canvas.width
       var height = canvas.height
       var yQuotient = height / (max - min)
-      var space = devicePixelRatio / 2
+      var space = opts.spacing
       var xQuotient = (width + space) / values.length
       var colours = this.colours()
 

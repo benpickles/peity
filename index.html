@@ -186,7 +186,8 @@ $(function() {
 
   <p>Bar charts work in the same way as line charts and take the following
     options: <code>colours</code>, <code>delimiter</code>, <code>max</code>,
-    <code>min</code>, <code>width</code> and <code>height</code>.</p>
+    <code>min</code>, <code>spacing</code>, <code>width</code> and
+    <code>height</code>.</p>
 
   <p>
     <span class="bar">5,3,9,6,5,9,7,3,5,2</span>
@@ -462,6 +463,7 @@ $.fn.peity.defaults.bar = {
   height: 16,
   max: null,
   min: 0,
+  spacing: devicePixelRatio || 1,
   width: 32
 }</code></pre>
 
