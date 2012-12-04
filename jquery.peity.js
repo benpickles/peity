@@ -38,6 +38,19 @@
     this.opts = opts
   }
 
+  Peity.prototype.colours = function() {
+    var colours = this.opts.colours
+    var func = colours
+
+    if (!$.isFunction(func)) {
+      func = function(_, i) {
+        return colours[i % colours.length]
+      }
+    }
+
+    return func
+  }
+
   Peity.prototype.draw = function() {
     Peity.graphers[this.type].call(this, this.opts)
   }
@@ -178,7 +191,7 @@
   Peity.register(
     'bar',
     {
-      colour: "#4D89F9",
+      colours: ["#4D89F9"],
       delimiter: ",",
       height: 16,
       max: null,
@@ -198,13 +211,14 @@
       var yQuotient = height / (max - min)
       var space = devicePixelRatio / 2
       var xQuotient = (width + space) / values.length
-
-      context.fillStyle = opts.colour;
+      var colours = this.colours()
 
       for (var i = 0; i < values.length; i++) {
+        var value = values[i]
         var x = i * xQuotient
-        var y = height - (yQuotient * (values[i] - min))
+        var y = height - (yQuotient * (value - min))
 
+        context.fillStyle = colours.call(this, value, i, values)
         context.fillRect(x, y, xQuotient - space, yQuotient * values[i])
       }
     }
