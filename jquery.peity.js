@@ -5,55 +5,82 @@
 //
 // Released under MIT license.
 (function($, document) {
-  var peity = $.fn.peity = function(type, options) {
-    if (document.createElement("canvas").getContext) {
+  var canvasSupported = document.createElement("canvas").getContext
+  var devicePixelRatio = window.devicePixelRatio || 1
+
+  $.fn.peity = function(type, options) {
+    if (canvasSupported) {
       this.each(function() {
-        $(this).change(function() {
-          var defaults = peity.defaults[type];
-          var opts = $.extend({}, defaults)
-          var self = this
-   
-          $.each($(this).data(), function(name, value) {
-            if (name in defaults) opts[name] = value
-          })
+        var defaults = Peity.defaults[type]
+        var data = {}
+        var $this = $(this)
 
-          $.extend(opts, options)
+        $.each($this.data(), function(name, value) {
+          if (name in defaults) data[name] = value
+        })
 
-          var value = $(self).html()
-          peity.graphers[type].call(self, opts)
-          $(self).trigger("change.peity", value)
-        }).trigger("change");
+        var opts = $.extend({}, defaults, data, options)
+        var chart = new Peity($this, type, opts)
+        chart.draw()
+
+        $this.change(function() {
+          chart.draw()
+        })
       });
     }
 
     return this;
   };
 
-  peity.graphers = {};
-  peity.defaults = {};
+  var Peity = function($elem, type, opts) {
+    this.$elem = $elem
+    this.type = type
+    this.opts = opts
+  }
 
-  peity.add = function(type, defaults, grapher){
-    peity.graphers[type] = grapher;
-    peity.defaults[type] = defaults;
-  };
+  Peity.prototype.draw = function() {
+    Peity.graphers[this.type].call(this, this.opts)
+  }
 
-  var devicePixelRatio = window.devicePixelRatio || 1
+  Peity.prototype.prepareCanvas = function(width, height) {
+    var canvas = this.canvas
 
-  function createCanvas(width, height) {
-    var canvas = document.createElement("canvas")
-    canvas.setAttribute("width", width * devicePixelRatio)
-    canvas.setAttribute("height", height * devicePixelRatio)
+    if (canvas) {
+      this.context.clearRect(0, 0, canvas.width, canvas.height)
+    } else {
+      canvas = $("<canvas>").attr({
+        height: height * devicePixelRatio,
+        width: width * devicePixelRatio
+      })
 
-    if (devicePixelRatio != 1) {
-      var style = "width:" + width + "px;height:" + height + "px"
-      canvas.setAttribute("style", style)
+      if (devicePixelRatio != 1) {
+        canvas.css({
+          height: height,
+          width: width
+        })
+      }
+
+      this.canvas = canvas = canvas[0]
+      this.context = canvas.getContext("2d")
+      this.$elem.hide().before(canvas)
     }
 
     return canvas
   }
-  peity.createCanvas = createCanvas;
 
-  peity.add(
+  Peity.prototype.values = function() {
+    return this.$elem.text().split(this.opts.delimiter)
+  }
+
+  Peity.graphers = {}
+  Peity.defaults = {}
+
+  Peity.register = function(type, defaults, grapher) {
+    this.defaults[type] = defaults
+    this.graphers[type] = grapher
+  }
+
+  Peity.register(
     'pie',
     {
       colours: ['#FFF4DD', '#FF9900'],
@@ -61,23 +88,24 @@
       diameter: 16
     },
     function(opts) {
-      var $this = $(this)
-      var values = $this.text().split(opts.delimiter)
-      var v1 = parseFloat(values[0]);
-      var v2 = parseFloat(values[1]);
-      var slice = (v1 / v2) * Math.PI * 2;
+      var values = this.values()
+      var v1 = values[0]
+      var v2 = values[1]
+      var pi = Math.PI
+      var slice = (v1 / v2) * pi * 2;
 
-      var canvas = createCanvas(opts.diameter, opts.diameter)
-      var context = canvas.getContext("2d");
+      var canvas = this.prepareCanvas(opts.diameter, opts.diameter)
+      var context = this.context
       var half = canvas.width / 2
 
+      context.save()
       context.translate(half, half)
-      context.rotate(-Math.PI / 2)
+      context.rotate(-pi / 2)
 
       // Plate.
       context.beginPath();
       context.moveTo(0, 0)
-      context.arc(0, 0, half, 0, slice == 0 ? Math.PI * 2 : slice, true)
+      context.arc(0, 0, half, 0, slice == 0 ? pi * 2 : slice, true)
       context.fillStyle = opts.colours[0];
       context.fill();
 
@@ -88,10 +116,10 @@
       context.fillStyle = opts.colours[1];
       context.fill();
 
-      $this.wrapInner($("<span>").hide()).append(canvas)
+      context.restore()
   });
 
-  peity.add(
+  Peity.register(
     "line",
     {
       colour: "#c6d9fd",
@@ -104,14 +132,13 @@
       width: 32
     },
     function(opts) {
-      var $this = $(this)
-      var canvas = createCanvas(opts.width, opts.height)
-      var values = $this.text().split(opts.delimiter)
+      var values = this.values()
       if (values.length == 1) values.push(values[0])
       var max = Math.max.apply(Math, values.concat([opts.max]));
       var min = Math.min.apply(Math, values.concat([opts.min]))
 
-      var context = canvas.getContext("2d");
+      var canvas = this.prepareCanvas(opts.width, opts.height)
+      var context = this.context
       var width = canvas.width
       var height = canvas.height
       var xQuotient = width / (values.length - 1)
@@ -145,12 +172,10 @@
         context.strokeStyle = opts.strokeColour;
         context.stroke();
       }
-
-      $this.wrapInner($("<span>").hide()).append(canvas)
     }
   );
 
-  peity.add(
+  Peity.register(
     'bar',
     {
       colour: "#4D89F9",
@@ -161,13 +186,12 @@
       width: 32
     },
     function(opts) {
-      var $this = $(this)
-      var values = $this.text().split(opts.delimiter)
+      var values = this.values()
       var max = Math.max.apply(Math, values.concat([opts.max]));
       var min = Math.min.apply(Math, values.concat([opts.min]))
 
-      var canvas = createCanvas(opts.width, opts.height)
-      var context = canvas.getContext("2d");
+      var canvas = this.prepareCanvas(opts.width, opts.height)
+      var context = this.context
 
       var width = canvas.width
       var height = canvas.height
@@ -183,8 +207,6 @@
 
         context.fillRect(x, y, xQuotient - space, yQuotient * values[i])
       }
-
-      $this.wrapInner($("<span>").hide()).append(canvas)
     }
   );
 })(jQuery, document);

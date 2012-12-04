@@ -27,19 +27,32 @@ $(function() {
   $(".pie span").peity("pie")
 
   // Simple evented example.
-  $("select").change(function(){
+  $("select").change(function() {
+    var text = $(this).val() + "/" + 5
+
     $(this)
       .siblings("span.graph")
-      .text($(this).val() + "/" + 5).change()
+      .text(text)
+      .change()
+
+    $("#notice").text("Chart updated: " + text)
   }).change()
 
-  var chartUpdate = function(event, value) {
-    $("#notice").text(
-      "Chart updated: " + value
-    )
-  }
+  $("span.graph").peity("pie")
 
-  $("span.graph").peity("pie").bind("change.peity", chartUpdate)
+  // Updating charts.
+  var updatingChart = $(".updating-chart").peity("line", { width: 64 })
+
+  setInterval(function() {
+    var random = Math.round(Math.random() * 10)
+    var values = updatingChart.text().split(",")
+    values.shift()
+    values.push(random)
+
+    updatingChart
+      .text(values.join(","))
+      .change()
+  }, 1000)
 })
 </script>
 <script type="text/javascript">
@@ -71,6 +84,7 @@ $(function() {
       Read about <a href="#pie-charts">pie charts</a>,
       <a href="#line-charts">line charts</a>,
       <a href="#bar-charts">bar charts</a>,
+      <a href="#updating-charts">updating charts</a>,
       <a href="#custom-charts">custom charts</a>,
       <a href="#data-attributes">data-* attributes</a> and
       <a href="#events">events</a>,
@@ -158,6 +172,34 @@ $(function() {
 
     <h4>JavaScript</h4>
     <pre><code class="javascript">$(".bar").peity("bar")</code></pre>
+  </div>
+
+  <h2 id="updating-charts">Updating Charts</h2>
+
+  <p>Charts can be updated by changing the the jQuery selection's text content
+    and calling <code>change()</code> on it.</p>
+
+  <p>
+    <span class="updating-chart">5,3,9,6,5,9,7,3,5,2</span>
+  </p>
+
+  <div class="example">
+    <h4>HTML</h4>
+    <pre><code class="html">&lt;span class="updating-chart"&gt;5,3,9,6,5,9,7,3,5,2&lt;/span&gt;</code></pre>
+
+    <h4>JavaScript</h4>
+    <pre><code class="javascript">var updatingChart = $(".updating-chart").peity("line", { width: 64 })
+
+setInterval(function() {
+  var random = Math.round(Math.random() * 10)
+  var values = updatingChart.text().split(",")
+  values.shift()
+  values.push(random)
+
+  updatingChart
+    .text(values.join(","))
+    .change()
+}, 1000)</code></pre>
   </div>
 
   <h2 id="custom-charts">Custom Charts</h2>
