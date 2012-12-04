@@ -4,9 +4,8 @@
 // http://benpickles.github.com/peity
 //
 // Released under MIT license.
-(function($, document) {
+(function($, document, Math, devicePixelRatio) {
   var canvasSupported = document.createElement("canvas").getContext
-  var devicePixelRatio = window.devicePixelRatio || 1
 
   var peity = $.fn.peity = function(type, options) {
     if (canvasSupported) {
@@ -38,7 +37,9 @@
     this.opts = opts
   }
 
-  Peity.prototype.colours = function() {
+  var PeityPrototype = Peity.prototype
+
+  PeityPrototype.colours = function() {
     var colours = this.opts.colours
     var func = colours
 
@@ -51,11 +52,11 @@
     return func
   }
 
-  Peity.prototype.draw = function() {
+  PeityPrototype.draw = function() {
     peity.graphers[this.type].call(this, this.opts)
   }
 
-  Peity.prototype.prepareCanvas = function(width, height) {
+  PeityPrototype.prepareCanvas = function(width, height) {
     var canvas = this.canvas
 
     if (canvas) {
@@ -81,7 +82,7 @@
     return canvas
   }
 
-  Peity.prototype.values = function() {
+  PeityPrototype.values = function() {
     return $.map(this.$elem.text().split(this.opts.delimiter), function(value) {
       return parseFloat(value)
     })
@@ -241,4 +242,4 @@
       }
     }
   );
-})(jQuery, document);
+})(jQuery, document, Math, window.devicePixelRatio || 1);
