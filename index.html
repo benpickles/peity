@@ -226,15 +226,16 @@ $(".bar-colours-3").peity("bar", {
   <h2 id="updating-charts">Updating Charts</h2>
 
   <p>Charts can be updated by changing the the jQuery selection's text content
-    and calling <code>change()</code> on it.</p>
+    and calling <code>change()</code> on it. The chart will be redrawn with
+    the same options that were originally passed to it.</p>
 
   <p>
-    <span class="updating-chart">5,3,9,6,5,9,7,3,5,2</span>
+    <span class="updating-chart">5,3,9,6,5,9,7,3,5,2,5,3,9,6,5,9,7,3,5,2</span>
   </p>
 
   <div class="example">
     <h4>HTML</h4>
-    <pre><code class="html">&lt;span class="updating-chart"&gt;5,3,9,6,5,9,7,3,5,2&lt;/span&gt;</code></pre>
+    <pre><code class="html">&lt;span class="updating-chart"&gt;5,3,9,6,5,9,7,3,5,2,5,3,9,6,5,9,7,3,5,2&lt;/span&gt;</code></pre>
 
     <h4>JavaScript</h4>
     <pre><code class="javascript">var updatingChart = $(".updating-chart").peity("line", { width: 64 })
@@ -337,7 +338,7 @@ setInterval(function() {
 
   <p id="notice">Nothing's happened yet.</p>
 
-  <div class="example pie-events">
+  <div class="example">
     <h4>HTML</h4>
 
     <pre><code class="html">&lt;ul&gt;
