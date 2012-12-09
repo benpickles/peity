@@ -31,8 +31,8 @@
     return this;
   };
 
-  var Peity = function($elem, type, opts) {
-    this.$elem = $elem
+  var Peity = function($el, type, opts) {
+    this.$el = $el
     this.type = type
     this.opts = opts
   }
@@ -76,14 +76,14 @@
 
       this.canvas = canvas = canvas[0]
       this.context = canvas.getContext("2d")
-      this.$elem.hide().before(canvas)
+      this.$el.hide().before(canvas)
     }
 
     return canvas
   }
 
   PeityPrototype.values = function() {
-    return $.map(this.$elem.text().split(this.opts.delimiter), function(value) {
+    return $.map(this.$el.text().split(this.opts.delimiter), function(value) {
       return parseFloat(value)
     })
   }
@@ -105,7 +105,7 @@
     },
     function(opts) {
       if (!opts.delimiter) {
-        var delimiter = this.$elem.text().match(/[^0-9\.]/)
+        var delimiter = this.$el.text().match(/[^0-9\.]/)
         opts.delimiter = delimiter ? delimiter[0] : ","
       }
 
