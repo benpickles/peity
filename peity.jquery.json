@@ -1,0 +1,29 @@
+{
+  "author": {
+    "name": "Ben Pickles",
+    "url": "https://github.com/benpickles"
+  },
+  "bugs": "https://github.com/benpickles/peity/issues",
+  "demo": "http://benpickles.github.com/peity/",
+  "dependencies": {
+    "jquery": ">=1.4"
+  },
+  "description": "Progressive <canvas> bar, line and pie charts.",
+  "docs": "http://benpickles.github.com/peity/",
+  "homepage": "http://benpickles.github.com/peity/",
+  "keywords": [
+    "canvas",
+    "chart",
+    "graph",
+    "sparkline"
+  ],
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "http://opensource.org/licenses/MIT"
+    }
+  ],
+  "name": "peity",
+  "title": "Peity",
+  "version": "1.0.0"
+}
