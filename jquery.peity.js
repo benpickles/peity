@@ -235,11 +235,18 @@
 
       for (var i = 0; i < values.length; i++) {
         var value = values[i]
-        var x = i * xQuotient
         var y = height - (yQuotient * (value - min))
+        var h
+
+        if (value == 0) {
+          if (min >= 0 || max > 0) y -= 1
+          h = 1
+        } else {
+          h = yQuotient * values[i]
+        }
 
         context.fillStyle = colours.call(this, value, i, values)
-        context.fillRect(x, y, xQuotient - space, yQuotient * values[i])
+        context.fillRect(i * xQuotient, y, xQuotient - space, h)
       }
     }
   );
