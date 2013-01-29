@@ -243,4 +243,4 @@
       }
     }
   );
-})(jQuery, document, Math, window.devicePixelRatio || 1);
+})(jQuery, document, Math, devicePixelRatio || 1);
