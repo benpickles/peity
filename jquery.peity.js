@@ -10,21 +10,29 @@
   var peity = $.fn.peity = function(type, options) {
     if (canvasSupported) {
       this.each(function() {
-        var defaults = peity.defaults[type]
-        var data = {}
         var $this = $(this)
+        var chart = $this.data("peity")
 
-        $.each($this.data(), function(name, value) {
-          if (name in defaults) data[name] = value
-        })
-
-        var opts = $.extend({}, defaults, data, options)
-        var chart = new Peity($this, type, opts)
-        chart.draw()
-
-        $this.change(function() {
+        if (chart) {
+          chart.type = type
+          $.extend(chart.opts, options)
           chart.draw()
-        })
+        } else {
+          var defaults = peity.defaults[type]
+          var data = {}
+
+          $.each($this.data(), function(name, value) {
+            if (name in defaults) data[name] = value
+          })
+
+          var opts = $.extend({}, defaults, data, options)
+          var chart = new Peity($this, type, opts)
+          chart.draw()
+
+          $this
+            .change(function() { chart.draw() })
+            .data("peity", chart)
+        }
       });
     }
 
@@ -65,7 +73,7 @@
       canvas = $("<canvas>").attr({
         height: height * devicePixelRatio,
         width: width * devicePixelRatio
-      })
+      }).data("peity", this)
 
       if (devicePixelRatio != 1) {
         canvas.css({
