@@ -1,5 +1,10 @@
 # History
 
+## Version 1.1.0 - 2013/2/1
+
+ * Multiple calls to `peity()` on the same element now update the existing chart rather than creating a new one.
+ * Zero values in a bar chart are now present as a single-pixel bar.
+
 ## Version 1.0.0 - 2012/12/4
 
  * Spacing between bars can now be configured.
