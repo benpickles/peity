@@ -1,5 +1,9 @@
 # History
 
+## Version 1.1.1 - 2013/2/5
+
+ * component.json for Bower.
+
 ## Version 1.1.0 - 2013/2/1
 
  * Multiple calls to `peity()` on the same element now update the existing chart rather than creating a new one.
