@@ -1,0 +1,17 @@
+{
+  "name": "peity",
+  "version": "1.1.0",
+  "main": "jquery.peity.js",
+  "dependencies": {
+    "jquery": ">=1.4"
+  },
+  "ignore": [
+    "docs/",
+    "History.md",
+    "index.html",
+    "peity.jquery.json",
+    "MIT-LICENCE",
+    "Rakefile",
+    "README.markdown"
+  ]
+}
