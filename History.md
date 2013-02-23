@@ -1,5 +1,9 @@
 # History
 
+## Version 1.1.2 - 2013/2/23
+
+ * Fix reference to `devicePixelRatio` - thanks [@kcivey](https://github.com/kcivey).
+
 ## Version 1.1.1 - 2013/2/5
 
  * component.json for Bower.
