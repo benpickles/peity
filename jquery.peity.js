@@ -70,21 +70,19 @@
     if (canvas) {
       this.context.clearRect(0, 0, canvas.width, canvas.height)
     } else {
-      canvas = $("<canvas>").attr({
-        height: height * devicePixelRatio,
-        width: width * devicePixelRatio
+      var $canvas = $("<canvas>").css({
+        height: height,
+        width: width
       }).data("peity", this)
 
-      if (devicePixelRatio != 1) {
-        canvas.css({
-          height: height,
-          width: width
-        })
-      }
-
-      this.canvas = canvas = canvas[0]
+      this.canvas = canvas = $canvas[0]
       this.context = canvas.getContext("2d")
       this.$el.hide().before(canvas)
+
+      $canvas.attr({
+        height: $canvas.height() * devicePixelRatio,
+        width: $canvas.width() * devicePixelRatio
+      })
     }
 
     return canvas
