@@ -131,14 +131,16 @@
         sum += values[i]
       }
 
-      var canvas = this.prepareCanvas(opts.diameter, opts.diameter)
+      var canvas = this.prepareCanvas(opts.width || opts.diameter, opts.height || opts.diameter)
       var context = this.context
-      var half = canvas.width / 2
+      var width = canvas.width
+      var height = canvas.height
+      var radius = Math.min(width, height) / 2
       var pi = Math.PI
       var colours = this.colours()
 
       context.save()
-      context.translate(half, half)
+      context.translate(width / 2, height / 2)
       context.rotate(-pi / 2)
 
       for (i = 0; i < length; i++) {
@@ -147,7 +149,7 @@
 
         context.beginPath()
         context.moveTo(0, 0)
-        context.arc(0, 0, half, 0, slice, false)
+        context.arc(0, 0, radius, 0, slice, false)
         context.fillStyle = colours.call(this, value, i, values)
         context.fill()
         context.rotate(slice)
