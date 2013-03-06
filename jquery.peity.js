@@ -14,7 +14,7 @@
         var chart = $this.data("peity")
 
         if (chart) {
-          chart.type = type
+          if (type) chart.type = type
           $.extend(chart.opts, options)
           chart.draw()
         } else {
