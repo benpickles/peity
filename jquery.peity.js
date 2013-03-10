@@ -82,10 +82,8 @@
       this.$el.hide().before(canvas)
     }
 
-    $canvas.attr({
-      height: $canvas.height() * devicePixelRatio,
-      width: $canvas.width() * devicePixelRatio
-    })
+    canvas.height = $canvas.height() * devicePixelRatio
+    canvas.width = $canvas.width() * devicePixelRatio
 
     return canvas
   }
