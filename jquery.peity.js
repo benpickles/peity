@@ -75,11 +75,11 @@
       $canvas = $("<canvas>").css({
         height: height,
         width: width
-      }).data("peity", this)
+      }).addClass("peity").data("peity", this)
 
       this.canvas = canvas = $canvas[0]
       this.context = canvas.getContext("2d")
-      this.$el.hide().before(canvas)
+      this.$el.hide().after(canvas)
     }
 
     canvas.height = $canvas.height() * devicePixelRatio
