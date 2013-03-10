@@ -107,7 +107,7 @@ $(function() {
       <a href="#custom-charts">custom charts</a>,
       <a href="#data-attributes">data-* attributes</a> and
       <a href="#events">events</a>,
-      <a href="#defaults">defaults</a>.
+      <a href="#defaults">default settings</a>.
     </p>
   </nav>
 
@@ -126,12 +126,16 @@ $(function() {
 
   <h2 id="pie-charts">Pie Charts</h2>
 
-  <p>Simply call <code>peity("pie")</code> on a jQuery selection. You can also
-    pass <code>colours</code>, <code>delimiter</code> and
-    <code>diameter</code> options. There are two subtly different semantics
-    when drawing pie charts, by using a "/" delimiter it is assumed to mean
-    "three out of five" and only the first two values will be drawn, otherwise
-    all of the values are included in the chart.</p>
+  <p>Simply call <code>peity("pie")</code> on a jQuery selection. There are
+    two subtly different pie chart semantics, a "/" delimiter is assumed to
+    mean "three out of five" and only the first two values will be drawn,
+    otherwise all of the values are included in the chart and the total is the
+    sum of all values.</p>
+
+  <p>You can also pass <code>colours</code>, <code>delimiter</code>,
+    <code>diameter</code>, <code>height</code> and <code>width</code> options.
+    Setting a diameter is a shortcut for setting the width and height to the
+    same value.</p>
 
   <p>
     <span class="pie">1/5</span>
@@ -438,14 +442,16 @@ $("span.graph")
   .bind("change.peity", chartUpdate)</code></pre>
   </div>
 
-  <h2 id="defaults">Defaults</h2>
+  <h2 id="defaults">Default Settings</h2>
 
   <p>Defaults can be overridden globally like so:</p>
 
   <pre><code class="javascript">$.fn.peity.defaults.pie = {
   colours: ["<span style="background:#ff9900">#ff9900</span>", "<span style="background:#fff4dd">#fff4dd</span>", "<span style="background:#ffd592">#ffd592</span>"],
   delimiter: null,
-  diameter: 16
+  diameter: 16,
+  height: null,
+  width: null
 }
 
 $.fn.peity.defaults.line = {
