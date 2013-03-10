@@ -66,11 +66,13 @@
 
   PeityPrototype.prepareCanvas = function(width, height) {
     var canvas = this.canvas
+    var $canvas
 
     if (canvas) {
       this.context.clearRect(0, 0, canvas.width, canvas.height)
+      $canvas = $(canvas)
     } else {
-      var $canvas = $("<canvas>").css({
+      $canvas = $("<canvas>").css({
         height: height,
         width: width
       }).data("peity", this)
@@ -78,12 +80,12 @@
       this.canvas = canvas = $canvas[0]
       this.context = canvas.getContext("2d")
       this.$el.hide().before(canvas)
-
-      $canvas.attr({
-        height: $canvas.height() * devicePixelRatio,
-        width: $canvas.width() * devicePixelRatio
-      })
     }
+
+    $canvas.attr({
+      height: $canvas.height() * devicePixelRatio,
+      width: $canvas.width() * devicePixelRatio
+    })
 
     return canvas
   }
