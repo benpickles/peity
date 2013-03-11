@@ -1,5 +1,10 @@
 # History
 
+## Version 1.2.0 - 2013/3/11
+
+ * Easier CSS targeting of Peity-created canvas elements.
+ * Percentage dimensions (`width: "100%"`) now work.
+
 ## Version 1.1.2 - 2013/2/23
 
  * Fix reference to `devicePixelRatio` - thanks [@kcivey](https://github.com/kcivey).
