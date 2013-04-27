@@ -5,8 +5,9 @@
 //
 // Released under MIT license.
 (function($, document, Math, devicePixelRatio) {
-  var canvasSupported = document.createElement("canvas").getContext
-
+  var exCanvas = (typeof G_vmlCanvasManager != 'undefined')
+  var canvasSupported = document.createElement("canvas").getContext || exCanvas
+  
   var peity = $.fn.peity = function(type, options) {
     if (canvasSupported) {
       this.each(function() {
@@ -66,24 +67,33 @@
 
   PeityPrototype.prepareCanvas = function(width, height) {
     var canvas = this.canvas
-    var $canvas
 
     if (canvas) {
       this.context.clearRect(0, 0, canvas.width, canvas.height)
-      $canvas = $(canvas)
     } else {
-      $canvas = $("<canvas>").css({
-        height: height,
-        width: width
-      }).addClass("peity").data("peity", this)
-
-      this.canvas = canvas = $canvas[0]
+      canvas = document.createElement('canvas');
+    
+      // Must add to body and call initElement for IE 7/8
+      if (exCanvas) {
+        document.body.appendChild(canvas)
+        G_vmlCanvasManager.initElement(canvas)
+      }
+      
+      canvas.style.height = height + 'px'
+      canvas.style.width = width + 'px'
+      canvas.className = 'peity'
+        
+      this.canvas = canvas
       this.context = canvas.getContext("2d")
-      this.$el.hide().after(canvas)
+      this.$el.hide()
     }
 
-    canvas.height = $canvas.height() * devicePixelRatio
-    canvas.width = $canvas.width() * devicePixelRatio
+    canvas.height = parseInt(canvas.style.height, 10) * devicePixelRatio
+    canvas.width = parseInt(canvas.style.width, 10) * devicePixelRatio
+        
+    // Must call initElement after ANY non-canvas changes to canvas for IE 8 
+    if (exCanvas) 
+      G_vmlCanvasManager.initElement(canvas)
 
     return canvas
   }
@@ -156,6 +166,11 @@
       }
 
       context.restore()
+      
+      this.$el.after(canvas)
+      
+      $(canvas).data("peity", this)                  
+      
     }
   )
 
