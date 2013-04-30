@@ -78,7 +78,7 @@
         document.body.appendChild(canvas)
         G_vmlCanvasManager.initElement(canvas)
       } else {
-          this.$el.after(canvas)
+        this.$el.after(canvas)
       }
       
       canvas.style.height = height + 'px'
@@ -88,10 +88,13 @@
       this.canvas = canvas
       this.context = canvas.getContext("2d")
       this.$el.hide()
+      
+      $(canvas).data("peity", this)
     }
 
     canvas.height = parseInt(canvas.style.height, 10) * devicePixelRatio
     canvas.width = parseInt(canvas.style.width, 10) * devicePixelRatio
+                        
         
     // Must call initElement after ANY non-canvas changes to canvas for IE 8 
     if (exCanvas) 
@@ -122,6 +125,7 @@
       diameter: 16
     },
     function(opts) {
+        
       if (!opts.delimiter) {
         var delimiter = this.$el.text().match(/[^0-9\.]/)
         opts.delimiter = delimiter ? delimiter[0] : ","
@@ -168,12 +172,10 @@
       }
 
       context.restore()
-      
-      if (exCanvas) 
-        this.$el.after(canvas)
-      
-      $(canvas).data("peity", this)                  
-      
+
+      if (exCanvas)
+        this.$el.after(canvas)      
+            
     }
   )
 
@@ -230,6 +232,9 @@
         context.strokeStyle = opts.strokeColour;
         context.stroke();
       }
+      
+      if (exCanvas)
+        this.$el.after(canvas)  
     }
   );
 
@@ -274,6 +279,9 @@
         context.fillStyle = colours.call(this, value, i, values)
         context.fillRect(i * xQuotient, y, xQuotient - space, h)
       }
+      
+      if (exCanvas)
+        this.$el.after(canvas)  
     }
   );
 })(jQuery, document, Math, window.devicePixelRatio || 1);
