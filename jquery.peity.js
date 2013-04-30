@@ -77,6 +77,8 @@
       if (exCanvas) {
         document.body.appendChild(canvas)
         G_vmlCanvasManager.initElement(canvas)
+      } else {
+          this.$el.after(canvas)
       }
       
       canvas.style.height = height + 'px'
@@ -167,7 +169,8 @@
 
       context.restore()
       
-      this.$el.after(canvas)
+      if (exCanvas) 
+        this.$el.after(canvas)
       
       $(canvas).data("peity", this)                  
       
