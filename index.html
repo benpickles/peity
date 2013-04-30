@@ -4,6 +4,7 @@
 <meta name="viewport" content="width=device-width; minimum-scale=1.0; maximum-scale=1.0">
 <title>Peity &bull; progressive &lt;canvas&gt; pie charts</title>
 <link href="docs/style.css" rel="stylesheet">
+<!--[if lt IE 9]><script src="excanvas.compiled.js"></script><![endif]-->
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
 <script src="jquery.peity.js"></script>
 <script>
@@ -277,9 +278,9 @@ $(".pie-colours-2").peity("pie", {
     and calling <code>change()</code> on it. The chart will be redrawn with
     the same options that were originally passed to it.</p>
 
-  <p>
+  <div>
     <span class="updating-chart">5,3,9,6,5,9,7,3,5,2,5,3,9,6,5,9,7,3,5,2</span>
-  </p>
+  </div>
 
   <div class="example">
     <h4>HTML</h4>
