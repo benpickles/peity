@@ -12,7 +12,7 @@
 ## Version 1.1.1 - 2013/2/5
 
  * component.json for Bower.
- * Finally in the jQuery plugin registery: <http://plugins.jquery.com/peity/>
+ * Finally in the jQuery plugin registry: <http://plugins.jquery.com/peity/>
 
 ## Version 1.1.0 - 2013/2/1
 
