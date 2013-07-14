@@ -18,7 +18,7 @@ Peity (sounds like deity) is a simple jQuery plugin that converts an element's c
 
 ## Docs
 
-More detailed usage can be found at [benpickles.github.com/peity](http://benpickles.github.com/peity/).
+More detailed usage can be found at [benpickles.github.io/peity](http://benpickles.github.io/peity/).
 
 ## Copyright
 

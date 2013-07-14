@@ -1,7 +1,7 @@
 // Peity jQuery plugin version 1.2.0
 // (c) 2013 Ben Pickles
 //
-// http://benpickles.github.com/peity
+// http://benpickles.github.io/peity
 //
 // Released under MIT license.
 (function($, document, Math, devicePixelRatio) {

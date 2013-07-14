@@ -4,13 +4,13 @@
     "url": "https://github.com/benpickles"
   },
   "bugs": "https://github.com/benpickles/peity/issues",
-  "demo": "http://benpickles.github.com/peity/",
+  "demo": "http://benpickles.github.io/peity/",
   "dependencies": {
     "jquery": ">=1.4.4"
   },
   "description": "Progressive <canvas> bar, line and pie charts.",
-  "docs": "http://benpickles.github.com/peity/",
-  "homepage": "http://benpickles.github.com/peity/",
+  "docs": "http://benpickles.github.io/peity/",
+  "homepage": "http://benpickles.github.io/peity/",
   "keywords": [
     "canvas",
     "chart",
