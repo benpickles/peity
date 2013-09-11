@@ -215,50 +215,97 @@
     }
   );
 
-  peity.register(
-    'bar',
-    {
-      baselineColour : "#000000",
-      colours: ["#4D89F9"],
-      delimiter: ",",
-      height: 16,
-      max: null,
-      min: 0,
-      spacing: devicePixelRatio,
-      width: 32
-    },
-    function(opts) {
-      var values = this.values()
-      var max = Math.max.apply(Math, values.concat([opts.max]));
-      var min = Math.min.apply(Math, values.concat([opts.min]))
-
-      var canvas = this.prepareCanvas(opts.width, opts.height)
-      var context = this.context
-
-      var width = canvas.width
-      var height = canvas.height - 2
-      var yQuotient = height / (max - min)
-      var space = opts.spacing
-      var xQuotient = (width + space) / values.length
-      var colours = this.colours()
-
-      for (var i = 0; i < values.length; i++) {
-        var value = values[i]
-        var y = height - (yQuotient * (value - min))
-        var h
-
-        if (value == 0) {
-          if (min >= 0 || max > 0) y -= 1
-          h = 1
-        } else {
-          h = yQuotient * values[i]
+    peity.register(
+      'bar',
+      {
+        baselineColour : "#000000",
+        fontColour : "#000000",
+        fontStyle : "12pt Arial, sans-serif",
+        colours: ["#4D89F9"],
+        delimiter: ",",
+        height: 16,
+        max: null,
+        min: 0,
+        spacing: devicePixelRatio,
+        width: 32
+      },
+      function(opts) {
+        var values = this.values()
+        var max = Math.max.apply(Math, values.concat([opts.max]));
+        var min = Math.min.apply(Math, values.concat([opts.min]))
+        
+        var element = this.$el;
+        var canvas = this.prepareCanvas(opts.width, opts.height)
+        var context = this.context
+        
+        var width = canvas.width - 6
+        var height = canvas.height - 7
+        var yQuotient = height / (max - min)
+        var space = opts.spacing
+        var xQuotient = (width + space) / values.length
+        var colours = this.colours()
+        var baseline = yQuotient * max + 3
+        
+        for (var i = 0; i < values.length; i++) {
+          var value = values[i]
+          var y = 3 + height - (yQuotient * (value - min));
+          var h
+          
+          if (value == 0) {
+            if (min >= 0 || max > 0) y -= 1
+            h = 1
+          } else {
+            h = yQuotient * values[i]
+          }
+          
+          var x = 3 + i * xQuotient;
+          var w = xQuotient - space
+          
+          context.fillStyle = colours.call(this, value, i, values)
+          context.fillRect(x, y, w, h)
         }
-
-        context.fillStyle = colours.call(this, value, i, values)
-        context.fillRect(i * xQuotient, y, xQuotient - space, h)
+        
+        //Draw baseline
+        context.fillStyle = opts.baselineColour
+        context.fillRect(0, yQuotient * max+3,canvas.width, 3)
+        
+        for (var i = 0; i < values.length; i++) {
+          var value = values[i]
+          var y = 3 + height - (yQuotient * (value - min));
+          var h
+          
+          if (value == 0) {
+            if (min >= 0 || max > 0) y -= 1
+            h = 1
+          } else {
+            h = yQuotient * values[i]
+          }
+          
+          var x = 3 + i * xQuotient;
+          var w = xQuotient - space;
+          
+          //Draw outline around hovered rectangle and write value
+          if(mousePos){
+            if(mousePos.x >= x && mousePos.x <= x+w){
+              var newY = h < 0 ? y + h : y;
+              var newH = h < 0 ? -h : h;
+              if(mousePos.y >= newY && mousePos.y <= newY+newH){
+                context.strokeRect(x-1,y > baseline ? y + 1: y-1, w+2,y > baseline ? h+1 : h+2)
+                context.fillStyle = opts.fontColour;
+                context.font = opts.fontStyle;
+                if(x > canvas.width / 2) context.textAlign = "right";
+                context.fillText(value,x,baseline - 4)
+              }
+            }
+          }
+        }
+        
+        canvas.addEventListener('mousemove', function(evt) {
+          this.removeEventListener('mousemove',arguments.callee,false);
+          console.log("move");
+          mousePos = getMousePos(canvas, evt);
+          element.change();
+        }, false);
       }
-      context.fillStyle = opts.baselineColour
-      context.fillRect(0, yQuotient * max,width, 2)
-    }
-  );
-})(jQuery, document, Math, window.devicePixelRatio || 1);
+    );
+  })(jQuery, document, Math, window.devicePixelRatio || 1);
