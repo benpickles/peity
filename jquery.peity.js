@@ -4,6 +4,12 @@
 // http://benpickles.github.io/peity
 //
 // Released under MIT license.
+  var mousePos;
+  function getMousePos(canvas, evt) {
+    var rect = canvas.getBoundingClientRect();
+    return { x: evt.clientX - rect.left, y: evt.clientY - rect.top };
+  }
+
 (function($, document, Math, devicePixelRatio) {
   var canvasSupported = document.createElement("canvas").getContext
 
