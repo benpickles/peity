@@ -218,6 +218,7 @@
   peity.register(
     'bar',
     {
+      baselineColour : "#000000",
       colours: ["#4D89F9"],
       delimiter: ",",
       height: 16,
@@ -235,7 +236,7 @@
       var context = this.context
 
       var width = canvas.width
-      var height = canvas.height
+      var height = canvas.height - 2
       var yQuotient = height / (max - min)
       var space = opts.spacing
       var xQuotient = (width + space) / values.length
@@ -256,6 +257,8 @@
         context.fillStyle = colours.call(this, value, i, values)
         context.fillRect(i * xQuotient, y, xQuotient - space, h)
       }
+      context.fillStyle = opts.baselineColour
+      context.fillRect(0, yQuotient * max,width, 2)
     }
   );
 })(jQuery, document, Math, window.devicePixelRatio || 1);
