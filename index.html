@@ -1,17 +1,18 @@
 <!DOCTYPE html>
 <html>
 <head>
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width; minimum-scale=1.0; maximum-scale=1.0">
 <title>Peity &bull; progressive &lt;canvas&gt; pie charts</title>
 <link href="docs/style.css" rel="stylesheet">
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
-<script src="jquery.peity.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="jquery.peity.min.js"></script>
 <script>
 $(function() {
   // Just the defaults.
   $("span.pie").peity("pie")
   $(".line").peity("line")
-  $(".bar").peity("bar")
+  $(".bar").peity("bar", { width : 256, height : 128, spacing : 4, focusColour : "#000", focusWidth: 2, fontStyle: "12pt Trebuchet MS" })
 
   $(".bar-colours-1").peity("bar", {
     colours: ["red", "green", "blue"]
@@ -31,7 +32,7 @@ $(function() {
   })
 
   $(".pie-colours-1").peity("pie", {
-    colours: ["cyan", "magenta", "yellow", "black"]
+    colours: ["cyan", "magenta", "yellow", "black"],
   })
 
   $(".pie-colours-2").peity("pie", {
@@ -42,7 +43,7 @@ $(function() {
   })
 
   // Using data attributes
-  $(".pie span").peity("pie")
+  $(".pie span").peity("pie", {strokeWidth : 1});
 
   // Simple evented example.
   $("select").change(function() {
@@ -73,27 +74,13 @@ $(function() {
   }, 1000)
 })
 </script>
-<script type="text/javascript">
-  var _gaq = _gaq || [];
-  _gaq.push(['_setAccount', 'UA-117680-14']);
-  _gaq.push(['_trackPageview']);
-
-  (function() {
-    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-  })();
-</script>
 </head>
 <body>
 <div id="container">
   <h1>Peity</h1>
 
-  <iframe src="http://ghbtns.com/github-btn.html?user=benpickles&repo=peity&type=watch&count=true"
-    allowtransparency="true" frameborder="0" scrolling="0" width="110" height="20"></iframe>
-
-  <iframe src="http://ghbtns.com/github-btn.html?user=benpickles&repo=peity&type=fork&count=true"
-    allowtransparency="true" frameborder="0" scrolling="0" width="95" height="20"></iframe>
+  <iframe src="http://ghbtns.com/github-btn.html?user=fmorel90&repo=peity&type=watch&count=true" allowtransparency="true" frameborder="0" scrolling="0" width="110" height="20"></iframe>
+  <iframe src="http://ghbtns.com/github-btn.html?user=fmorel90&repo=peity&type=fork&count=true" allowtransparency="true" frameborder="0" scrolling="0" width="95" height="20"></iframe>
 
   <p>Peity (sounds like deity) is a simple <a href="http://jquery.com/">jQuery</a>
     plugin that converts an element's content into a simple <code>&lt;canvas&gt;</code>
@@ -125,10 +112,10 @@ $(function() {
     <dt>Minified 3.0Kb (+gzipped 1.4Kb)</dt>
     <dd><a href="jquery.peity.min.js">jquery.peity.min.js</a></dd>
     <dt>Source</dt>
-    <dd><a href="https://github.com/benpickles/peity">github.com/benpickles/peity</a></dd>
+    <dd><a href="https://github.com/fmorel90/peity">github.com/fmorel90/peity</a></dd>
   </dl>
 
-  <a href="https://github.com/benpickles/peity" id="fork-me"><img src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"></a>
+  <a href="https://github.com/fmorel90/peity" id="fork-me"><img src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"></a>
 
   <h2 id="pie-charts">Pie Charts</h2>
 

@@ -76,7 +76,13 @@
   peity.register('pie', {
       colours: ["#ff9900", "#fff4dd", "#ffc66e"],
       delimiter: null,
-      diameter: 16
+      diameter: 16,
+			strokeColour: "#000000",
+			strokeWidth: 0,
+      fontColour : "#000000",
+      fontStyle : "12pt Arial, sans-serif",
+      focusWidth : 0,
+      focusColour : "#000",
     },
     function(opts) {
       if (!opts.delimiter) {
@@ -102,15 +108,15 @@
       var context = this.context;
       var width = canvas.width;
       var height = canvas.height;
-      var radius = Math.min(width, height) / 2 - 2;//Make a perfect circle
-      var pi = Math.PI;
-      var unit = 2 * pi / sum;
+      var radius = Math.min(width, height) / 2 - opts.strokeWidth;//Make a perfect circle
+      var pi = Math.PI; var pi2 = 2 * pi;
+      var unit = pi2 / sum;
       var colours = this.colours();
       
       //Save state and then move axes to be in center
       context.save();
       context.translate(width / 2, height / 2);
-      context.rotate(-pi / 2);
+      context.rotate( -pi / 2);
       
       var value, slice;
       for (i = 0; i < length; i++) {
@@ -120,17 +126,68 @@
         context.beginPath();
         context.moveTo(0, 0);
         context.arc(0, 0, radius, 0, slice, false);
-        /*
-        if slice is hovered, expand slice radius by (1/16 * radius) and add border
-        context.strokeStyle = "#000";
-        context.lineWidth = 2;
-        context.stroke();
-        */
         context.fillStyle = colours.call(this, value, i, values);
         context.fill();
+				
+        //if slice is hovered, expand slice radius by (1/16 * radius) and add border
+				//Draw focus around hovered rectangle and write value
+				/*
+      if(opts.focusWidth > 0 && mousePosition !== undefined){
+        mousePosition = JSON.parse(mousePosition);
+        //Loop through values again
+        for (i = 0; i < values.length; i++) {
+          
+          //Check if mouse is within this bar's horizontal space
+          x = spacing + i * xQuotient;
+          w = xQuotient - spacing;
+          if(mousePosition.x >= x && mousePosition.x <= x+w){
+            
+            //Now check if mouse is within this bar's vertical space
+            value = values[i];
+            y = spacing + height - (yQuotient * (value - min));
+            if (value == 0) {
+              if (min >= 0 || max > 0) y -= 1;
+              h = 1;
+            } else {
+              h = yQuotient * values[i];
+            }
+            
+            //To make comparison easier, make h positive and adjust y
+            newY = y + (h < 0 ? h : 0);
+            newH = h < 0 ? -h : h;
+            if(mousePosition.y >= newY && mousePosition.y <= newY+newH){
+              //If mouse is within a bar, draw a focus
+              context.beginPath()
+							context.moveTo(0, 0);
+							context.arc(0, 0, radius + opts.focusWidth / 2, 0, slice, false);
+							context.strokeStyle = opts.focusColour;
+							context.lineWidth = opts.focusWidth;
+							context.stroke();
+            }
+          }
+        }
+      }
+       */ 
+				
         context.rotate(slice);
       }
       context.restore();//Reset translation and rotation
+			
+			context.translate(width / 2, height / 2)
+      context.beginPath()
+      context.arc(0, 0, radius + opts.strokeWidth / 2, 0, pi2, false);
+      context.strokeStyle = opts.strokeColour;
+      context.lineWidth = opts.strokeWidth;
+			if(opts.strokeWidth > 0) context.stroke();
+			/*
+			canvas.addEventListener('mousemove', function canvasHover(evt) {
+        this.removeEventListener('mousemove',canvasHover,false);
+        var rect = canvas.getBoundingClientRect();
+        var pos = { x: evt.clientX - rect.left, y: evt.clientY - rect.top };
+        element.data("position",JSON.stringify(pos)).change();
+      }, false);
+			*/
+			
     }
   )
   
@@ -294,13 +351,15 @@
           }
         }
       }
-      
-      canvas.addEventListener('mousemove', function canvasHover(evt) {
-        this.removeEventListener('mousemove',canvasHover,false);
-        var rect = canvas.getBoundingClientRect();
-        var pos = { x: evt.clientX - rect.left, y: evt.clientY - rect.top };
-        element.data("position",JSON.stringify(pos)).change();
-      }, false);
+			
+			if(focusWidth > 0){      
+				canvas.addEventListener('mousemove', function canvasHover(evt) {
+					this.removeEventListener('mousemove',canvasHover,false);
+					var rect = canvas.getBoundingClientRect();
+					var pos = { x: evt.clientX - rect.left, y: evt.clientY - rect.top };
+					element.data("position",JSON.stringify(pos)).change();
+				}, false);
+			}
     }
   );
   
