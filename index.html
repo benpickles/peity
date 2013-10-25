@@ -6,7 +6,7 @@
 <title>Peity &bull; progressive &lt;canvas&gt; pie charts</title>
 <link href="docs/style.css" rel="stylesheet">
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-<script src="jquery.peity.min.js"></script>
+<script src="jquery.peity.js"></script>
 <script>
 $(function() {
   // Just the defaults.
@@ -43,7 +43,7 @@ $(function() {
   })
 
   // Using data attributes
-  $(".pie span").peity("pie", {strokeWidth : 1});
+  $(".pie span").peity("pie", {strokeWidth : 1, focusWidth : 3});
 
   // Simple evented example.
   $("select").change(function() {
