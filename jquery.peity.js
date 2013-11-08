@@ -92,7 +92,6 @@
       }
       
       var values = this.values();
-      
       //If something like 3/5, then this makes 3 and 2
       if (opts.delimiter == "/") {
         var v1 = values[0];
@@ -102,69 +101,71 @@
       
       var i, sum = 0, length = values.length;
       for (i = 0; i < length; i++) { sum += values[i]; }
-      
-      //Try width and height, but default to diameter (add 1 for a slight offset
+			
+      //Try width and height, but default to diameter (add 1 for a slight offset from edge)
 			var element = this.$el;
-      var mousePosition = element.data("position");
-      var canvas = this.prepareCanvas((opts.width || opts.diameter)+1, (opts.height || opts.diameter)+1);
+      var hoverPos = element.data("position");
+			var focusWidth = opts.focusWidth;
+			var strokeWidth = opts.strokeWidth;
+			var padding = Math.max(focusWidth, strokeWidth)+1;
+      var canvas = this.prepareCanvas((opts.width || opts.diameter)+padding, (opts.height || opts.diameter)+padding);
       var context = this.context;
       var width = canvas.width;
       var height = canvas.height;
-      var radius = Math.min(width, height) / 2 - opts.strokeWidth;//Make a perfect circle
-      var pi = Math.PI; var pi2 = 2 * pi;
+      var radius = Math.min(width, height) / 2 - padding;//Make a perfect circle
+      var pi = Math.PI;
+			var pi2 = 2 * pi;
       var unit = pi2 / sum;
       var colours = this.colours();
       
+			if(focusWidth > 0 && hoverPos !== undefined){
+					hoverPos = JSON.parse(hoverPos);
+					//Move origin from 0,0 to center of canvas
+					hoverPos.x -= width / 2;
+					hoverPos.y -= height / 2;
+					hoverPos.y *= -1;
+					//Find polar coordinates
+					hoverPos.r = Math.sqrt(hoverPos.x * hoverPos.x + hoverPos.y * hoverPos.y);
+					hoverPos.theta = Math.atan2(hoverPos.y, hoverPos.x);
+					while(hoverPos.theta < 0) hoverPos.theta += pi2;
+					while(hoverPos.theta > pi2) hoverPos.theta -= pi2;
+			}
+			
       //Save state and then move axes to be in center
-      context.save();
       context.translate(width / 2, height / 2);
-      context.rotate( -pi / 2);
       
-      var value, slice;
+      var value, slice, start = 0;
       for (i = 0; i < length; i++) {
         value = values[i];
         slice = value * unit;//Size of slice
-        
         context.beginPath();
         context.moveTo(0, 0);
-        context.arc(0, 0, radius, 0, slice, false);
+				//Negatives in order to follow traditional polar grid system (to match cursor position)
+        context.arc(0, 0, radius, -start, -(start + slice), true);
         context.fillStyle = colours.call(this, value, i, values);
         context.fill();
 				
-				//Draw focus around hovered rectangle and write value
-				/*
-				if(opts.focusWidth > 0 && mousePosition !== undefined){
-					mousePosition = JSON.parse(mousePosition);
-					mousePosition.x -= width / 2;
-					mousePosition.y -= height / 2;
-					mousePosition.y *= -1;
-					mousePosition.r = Math.sqrt(mousePosition.x^2 + mousePosition.y^2);
-					mousePosition.theta = Math.arctan(mousePosition.y / mousePosition.x);
-					console.log(JSON.stringify(mousePosition);
-					convert x,y position to polar coordinates
-					if polar coord within this slice{
-						context.beginPath()
-						context.moveTo(0, 0);
-						context.arc(0, 0, radius + opts.focusWidth / 2, 0, slice, false);
-						context.strokeStyle = opts.focusColour;
-						context.lineWidth = opts.focusWidth;
-						context.stroke();
-					}
+				//Draw focus around hovered rectangle
+				if(focusWidth > 0 && hoverPos && hoverPos.theta > start && hoverPos.theta < (start + slice)){
+					context.beginPath();
+					context.arc(0, 0, radius + focusWidth / 2, -start, -(start + slice), true);
+					context.strokeStyle = opts.focusColour;
+					context.lineWidth = focusWidth;
+					context.stroke();
 				}
-				*/ 
 				
-        context.rotate(slice);
+				start += slice;
       }
-      context.restore();//Reset translation and rotation
 			
-			context.translate(width / 2, height / 2)
-      context.beginPath()
-      context.arc(0, 0, radius + opts.strokeWidth / 2, 0, pi2, false);
-      context.strokeStyle = opts.strokeColour;
-      context.lineWidth = opts.strokeWidth;
-			if(opts.strokeWidth > 0) context.stroke();
+			if(strokeWidth > 0){
+				context.beginPath();
+				context.arc(0, 0, radius + strokeWidth / 2, 0, pi2);
+				context.strokeStyle = opts.strokeColour;
+				context.lineWidth = strokeWidth;
+				context.stroke();
+			}
 			
-			if(opts.focusWidth > 0 ){
+			if(focusWidth > 0 ){
 				canvas.addEventListener('mousemove', function pieHover(evt) {
 					this.removeEventListener('mousemove',pieHover,false);
 					var rect = canvas.getBoundingClientRect();
@@ -257,7 +258,7 @@
       
       //Assign elements and options to variables
       var element = this.$el;
-      var mousePosition = element.data("position");
+      var hoverPos = element.data("position");
       var canvas = this.prepareCanvas(opts.width, opts.height);
       var context = this.context;
       var spacing = opts.spacing;
@@ -295,15 +296,15 @@
         context.fillRect(x, y, w, h);
       }
       //Draw focus around hovered rectangle and write value
-      if(focusWidth > 0 && mousePosition){
-        mousePosition = JSON.parse(mousePosition);
+      if(focusWidth > 0 && hoverPos){
+        hoverPos = JSON.parse(hoverPos);
         //Loop through values again
         for (i = 0; i < values.length; i++) {
           
           //Check if mouse is within this bar's horizontal space
           x = spacing + i * xQuotient;
           w = xQuotient - spacing;
-          if(mousePosition.x >= x && mousePosition.x <= x+w){
+          if(hoverPos.x >= x && hoverPos.x <= x+w){
             
             //Now check if mouse is within this bar's vertical space
             value = values[i];
@@ -318,7 +319,7 @@
             //To make comparison easier, make h positive and adjust y
             newY = y + (h < 0 ? h : 0);
             newH = h < 0 ? -h : h;
-            if(mousePosition.y >= newY && mousePosition.y <= newY+newH){
+            if(hoverPos.y >= newY && hoverPos.y <= newY+newH){
               //If mouse is within a bar, draw a focus
               context.strokeStyle=opts.focusColour;
               context.lineWidth=focusWidth;
@@ -328,9 +329,9 @@
               );
               context.fillStyle = opts.fontColour;
               context.font = opts.fontStyle;
-              if(mousePosition.x > canvas.width / 2) context.textAlign = "right";
-              if(mousePosition.y < canvas.height / 2) { context.textBaseline = "top"; mousePosition.y += 20; }
-              context.fillText(value + "",mousePosition.x,mousePosition.y)
+              if(hoverPos.x > canvas.width / 2) context.textAlign = "right";
+              if(hoverPos.y < canvas.height / 2) { context.textBaseline = "top"; hoverPos.y += 20; }
+              context.fillText(value + "",hoverPos.x,hoverPos.y)
             }
           }
         }
