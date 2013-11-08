@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width; minimum-scale=1.0; maximum-scale=1.0">
+<title>Peity &bull; progressive &lt;canvas&gt; pie charts</title>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="jquery.peity.js"></script>
+<script>
+$(function() { $(".pie span").peity("pie", {strokeWidth : 1, focusWidth : 2}); });
+</script>
+</head>
+<body>
+<h2>Test</h2>
+  <p class="pie">
+    <span data-colours='["red", "#eeeeee"]' data-diameter="60">2/10</span>
+  </p>
+
+</body>
+</html>
