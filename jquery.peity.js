@@ -180,7 +180,7 @@
       var canvas = this.prepareCanvas(opts.width, opts.height)
       var context = this.context
       var width = canvas.width
-      var height = canvas.height
+      var height = canvas.height - opts.strokeWidth
       var xQuotient = width / (values.length - 1)
       var yQuotient = height / (max - min)
 
@@ -192,7 +192,7 @@
 
       for (i = 0; i < values.length; i++) {
         var x = i * xQuotient
-        var y = height - (yQuotient * (values[i] - min))
+        var y = height - (yQuotient * (values[i] - min)) + opts.strokeWidth / 2
 
         coords.push({ x: x, y: y });
         context.lineTo(x, y);
