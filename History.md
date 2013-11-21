@@ -1,5 +1,9 @@
 # History
 
+## Version 1.2.1 - 2013/11/21
+
+ * Ensure a line chart's outline doesn't spill off the canvas.
+
 ## Version 1.2.0 - 2013/3/11
 
  * Easier CSS targeting of Peity-created canvas elements.
