@@ -65,6 +65,19 @@
 		return canvas;
 	}
 	
+	PeityPrototype.hoverEvent = function(evt) {
+		this.removeEventListener('mouseout',this.exitEvent,false);
+		this.removeEventListener('mousemove',this.hoverEvent,false);
+		var rect = this.getBoundingClientRect();
+		var pos = { x: evt.clientX - rect.left, y: evt.clientY - rect.top };
+		$(this.previousSibling).data("position",JSON.stringify(pos)).change();
+	};
+	PeityPrototype.exitEvent = function(evt) {
+		this.removeEventListener('mouseout',this.exitEvent,false);
+		this.removeEventListener('mousemove',this.hoverEvent,false);
+		$(this.previousSibling).removeData("position").change(); 
+	};
+	
 	//Splits values string into array by delimiter and returns the numbers
 	PeityPrototype.values = function() { return this.$el.text().split(this.opts.delimiter).map(function(value) { return parseFloat(value); }); }
 	
@@ -166,12 +179,8 @@
 			}
 			
 			if(focusWidth > 0 ){
-				canvas.addEventListener('mousemove', function pieHover(evt) {
-					this.removeEventListener('mousemove',pieHover,false);
-					var rect = canvas.getBoundingClientRect();
-					var pos = { x: evt.clientX - rect.left, y: evt.clientY - rect.top };
-					element.data("position",JSON.stringify(pos)).change();
-				}, false);
+				canvas.addEventListener('mousemove', PeityPrototype.hoverEvent, false);
+				canvas.addEventListener('mouseout', PeityPrototype.exitEvent, false);
 			}
 		}
 	)
@@ -337,13 +346,9 @@
 				}
 			}
 			
-			if(focusWidth > 0){			 
-				canvas.addEventListener('mousemove', function canvasHover(evt) {
-					this.removeEventListener('mousemove',canvasHover,false);
-					var rect = canvas.getBoundingClientRect();
-					var pos = { x: evt.clientX - rect.left, y: evt.clientY - rect.top };
-					element.data("position",JSON.stringify(pos)).change();
-				}, false);
+			if(focusWidth > 0){
+				canvas.addEventListener('mousemove', PeityPrototype.hoverEvent, false);
+				canvas.addEventListener('mouseout', PeityPrototype.exitEvent, false);
 			}
 		}
 	);
