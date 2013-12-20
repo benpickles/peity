@@ -220,10 +220,9 @@ $(function() {
   <p>Bar and pie chart colours can be defined dynamically based on the values
     of the chart. When passing an array its values are cycled, when passing a
     function it is called once for each value allowing you to define each
-    bar's colour. The function is called with a similar signature to
-    <code>Array#forEach</code> with the bar's value, its index, and the full
-    array of values.
-  </p>
+    bar's colour. The callback is invoked with the value, its index, and the
+    full array of values - the same arguments as the callback for
+    <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/forEach#Description">Array#forEach</a></code>.</p>
 
   <p>
     <span class="bar-colours-1">5,3,9,6,5,9,7,3,5,2</span>
