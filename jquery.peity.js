@@ -65,27 +65,19 @@
   }
 
   PeityPrototype.prepareCanvas = function(width, height) {
-    var canvas = this.canvas
-    var $canvas
-
-    if (canvas) {
-      this.context.clearRect(0, 0, canvas.width, canvas.height)
-      $canvas = $(canvas)
+    if (this.svg) {
+      $(this.svg).empty()
     } else {
-      $canvas = $("<canvas>").css({
-        height: height,
-        width: width
-      }).addClass("peity").data("peity", this)
+      this.svg = document.createElementNS("http://www.w3.org/2000/svg", "svg")
+      this.svg.setAttribute("class", "peity")
 
-      this.canvas = canvas = $canvas[0]
-      this.context = canvas.getContext("2d")
-      this.$el.hide().after(canvas)
+      this.$el.hide().after(this.svg)
+
+      $(this.svg).data("peity", this)
     }
 
-    canvas.height = $canvas.height() * devicePixelRatio
-    canvas.width = $canvas.width() * devicePixelRatio
-
-    return canvas
+    this.svg.setAttribute("height", height)
+    this.svg.setAttribute("width", width)
   }
 
   PeityPrototype.values = function() {
@@ -131,31 +123,40 @@
         sum += values[i]
       }
 
-      var canvas = this.prepareCanvas(opts.width || opts.diameter, opts.height || opts.diameter)
-      var context = this.context
-      var width = canvas.width
-      var height = canvas.height
+      var width = opts.width || opts.diameter
+        , height = opts.height || opts.diameter
+
+      this.prepareCanvas(width, height)
+
       var radius = Math.min(width, height) / 2
       var pi = Math.PI
       var colours = this.colours()
-
-      context.save()
-      context.translate(width / 2, height / 2)
-      context.rotate(-pi / 2)
+      var start = -pi / 2
 
       for (i = 0; i < length; i++) {
         var value = values[i]
         var slice = (value / sum) * pi * 2
+          , end = start + slice
+          , x1 = radius * Math.cos(start) + radius
+          , y1 = radius * Math.sin(start) + radius
+          , x2 = radius * Math.cos(end) + radius
+          , y2 = radius * Math.sin(end) + radius
 
-        context.beginPath()
-        context.moveTo(0, 0)
-        context.arc(0, 0, radius, 0, slice, false)
-        context.fillStyle = colours.call(this, value, i, values)
-        context.fill()
-        context.rotate(slice)
+        var d = [
+          "M", radius, radius,
+          "L", x1, y1,
+          "A", radius, radius, 0, slice > pi ? 1 : 0, 1, x2, y2,
+          "Z"
+        ]
+
+        var arc = document.createElementNS("http://www.w3.org/2000/svg", "path")
+        arc.setAttribute("d", d.join(" "))
+        arc.setAttribute("fill", colours.call(this, value, i, values))
+
+        this.svg.appendChild(arc)
+
+        start = end
       }
-
-      context.restore()
     }
   )
 
