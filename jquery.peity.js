@@ -257,7 +257,7 @@
 			height: 16,
 			max: null,
 			min: 0,
-			width: 32,
+			width: 32
 		},
 		function(opts) {
 			var values = this.values();
