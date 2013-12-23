@@ -79,7 +79,11 @@
 	};
 	
 	//Splits values string into array by delimiter and returns the numbers
-	PeityPrototype.values = function() { return this.$el.text().split(this.opts.delimiter).map(function(value) { return parseFloat(value); }); }
+	PeityPrototype.values = function() {
+	  var delim = this.opts.delimiter;
+	  if(this.opts.seriesDelimiter) return this.$el.text().split(this.opts.seriesDelimiter).map(function(e) { return e.split(delim).map(function(value) { return parseFloat(value); }); });
+	  else return this.$el.text().split(this.opts.delimiter).map(function(value) { return parseFloat(value); });
+	}
 	
 	//Default options and drawing functions per type
 	peity.defaults = {}; peity.graphers = {};
@@ -194,7 +198,8 @@
 			height: 16,
 			max: null,
 			min: 0,
-			width: 32
+			width: 32,
+			fill : true
 		},
 		function(opts) {
 			var values = this.values();
@@ -224,8 +229,10 @@
 			}
 			
 			context.lineTo(width, height + (min * yQuotient));
-			context.fillStyle = opts.colour;
-			context.fill();
+			if(opts.fill){
+				context.fillStyle = opts.colour;
+				context.fill();
+			}
 			
 			if (opts.strokeWidth) {
 				context.beginPath();
@@ -239,6 +246,72 @@
 			}
 		}
 	);
+
+	//Multi Line Chart
+	peity.register("multiline", {
+			colours: ["#666666", "#803E75", "#FF6800"],
+			strokeColour: "#4d89f9",
+			strokeWidth: 1,
+			delimiter: ",",
+			seriesDelimiter : "|",
+			height: 16,
+			max: null,
+			min: 0,
+			width: 32,
+		},
+		function(opts) {
+			var values = this.values();
+			var allValues = [].concat.apply([], values);
+			console.log(allValues);
+			var max = Math.max.apply(Math, allValues.concat([opts.max]));
+			var min = Math.min.apply(Math, allValues.concat([opts.min]));
+			var fill = opts.fill;
+			var canvas = this.prepareCanvas(opts.width, opts.height);
+			var context = this.context;
+			var width = canvas.width;
+			var height = canvas.height;
+			var xQuotient = width / (values[1].length - 1);
+			var yQuotient = height / (max - min);
+			
+			var i, j, series, coords;
+			context.lineWidth = opts.strokeWidth * devicePixelRatio;
+			
+			//Create baseline
+			coords = [{x : 0, y: height - (yQuotient * (0 - min)) }, {x : width, y: height - (yQuotient * (0 - min)) }];
+			context.beginPath();
+			context.moveTo(0, coords[0].y);
+			for (i = 0; i < coords.length; i++) context.lineTo(coords[i].x, coords[i].y);
+			//Draw in specified color
+			context.strokeStyle = opts.colours[0 % opts.colours.length];
+			context.stroke();
+			
+			//Loop through each series then each value in the series
+			for(j = 0; j < values.length; j += 1){
+				series = values[j];
+				coords = [];
+				
+				//Calculate coordinates for each value
+				for (i = 0; i < series.length; i++) {
+					coords.push({
+					  x: i * xQuotient,
+						y: height - (yQuotient * (series[i] - min))
+					});
+				}
+				
+				//Create path between coordinates
+				context.beginPath();
+				context.moveTo(0, coords[0].y);
+				for (i = 0; i < coords.length; i++) context.lineTo(coords[i].x, coords[i].y);
+				//Draw in specified color
+				context.strokeStyle = opts.colours[(j+1) % opts.colours.length];
+				context.stroke();
+		  }
+			
+			
+		}
+	);
+
+
 	
 	//Bar chart
 	peity.register('bar', {
