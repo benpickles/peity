@@ -135,27 +135,38 @@
 
       for (i = 0; i < length; i++) {
         var value = values[i]
-        var slice = (value / sum) * pi * 2
-          , end = start + slice
-          , x1 = radius * Math.cos(start) + radius
-          , y1 = radius * Math.sin(start) + radius
-          , x2 = radius * Math.cos(end) + radius
-          , y2 = radius * Math.sin(end) + radius
+          , portion = value / sum
+          , node
 
-        var d = [
-          "M", radius, radius,
-          "L", x1, y1,
-          "A", radius, radius, 0, slice > pi ? 1 : 0, 1, x2, y2,
-          "Z"
-        ]
+        if (portion == 1) {
+          node = document.createElementNS("http://www.w3.org/2000/svg", "circle")
+          node.setAttribute("cx", radius)
+          node.setAttribute("cy", radius)
+          node.setAttribute("r", radius)
+        } else {
+          var slice = portion * pi * 2
+            , end = start + slice
+            , x1 = radius * Math.cos(start) + radius
+            , y1 = radius * Math.sin(start) + radius
+            , x2 = radius * Math.cos(end) + radius
+            , y2 = radius * Math.sin(end) + radius
 
-        var arc = document.createElementNS("http://www.w3.org/2000/svg", "path")
-        arc.setAttribute("d", d.join(" "))
-        arc.setAttribute("fill", colours.call(this, value, i, values))
+          var d = [
+            "M", radius, radius,
+            "L", x1, y1,
+            "A", radius, radius, 0, slice > pi ? 1 : 0, 1, x2, y2,
+            "Z"
+          ]
 
-        this.svg.appendChild(arc)
+          node = document.createElementNS("http://www.w3.org/2000/svg", "path")
+          node.setAttribute("d", d.join(" "))
 
-        start = end
+          start = end
+        }
+
+        node.setAttribute("fill", colours.call(this, value, i, values))
+
+        this.svg.appendChild(node)
       }
     }
   )
