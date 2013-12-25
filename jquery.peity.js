@@ -243,11 +243,11 @@
       var max = Math.max.apply(Math, values.concat([opts.max]));
       var min = Math.min.apply(Math, values.concat([opts.min]))
 
-      var canvas = this.prepareCanvas(opts.width, opts.height)
-      var context = this.context
+      var width = opts.width
+        , height = opts.height
 
-      var width = canvas.width
-      var height = canvas.height
+      this.prepareCanvas(width, height)
+
       var yQuotient = height / (max - min)
       var space = opts.spacing
       var xQuotient = (width + space) / values.length
@@ -262,11 +262,22 @@
           if (min >= 0 || max > 0) y -= 1
           h = 1
         } else {
-          h = yQuotient * values[i]
+          h = yQuotient * value
         }
 
-        context.fillStyle = colours.call(this, value, i, values)
-        context.fillRect(i * xQuotient, y, xQuotient - space, h)
+        if (h < 0) {
+          y += h
+          h = -h
+        }
+
+        var rect = document.createElementNS("http://www.w3.org/2000/svg", "rect")
+        rect.setAttribute("fill", colours.call(this, value, i, values))
+        rect.setAttribute("x", i * xQuotient)
+        rect.setAttribute("y", y)
+        rect.setAttribute("width", xQuotient - space)
+        rect.setAttribute("height", h)
+
+        this.svg.appendChild(rect)
       }
     }
   );
