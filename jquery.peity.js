@@ -189,40 +189,42 @@
       var max = Math.max.apply(Math, values.concat([opts.max]));
       var min = Math.min.apply(Math, values.concat([opts.min]))
 
-      var canvas = this.prepareCanvas(opts.width, opts.height)
-      var context = this.context
-      var width = canvas.width
-      var height = canvas.height - opts.strokeWidth
+      var width = opts.width
+        , height = opts.height
+
+      this.prepareCanvas(width, height)
+
+      height -= opts.strokeWidth
+
       var xQuotient = width / (values.length - 1)
-      var yQuotient = height / (max - min)
+        , yQuotient = height / (max - min)
+        , zero = height + (min * yQuotient)
+        , coords = [0, zero]
 
-      var coords = [];
-      var i;
-
-      context.beginPath();
-      context.moveTo(0, height + (min * yQuotient))
-
-      for (i = 0; i < values.length; i++) {
+      for (var i = 0; i < values.length; i++) {
         var x = i * xQuotient
         var y = height - (yQuotient * (values[i] - min)) + opts.strokeWidth / 2
 
-        coords.push({ x: x, y: y });
-        context.lineTo(x, y);
+        coords.push(x, y)
       }
 
-      context.lineTo(width, height + (min * yQuotient))
-      context.fillStyle = opts.colour;
-      context.fill();
+      coords.push(width, zero)
+
+      var polygon = document.createElementNS("http://www.w3.org/2000/svg", "polygon")
+      polygon.setAttribute("fill", opts.colour)
+      polygon.setAttribute("points", coords.join(" "))
+
+      this.svg.appendChild(polygon)
 
       if (opts.strokeWidth) {
-        context.beginPath();
-        context.moveTo(0, coords[0].y);
-        for (i = 0; i < coords.length; i++) {
-          context.lineTo(coords[i].x, coords[i].y);
-        }
-        context.lineWidth = opts.strokeWidth * devicePixelRatio;
-        context.strokeStyle = opts.strokeColour;
-        context.stroke();
+        var polyline = document.createElementNS("http://www.w3.org/2000/svg", "polyline")
+        polyline.setAttribute("fill", "transparent")
+        polyline.setAttribute("points", coords.slice(2, coords.length - 2).join(" "))
+        polyline.setAttribute("stroke", opts.strokeColour)
+        polyline.setAttribute("stroke-width", opts.strokeWidth)
+        polyline.setAttribute("stroke-linecap", "square")
+
+        this.svg.appendChild(polyline)
       }
     }
   );
