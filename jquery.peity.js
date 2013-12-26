@@ -4,7 +4,7 @@
 // http://benpickles.github.io/peity
 //
 // Released under MIT license.
-(function($, document, Math, devicePixelRatio) {
+(function($, document, Math) {
   var canvasSupported = document.createElement("canvas").getContext
 
   var peity = $.fn.peity = function(type, options) {
@@ -252,7 +252,7 @@
       height: 16,
       max: null,
       min: 0,
-      spacing: devicePixelRatio,
+      spacing: window.devicePixelRatio || 1,
       width: 32
     },
     function(opts) {
@@ -299,4 +299,4 @@
       }
     }
   );
-})(jQuery, document, Math, window.devicePixelRatio || 1);
+})(jQuery, document, Math);
