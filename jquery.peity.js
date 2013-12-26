@@ -39,6 +39,16 @@
     return this;
   };
 
+  var svgElement = function(tag, attrs) {
+    var elem = document.createElementNS("http://www.w3.org/2000/svg", tag)
+
+    $.each(attrs, function(name, value) {
+      elem.setAttribute(name, value)
+    })
+
+    return elem
+  }
+
   var Peity = function($el, type, opts) {
     this.$el = $el
     this.type = type
@@ -68,8 +78,9 @@
     if (this.svg) {
       $(this.svg).empty()
     } else {
-      this.svg = document.createElementNS("http://www.w3.org/2000/svg", "svg")
-      this.svg.setAttribute("class", "peity")
+      this.svg = svgElement("svg", {
+        "class": "peity"
+      })
 
       this.$el.hide().after(this.svg)
 
@@ -139,10 +150,11 @@
           , node
 
         if (portion == 1) {
-          node = document.createElementNS("http://www.w3.org/2000/svg", "circle")
-          node.setAttribute("cx", radius)
-          node.setAttribute("cy", radius)
-          node.setAttribute("r", radius)
+          node = svgElement("circle", {
+            cx: radius,
+            cy: radius,
+            r: radius
+          })
         } else {
           var slice = portion * pi * 2
             , end = start + slice
@@ -158,8 +170,9 @@
             "Z"
           ]
 
-          node = document.createElementNS("http://www.w3.org/2000/svg", "path")
-          node.setAttribute("d", d.join(" "))
+          node = svgElement("path", {
+            d: d.join(" ")
+          })
 
           start = end
         }
@@ -210,19 +223,21 @@
 
       coords.push(width, zero)
 
-      var polygon = document.createElementNS("http://www.w3.org/2000/svg", "polygon")
-      polygon.setAttribute("fill", opts.fill)
-      polygon.setAttribute("points", coords.join(" "))
+      var polygon = svgElement("polygon", {
+        fill: opts.fill,
+        points: coords.join(" ")
+      })
 
       this.svg.appendChild(polygon)
 
       if (opts.strokeWidth) {
-        var polyline = document.createElementNS("http://www.w3.org/2000/svg", "polyline")
-        polyline.setAttribute("fill", "transparent")
-        polyline.setAttribute("points", coords.slice(2, coords.length - 2).join(" "))
-        polyline.setAttribute("stroke", opts.stroke)
-        polyline.setAttribute("stroke-width", opts.strokeWidth)
-        polyline.setAttribute("stroke-linecap", "square")
+        var polyline = svgElement("polyline", {
+          fill: "transparent",
+          points: coords.slice(2, coords.length - 2).join(" "),
+          stroke: opts.stroke,
+          "stroke-width": opts.strokeWidth,
+          "stroke-linecap": "square"
+        })
 
         this.svg.appendChild(polyline)
       }
@@ -272,12 +287,13 @@
           h = -h
         }
 
-        var rect = document.createElementNS("http://www.w3.org/2000/svg", "rect")
-        rect.setAttribute("fill", fill.call(this, value, i, values))
-        rect.setAttribute("x", i * xQuotient)
-        rect.setAttribute("y", y)
-        rect.setAttribute("width", xQuotient - space)
-        rect.setAttribute("height", h)
+        var rect = svgElement("rect", {
+          fill: fill.call(this, value, i, values),
+          x: i * xQuotient,
+          y: y,
+          width: xQuotient - space,
+          height: h
+        })
 
         this.svg.appendChild(rect)
       }
