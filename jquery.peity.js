@@ -5,10 +5,21 @@
 //
 // Released under MIT license.
 (function($, document, Math) {
-  var canvasSupported = document.createElement("canvas").getContext
+  var svgElement = function(tag, attrs) {
+    var elem = document.createElementNS("http://www.w3.org/2000/svg", tag)
+
+    $.each(attrs, function(name, value) {
+      elem.setAttribute(name, value)
+    })
+
+    return elem
+  }
+
+  // https://gist.github.com/madrobby/3201472
+  var svgSupported = "createElementNS" in document && svgElement("svg", {}).createSVGRect
 
   var peity = $.fn.peity = function(type, options) {
-    if (canvasSupported) {
+    if (svgSupported) {
       this.each(function() {
         var $this = $(this)
         var chart = $this.data("peity")
@@ -38,16 +49,6 @@
 
     return this;
   };
-
-  var svgElement = function(tag, attrs) {
-    var elem = document.createElementNS("http://www.w3.org/2000/svg", tag)
-
-    $.each(attrs, function(name, value) {
-      elem.setAttribute(name, value)
-    })
-
-    return elem
-  }
 
   var Peity = function($el, type, opts) {
     this.$el = $el
