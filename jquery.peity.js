@@ -47,21 +47,21 @@
 
   var PeityPrototype = Peity.prototype
 
-  PeityPrototype.colours = function() {
-    var colours = this.opts.colours
-    var func = colours
+  PeityPrototype.draw = function() {
+    peity.graphers[this.type].call(this, this.opts)
+  }
+
+  PeityPrototype.fill = function() {
+    var fill = this.opts.fill
+    var func = fill
 
     if (!$.isFunction(func)) {
       func = function(_, i) {
-        return colours[i % colours.length]
+        return fill[i % fill.length]
       }
     }
 
     return func
-  }
-
-  PeityPrototype.draw = function() {
-    peity.graphers[this.type].call(this, this.opts)
   }
 
   PeityPrototype.prepareCanvas = function(width, height) {
@@ -97,9 +97,9 @@
   peity.register(
     'pie',
     {
-      colours: ["#ff9900", "#fff4dd", "#ffc66e"],
       delimiter: null,
-      diameter: 16
+      diameter: 16,
+      fill: ["#ff9900", "#fff4dd", "#ffc66e"]
     },
     function(opts) {
       if (!opts.delimiter) {
@@ -130,7 +130,7 @@
 
       var radius = Math.min(width, height) / 2
       var pi = Math.PI
-      var colours = this.colours()
+      var fill = this.fill()
       var start = -pi / 2
 
       for (i = 0; i < length; i++) {
@@ -164,7 +164,7 @@
           start = end
         }
 
-        node.setAttribute("fill", colours.call(this, value, i, values))
+        node.setAttribute("fill", fill.call(this, value, i, values))
 
         this.svg.appendChild(node)
       }
@@ -174,13 +174,13 @@
   peity.register(
     "line",
     {
-      colour: "#c6d9fd",
-      strokeColour: "#4d89f9",
-      strokeWidth: 1,
       delimiter: ",",
+      fill: "#c6d9fd",
       height: 16,
       max: null,
       min: 0,
+      stroke: "#4d89f9",
+      strokeWidth: 1,
       width: 32
     },
     function(opts) {
@@ -211,7 +211,7 @@
       coords.push(width, zero)
 
       var polygon = document.createElementNS("http://www.w3.org/2000/svg", "polygon")
-      polygon.setAttribute("fill", opts.colour)
+      polygon.setAttribute("fill", opts.fill)
       polygon.setAttribute("points", coords.join(" "))
 
       this.svg.appendChild(polygon)
@@ -220,7 +220,7 @@
         var polyline = document.createElementNS("http://www.w3.org/2000/svg", "polyline")
         polyline.setAttribute("fill", "transparent")
         polyline.setAttribute("points", coords.slice(2, coords.length - 2).join(" "))
-        polyline.setAttribute("stroke", opts.strokeColour)
+        polyline.setAttribute("stroke", opts.stroke)
         polyline.setAttribute("stroke-width", opts.strokeWidth)
         polyline.setAttribute("stroke-linecap", "square")
 
@@ -232,8 +232,8 @@
   peity.register(
     'bar',
     {
-      colours: ["#4D89F9"],
       delimiter: ",",
+      fill: ["#4D89F9"],
       height: 16,
       max: null,
       min: 0,
@@ -253,7 +253,7 @@
       var yQuotient = height / (max - min)
       var space = opts.spacing
       var xQuotient = (width + space) / values.length
-      var colours = this.colours()
+      var fill = this.fill()
 
       for (var i = 0; i < values.length; i++) {
         var value = values[i]
@@ -273,7 +273,7 @@
         }
 
         var rect = document.createElementNS("http://www.w3.org/2000/svg", "rect")
-        rect.setAttribute("fill", colours.call(this, value, i, values))
+        rect.setAttribute("fill", fill.call(this, value, i, values))
         rect.setAttribute("x", i * xQuotient)
         rect.setAttribute("y", y)
         rect.setAttribute("width", xQuotient - space)
