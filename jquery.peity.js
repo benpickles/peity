@@ -64,7 +64,7 @@
     return func
   }
 
-  PeityPrototype.prepareCanvas = function(width, height) {
+  PeityPrototype.prepareSVG = function(width, height) {
     if (this.svg) {
       $(this.svg).empty()
     } else {
@@ -126,7 +126,7 @@
       var width = opts.width || opts.diameter
         , height = opts.height || opts.diameter
 
-      this.prepareCanvas(width, height)
+      this.prepareSVG(width, height)
 
       var radius = Math.min(width, height) / 2
       var pi = Math.PI
@@ -192,7 +192,7 @@
       var width = opts.width
         , height = opts.height
 
-      this.prepareCanvas(width, height)
+      this.prepareSVG(width, height)
 
       height -= opts.strokeWidth
 
@@ -248,7 +248,7 @@
       var width = opts.width
         , height = opts.height
 
-      this.prepareCanvas(width, height)
+      this.prepareSVG(width, height)
 
       var yQuotient = height / (max - min)
       var space = opts.spacing
