@@ -8,14 +8,14 @@
   "dependencies": {
     "jquery": ">=1.4.4"
   },
-  "description": "Progressive <canvas> bar, line and pie charts.",
+  "description": "Progressive <svg> bar, line and pie charts.",
   "docs": "http://benpickles.github.io/peity/",
   "homepage": "http://benpickles.github.io/peity/",
   "keywords": [
-    "canvas",
     "chart",
     "graph",
-    "sparkline"
+    "sparkline",
+    "svg"
   ],
   "licenses": [
     {
