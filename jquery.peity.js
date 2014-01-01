@@ -135,12 +135,18 @@
         sum += values[i]
       }
 
-      var width = opts.width || opts.diameter
-        , height = opts.height || opts.diameter
+      this.prepareSVG(
+        opts.width || opts.diameter,
+        opts.height || opts.diameter
+      )
 
-      this.prepareSVG(width, height)
+      var $svg = $(this.svg)
+        , width = $svg.width()
+        , height = $svg.height()
+        , cx = width / 2
+        , cy = height / 2
 
-      var radius = Math.min(width, height) / 2
+      var radius = Math.min(cx, cy)
       var pi = Math.PI
       var fill = this.fill()
       var start = -pi / 2
@@ -152,20 +158,20 @@
 
         if (portion == 1) {
           node = svgElement("circle", {
-            cx: radius,
-            cy: radius,
+            cx: cx,
+            cy: cy,
             r: radius
           })
         } else {
           var slice = portion * pi * 2
             , end = start + slice
-            , x1 = radius * Math.cos(start) + radius
-            , y1 = radius * Math.sin(start) + radius
-            , x2 = radius * Math.cos(end) + radius
-            , y2 = radius * Math.sin(end) + radius
+            , x1 = radius * Math.cos(start) + cx
+            , y1 = radius * Math.sin(start) + cy
+            , x2 = radius * Math.cos(end) + cx
+            , y2 = radius * Math.sin(end) + cy
 
           var d = [
-            "M", radius, radius,
+            "M", cx, cy,
             "L", x1, y1,
             "A", radius, radius, 0, slice > pi ? 1 : 0, 1, x2, y2,
             "Z"
