@@ -259,7 +259,7 @@
       height: 16,
       max: null,
       min: 0,
-      spacing: window.devicePixelRatio || 1,
+      spacing: 1,
       width: 32
     },
     function(opts) {
@@ -283,8 +283,9 @@
         var h
 
         if (value == 0) {
-          if (min >= 0 || max > 0) y -= 1
-          h = 1
+          var pixel = 1 / (window.devicePixelRatio || 1)
+          if (min >= 0 || max > 0) y -= pixel
+          h = pixel
         } else {
           h = yQuotient * value
         }
