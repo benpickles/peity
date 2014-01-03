@@ -27,7 +27,6 @@
         if (chart) {
           if (type) chart.type = type
           $.extend(chart.opts, options)
-          chart.draw()
         } else {
           var defaults = peity.defaults[type]
           var data = {}
@@ -37,13 +36,15 @@
           })
 
           var opts = $.extend({}, defaults, data, options)
-          var chart = new Peity($this, type, opts)
-          chart.draw()
+
+          chart = new Peity($this, type, opts)
 
           $this
             .change(function() { chart.draw() })
             .data("peity", chart)
         }
+
+        chart.draw()
       });
     }
 
