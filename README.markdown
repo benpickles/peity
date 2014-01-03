@@ -22,4 +22,4 @@ More detailed usage can be found at [benpickles.github.io/peity](http://benpickl
 
 ## Copyright
 
-Copyright 2009-2013 [Ben Pickles](http://benpickles.com/). See [MIT-LICENCE](https://github.com/benpickles/peity/blob/master/MIT-LICENCE) for details.
+Copyright 2009-2014 [Ben Pickles](http://benpickles.com/). See [MIT-LICENCE](https://github.com/benpickles/peity/blob/master/MIT-LICENCE) for details.
