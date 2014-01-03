@@ -259,10 +259,10 @@
     {
       delimiter: ",",
       fill: ["#4D89F9"],
+      gap: 1,
       height: 16,
       max: null,
       min: 0,
-      spacing: 1,
       width: 32
     },
     function(opts) {
@@ -276,8 +276,8 @@
       this.prepareSVG(width, height)
 
       var yQuotient = height / (max - min)
-      var space = opts.spacing
-      var xQuotient = (width + space) / values.length
+      var gap = opts.gap
+      var xQuotient = (width + gap) / values.length
       var fill = this.fill()
 
       for (var i = 0; i < values.length; i++) {
@@ -302,7 +302,7 @@
           fill: fill.call(this, value, i, values),
           x: i * xQuotient,
           y: y,
-          width: xQuotient - space,
+          width: xQuotient - gap,
           height: h
         })
 
