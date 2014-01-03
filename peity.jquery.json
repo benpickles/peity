@@ -6,7 +6,7 @@
   "bugs": "https://github.com/benpickles/peity/issues",
   "demo": "http://benpickles.github.io/peity/",
   "dependencies": {
-    "jquery": ">=1.4.4"
+    "jquery": ">=1.6.2"
   },
   "description": "Progressive <svg> bar, line and pie charts.",
   "docs": "http://benpickles.github.io/peity/",
