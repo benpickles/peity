@@ -129,7 +129,7 @@
       if (opts.delimiter == "/") {
         var v1 = values[0]
         var v2 = values[1]
-        values = [v1, v2 - v1]
+        values = [v1, Math.max(0, v2 - v1)]
       }
 
       var i = 0
