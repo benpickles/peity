@@ -156,6 +156,8 @@
           , portion = value / sum
           , node
 
+        if (portion == 0) continue
+
         if (portion == 1) {
           node = svgElement("circle", {
             cx: cx,
