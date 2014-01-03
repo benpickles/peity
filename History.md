@@ -1,5 +1,13 @@
 # History
 
+## Version 2.0.0 - 2014/1/3
+
+ * Switch from `<canvas>` to `<svg>`.
+ * Update jQuery dependency from 1.4.4 to 1.6.2 due to problems fetching a `<svg>` element's dimensions in Firefox.
+ * Rename `colour`/`colours` options to `fill`.
+ * Rename `spacing` bar chart option to `gap`.
+ * Rename `strokeColour` line chart option to `stroke`.
+
 ## Version 1.2.1 - 2013/11/21
 
  * Ensure a line chart's outline doesn't spill off the canvas.

@@ -1,4 +1,4 @@
-// Peity jQuery plugin version 1.2.1
+// Peity jQuery plugin version 2.0.0
 // (c) 2014 Ben Pickles
 //
 // http://benpickles.github.io/peity
