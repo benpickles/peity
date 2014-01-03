@@ -76,9 +76,11 @@
     return func
   }
 
-  PeityPrototype.prepareSVG = function(width, height) {
+  PeityPrototype.prepare = function(width, height) {
+    var $svg
+
     if (this.svg) {
-      $(this.svg).empty()
+      $svg = $(this.svg).empty()
     } else {
       this.svg = svgElement("svg", {
         "class": "peity"
@@ -86,11 +88,13 @@
 
       this.$el.hide().after(this.svg)
 
-      $(this.svg).data("peity", this)
+      $svg = $(this.svg).data("peity", this)
     }
 
     this.svg.setAttribute("height", height)
     this.svg.setAttribute("width", width)
+
+    return $svg
   }
 
   PeityPrototype.values = function() {
@@ -136,13 +140,12 @@
         sum += values[i]
       }
 
-      this.prepareSVG(
+      var $svg = this.prepare(
         opts.width || opts.diameter,
         opts.height || opts.diameter
       )
 
-      var $svg = $(this.svg)
-        , width = $svg.width()
+      var width = $svg.width()
         , height = $svg.height()
         , cx = width / 2
         , cy = height / 2
@@ -212,14 +215,10 @@
       var max = Math.max.apply(Math, values.concat([opts.max]));
       var min = Math.min.apply(Math, values.concat([opts.min]))
 
-      var width = opts.width
-        , height = opts.height
-
-      this.prepareSVG(width, height)
-
-      height -= opts.strokeWidth
-
-      var xQuotient = width / (values.length - 1)
+      var $svg = this.prepare(opts.width, opts.height)
+        , width = $svg.width()
+        , height = $svg.height() - opts.strokeWidth
+        , xQuotient = width / (values.length - 1)
         , yQuotient = height / (max - min)
         , zero = height + (min * yQuotient)
         , coords = [0, zero]
@@ -270,15 +269,13 @@
       var max = Math.max.apply(Math, values.concat([opts.max]));
       var min = Math.min.apply(Math, values.concat([opts.min]))
 
-      var width = opts.width
-        , height = opts.height
-
-      this.prepareSVG(width, height)
-
-      var yQuotient = height / (max - min)
-      var gap = opts.gap
-      var xQuotient = (width + gap) / values.length
-      var fill = this.fill()
+      var $svg = this.prepare(opts.width, opts.height)
+        , width = $svg.width()
+        , height = $svg.height()
+        , yQuotient = height / (max - min)
+        , gap = opts.gap
+        , xQuotient = (width + gap) / values.length
+        , fill = this.fill()
 
       for (var i = 0; i < values.length; i++) {
         var value = values[i]
