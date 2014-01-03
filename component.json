@@ -3,7 +3,7 @@
   "version": "1.2.1",
   "main": "jquery.peity.js",
   "dependencies": {
-    "jquery": ">=1.4.4"
+    "jquery": ">=1.6.2"
   },
   "ignore": [
     "docs/",
