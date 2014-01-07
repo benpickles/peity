@@ -132,7 +132,8 @@
 			var focusWidth = opts.focusWidth;
 			var lineWidth = opts.lineWidth;
 			var padding = Math.max(focusWidth, lineWidth)+1;
-			var canvas = this.prepareCanvas(opts.diameter+padding, opts.diameter+padding);
+			var diameter = opts.diameter;
+			var canvas = this.prepareCanvas(diameter+padding, diameter+padding);
 			var context = this.context;
 			var width = canvas.width;
 			var height = canvas.height;
@@ -252,7 +253,6 @@
 		function(opts) {
 			var values = this.values();
 			var allValues = [].concat.apply([], values);
-			console.log(allValues);
 			var max = Math.max.apply(Math, allValues.concat([opts.max]));
 			var min = Math.min.apply(Math, allValues.concat([opts.min]));
 			var canvas = this.prepareCanvas(opts.width, opts.height);
@@ -261,6 +261,7 @@
 			var height = canvas.height;
 			var xQuotient = width / (values[1].length - 1);
 			var yQuotient = height / (max - min);
+			var colors = opts.colors;
 			
 			var i, j, series, coords;
 			context.lineWidth = opts.lineWidth * devicePixelRatio;
@@ -271,7 +272,7 @@
 			context.moveTo(0, coords[0].y);
 			for (i = 0; i < coords.length; i++) context.lineTo(coords[i].x, coords[i].y);
 			//Draw in specified color
-			context.strokeStyle = opts.colors[0 % opts.colors.length];
+			context.strokeStyle = colors[0 % colors.length];
 			context.stroke();
 			
 			//Loop through each series then each value in the series
@@ -292,7 +293,7 @@
 				context.moveTo(0, coords[0].y);
 				for (i = 0; i < coords.length; i++) context.lineTo(coords[i].x, coords[i].y);
 				//Draw in specified color
-				context.strokeStyle = opts.colors[(j+1) % opts.colors.length];
+				context.strokeStyle = colors[(j+1) % colors.length];
 				context.stroke();
 			}
 		}
@@ -301,7 +302,7 @@
 	//Bar chart
 	peity.register('bar', {
 			colors: ["#48f"],
-			baselineColour : "#000", baselineHeight : 1,
+			baselineColor : "#000", baselineHeight : 1,
 			fontColour : "#000", fontStyle : "12pt Arial, sans-serif",
 			focusColor : "#000", focusWidth : 0,
 			height: 16, width: 32,
@@ -327,18 +328,21 @@
 			var spacing = opts.spacing;
 			var colors = this.colors();
 			var focusWidth = opts.focusWidth;
+			var baselineHeight = opts.baselineHeight;
 			
 			//Size
-			var width = canvas.width - spacing * 2;
-			var height = canvas.height - spacing * 2;
-			if(opts.baselineHeight) height -= 1;
+			var fullWidth = canvas.width;
+			var fullHeight = canvas.height;
+			var width = fullWidth - spacing * 2;
+			var height = fullHeight - spacing * 2;
+			if(baselineHeight) height -= 1;
 			var yQuotient = height / (max - min);//Height of bar of value 1
 			var xQuotient = (width + spacing) / values.length;//Width of bar
 			var middle = yQuotient * max + spacing;
 			
 			//Draw baseline
-			context.fillStyle = opts.baselineColour;
-			context.fillRect(0, middle - (opts.baselineHeight / 2),canvas.width, opts.baselineHeight);
+			context.fillStyle = opts.baselineColor;
+			context.fillRect(0, middle - (baselineHeight / 2),fullWidth, baselineHeight);
 			
 			//Loop through values and draw each bar
 			var prevColor, nowColor;
@@ -396,8 +400,8 @@
 							);
 							context.fillStyle = opts.fontColour;
 							context.font = opts.fontStyle;
-							if(hoverPos.x > canvas.width / 2) context.textAlign = "right";
-							if(hoverPos.y < canvas.height / 2) { context.textBaseline = "top"; hoverPos.y += 20; }
+							if(hoverPos.x > fullWidth / 2) context.textAlign = "right";
+							if(hoverPos.y < fullHeight / 2) { context.textBaseline = "top"; hoverPos.y += 20; }
 							context.fillText(value + "",hoverPos.x,hoverPos.y);
 						}
 					}
