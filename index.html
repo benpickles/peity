@@ -3,8 +3,143 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0">
-<title>Peity &bull; progressive &lt;canvas&gt; pie charts</title>
-<link href="docs/style.css" rel="stylesheet">
+<title>Peity &bull; progressive &lt;canvas&gt; pie charts</title><style>body {
+  background: #fff;
+  font-family: Baskerville, Georgia, "Times New Roman", serif;
+  font-size: 1em;
+  line-height: 1.5em;
+  margin: 0;
+  padding: 0;
+}
+
+#fork-me {
+  background: none;
+  display: block;
+  margin: 0;
+  padding: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+#fork-me img {
+  border: none;
+  height: 149px;
+  width: 149px;
+}
+
+#container {
+  padding: 10px;
+}
+
+h1 {
+  font-size: 3em;
+  margin: 0.2em 0 0.4em;
+}
+
+h2 {
+  font-size: 1.8em;
+  margin: 0.7em 0 0.2em;
+}
+
+h3 {
+  font-size: 1.2em;
+  margin: 0.7em 0 0;
+}
+
+h4 {
+  color: #666;
+  font-size: 1em;
+  margin: 0.7em 0 0;
+}
+
+p {
+  margin: 0.2em 0 0.3em;
+}
+
+dl {
+  margin: 0.2em 0 0.3em 10px;
+}
+
+dd {
+  margin-left: 1em;
+}
+
+footer {
+  display: block;
+  margin: 1em 0;
+}
+
+.version {
+  font-size: 0.6em;
+  font-weight: normal;
+  line-height: 1em;
+}
+
+a {
+  background: #eef;
+  color: #246;
+  padding: 1px 2px;
+}
+a:hover {
+  color: #123;
+  text-decoration: none;
+}
+
+code {
+  background: #f4f4ff;
+  border: 1px solid #ddf;
+  padding: 1px 2px;
+}
+
+pre {
+  background: #f4f4ff;
+  border-top: 1px solid #ddf;
+  border-bottom: 1px solid #ddf;
+  line-height: 1.4em;
+  margin: 0.3em -10px;
+  overflow-x: auto;
+  padding: 0.5em 10px;
+}
+
+pre code {
+  background: transparent;
+  border: none;
+  padding: 0;
+}
+
+/* Browser */
+@media screen and (min-width: 481px) {
+  body {
+    text-align: center;
+  }
+
+  #container {
+    margin: 0 auto;
+    max-width: 600px;
+    text-align: left;
+  }
+
+  pre {
+    border-right: 1px solid #ddf;
+    border-left: 1px solid #ddf;
+  }
+}
+
+/* iPhone */
+@media screen and (max-width: 480px) {
+  html {
+    -webkit-text-size-adjust: none;
+  }
+}
+
+/* Retina */
+@media screen and (-webkit-min-device-pixel-ratio: 2) {
+  #fork-me img {
+    height: 74.5px;
+    width: 74.5px;
+  }
+}
+</style>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
 <script src="jquery.peity.js"></script>
 <script>
@@ -13,31 +148,31 @@ $(function() {
   $("span.pie").peity("pie")
   $(".line").peity("line", {width:256, height:32, lineWidth:2})
 	
-  $(".bar").peity("bar", { width : 256, height : 128, spacing : 4, focusColor : "#000", focusWidth: 2, fontStyle: "12pt Trebuchet MS" })
+  $(".bar").peity("bar", { width : 256, height : 128, gap : 4, focusColor : "#000", focusWidth: 2, font: "12pt Trebuchet MS" })
 
-  $(".bar-colors-1").peity("bar", {
-    colors: ["red", "green", "blue"]
+  $(".bar-fill-1").peity("bar", {
+    fill: ["red", "green", "blue"]
   })
 
-  $(".bar-colors-2").peity("bar", {
-    colors: function(value) {
+  $(".bar-fill-2").peity("bar", {
+    fill: function(value) {
       return value > 0 ? "green" : "red"
     }
   })
 
-  $(".bar-colors-3").peity("bar", {
-    colors: function(_, i, all) {
+  $(".bar-fill-3").peity("bar", {
+    fill: function(_, i, all) {
       var g = parseInt((i / all.length) * 255)
       return "rgb(255, " + g + ", 0)"
     }
   })
 
-  $(".pie-colors-1").peity("pie", {
-    colors: ["cyan", "magenta", "yellow", "black"],
+  $(".pie-fill-1").peity("pie", {
+    fill: ["cyan", "magenta", "yellow", "black"],
   })
 
-  $(".pie-colors-2").peity("pie", {
-    colors: function(_, i, all) {
+  $(".pie-fill-2").peity("pie", {
+    fill: function(_, i, all) {
       var g = parseInt((i / all.length) * 255)
       return "rgb(255, " + g + ", 0)"
     }
@@ -74,7 +209,7 @@ $(function() {
       .change()
   }, 1000)
 	
-	$(".multiline").peity("multiline", {width:256, height:32})
+	$(".lines").peity("lines", {width:256, height:32})
 })
 </script>
 </head>
@@ -98,7 +233,7 @@ $(function() {
       Read about <a href="#pie-charts">pie charts</a>,
       <a href="#line-charts">line charts</a>,
       <a href="#bar-charts">bar charts</a>,
-      <a href="#dynamic-colors">setting colors dynamically</a>,
+      <a href="#dynamic-fill">setting fill dynamically</a>,
       <a href="#updating-charts">updating charts</a>,
       <a href="#custom-charts">custom charts</a>,
       <a href="#data-attributes">data-* attributes</a> and
@@ -128,7 +263,7 @@ $(function() {
     otherwise all of the values are included in the chart and the total is the
     sum of all values.</p>
 
-  <p>You can also pass <code>colors</code>, <code>delimiter</code>,
+  <p>You can also pass <code>fill</code>, <code>delimiter</code>,
     <code>diameter</code>, <code>height</code> and <code>width</code> options.
     Setting a diameter is a shortcut for setting the width and height to the
     same value.</p>
@@ -170,7 +305,7 @@ $(function() {
     <span class="line">5,3,9,6,5,9,7,3,5,2</span>
     <span class="line">5,3,2,-1,-3,-2,2,3,5,2</span>
     <span class="line">0,-3,-6,-4,-5,-4,-7,-3,-5,-2</span>
-		<span class="multiline">0,3,6,4,-5,4,-7,3,-5,-2|-5,-4,-7,-3,5,-2,0,3,6,-4</span>
+		<span class="lines">0,3,6,4,-5,4,-7,3,-5,-2|-5,-4,-7,-3,5,-2,0,3,6,-4</span>
   </p>
 
   <div class="example">
@@ -186,8 +321,8 @@ $(function() {
   <h2 id="bar-charts">Bar Charts</h2>
 
   <p>Bar charts work in the same way as line charts and take the following
-    options: <code>colors</code>, <code>delimiter</code>, <code>max</code>,
-    <code>min</code>, <code>spacing</code>, <code>width</code> and
+    options: <code>fill</code>, <code>delimiter</code>, <code>max</code>,
+    <code>min</code>, <code>gap</code>, <code>width</code> and
     <code>height</code>.</p>
 
   <p>
@@ -206,9 +341,9 @@ $(function() {
     <pre><code class="javascript">$(".bar").peity("bar")</code></pre>
   </div>
 
-  <h2 id="dynamic-colors">Setting Colors Dynamically</h2>
+  <h2 id="dynamic-fill">Setting fill Dynamically</h2>
 
-  <p>Bar and pie chart colors can be defined dynamically based on the values
+  <p>Bar and pie chart fill can be defined dynamically based on the values
     of the chart. When passing an array its values are cycled, when passing a
     function it is called once for each value allowing you to define each
     bar's color. The function is called with a similar signature to
@@ -217,45 +352,45 @@ $(function() {
   </p>
 
   <p>
-    <span class="bar-colors-1">5,3,9,6,5,9,7,3,5,2</span>
-    <span class="bar-colors-2">5,3,2,-1,-3,-2,2,3,5,2</span>
-    <span class="bar-colors-3">0,-3,-6,-4,-5,-4,-7,-3,-5,-2</span>
-    <span class="pie-colors-1">4,7,6,5</span>
-    <span class="pie-colors-2">5,3,9,6,5</span>
+    <span class="bar-fill-1">5,3,9,6,5,9,7,3,5,2</span>
+    <span class="bar-fill-2">5,3,2,-1,-3,-2,2,3,5,2</span>
+    <span class="bar-fill-3">0,-3,-6,-4,-5,-4,-7,-3,-5,-2</span>
+    <span class="pie-fill-1">4,7,6,5</span>
+    <span class="pie-fill-2">5,3,9,6,5</span>
   </p>
 
   <div class="example">
     <h4>HTML</h4>
-    <pre><code class="html">&lt;span class="bar-colors-1"&gt;5,3,9,6,5,9,7,3,5,2&lt;/span&gt;
-&lt;span class=&quot;bar-colors-2&quot;&gt;5,3,2,-1,-3,-2,2,3,5,2&lt;/span&gt;
-&lt;span class=&quot;bar-colors-3&quot;&gt;0,-3,-6,-4,-5,-4,-7,-3,-5,-2&lt;/span&gt;
-&lt;span class=&quot;pie-colors-1&quot;&gt;4,7,6,5&lt;/span&gt;
-&lt;span class=&quot;pie-colors-2&quot;&gt;5,3,9,6,5&lt;/span&gt;</code></pre>
+    <pre><code class="html">&lt;span class="bar-fill-1"&gt;5,3,9,6,5,9,7,3,5,2&lt;/span&gt;
+&lt;span class=&quot;bar-fill-2&quot;&gt;5,3,2,-1,-3,-2,2,3,5,2&lt;/span&gt;
+&lt;span class=&quot;bar-fill-3&quot;&gt;0,-3,-6,-4,-5,-4,-7,-3,-5,-2&lt;/span&gt;
+&lt;span class=&quot;pie-fill-1&quot;&gt;4,7,6,5&lt;/span&gt;
+&lt;span class=&quot;pie-fill-2&quot;&gt;5,3,9,6,5&lt;/span&gt;</code></pre>
 
     <h4>JavaScript</h4>
-    <pre><code class="javascript">$(".bar-colors-1").peity("bar", {
-  colors: ["red", "green", "blue"]
+    <pre><code class="javascript">$(".bar-fill-1").peity("bar", {
+  fill: ["red", "green", "blue"]
 })
 
-$(".bar-colors-2").peity("bar", {
-  colors: function(value) {
+$(".bar-fill-2").peity("bar", {
+  fill: function(value) {
     return value > 0 ? "green" : "red"
   }
 })
 
-$(".bar-colors-3").peity("bar", {
-  colors: function(_, i, all) {
+$(".bar-fill-3").peity("bar", {
+  fill: function(_, i, all) {
     var g = parseInt((i / all.length) * 255)
     return "rgb(255, " + g + ", 0)"
   }
 })
 
-$(".pie-colors-1").peity("pie", {
-  colors: ["cyan", "magenta", "yellow", "black"]
+$(".pie-fill-1").peity("pie", {
+  fill: ["cyan", "magenta", "yellow", "black"]
 })
 
-$(".pie-colors-2").peity("pie", {
-  colors: function(_, i, all) {
+$(".pie-fill-2").peity("pie", {
+  fill: function(_, i, all) {
     var g = parseInt((i / all.length) * 255)
     return "rgb(255, " + g + ", 0)"
   }
@@ -311,25 +446,25 @@ setInterval(function() {
     <code>peity()</code> function take precedence over data-* attributes.</p>
 
   <p class="pie">
-    <span data-colors='["red", "#eeeeee"]'    data-diameter="40">1/7</span>
-    <span data-colors='["orange", "#eeeeee"]' data-diameter="36">2/7</span>
-    <span data-colors='["yellow", "#eeeeee"]' data-diameter="32">3/7</span>
-    <span data-colors='["green", "#eeeeee"]'  data-diameter="28">4/7</span>
-    <span data-colors='["blue", "#eeeeee"]'   data-diameter="24">5/7</span>
-    <span data-colors='["indigo", "#eeeeee"]' data-diameter="20">6/7</span>
-    <span data-colors='["violet", "#eeeeee"]' data-diameter="16">7/7</span>
+    <span data-fill='["red", "#eeeeee"]'    data-diameter="40">1/7</span>
+    <span data-fill='["orange", "#eeeeee"]' data-diameter="36">2/7</span>
+    <span data-fill='["yellow", "#eeeeee"]' data-diameter="32">3/7</span>
+    <span data-fill='["green", "#eeeeee"]'  data-diameter="28">4/7</span>
+    <span data-fill='["blue", "#eeeeee"]'   data-diameter="24">5/7</span>
+    <span data-fill='["indigo", "#eeeeee"]' data-diameter="20">6/7</span>
+    <span data-fill='["violet", "#eeeeee"]' data-diameter="16">7/7</span>
   </p>
 
   <div class="example">
     <h4>HTML</h4>
 
-    <pre><code class="html">&lt;span data-colors=&#x27;[&quot;red&quot;, &quot;#eeeeee&quot;]&#x27;    data-diameter=&quot;40&quot;&gt;1/7&lt;/span&gt;
-&lt;span data-colors=&#x27;[&quot;orange&quot;, &quot;#eeeeee&quot;]&#x27; data-diameter=&quot;36&quot;&gt;2/7&lt;/span&gt;
-&lt;span data-colors=&#x27;[&quot;yellow&quot;, &quot;#eeeeee&quot;]&#x27; data-diameter=&quot;32&quot;&gt;3/7&lt;/span&gt;
-&lt;span data-colors=&#x27;[&quot;green&quot;, &quot;#eeeeee&quot;]&#x27;  data-diameter=&quot;28&quot;&gt;4/7&lt;/span&gt;
-&lt;span data-colors=&#x27;[&quot;blue&quot;, &quot;#eeeeee&quot;]&#x27;   data-diameter=&quot;24&quot;&gt;5/7&lt;/span&gt;
-&lt;span data-colors=&#x27;[&quot;indigo&quot;, &quot;#eeeeee&quot;]&#x27; data-diameter=&quot;20&quot;&gt;6/7&lt;/span&gt;
-&lt;span data-colors=&#x27;[&quot;violet&quot;, &quot;#eeeeee&quot;]&#x27; data-diameter=&quot;16&quot;&gt;7/7&lt;/span&gt;</code></pre>
+    <pre><code class="html">&lt;span data-fill=&#x27;[&quot;red&quot;, &quot;#eeeeee&quot;]&#x27;    data-diameter=&quot;40&quot;&gt;1/7&lt;/span&gt;
+&lt;span data-fill=&#x27;[&quot;orange&quot;, &quot;#eeeeee&quot;]&#x27; data-diameter=&quot;36&quot;&gt;2/7&lt;/span&gt;
+&lt;span data-fill=&#x27;[&quot;yellow&quot;, &quot;#eeeeee&quot;]&#x27; data-diameter=&quot;32&quot;&gt;3/7&lt;/span&gt;
+&lt;span data-fill=&#x27;[&quot;green&quot;, &quot;#eeeeee&quot;]&#x27;  data-diameter=&quot;28&quot;&gt;4/7&lt;/span&gt;
+&lt;span data-fill=&#x27;[&quot;blue&quot;, &quot;#eeeeee&quot;]&#x27;   data-diameter=&quot;24&quot;&gt;5/7&lt;/span&gt;
+&lt;span data-fill=&#x27;[&quot;indigo&quot;, &quot;#eeeeee&quot;]&#x27; data-diameter=&quot;20&quot;&gt;6/7&lt;/span&gt;
+&lt;span data-fill=&#x27;[&quot;violet&quot;, &quot;#eeeeee&quot;]&#x27; data-diameter=&quot;16&quot;&gt;7/7&lt;/span&gt;</code></pre>
     <h4>JavaScript</h4>
 
     <pre><code class="javascript">$(&quot;.pie span&quot;).peity(&quot;pie&quot;)</code></pre>
@@ -444,7 +579,7 @@ $("span.graph")
   <p>Defaults can be overridden globally like so:</p>
 
   <pre><code class="javascript">$.fn.peity.defaults.pie = {
-  colors: ["<span style="background:#ff9900">#ff9900</span>", "<span style="background:#fff4dd">#fff4dd</span>", "<span style="background:#ffd592">#ffd592</span>"],
+  fill: ["<span style="background:#ff9900">#ff9900</span>", "<span style="background:#fff4dd">#fff4dd</span>", "<span style="background:#ffd592">#ffd592</span>"],
   delimiter: null,
   diameter: 16,
   height: null,
@@ -463,12 +598,12 @@ $.fn.peity.defaults.line = {
 }
 
 $.fn.peity.defaults.bar = {
-  colors: ["<span style="background:#4d89f9">#4d89f9</span>"],
+  fill: ["<span style="background:#4d89f9">#4d89f9</span>"],
   delimiter: ",",
   height: 16,
   max: null,
   min: 0,
-  spacing: devicePixelRatio || 1,
+  gap: devicePixelRatio || 1,
   width: 32
 }</code></pre>
 

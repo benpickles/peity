@@ -4,8 +4,143 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0">
 <title>Peity &bull; progressive &lt;canvas&gt; pie charts</title>
-<link href="docs/style.css" rel="stylesheet">
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.js"></script>
+<style>body {
+  background: #fff;
+  font-family: Baskerville, Georgia, "Times New Roman", serif;
+  font-size: 1em;
+  line-height: 1.5em;
+  margin: 0;
+  padding: 0;
+}
+
+#fork-me {
+  background: none;
+  display: block;
+  margin: 0;
+  padding: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+#fork-me img {
+  border: none;
+  height: 149px;
+  width: 149px;
+}
+
+#container {
+  padding: 10px;
+}
+
+h1 {
+  font-size: 3em;
+  margin: 0.2em 0 0.4em;
+}
+
+h2 {
+  font-size: 1.8em;
+  margin: 0.7em 0 0.2em;
+}
+
+h3 {
+  font-size: 1.2em;
+  margin: 0.7em 0 0;
+}
+
+h4 {
+  color: #666;
+  font-size: 1em;
+  margin: 0.7em 0 0;
+}
+
+p {
+  margin: 0.2em 0 0.3em;
+}
+
+dl {
+  margin: 0.2em 0 0.3em 10px;
+}
+
+dd {
+  margin-left: 1em;
+}
+
+footer {
+  display: block;
+  margin: 1em 0;
+}
+
+.version {
+  font-size: 0.6em;
+  font-weight: normal;
+  line-height: 1em;
+}
+
+a {
+  background: #eef;
+  color: #246;
+  padding: 1px 2px;
+}
+a:hover {
+  color: #123;
+  text-decoration: none;
+}
+
+code {
+  background: #f4f4ff;
+  border: 1px solid #ddf;
+  padding: 1px 2px;
+}
+
+pre {
+  background: #f4f4ff;
+  border-top: 1px solid #ddf;
+  border-bottom: 1px solid #ddf;
+  line-height: 1.4em;
+  margin: 0.3em -10px;
+  overflow-x: auto;
+  padding: 0.5em 10px;
+}
+
+pre code {
+  background: transparent;
+  border: none;
+  padding: 0;
+}
+
+/* Browser */
+@media screen and (min-width: 481px) {
+  body {
+    text-align: center;
+  }
+
+  #container {
+    margin: 0 auto;
+    max-width: 600px;
+    text-align: left;
+  }
+
+  pre {
+    border-right: 1px solid #ddf;
+    border-left: 1px solid #ddf;
+  }
+}
+
+/* iPhone */
+@media screen and (max-width: 480px) {
+  html {
+    -webkit-text-size-adjust: none;
+  }
+}
+
+/* Retina */
+@media screen and (-webkit-min-device-pixel-ratio: 2) {
+  #fork-me img {
+    height: 74.5px;
+    width: 74.5px;
+  }
+}
+</style><script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.js"></script>
 <script src="jquery.peity.js"></script>
 <script>
 $(function() {
@@ -13,31 +148,29 @@ $(function() {
   $("span.pie").peity("pie")
   $(".line").peity("line", {width:256, height:32, lineWidth:2})
 	
-  $(".bar").peity("bar", { width : 256, height : 128, spacing : 4, focusColor : "#000", focusWidth: 2, fontStyle: "12pt Trebuchet MS" })
+  $(".bar").peity("bar", { width : 256, height : 128, gap : 4, focusColor : "#000", focusWidth: 2, axisSize : 3 })
 
-  $(".bar-colors-1").peity("bar", {
-    colors: ["red", "green", "blue"]
+  $(".bar-fill-1").peity("bar", {
+    fill: ["red", "green", "blue"]
   })
 
-  $(".bar-colors-2").peity("bar", {
-    colors: function(value) {
-      return value > 0 ? "green" : "red"
-    }
+  $(".bar-fill-2").peity("bar", {
+    fill: function(value) { return value > 0 ? "green" : "red" }
   })
 
-  $(".bar-colors-3").peity("bar", {
-    colors: function(_, i, all) {
+  $(".bar-fill-3").peity("bar", {
+    fill: function(_, i, all) {
       var g = parseInt((i / all.length) * 255)
       return "rgb(255, " + g + ", 0)"
     }
   })
 
-  $(".pie-colors-1").peity("pie", {
-    colors: ["cyan", "magenta", "yellow", "black"],
+  $(".pie-fill-1").peity("pie", {
+    fill: ["cyan", "magenta", "yellow", "black"],
   })
 
-  $(".pie-colors-2").peity("pie", {
-    colors: function(_, i, all) {
+  $(".pie-fill-2").peity("pie", {
+    fill: function(_, i, all) {
       var g = parseInt((i / all.length) * 255)
       return "rgb(255, " + g + ", 0)"
     }
@@ -74,7 +207,7 @@ $(function() {
       .change()
   }, 1000)
 	
-	$(".multiline").peity("multiline", {width:256, height:32})
+	$(".lines").peity("lines", {width:256, height:32})
 })
 </script>
 </head>
@@ -93,7 +226,7 @@ $(function() {
     <span class="line">5,3,9,6,5,9,7,3,5,2</span>
     <span class="line">5,3,2,-1,-3,-2,2,3,5,2</span>
     <span class="line">0,-3,-6,-4,-5,-4,-7,-3,-5,-2</span>
-		<span class="multiline">0,3,6,4,-5,4,-7,3,-5,-2|-5,-4,-7,-3,5,-2,0,3,6,-4</span>
+		<span class="lines">0,3,6,4,-5,4,-7,3,-5,-2|-5,-4,-7,-3,5,-2,0,3,6,-4</span>
   </p>
 
   <p>
@@ -103,11 +236,11 @@ $(function() {
   </p>
 
   <p>
-    <span class="bar-colors-1">5,3,9,6,5,9,7,3,5,2</span>
-    <span class="bar-colors-2">5,3,2,-1,-3,-2,2,3,5,2</span>
-    <span class="bar-colors-3">0,-3,-6,-4,-5,-4,-7,-3,-5,-2</span>
-    <span class="pie-colors-1">4,7,6,5</span>
-    <span class="pie-colors-2">5,3,9,6,5</span>
+    <span class="bar-fill-1">5,3,9,6,5,9,7,3,5,2</span>
+    <span class="bar-fill-2">5,3,2,-1,-3,-2,2,3,5,2</span>
+    <span class="bar-fill-3">0,-3,-6,-4,-5,-4,-7,-3,-5,-2</span>
+    <span class="pie-fill-1">4,7,6,5</span>
+    <span class="pie-fill-2">5,3,9,6,5</span>
   </p>
 
   <p>
@@ -115,13 +248,13 @@ $(function() {
   </p>
 
   <p class="pie">
-    <span data-colors='["red", "#eeeeee"]'    data-diameter="40">1/7</span>
-    <span data-colors='["orange", "#eeeeee"]' data-diameter="36">2/7</span>
-    <span data-colors='["yellow", "#eeeeee"]' data-diameter="32">3/7</span>
-    <span data-colors='["green", "#eeeeee"]'  data-diameter="28">4/7</span>
-    <span data-colors='["blue", "#eeeeee"]'   data-diameter="24">5/7</span>
-    <span data-colors='["indigo", "#eeeeee"]' data-diameter="20">6/7</span>
-    <span data-colors='["violet", "#eeeeee"]' data-diameter="16">7/7</span>
+    <span data-fill='["red", "#eeeeee"]'    data-diameter="40">1/7</span>
+    <span data-fill='["orange", "#eeeeee"]' data-diameter="36">2/7</span>
+    <span data-fill='["yellow", "#eeeeee"]' data-diameter="32">3/7</span>
+    <span data-fill='["green", "#eeeeee"]'  data-diameter="28">4/7</span>
+    <span data-fill='["blue", "#eeeeee"]'   data-diameter="24">5/7</span>
+    <span data-fill='["indigo", "#eeeeee"]' data-diameter="20">6/7</span>
+    <span data-fill='["violet", "#eeeeee"]' data-diameter="16">7/7</span>
   </p>
 
   <p>

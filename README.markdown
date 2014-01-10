@@ -15,6 +15,7 @@ Peity (sounds like deity) is a simple jQuery plugin that converts an element's c
     $("span.pie").peity("pie");
     $("span.line").peity("line");
     $("span.bar").peity("bar");
+		$("span.multi").peity("lines");
 
 ## Docs
 
