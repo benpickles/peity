@@ -202,7 +202,7 @@
 			lineColor : "#48f", lineWidth : 1,
 			delimiter : ",",
 			height : 16, width : 32,
-			max : null, min: 0,
+			max : null, min: 0
 		},
 		function(opt) {
 			var self = this;
