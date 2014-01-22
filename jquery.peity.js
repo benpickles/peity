@@ -272,7 +272,8 @@
       var $svg = this.prepare(opts.width, opts.height)
         , width = $svg.width()
         , height = $svg.height()
-        , yQuotient = height / (max - min)
+        , diff = max - min
+        , yQuotient = diff == 0 ? 0 : height / diff
         , gap = opts.gap
         , xQuotient = (width + gap) / values.length
         , fill = this.fill()
@@ -282,7 +283,7 @@
         var y = height - (yQuotient * (value - min))
         var h
 
-        if (value == 0) {
+        if (value == min) {
           var pixel = 1 / (window.devicePixelRatio || 1)
           if (min >= 0 || max > 0) y -= pixel
           h = pixel
