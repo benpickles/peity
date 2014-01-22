@@ -1,5 +1,9 @@
 # History
 
+## Version 2.0.1 - 2014/1/22
+
+ * Ensure bars are positioned correctly when a bar chart's values are all equal its minimum value.
+
 ## Version 2.0.0 - 2014/1/3
 
  * Switch from `<canvas>` to `<svg>`.
