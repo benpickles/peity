@@ -1,20 +1,24 @@
 # Peity
 
-Peity (sounds like deity) is a simple jQuery plugin that converts an element's content into a simple mini `svg` pie, line or bar chart.
+Peity (sounds like deity) is a simple jQuery plugin that converts an element's content into a simple mini `<svg>` pie, line or bar chart.
 
 ## Basic Usage
 
 ### HTML
 
-    <span class="pie">3/5</span>
-    <span class="line">3,5,1,6,2</span>
-    <span class="bar">2,5,3,6,2,1</span>
+```html
+<span class="pie">3/5</span>
+<span class="line">3,5,1,6,2</span>
+<span class="bar">2,5,3,6,2,1</span>
+```
 
 ### Javascript (jQuery)
 
-    $("span.pie").peity("pie");
-    $("span.line").peity("line");
-    $("span.bar").peity("bar");
+```js
+$("span.pie").peity("pie");
+$("span.line").peity("line");
+$("span.bar").peity("bar");
+```
 
 ## Docs
 
