@@ -275,7 +275,7 @@
 			var context = self.context;
 			var width = canvas.width;
 			var height = canvas.height;
-			var xQuotient = width / (values[1].length - 1);
+			var xQuotient = width / (values[0].length - 1);
 			var yQuotient = height / (max - min);
 			var fill = opt.fill;
 			

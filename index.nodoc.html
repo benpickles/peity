@@ -193,21 +193,39 @@ $(function() {
 
   $("span.graph").peity("pie")
 
-  // Updating charts.
-  var updatingChart = $(".updating-chart").peity("line", { width: 64 })
-
+	  // Updating charts.
+  var updatingChart = $(".updating-chart").peity("line", { width: 64 });
+	updatingChart.data("allValues", updatingChart.text());
+//Testing using same values but changing interval
   setInterval(function() {
-    var random = Math.round(Math.random() * 10)
-    var values = updatingChart.text().split(",")
-    values.shift()
-    values.push(random)
-
+   
+    var values = updatingChart.data("allValues").split(",")
+	var limit = Math.round(Math.random() * values.length / 2 + values.length / 2);
+	var limit2 = Math.round(Math.random() * values.length / 2);
+	values = values.slice(Math.min(limit, limit2), Math.max(limit, limit2));
+console.log(JSON.stringify(values));
     updatingChart
       .text(values.join(","))
-      .change()
+      .change();
+			
+			
   }, 1000)
 	
-	$(".lines").peity("lines", {width:256, height:32})
+
+	//TEsting showing just a portion of the data
+	var updatingMulti = $(".lines").peity("lines", {width:256, height:32});
+	updatingMulti.data("allValues",updatingMulti.text());
+	setInterval(function() {
+	  var arrays = updatingMulti.data("allValues").split("|").map(function(e){return e.split(","); });
+    console.log(JSON.stringify(arrays));
+		var max = Math.round(Math.random() * arrays[0].length / 2 + arrays[0].length / 2);
+	var min = Math.round(Math.random() * arrays[0].length / 2);
+	arrays = arrays.map(function(e){ return e.slice(min, max); });
+	
+    updatingMulti
+      .text(arrays.map(function(e){return e.join(",");}).join("|"))
+      .change()
+  }, 1000)
 })
 </script>
 </head>
