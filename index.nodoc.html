@@ -195,7 +195,7 @@ $(function() {
 	var limit = Math.round(Math.random() * values.length / 2 + values.length / 2);
 	var limit2 = Math.round(Math.random() * values.length / 2);
 	values = values.slice(Math.min(limit, limit2), Math.max(limit, limit2));
-console.log(JSON.stringify(values));
+//console.log(JSON.stringify(values));
     updatingChart
       .text(values.join(","))
       .change();
@@ -209,7 +209,7 @@ console.log(JSON.stringify(values));
 	updatingMulti.data("allValues",updatingMulti.text());
 	setInterval(function() {
 	  var arrays = updatingMulti.data("allValues").split("|").map(function(e){return e.split(","); });
-    console.log(JSON.stringify(arrays));
+    //console.log(JSON.stringify(arrays));
 		var max = Math.round(Math.random() * arrays[0].length / 2 + arrays[0].length / 2);
 	var min = Math.round(Math.random() * arrays[0].length / 2);
 	arrays = arrays.map(function(e){ return e.slice(min, max); });

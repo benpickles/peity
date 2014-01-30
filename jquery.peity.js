@@ -65,11 +65,11 @@
 
 	//Redraw chart with hover effect based on mouse position
 	PeityPrototype.hoverEvent = function(evt) {
+		var $this = $(this), offset = $this.offset();
 		PeityPrototype.removeEvents(this);
-		var rect = this.getBoundingClientRect();
-		$(this).prev().data("mouse", JSON.stringify({
-			x: evt.clientX - rect.left,
-			y: evt.clientY - rect.top
+		$this.prev().data("mouse", JSON.stringify({
+			x: evt.clientX - offset.left,
+			y: evt.clientY - offset.top
 		})).change();
 	};
 
@@ -101,21 +101,22 @@
 		else return splitter(text);
 	};
 
+	//Add event listeners to pie and bar charts to redraw hover effects
+	PeityPrototype.setLineStyle = function(context, color, width) {
+		context.lineWidth = width;
+		context.strokeStyle = color;
+	};
+
 	PeityPrototype.drawArc = function(context, r, start, end, color, width) {
 		context.beginPath();
 		context.arc(0, 0, r, start, end, true);//true = counterclockwise
-		context.strokeStyle = color;
-		context.lineWidth = width;
+		PeityPrototype.setLineStyle(context, color, width);
 		context.stroke();
 	};
 
 	//Default options and drawing functions per type
-	peity.defaults = {};
-	peity.graphers = {};
-	peity.register = function(type, defaults, grapher) {
-		this.defaults[type] = defaults; this.graphers[type] = grapher;
-
-	};
+	peity.defaults = {}; peity.graphers = {};
+	peity.register = function(type, defaults, grapher) { this.defaults[type] = defaults; this.graphers[type] = grapher; };
 
 	//Pie chart
 	peity.register("pie", {
@@ -247,8 +248,7 @@
 				for(i = 0; i < coords.length; i++) {
 					context.lineTo(coords[i].x, coords[i].y);
 				}
-				context.lineWidth = lineWidth;
-				context.strokeStyle = opt.lineColor;
+				self.setLineStyle(context, opt.lineColor, lineWidth);
 				context.stroke();
 			}
 		}
@@ -291,26 +291,21 @@
 
 			//Baseline
 			if(gridlines[0]) {
-				coords = [{ x: 0, y: height - (yQuotient * (0 - min)) }, { x: width + pointSize * 2, y: height - (yQuotient * (0 - min)) }];
 				context.beginPath();
-				context.moveTo(0, coords[0].y);
-				for(i = 0; i < coords.length; i++) context.lineTo(coords[i].x, coords[i].y);
+				context.moveTo(0, height - (yQuotient * (0 - min)));
+				context.lineTo(width + pointSize * 2, height - (yQuotient * (0 - min)));
 				//Draw in specified color
-				context.lineWidth = gridlines[0]
-				context.strokeStyle = gridlineColors[0];
+				self.setLineStyle(context, gridlineColors[0], gridlines[0]);
 				context.stroke();
 			}
 
-			//Baseline
+			//Gridlines
 			if(gridlines[1]) {
+				self.setLineStyle(context, gridlineColors[1], gridlines[1]);
 				for(j = min; j <= max; j += region) {
-					coords = [{ x: 0, y: height - (yQuotient * (j - min)) }, { x: width + pointSize * 2, y: height - (yQuotient * (j - min)) }];
 					context.beginPath();
-					context.moveTo(0, coords[0].y);
-					for(i = 0; i < coords.length; i++) context.lineTo(coords[i].x, coords[i].y);
-					//Draw in specified color
-					context.lineWidth = gridlines[1]
-					context.strokeStyle = gridlineColors[1];
+					context.moveTo(0, height - (yQuotient * (j - min)));
+					context.lineTo(width + pointSize * 2, height - (yQuotient * (j - min)));
 					context.stroke();
 				}
 			}
@@ -337,8 +332,7 @@
 				context.moveTo(0, coords[0].y);
 				for(i = 0; i < coords.length; i++) context.lineTo(coords[i].x, coords[i].y);
 				//Draw in specified color
-				context.lineWidth = lineWidths[j % lineWidths.length];
-				context.strokeStyle = lineColors[j % lineColors.length];
+				self.setLineStyle(context, lineColors[j % lineColors.length], lineWidths[j % lineWidths.length]);
 				context.stroke();
 			}
 		}
@@ -347,13 +341,14 @@
 	//Bar chart
 	peity.register("bar", {
 		fill: ["#48f"],
-		axisColor: "#000", axisSize: 1,
 		fontColor: "#000", font: "12pt sans-serif",
 		focusColor: "#000", focusWidth: 0,
 		height: 16, width: 32,
 		max: null, min: 0,
 		delimiter: ",",
-		gap: 1
+		gap: 1,
+		gridlines: [1, 1],
+		gridlineColors: ["#000", "#bbb"]
 	},
 		function(opt) {
 			//Declare variables
@@ -364,6 +359,7 @@
 			var values = self.values();
 			var max = Math.max.apply(Math, values.concat([opt.max]));
 			var min = Math.min.apply(Math, values.concat([opt.min]));
+			var region = opt.region || ((max - min) / 5);
 
 			//Assign elements and options to variables
 			var hoverPos = self.$el.data("mouse");
@@ -373,22 +369,40 @@
 			var gap = opt.gap;
 			var fill = self.fill();
 			var focusWidth = opt.focusWidth;
-			var axisSize = opt.axisSize;
+			var gridlines = opt.gridlines;
+			var gridlineColors = opt.gridlineColors;
 
 			//Size
 			var fullWidth = canvas.width;
 			var fullHeight = canvas.height;
 			var width = fullWidth - gap * 2;
-			var height = fullHeight - gap * 2 - axisSize;
+			var height = fullHeight - gap * 2 - gridlines[0];
 			var yQuotient = height / (max - min);//Height of bar of value 1
 			var xQuotient = (width + gap) / values.length;//Width of bar
 			var middle = yQuotient * max + gap;
 
-			//Draw axisSize
-			if(axisSize) {
-				context.fillStyle = opt.axisColor;
-				context.fillRect(0, middle - (axisSize / 2), fullWidth, axisSize);
+			//Baseline
+			if(gridlines[0]) {
+				context.beginPath();
+				context.moveTo(0, height - (yQuotient * (0 - min)) + gap);
+				context.lineTo(fullWidth, height - (yQuotient * (0 - min)) + gap);
+				//Draw in specified color
+				self.setLineStyle(context, gridlineColors[0], gridlines[0]);
+				context.stroke();
 			}
+
+			//Gridlines
+			if(gridlines[1]) {
+				self.setLineStyle(context, gridlineColors[1], gridlines[1]);
+				for(i = min; i <= max; i += region) {
+					context.beginPath();
+					context.moveTo(0, height - (yQuotient * (i - min)) + gap);
+					context.lineTo(fullWidth, height - (yQuotient * (i - min)) + gap);
+					context.stroke();
+				}
+			}
+
+
 			//Loop through values and draw each bar
 			for(i = 0; i < values.length; i++) {
 				value = values[i];
@@ -425,8 +439,7 @@
 						h = Math.abs(h);
 						if(hoverPos.y >= y && hoverPos.y <= y + h) {
 							//If mouse is within a bar, draw a focus
-							context.strokeStyle = opt.focusColor;
-							context.lineWidth = focusWidth;
+							self.setLineStyle(context, opt.focusColor, focusWidth);
 							context.strokeRect(
 								x - focusWidth / 2,
 								y - focusWidth / 2,
