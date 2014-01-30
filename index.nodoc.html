@@ -132,14 +132,6 @@ pre code {
     -webkit-text-size-adjust: none;
   }
 }
-
-/* Retina */
-@media screen and (-webkit-min-device-pixel-ratio: 2) {
-  #fork-me img {
-    height: 74.5px;
-    width: 74.5px;
-  }
-}
 </style><script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.js"></script>
 <script src="jquery.peity.js"></script>
 <script>
@@ -213,7 +205,7 @@ console.log(JSON.stringify(values));
 	
 
 	//TEsting showing just a portion of the data
-	var updatingMulti = $(".lines").peity("lines", {width:256, height:32});
+	var updatingMulti = $(".lines").peity("lines", {width:512, height:64});
 	updatingMulti.data("allValues",updatingMulti.text());
 	setInterval(function() {
 	  var arrays = updatingMulti.data("allValues").split("|").map(function(e){return e.split(","); });

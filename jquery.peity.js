@@ -255,41 +255,64 @@
 
 	//Multi Line Chart
 	peity.register("lines", {
-			lineColors: ["#000000", "#666666", "#803E75"],
-			lineWidths: [1, 2, 2],
+			lineColors: ["#666666", "#803E75"],
+			lineWidths: [1],
 			delimiter: ",",
 			seriesDelimiter : "|",
 			height: 16,
 			max: null,
 			min: 0,
-			width: 32
+			width: 32,
+			pointSize : 2,
+			gridlines : [1, 1],
+			gridlineColors : ["#000", "#bbb"]
 		},
 		function(opt) {
 			var self = this;
 			var values = self.values();
+			var pointSize = opt.pointSize;
 			var allValues = [].concat.apply([opt.max, opt.min], values);
 			var max = Math.max.apply(Math, allValues);
 			var min = Math.min.apply(Math, allValues);
+			var region = opt.region || ((max-min) / 5);
 			var canvas = self.prepareCanvas(opt.width, opt.height);
 			var context = self.context;
-			var width = canvas.width;
+			var width = canvas.width - pointSize*2;
 			var height = canvas.height;
 			var xQuotient = width / (values[0].length - 1);
-			var yQuotient = height / (max - min);
+			var yQuotient = height / (max - min);//1 / range of all values, 1 = yQuotient px;
 			var lineColors = opt.lineColors;
 			var lineWidths = opt.lineWidths;
+			var gridlines = opt.gridlines;
+            var gridlineColors = opt.gridlineColors;
+            
 			var i, j, series, coords;
 			
-			
-			//Create axisSize
-			coords = [{x : 0, y: height - (yQuotient * (0 - min)) }, {x : width, y: height - (yQuotient * (0 - min)) }];
-			context.beginPath();
-			context.moveTo(0, coords[0].y);
-			for (i = 0; i < coords.length; i++) context.lineTo(coords[i].x, coords[i].y);
-			//Draw in specified color
-            context.lineWidth = lineWidths[0 % lineWidths.length];
-			context.strokeStyle = lineColors[0 % lineColors.length];
-			context.stroke();
+			//Baseline
+			if(gridlines[0]){
+				coords = [{x : 0, y: height - (yQuotient * (0 - min)) }, {x : width+pointSize*2, y: height - (yQuotient * (0 - min)) }];
+				context.beginPath();
+				context.moveTo(0, coords[0].y);
+				for (i = 0; i < coords.length; i++) context.lineTo(coords[i].x, coords[i].y);
+				//Draw in specified color
+				context.lineWidth = gridlines[0]
+				context.strokeStyle = gridlineColors[0];
+				context.stroke();
+			}
+            
+			//Baseline
+			if(gridlines[1]){
+				for(j = min; j <= max; j += region){
+					coords = [{x : 0, y: height - (yQuotient * (j - min)) }, {x : width+pointSize*2, y: height - (yQuotient * (j - min)) }];
+					context.beginPath();
+					context.moveTo(0, coords[0].y);
+					for (i = 0; i < coords.length; i++) context.lineTo(coords[i].x, coords[i].y);
+					//Draw in specified color
+					context.lineWidth = gridlines[1]
+					context.strokeStyle = gridlineColors[1];
+					context.stroke();
+				}
+			}
 			
 			//Loop through each series then each value in the series
 			for(j = 0; j < values.length; j += 1){
@@ -299,9 +322,13 @@
 				//Calculate coordinates for each value
 				for (i = 0; i < series.length; i++) {
 					coords.push({
-						x: i * xQuotient,
+						x: i * xQuotient + pointSize,
 						y: height - (yQuotient * (series[i] - min))
 					});
+                    context.beginPath();
+                    context.arc(coords[i].x, coords[i].y, opt.pointSize, 0, 2 * Math.PI, false);
+                    context.fillStyle = lineColors[j % lineColors.length];
+                    context.fill();
 				}
 				
 				//Create path between coordinates
@@ -309,8 +336,8 @@
 				context.moveTo(0, coords[0].y);
 				for (i = 0; i < coords.length; i++) context.lineTo(coords[i].x, coords[i].y);
 				//Draw in specified color
-				context.lineWidth = lineWidths[(j+1) % lineWidths.length];
-				context.strokeStyle = lineColors[(j+1) % lineColors.length];
+				context.lineWidth = lineWidths[j % lineWidths.length];
+				context.strokeStyle = lineColors[j % lineColors.length];
 				context.stroke();
 			}
 		}
