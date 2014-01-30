@@ -255,9 +255,8 @@
 
 	//Multi Line Chart
 	peity.register("lines", {
-			fill: ["#666666", "#803E75", "#FF6800"],
-			lineColor: "#4d89f9",
-			lineWidth: 1,
+			lineColors: ["#000000", "#666666", "#803E75"],
+			lineWidths: [1, 2, 2],
 			delimiter: ",",
 			seriesDelimiter : "|",
 			height: 16,
@@ -268,7 +267,7 @@
 		function(opt) {
 			var self = this;
 			var values = self.values();
-			var allValues = [opt.max, opt.min].concat.apply([], values);
+			var allValues = [].concat.apply([opt.max, opt.min], values);
 			var max = Math.max.apply(Math, allValues);
 			var min = Math.min.apply(Math, allValues);
 			var canvas = self.prepareCanvas(opt.width, opt.height);
@@ -277,20 +276,19 @@
 			var height = canvas.height;
 			var xQuotient = width / (values[0].length - 1);
 			var yQuotient = height / (max - min);
-			var fill = opt.fill;
-			
+			var lineColors = opt.lineColors;
+			var lineWidths = opt.lineWidths;
 			var i, j, series, coords;
-			context.lineWidth = opt.lineWidth;
+			
 			
 			//Create axisSize
-			coords = [{x : 0, y: height - (yQuotient * (0 - min)) }, {x : width, y: height - (yQuotient * (0 - 
-
-min)) }];
+			coords = [{x : 0, y: height - (yQuotient * (0 - min)) }, {x : width, y: height - (yQuotient * (0 - min)) }];
 			context.beginPath();
 			context.moveTo(0, coords[0].y);
 			for (i = 0; i < coords.length; i++) context.lineTo(coords[i].x, coords[i].y);
 			//Draw in specified color
-			context.strokeStyle = fill[0 % fill.length];
+            context.lineWidth = lineWidths[0 % lineWidths.length];
+			context.strokeStyle = lineColors[0 % lineColors.length];
 			context.stroke();
 			
 			//Loop through each series then each value in the series
@@ -311,7 +309,8 @@ min)) }];
 				context.moveTo(0, coords[0].y);
 				for (i = 0; i < coords.length; i++) context.lineTo(coords[i].x, coords[i].y);
 				//Draw in specified color
-				context.strokeStyle = fill[(j+1) % fill.length];
+				context.lineWidth = lineWidths[(j+1) % lineWidths.length];
+				context.strokeStyle = lineColors[(j+1) % lineColors.length];
 				context.stroke();
 			}
 		}
