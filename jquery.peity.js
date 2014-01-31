@@ -127,7 +127,7 @@
 		context.stroke();
 	};
 
-	PeityPrototype.drawGrid = function(context, baseWidth, gridWidth, baseColor, gridColor, fontColor, fontSize, formatter, left, right, height, yQuotient, min, max, region, gap) {
+	PeityPrototype.drawYAxis = function(context, baseWidth, gridWidth, baseColor, gridColor, fontColor, fontSize, formatter, left, right, height, yQuotient, min, max, region, gap) {
 		var valueToY = function() { return height - (yQuotient * (value - min)) + gap; };
 		var value = 0;
 		//Baseline
@@ -159,6 +159,19 @@
 			}
 		}
 
+	}
+
+	PeityPrototype.drawXAxis = function(context, color, size, y, points, labels) {
+		context.fillStyle = color;
+		context.font = size + "px sans-serif";
+		context.textBaseline = "top";
+		context.textAlign = "center";
+		for(var i = 0; i < points.length; i++) {
+			var pieces = labels[i].split(" ");
+			for(var j = 0; j < pieces.length;j++){
+				context.fillText(pieces[j], points[i].x, y + 1 + j * size); 
+			}
+		}
 	}
 
 	//Default options and drawing functions per type
@@ -308,7 +321,7 @@
 				context.fill();
 			}
 
-			self.drawGrid(context, gridlines.widths[0], gridlines.widths[1], gridlines.colors[0], gridlines.colors[1], yAxis.color, yAxis.size, yAxis.formatter, left, fullWidth, height, yQuotient, min, max, region, 0);
+			self.drawYAxis(context, gridlines.widths[0], gridlines.widths[1], gridlines.colors[0], gridlines.colors[1], yAxis.color, yAxis.size, yAxis.formatter, left, fullWidth, height, yQuotient, min, max, region, 0);
 
 			//Draw line second to make sure it's on top of fill
 			if(lineWidth) { self.drawLine(context, coords, opt.lineColor, lineWidth); }
@@ -319,16 +332,7 @@
 			}
 
 			//Draw x-axis
-			if(levels) {
-				context.fillStyle = xAxis.color;
-				context.font = xAxis.size + "px sans-serif";
-				context.textBaseline = "top";
-				context.textAlign = "center";
-				coords.forEach(function(e, i) {
-					var label = labels[i].split(" ");
-					label.forEach(function(f, j) { context.fillText(f, e.x, height + 1 + j * xAxis.size); });
-				});
-			}
+			if(levels) { self.drawXAxis(context, xAxis.color, xAxis.size, height, coords, labels); }
 
 			//Draw focus around hovered rectangle and write value
 			if(focus && hoverPos) {
@@ -409,7 +413,7 @@
 			var formatter = opt.formatter;
 
 			var i, j, series, coords, firstCoords;
-			self.drawGrid(context, gridlines.widths[0], gridlines.widths[1], gridlines.colors[0], gridlines.colors[1], yAxis.color, yAxis.size, yAxis.formatter, left, fullWidth, height, yQuotient, min, max, region, 0);
+			self.drawYAxis(context, gridlines.widths[0], gridlines.widths[1], gridlines.colors[0], gridlines.colors[1], yAxis.color, yAxis.size, yAxis.formatter, left, fullWidth, height, yQuotient, min, max, region, 0);
 
 			//Loop through each series then each value in the series
 			for(j = 0; j < values.length; j += 1) {
@@ -427,16 +431,7 @@
 			}
 
 			//Draw x-axis
-			if(levels) {
-				context.fillStyle = xAxis.color;
-				context.font = xAxis.size + "px sans-serif";
-				context.textBaseline = "top";
-				context.textAlign = "center";
-				firstCoords.forEach(function(e, i) {
-					var label = labels[i].split(" ");
-					label.forEach(function(f, j) { context.fillText(f, e.x, height + 1 + j * xAxis.size); });
-				});
-			}
+			if(levels) { self.drawXAxis(context, xAxis.color, xAxis.size, height, coords, labels); }
 
 			//Draw focus around hovered rectangle and write value
 			
@@ -526,7 +521,7 @@
 			var middle = yQuotient * max + gap;
 			var valueToY = function() { return height - (yQuotient * (value - min)); };
 
-			self.drawGrid(context, gridlines.widths[0], gridlines.widths[1], gridlines.colors[0], gridlines.colors[1], yAxis.color, yAxis.size, yAxis.formatter, left, fullWidth, height, yQuotient, min, max, region, 0);
+			self.drawYAxis(context, gridlines.widths[0], gridlines.widths[1], gridlines.colors[0], gridlines.colors[1], yAxis.color, yAxis.size, yAxis.formatter, left, fullWidth, height, yQuotient, min, max, region, 0);
 
 			//Loop through values and draw each bar
 			var boxes = [];
@@ -545,16 +540,8 @@
 			}
 
 			//Draw x-axis
-			if(levels) {
-				context.fillStyle = xAxis.color;
-				context.font = xAxis.size + "px sans-serif";
-				context.textBaseline = "top";
-				context.textAlign = "center";
-				boxes.forEach(function(e, i) {
-					var label = labels[i].split(" ");
-					label.forEach(function(f, j) { context.fillText(f, e[0] + e[2] / 2, height + 1 + j * xAxis.size); });
-				});
-			}
+			if(levels) { self.drawXAxis(context, xAxis.color, xAxis.size, height, boxes.map(function(e) { return { x: e[0] + e[2] / 2 }; }), labels); }
+
 
 			//Draw focus around hovered rectangle and write value
 			if(focus.width && hoverPos) {
