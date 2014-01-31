@@ -17,22 +17,31 @@
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.js"></script>
     <script src="jquery.peity.js"></script>
     <script>
+        var rounder = function(e){ return Math.round(e * 100) / 100; };
         $(function() {
 
             $("div.pie").peity("pie");
-            $(".line").peity("line", { lineWidth: 2, height: 150, width: 500, left: 50, gridlines: [1, 1], formatter: function(e) { return Math.round(e * 100) / 100; }, focus: true });
-            $(".bar").peity("bar", { width: 500, height: 150, left: 100, gap: 400 / 10 * 0.38, focusColor: "#000", focusWidth: 2, formatter: function(e) { return Math.round(e * 100) / 100; } });
+            $(".line").peity("line", { labels : [1,2,3,4,5,6,7,8,9,0], lineWidth: 2, height: 150, width: 500, left: 50, bottom: 20, yAxis: { formatter: rounder }, tooltip: { formatter: rounder }, focus: true });
+            $(".bar").peity("bar", { width: 500, height: 150, left: 100, gap: 400 / 10 * 0.38, bottom: 20, focus: { color: "#000", width: 2 }, yAxis: { formatter: rounder }, tooltip: { formatter: rounder }, labels: [1,2,3,4,5,6,7,8,9,10] });
             $(".bar-fill-1").peity("bar", { fill: ["red", "green", "blue"] });
             $(".bar-fill-2").peity("bar", { fill: function(value) { return value > 0 ? "green" : "red"; } });
             $(".bar-fill-3").peity("bar", { fill: function(_, i, all) { var g = parseInt((i / all.length) * 255); return "rgb(255, " + g + ", 0)"; } });
             $(".pie-fill-2").peity("pie", { fill: function(_, i, all) { var g = parseInt((i / all.length) * 255); return "rgb(255, " + g + ", 0)"; } });
-            $(".lines").peity("lines", { width: 500, height: 150, left: 70, formatter: function(e) { return Math.round(e * 100) / 100; }, lineWidths : [2], pointSizes : [4] });
+            $(".lines").peity("lines", {
+                width: 500, height: 150, left: 70,
+                focus: true,
+                yAxis: { formatter: rounder },
+                tooltip: { formatter: rounder },
+                lineWidths: [2],
+                pointSizes: [4],
+                labels: ["Oct", "Nov", "Dec", "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep"]
+            });
 
             // Using data attributes
             $(".datapie div").peity("pie", { lineWidth: 1, focusWidth: 3 });
 
             // Updating chart
-            var updatingChart = $(".updating-chart").peity("line", {});
+            var updatingChart = $(".updating-chart").peity("line");
             updatingChart.data("allValues", updatingChart.text());
             //Testing using same values but changing interval
             setInterval(function() {
@@ -79,7 +88,7 @@
             <div class="updating-chart">5,3,9,6,5,9,7,3,5,2,5,3,9,6,5,9,7,3,5,2</div>
         </p>
 
-        
+
 
     </div>
 </body>
