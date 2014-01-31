@@ -111,6 +111,39 @@
 		context.stroke();
 	};
 
+	PeityPrototype.drawGridlines = function(context, baseWidth, gridWidth, baseColor, gridColor, fontColor, fontSize, formatter, left, right, height, yQuotient, min, max, region, gap) {
+		var valueToY = function() { return height - (yQuotient * (value - min)) + gap; };
+		var value = 0;
+		//Baseline
+		if(baseWidth) {
+			context.beginPath();
+			context.moveTo(left, valueToY());
+			context.lineTo(right, valueToY());
+			//Draw in specified color
+			this.setLineStyle(context, baseColor, baseWidth);
+			context.stroke();
+		}
+
+		//Gridlines
+		if(gridWidth) {
+			this.setLineStyle(context, gridColor, gridWidth);
+			for(value = min; value <= max; value += region) {
+				context.beginPath();
+				context.moveTo(left, valueToY());
+				context.lineTo(right, valueToY());
+				context.stroke();
+
+				//Draw label
+				context.fillStyle = fontColor;
+				context.font = fontSize + "px sans-serif";
+				context.textAlign = "right";
+				context.textBaseline = valueToY() > fontSize / 2 ? valueToY() > height - fontSize / 2 ? "bottom" : "middle" : "top";
+				context.fillText(formatter(value) + "", left - 1, valueToY());
+			}
+		}
+
+	}
+
 	//Default options and drawing functions per type
 	peity.defaults = {}; peity.graphers = {};
 	peity.register = function(type, defaults, grapher) { this.defaults[type] = defaults; this.graphers[type] = grapher; };
@@ -254,15 +287,16 @@
 	//Multi Line Chart
 	peity.register("lines", {
 		lineColors: ["#666666", "#803E75"], lineWidths: [1],
+		fontColor: "#000", fontSize: 13, formatter: function(e) { return e; },
 		delimiter: ",", seriesDelimiter: "|",
-		height: 16, width: 32,
+		height: 16, width: 32, left: 0,
 		max: null, min: 0,
 		pointSize: 2,
 		gridlines: [1, 1], gridlineColors: ["#000", "#bbb"]
 	},
 		function(opt) {
 			var self = this;
-			var values = self.values();
+			var values = self.values(), value;
 			var pointSize = opt.pointSize;
 			var allValues = [].concat.apply([opt.max, opt.min], values);
 			var max = Math.max.apply(Math, allValues);
@@ -270,7 +304,9 @@
 			var region = opt.region || ((max - min) / 5);
 			var canvas = self.prepareCanvas(opt.width, opt.height);
 			var context = self.context;
-			var width = canvas.width - pointSize * 2;
+			var left = opt.left;
+			var fullWidth = canvas.width;
+			var width = fullWidth - pointSize * 2 - left;
 			var height = canvas.height;
 			var xQuotient = width / (values[0].length - 1);
 			var yQuotient = height / (max - min);//1 / range of all values, 1 = yQuotient px;
@@ -278,14 +314,21 @@
 			var lineWidths = opt.lineWidths;
 			var gridlines = opt.gridlines;
 			var gridlineColors = opt.gridlineColors;
+			var valueToY = function() { return height - (yQuotient * (value - min)); };
+
+			var fontSize = opt.fontSize;
+			var fontColor = opt.fontColor;
+			var formatter = opt.formatter;
 
 			var i, j, series, coords;
-
+			self.drawGridlines(context, gridlines[0], gridlines[1], gridlineColors[0], gridlineColors[1], fontColor, fontSize, formatter, left, fullWidth, height, yQuotient, min, max, region, 0);
+			/*
 			//Baseline
 			if(gridlines[0]) {
+				value = 0;
 				context.beginPath();
-				context.moveTo(0, height - (yQuotient * (0 - min)));
-				context.lineTo(width + pointSize * 2, height - (yQuotient * (0 - min)));
+				context.moveTo(left, height - (yQuotient * (0 - min)));
+				context.lineTo(fullWidth, valueToY());
 				//Draw in specified color
 				self.setLineStyle(context, gridlineColors[0], gridlines[0]);
 				context.stroke();
@@ -294,14 +337,21 @@
 			//Gridlines
 			if(gridlines[1]) {
 				self.setLineStyle(context, gridlineColors[1], gridlines[1]);
-				for(j = min; j <= max; j += region) {
+				for(value = min; value <= max; value += region) {
 					context.beginPath();
-					context.moveTo(0, height - (yQuotient * (j - min)));
-					context.lineTo(width + pointSize * 2, height - (yQuotient * (j - min)));
+					context.moveTo(left, height - (yQuotient * (value - min)));
+					context.lineTo(fullWidth, valueToY());
 					context.stroke();
+
+					//Draw label
+					context.fillStyle = opt.fontColor;
+					context.font = fontSize + "px sans-serif";
+					context.textAlign = "right";
+					context.textBaseline = valueToY() > fontSize / 2 ? valueToY() > height - fontSize / 2 ? "bottom" : "middle" : "top";
+					context.fillText(formatter(value) + "", left - 1, valueToY());
 				}
 			}
-
+			*/
 			//Loop through each series then each value in the series
 			for(j = 0; j < values.length; j += 1) {
 				series = values[j];
@@ -309,9 +359,10 @@
 
 				//Calculate coordinates for each value
 				for(i = 0; i < series.length; i++) {
+					value = series[i]
 					coords.push({
-						x: i * xQuotient + pointSize,
-						y: height - (yQuotient * (series[i] - min))
+						x: i * xQuotient + pointSize + left,
+						y: valueToY()
 					});
 					context.beginPath();
 					context.arc(coords[i].x, coords[i].y, opt.pointSize, 0, 2 * Math.PI, false);
@@ -321,7 +372,7 @@
 
 				//Create path between coordinates
 				context.beginPath();
-				context.moveTo(0, coords[0].y);
+				context.moveTo(left, coords[0].y);
 				for(i = 0; i < coords.length; i++) context.lineTo(coords[i].x, coords[i].y);
 				//Draw in specified color
 				self.setLineStyle(context, lineColors[j % lineColors.length], lineWidths[j % lineWidths.length]);
@@ -333,7 +384,7 @@
 	//Bar chart
 	peity.register("bar", {
 		fill: ["#48f"],
-		fontColor: "#000", fontSize: 13, formatter : function(e) { return e; },
+		fontColor: "#000", fontSize: 13, formatter: function(e) { return e; },
 		focusColor: "#000", focusWidth: 0,
 		height: 16, width: 32, left: 0,
 		max: null, min: 0,
@@ -378,6 +429,8 @@
 			var middle = yQuotient * max + gap;
 			var valueToY = function() { return height - (yQuotient * (value - min)) + gap; };
 
+			self.drawGridlines(context, gridlines[0], gridlines[1], gridlineColors[0], gridlineColors[1], fontColor, fontSize, formatter, left, fullWidth, height, yQuotient, min, max, region, gap);
+			/*
 			//Baseline
 			if(gridlines[0]) {
 				value = 0;
@@ -406,7 +459,7 @@
 					context.fillText(formatter(value) + "", left - 1, valueToY());
 				}
 			}
-
+			*/
 
 			//Loop through values and draw each bar
 			var boxes = [];

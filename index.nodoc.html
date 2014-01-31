@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
@@ -51,7 +51,7 @@ $(function() {
 	
 
 	//Testing showing just a portion of the data
-	var updatingMulti = $(".lines").peity("lines", {width:512, height:64});
+  var updatingMulti = $(".lines").peity("lines", { width: 720, height: 400, left: 70, formatter: function(e) { return Math.round(e * 100) / 100; } });
 	updatingMulti.data("allValues",updatingMulti.text());
 	setInterval(function() {
 	  var arrays = updatingMulti.data("allValues").split("|").map(function(e){return e.split(","); });
