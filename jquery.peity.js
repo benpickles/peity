@@ -104,10 +104,26 @@
 		context.strokeStyle = color;
 	};
 
-	PeityPrototype.drawArc = function(context, r, start, end, color, width) {
+	PeityPrototype.drawArc = function(context, x, y, r, start, end, color, width) {
 		context.beginPath();
-		context.arc(0, 0, r, start, end, true);//true = counterclockwise
+		context.arc(x, y, r, start, end, true);//true = counterclockwise
 		PeityPrototype.setLineStyle(context, color, width);
+		context.stroke();
+	};
+
+	PeityPrototype.drawCircle = function(context, x, y, r, start, end, color) {
+		context.beginPath();
+		context.moveTo(x,y);
+		context.arc(x, y, r, start, end, true);//true = counterclockwise
+		context.fillStyle = color;
+		context.fill();
+	};
+
+	PeityPrototype.drawLine = function(context, points, color, width) {
+		context.beginPath();
+		context.moveTo(points[0].x, points[0].y);
+		for(var i = 1; i < points.length; i++) context.lineTo(points[i].x, points[i].y);
+		this.setLineStyle(context, color, width);
 		context.stroke();
 	};
 
@@ -209,21 +225,16 @@
 			for(i = 0; i < length; i++) {
 				value = values[i];
 				slice = value * unit;//Size of slice
-				context.beginPath();
-				context.moveTo(0, 0);
-				//Negatives in order to follow traditional polar grid system (to match cursor position)
-				context.arc(0, 0, radius, -start, -(start + slice), true);
-				context.fillStyle = fill.call(self, value, i, values);
-				context.fill();
+				self.drawCircle(context, 0, 0, radius, -start, -(start + slice), fill.call(self, value, i, values));
 
 				//Draw focus around hovered rectangle
 				if(focusWidth && hoverPos && hoverPos.a > start && hoverPos.a < (start + slice)) {
-					self.drawArc(context, radius + focusWidth / 2, -start, -(start + slice), opt.focusColor, focusWidth);
+					self.drawArc(context, 0, 0, radius + focusWidth / 2, -start, -(start + slice), opt.focusColor, focusWidth);
 				}
 				start += slice;
 			}
 
-			if(lineWidth) { self.drawArc(context, radius + lineWidth / 2, 0, tau, opt.lineColor, lineWidth); }
+			if(lineWidth) { self.drawArc(context, 0, 0, radius + lineWidth / 2, 0, tau, opt.lineColor, lineWidth); }
 			if(focusWidth) { self.addEvents(canvas); }
 		}
 	);
@@ -231,10 +242,12 @@
 	//Line Chart
 	peity.register("line", {
 		fill: "#cdf",
-		lineColor: "#48f", lineWidth: 1,
+		lineColor: "#48f", lineWidth: 1, pointSize : 3,
 		delimiter: ",",
-		height: 16, width: 32,
-		max: null, min: 0
+		height: 16, width: 32, left : 0,
+		max: null, min: 0,
+		gridlines: [1, 0], gridlineColors: ["#000", "#bbb"],
+		fontColor: "#000", fontSize: 13, formatter: function(e) { return e; },
 	},
 		function(opt) {
 			var self = this;
@@ -242,45 +255,52 @@
 			if(values.length == 1) values.push(values[0]);
 			var max = Math.max.apply(Math, values.concat([opt.max]));
 			var min = Math.min.apply(Math, values.concat([opt.min]));
+			var region = opt.region || ((max - min) / 5);
 			var lineWidth = opt.lineWidth;
+			var pointSize = opt.pointSize;
 
 			var canvas = self.prepareCanvas(opt.width, opt.height);
 			var context = self.context;
-			var width = canvas.width;
+			var left = opt.left + pointSize;
+			var fullWidth = canvas.width;
+			var width = fullWidth - pointSize - left;
 			var height = canvas.height - lineWidth;
 
 			var xQuotient = width / (values.length - 1);
 			var yQuotient = height / (max - min);
+			var baseline = height + min * yQuotient;
 
 			var coords = [];
 			var i;
 
+			//Trace path for fill (and save point coordinates for the line afterwards)
 			context.beginPath();
-			context.moveTo(0, height + (min * yQuotient));
+			context.moveTo(left, baseline);
 			for(i = 0; i < values.length; i++) {
-				var x = i * xQuotient;
-				var y = height - (yQuotient * (values[i] - min)) + lineWidth / 2;
+				var x = i * xQuotient + left;
+				var y = baseline - yQuotient * values[i] + lineWidth / 2;
 
 				coords.push({ x: x, y: y });
 				context.lineTo(x, y);
+				
 			}
-			context.lineTo(width, height + (min * yQuotient));
+			context.lineTo(fullWidth, baseline);
 
 			if(opt.fill) {
 				context.fillStyle = opt.fill;
 				context.fill();
 			}
+			var gridlines = opt.gridlines, gridlineColors = opt.gridlineColors;
+			self.drawGridlines(context, gridlines[0], gridlines[1], gridlineColors[0], gridlineColors[1], opt.fontColor, opt.fontSize, opt.formatter, left, fullWidth, height, yQuotient, min, max, region, 0);
 
 			//Draw line second to make sure it's on top of fill
-			if(lineWidth) {
-				context.beginPath();
-				context.moveTo(0, coords[0].y);
-				for(i = 0; i < coords.length; i++) {
-					context.lineTo(coords[i].x, coords[i].y);
-				}
-				self.setLineStyle(context, opt.lineColor, lineWidth);
-				context.stroke();
+			if(lineWidth) { self.drawLine(context, coords, opt.lineColor, lineWidth); }
+
+			//Finally draw points
+			if(opt.pointSize) {
+				for(i = 0; i < coords.length; i++) self.drawCircle(context, coords[i].x, coords[i].y, opt.pointSize, 0, 2 * Math.PI, opt.lineColor);
 			}
+
 		}
 	);
 
@@ -322,36 +342,7 @@
 
 			var i, j, series, coords;
 			self.drawGridlines(context, gridlines[0], gridlines[1], gridlineColors[0], gridlineColors[1], fontColor, fontSize, formatter, left, fullWidth, height, yQuotient, min, max, region, 0);
-			/*
-			//Baseline
-			if(gridlines[0]) {
-				value = 0;
-				context.beginPath();
-				context.moveTo(left, height - (yQuotient * (0 - min)));
-				context.lineTo(fullWidth, valueToY());
-				//Draw in specified color
-				self.setLineStyle(context, gridlineColors[0], gridlines[0]);
-				context.stroke();
-			}
 
-			//Gridlines
-			if(gridlines[1]) {
-				self.setLineStyle(context, gridlineColors[1], gridlines[1]);
-				for(value = min; value <= max; value += region) {
-					context.beginPath();
-					context.moveTo(left, height - (yQuotient * (value - min)));
-					context.lineTo(fullWidth, valueToY());
-					context.stroke();
-
-					//Draw label
-					context.fillStyle = opt.fontColor;
-					context.font = fontSize + "px sans-serif";
-					context.textAlign = "right";
-					context.textBaseline = valueToY() > fontSize / 2 ? valueToY() > height - fontSize / 2 ? "bottom" : "middle" : "top";
-					context.fillText(formatter(value) + "", left - 1, valueToY());
-				}
-			}
-			*/
 			//Loop through each series then each value in the series
 			for(j = 0; j < values.length; j += 1) {
 				series = values[j];
@@ -360,23 +351,10 @@
 				//Calculate coordinates for each value
 				for(i = 0; i < series.length; i++) {
 					value = series[i]
-					coords.push({
-						x: i * xQuotient + pointSize + left,
-						y: valueToY()
-					});
-					context.beginPath();
-					context.arc(coords[i].x, coords[i].y, opt.pointSize, 0, 2 * Math.PI, false);
-					context.fillStyle = lineColors[j % lineColors.length];
-					context.fill();
+					coords.push({ x: i * xQuotient + pointSize + left, y: valueToY() });
+					self.drawCircle(context, coords[i].x, coords[i].y, opt.pointSize, 0, 2 * Math.PI, lineColors[j % lineColors.length]);
 				}
-
-				//Create path between coordinates
-				context.beginPath();
-				context.moveTo(left, coords[0].y);
-				for(i = 0; i < coords.length; i++) context.lineTo(coords[i].x, coords[i].y);
-				//Draw in specified color
-				self.setLineStyle(context, lineColors[j % lineColors.length], lineWidths[j % lineWidths.length]);
-				context.stroke();
+				self.drawLine(context, coords, lineColors[j % lineColors.length], lineWidths[j % lineWidths.length]);
 			}
 		}
 	);
@@ -395,7 +373,7 @@
 	},
 		function(opt) {
 			//Declare variables
-			var i, x, y, h, w, value, pixel;
+			var i, x, y, h, w, value;
 			var self = this;
 
 			//Find minimum and maximum in values to determine range
@@ -430,36 +408,6 @@
 			var valueToY = function() { return height - (yQuotient * (value - min)) + gap; };
 
 			self.drawGridlines(context, gridlines[0], gridlines[1], gridlineColors[0], gridlineColors[1], fontColor, fontSize, formatter, left, fullWidth, height, yQuotient, min, max, region, gap);
-			/*
-			//Baseline
-			if(gridlines[0]) {
-				value = 0;
-				context.beginPath();
-				context.moveTo(left, valueToY());
-				context.lineTo(fullWidth, valueToY());
-				//Draw in specified color
-				self.setLineStyle(context, gridlineColors[0], gridlines[0]);
-				context.stroke();
-			}
-
-			//Gridlines
-			if(gridlines[1]) {
-				self.setLineStyle(context, gridlineColors[1], gridlines[1]);
-				for(value = min; value <= max; value += region) {
-					context.beginPath();
-					context.moveTo(left, valueToY());
-					context.lineTo(fullWidth, valueToY());
-					context.stroke();
-
-					//Draw label
-					context.fillStyle = opt.fontColor;
-					context.font = fontSize + "px sans-serif";
-					context.textAlign = "right";
-					context.textBaseline = valueToY() > fontSize / 2 ? valueToY() > height ? "bottom" : "middle" : "top";
-					context.fillText(formatter(value) + "", left - 1, valueToY());
-				}
-			}
-			*/
 
 			//Loop through values and draw each bar
 			var boxes = [];
