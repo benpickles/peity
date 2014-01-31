@@ -65,12 +65,9 @@
 
 	//Redraw chart with hover effect based on mouse position
 	PeityPrototype.hoverEvent = function(evt) {
-		var $this = $(this), offset = $this.offset();
 		PeityPrototype.removeEvents(this);
-		$this.prev().data("mouse", JSON.stringify({
-			x: evt.clientX - offset.left,
-			y: evt.clientY - offset.top
-		})).change();
+		var rect = this.getBoundingClientRect();
+		$(this).prev().data("mouse", JSON.stringify({ x: evt.clientX - rect.left, y: evt.clientY - rect.top })).change();
 	};
 
 	//Redraw chart with no hover effect
@@ -256,17 +253,12 @@
 
 	//Multi Line Chart
 	peity.register("lines", {
-		lineColors: ["#666666", "#803E75"],
-		lineWidths: [1],
-		delimiter: ",",
-		seriesDelimiter: "|",
-		height: 16,
-		max: null,
-		min: 0,
-		width: 32,
+		lineColors: ["#666666", "#803E75"], lineWidths: [1],
+		delimiter: ",", seriesDelimiter: "|",
+		height: 16, width: 32,
+		max: null, min: 0,
 		pointSize: 2,
-		gridlines: [1, 1],
-		gridlineColors: ["#000", "#bbb"]
+		gridlines: [1, 1], gridlineColors: ["#000", "#bbb"]
 	},
 		function(opt) {
 			var self = this;
@@ -341,9 +333,9 @@
 	//Bar chart
 	peity.register("bar", {
 		fill: ["#48f"],
-		fontColor: "#000", font: "12pt sans-serif",
+		fontColor: "#000", fontSize: 13, formatter : function(e) { return e; },
 		focusColor: "#000", focusWidth: 0,
-		height: 16, width: 32,
+		height: 16, width: 32, left: 0,
 		max: null, min: 0,
 		delimiter: ",",
 		gap: 1,
@@ -371,21 +363,27 @@
 			var focusWidth = opt.focusWidth;
 			var gridlines = opt.gridlines;
 			var gridlineColors = opt.gridlineColors;
+			var fontSize = opt.fontSize;
+			var fontColor = opt.fontColor;
+			var formatter = opt.formatter;
 
 			//Size
 			var fullWidth = canvas.width;
 			var fullHeight = canvas.height;
-			var width = fullWidth - gap * 2;
+			var left = opt.left;
+			var width = fullWidth - gap * 2 - left;
 			var height = fullHeight - gap * 2 - gridlines[0];
 			var yQuotient = height / (max - min);//Height of bar of value 1
 			var xQuotient = (width + gap) / values.length;//Width of bar
 			var middle = yQuotient * max + gap;
+			var valueToY = function() { return height - (yQuotient * (value - min)) + gap; };
 
 			//Baseline
 			if(gridlines[0]) {
+				value = 0;
 				context.beginPath();
-				context.moveTo(0, height - (yQuotient * (0 - min)) + gap);
-				context.lineTo(fullWidth, height - (yQuotient * (0 - min)) + gap);
+				context.moveTo(left, valueToY());
+				context.lineTo(fullWidth, valueToY());
 				//Draw in specified color
 				self.setLineStyle(context, gridlineColors[0], gridlines[0]);
 				context.stroke();
@@ -394,66 +392,68 @@
 			//Gridlines
 			if(gridlines[1]) {
 				self.setLineStyle(context, gridlineColors[1], gridlines[1]);
-				for(i = min; i <= max; i += region) {
+				for(value = min; value <= max; value += region) {
 					context.beginPath();
-					context.moveTo(0, height - (yQuotient * (i - min)) + gap);
-					context.lineTo(fullWidth, height - (yQuotient * (i - min)) + gap);
+					context.moveTo(left, valueToY());
+					context.lineTo(fullWidth, valueToY());
 					context.stroke();
+
+					//Draw label
+					context.fillStyle = opt.fontColor;
+					context.font = fontSize + "px sans-serif";
+					context.textAlign = "right";
+					context.textBaseline = valueToY() > fontSize / 2 ? valueToY() > height ? "bottom" : "middle" : "top";
+					context.fillText(formatter(value) + "", left - 1, valueToY());
 				}
 			}
 
 
 			//Loop through values and draw each bar
+			var boxes = [];
 			for(i = 0; i < values.length; i++) {
 				value = values[i];
-
-				//X position and width
-				x = gap + i * xQuotient;
-				w = xQuotient - gap;
-
-				//Use value to determine height
-				y = gap + height - (yQuotient * (value - min));
-				h = yQuotient * value;
+				boxes.push([
+					gap + i * xQuotient + left,//x
+					valueToY(),//y
+					xQuotient - gap,//w
+					value === 0 ? 1 : yQuotient * value//h
+				]);
 
 				//Draw the bar
 				context.fillStyle = fill.call(self, value, i, values);
-				context.fillRect(x, y, w, h);
+				context.fillRect.apply(context, boxes[i]);
 			}
+
 			//Draw focus around hovered rectangle and write value
 			if(focusWidth && hoverPos) {
 				hoverPos = JSON.parse(hoverPos);
-				//x and y are position from top left. r and a are radius and angle from center
+
 				//Loop through values again
-				for(i = 0; i < values.length; i++) {
+				for(i = 0; i < boxes.length; i++) {
+					var box = boxes[i];
 					//Check if mouse is within this bar's horizontal space
-					x = gap + i * xQuotient;
-					w = xQuotient - gap;
-					if(hoverPos.x >= x && hoverPos.x <= x + w) {
+					if(hoverPos.x >= box[0] && hoverPos.x <= box[0] + box[2]) {
 						//Now check if mouse is within this bar's vertical space
-						value = values[i];
-						y = gap + height - (yQuotient * (value - min));
-						h = value === 0 ? 1 : yQuotient * values[i];
 
 						//To make comparison easier, make h positive and adjust y
-						y = y + Math.min(h, 0);
-						h = Math.abs(h);
-						if(hoverPos.y >= y && hoverPos.y <= y + h) {
+						box[1] += Math.min(box[3], 0);
+						box[3] = Math.abs(box[3]);
+						if(hoverPos.y >= box[1] && hoverPos.y <= box[1] + box[3]) {
 							//If mouse is within a bar, draw a focus
 							self.setLineStyle(context, opt.focusColor, focusWidth);
 							context.strokeRect(
-								x - focusWidth / 2,
-								y - focusWidth / 2,
-								w + focusWidth,
-								h + focusWidth
+								box[0] - focusWidth / 2, box[1] - focusWidth / 2,
+								box[2] + focusWidth, box[3] + focusWidth
 							);
-							context.fillStyle = opt.fontColor;
-							context.font = opt.font;
+							//Draw label
+							context.fillStyle = fontColor;
+							context.font = fontSize;
 							if(hoverPos.x > fullWidth / 2) context.textAlign = "right";
 							if(hoverPos.y < fullHeight / 2) {
 								context.textBaseline = "top";
 								hoverPos.y += 20;
 							}
-							context.fillText(value + "", hoverPos.x, hoverPos.y);
+							context.fillText(formatter(values[i]) + "", hoverPos.x, hoverPos.y);
 						}
 						break;//Don't analyze other values
 					}
