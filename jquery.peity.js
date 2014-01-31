@@ -1,4 +1,4 @@
-// Peity jQuery plugin version 1.2.1
+﻿// Peity jQuery plugin version 1.2.1
 // (c) 2013 Ben Pickles
 //
 // http://benpickles.github.io/peity
@@ -113,7 +113,7 @@
 
 	PeityPrototype.drawCircle = function(context, x, y, r, start, end, color) {
 		context.beginPath();
-		context.moveTo(x,y);
+		context.moveTo(x, y);
 		context.arc(x, y, r, start, end, true);//true = counterclockwise
 		context.fillStyle = color;
 		context.fill();
@@ -127,7 +127,7 @@
 		context.stroke();
 	};
 
-	PeityPrototype.drawGridlines = function(context, baseWidth, gridWidth, baseColor, gridColor, fontColor, fontSize, formatter, left, right, height, yQuotient, min, max, region, gap) {
+	PeityPrototype.drawGrid = function(context, baseWidth, gridWidth, baseColor, gridColor, fontColor, fontSize, formatter, left, right, height, yQuotient, min, max, region, gap) {
 		var valueToY = function() { return height - (yQuotient * (value - min)) + gap; };
 		var value = 0;
 		//Baseline
@@ -167,10 +167,10 @@
 	//Pie chart
 	peity.register("pie", {
 		fill: ["#f90", "#ffd", "#fc6"],
-		delimiter: null,
-		diameter: 16,
 		lineColor: "#000", lineWidth: 0,
-		focusColor: "#000", focusWidth: 0
+		focusColor: "#000", focusWidth: 0,
+		delimiter: null,
+		diameter: 16
 	},
 		function(opt) {
 			var self = this;
@@ -242,15 +242,17 @@
 	//Line Chart
 	peity.register("line", {
 		fill: "#cdf",
-		lineColor: "#48f", lineWidth: 1, pointSize : 3,
-		delimiter: ",",
-		height: 16, width: 32, left : 0,
-		max: null, min: 0,
-		gridlines: [1, 0], gridlineColors: ["#000", "#bbb"],
+		lineColor: "#48f", lineWidth: 1,
 		fontColor: "#000", fontSize: 13, formatter: function(e) { return e; },
+		delimiter: ",",
+		height: 150, width: 400, left: 0,
+		max: null, min: 0,
+		pointSize: 3, focus: false,
+		gridlines: [1, 0], gridlineColors: ["#000", "#bbb"]
 	},
 		function(opt) {
 			var self = this;
+			var hoverPos = self.$el.data("mouse");
 			var values = self.values();
 			if(values.length == 1) values.push(values[0]);
 			var max = Math.max.apply(Math, values.concat([opt.max]));
@@ -258,6 +260,10 @@
 			var region = opt.region || ((max - min) / 5);
 			var lineWidth = opt.lineWidth;
 			var pointSize = opt.pointSize;
+			var focus = opt.focus;
+			var fontColor = opt.fontColor;
+			var fontSize = opt.fontSize;
+			var formatter = opt.formatter;
 
 			var canvas = self.prepareCanvas(opt.width, opt.height);
 			var context = self.context;
@@ -282,7 +288,7 @@
 
 				coords.push({ x: x, y: y });
 				context.lineTo(x, y);
-				
+
 			}
 			context.lineTo(fullWidth, baseline);
 
@@ -291,7 +297,7 @@
 				context.fill();
 			}
 			var gridlines = opt.gridlines, gridlineColors = opt.gridlineColors;
-			self.drawGridlines(context, gridlines[0], gridlines[1], gridlineColors[0], gridlineColors[1], opt.fontColor, opt.fontSize, opt.formatter, left, fullWidth, height, yQuotient, min, max, region, 0);
+			self.drawGrid(context, gridlines[0], gridlines[1], gridlineColors[0], gridlineColors[1], fontColor, fontSize, formatter, left, fullWidth, height, yQuotient, min, max, region, 0);
 
 			//Draw line second to make sure it's on top of fill
 			if(lineWidth) { self.drawLine(context, coords, opt.lineColor, lineWidth); }
@@ -301,6 +307,31 @@
 				for(i = 0; i < coords.length; i++) self.drawCircle(context, coords[i].x, coords[i].y, opt.pointSize, 0, 2 * Math.PI, opt.lineColor);
 			}
 
+			//Draw focus around hovered rectangle and write value
+			if(focus && hoverPos) {
+				hoverPos = JSON.parse(hoverPos);
+
+				//Loop through values again
+				for(i = 0; i < coords.length; i++) {
+					var box = coords[i];
+					//Check if mouse is within the point's double space
+					if(hoverPos.x >= box.x - xQuotient / 3 && hoverPos.x <= box.x + xQuotient / 3) {
+						//Draw label
+						context.fillStyle = opt.fontColor;
+						context.font = opt.fontSize;
+						if(hoverPos.x > fullWidth / 2) context.textAlign = "right";
+						if(hoverPos.y < height / 2) {
+							context.textBaseline = "top";
+							hoverPos.y += 20;
+						}
+						context.fillText(formatter(values[i]) + "", hoverPos.x, hoverPos.y);
+
+						break;//Don't analyze other values
+					}
+				}
+			}
+
+			if(focus) { self.addEvents(canvas); }
 		}
 	);
 
@@ -311,13 +342,14 @@
 		delimiter: ",", seriesDelimiter: "|",
 		height: 16, width: 32, left: 0,
 		max: null, min: 0,
-		pointSize: 2,
+		pointSizes: [2],
 		gridlines: [1, 1], gridlineColors: ["#000", "#bbb"]
 	},
 		function(opt) {
 			var self = this;
+			var hoverPos = self.$el.data("mouse");
 			var values = self.values(), value;
-			var pointSize = opt.pointSize;
+			var pointSizes = opt.pointSizes;
 			var allValues = [].concat.apply([opt.max, opt.min], values);
 			var max = Math.max.apply(Math, allValues);
 			var min = Math.min.apply(Math, allValues);
@@ -326,7 +358,7 @@
 			var context = self.context;
 			var left = opt.left;
 			var fullWidth = canvas.width;
-			var width = fullWidth - pointSize * 2 - left;
+			var width = fullWidth - Math.max.apply(Math, pointSizes) * 2 - left;
 			var height = canvas.height;
 			var xQuotient = width / (values[0].length - 1);
 			var yQuotient = height / (max - min);//1 / range of all values, 1 = yQuotient px;
@@ -340,8 +372,8 @@
 			var fontColor = opt.fontColor;
 			var formatter = opt.formatter;
 
-			var i, j, series, coords;
-			self.drawGridlines(context, gridlines[0], gridlines[1], gridlineColors[0], gridlineColors[1], fontColor, fontSize, formatter, left, fullWidth, height, yQuotient, min, max, region, 0);
+			var i, j, series, coords, firstCoords;
+			self.drawGrid(context, gridlines[0], gridlines[1], gridlineColors[0], gridlineColors[1], fontColor, fontSize, formatter, left, fullWidth, height, yQuotient, min, max, region, 0);
 
 			//Loop through each series then each value in the series
 			for(j = 0; j < values.length; j += 1) {
@@ -351,11 +383,46 @@
 				//Calculate coordinates for each value
 				for(i = 0; i < series.length; i++) {
 					value = series[i]
-					coords.push({ x: i * xQuotient + pointSize + left, y: valueToY() });
-					self.drawCircle(context, coords[i].x, coords[i].y, opt.pointSize, 0, 2 * Math.PI, lineColors[j % lineColors.length]);
+					coords.push({ x: i * xQuotient + pointSizes[j % pointSizes.length] + left, y: valueToY() });
+					self.drawCircle(context, coords[i].x, coords[i].y, pointSizes[j % pointSizes.length], 0, 2 * Math.PI, lineColors[j % lineColors.length]);
 				}
 				self.drawLine(context, coords, lineColors[j % lineColors.length], lineWidths[j % lineWidths.length]);
+				if(j === 0) firstCoords = coords.slice(0);
 			}
+
+
+			//Draw focus around hovered rectangle and write value
+			if(focus && hoverPos) {
+				hoverPos = JSON.parse(hoverPos);
+
+				//Loop through values again
+				for(i = 0; i < firstCoords.length; i++) {
+					var box = firstCoords[i];
+					//Check if mouse is within the point's double space
+					if(hoverPos.x >= box.x - xQuotient / 3 && hoverPos.x <= box.x + xQuotient / 3) {
+						//Draw label
+						context.font = opt.fontSize;
+						context.textAlign = "right";
+						if(hoverPos.y < height / 2) {
+							context.textBaseline = "top"; hoverPos.y += fontSize;
+						} else {
+							context.textBaseline = "bottom"; hoverPos.y -= fontSize;
+						}
+						values.forEach(function(e, j) {
+							context.fillStyle = lineColors[j % lineColors.length];
+							context.fillText((formatter(e[i]) || " ") + " ■", hoverPos.x, hoverPos.y + j * fontSize);
+						});
+
+						break;//Don't analyze other values
+					}
+				}
+			}
+
+			if(focus) { self.addEvents(canvas); }
+
+
+
+
 		}
 	);
 
@@ -364,12 +431,10 @@
 		fill: ["#48f"],
 		fontColor: "#000", fontSize: 13, formatter: function(e) { return e; },
 		focusColor: "#000", focusWidth: 0,
-		height: 16, width: 32, left: 0,
-		max: null, min: 0,
 		delimiter: ",",
-		gap: 1,
-		gridlines: [1, 1],
-		gridlineColors: ["#000", "#bbb"]
+		height: 16, width: 32, left: 0, gap: 1,
+		max: null, min: 0,
+		gridlines: [1, 1], gridlineColors: ["#000", "#bbb"]
 	},
 		function(opt) {
 			//Declare variables
@@ -407,7 +472,7 @@
 			var middle = yQuotient * max + gap;
 			var valueToY = function() { return height - (yQuotient * (value - min)) + gap; };
 
-			self.drawGridlines(context, gridlines[0], gridlines[1], gridlineColors[0], gridlineColors[1], fontColor, fontSize, formatter, left, fullWidth, height, yQuotient, min, max, region, gap);
+			self.drawGrid(context, gridlines[0], gridlines[1], gridlineColors[0], gridlineColors[1], fontColor, fontSize, formatter, left, fullWidth, height, yQuotient, min, max, region, gap);
 
 			//Loop through values and draw each bar
 			var boxes = [];

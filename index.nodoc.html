@@ -1,100 +1,86 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0">
-<title>Peity &bull; progressive &lt;canvas&gt; pie charts</title>
-<style>
-body, #container { text-align:center; }
-div, canvas {
-  display:block; text-align:center;
-}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0">
+    <title>Peity &bull; progressive &lt;canvas&gt; pie charts</title>
+    <style>
+        body {
+            text-align: center;
+        }
 
-</style><script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.js"></script>
-<script src="jquery.peity.js"></script>
-<script>
-$(function() {
-  
-  $("div.pie").peity("pie");
-  $(".line").peity("line", {width:256, height:32, lineWidth:2});
-  console.log(new Date().getTime());
-  $(".bar").peity("bar", { width : 720, height : 400, left: 100, gap : 72*0.38, focusColor : "#000", focusWidth: 2, formatter : function(e){ return Math.round(e*100)/100;} });
-  console.log(new Date().getTime());
-  $(".bar-fill-1").peity("bar", { fill: ["red", "green", "blue"] });
-  $(".bar-fill-2").peity("bar", { fill: function(value) { return value > 0 ? "green" : "red"; } });
-  $(".bar-fill-3").peity("bar", { fill: function(_, i, all) { var g = parseInt((i / all.length) * 255); return "rgb(255, " + g + ", 0)"; } });
+        div, canvas {
+            display: inline-block;
+            margin: 10px;
+        }
+    </style>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.js"></script>
+    <script src="jquery.peity.js"></script>
+    <script>
+        $(function() {
 
-  $(".pie-fill-2").peity("pie", { fill: function(_, i, all) { var g = parseInt((i / all.length) * 255); return "rgb(255, " + g + ", 0)"; } });
+            $("div.pie").peity("pie");
+            $(".line").peity("line", { lineWidth: 2, height: 150, width: 500, left: 50, gridlines: [1, 1], formatter: function(e) { return Math.round(e * 100) / 100; }, focus: true });
+            $(".bar").peity("bar", { width: 500, height: 150, left: 100, gap: 400 / 10 * 0.38, focusColor: "#000", focusWidth: 2, formatter: function(e) { return Math.round(e * 100) / 100; } });
+            $(".bar-fill-1").peity("bar", { fill: ["red", "green", "blue"] });
+            $(".bar-fill-2").peity("bar", { fill: function(value) { return value > 0 ? "green" : "red"; } });
+            $(".bar-fill-3").peity("bar", { fill: function(_, i, all) { var g = parseInt((i / all.length) * 255); return "rgb(255, " + g + ", 0)"; } });
+            $(".pie-fill-2").peity("pie", { fill: function(_, i, all) { var g = parseInt((i / all.length) * 255); return "rgb(255, " + g + ", 0)"; } });
+            $(".lines").peity("lines", { width: 500, height: 150, left: 70, formatter: function(e) { return Math.round(e * 100) / 100; }, lineWidths : [2], pointSizes : [4] });
 
-  // Using data attributes
-  $(".datapie div").peity("pie", {lineWidth : 1, focusWidth : 3});
+            // Using data attributes
+            $(".datapie div").peity("pie", { lineWidth: 1, focusWidth: 3 });
 
-  $("div.graph").peity("pie")
+            // Updating chart
+            var updatingChart = $(".updating-chart").peity("line", {});
+            updatingChart.data("allValues", updatingChart.text());
+            //Testing using same values but changing interval
+            setInterval(function() {
 
-	  // Updating charts.
-  var updatingChart = $(".updating-chart").peity("line", { width: 64 });
-	updatingChart.data("allValues", updatingChart.text());
-//Testing using same values but changing interval
-  setInterval(function() {
-   
-    var values = updatingChart.data("allValues").split(",")
-	var limit = Math.round(Math.random() * values.length / 2 + values.length / 2);
-	var limit2 = Math.round(Math.random() * values.length / 2);
-	values = values.slice(Math.min(limit, limit2), Math.max(limit, limit2));
-//console.log(JSON.stringify(values));
-    updatingChart
-      .text(values.join(","))
-      .change();
-			
-			
-  }, 5000)
-	
+                var values = updatingChart.data("allValues").split(",")
+                var limit = Math.round(Math.random() * values.length / 2 + values.length / 2);
+                var limit2 = Math.round(Math.random() * values.length / 2);
+                values = values.slice(Math.min(limit, limit2), Math.max(limit, limit2));
+                //console.log(JSON.stringify(values));
+                updatingChart
+                  .text(values.join(","))
+                  .change();
 
-	//Testing showing just a portion of the data
-  var updatingMulti = $(".lines").peity("lines", { width: 720, height: 400, left: 70, formatter: function(e) { return Math.round(e * 100) / 100; } });
-	updatingMulti.data("allValues",updatingMulti.text());
-	setInterval(function() {
-	  var arrays = updatingMulti.data("allValues").split("|").map(function(e){return e.split(","); });
-    //console.log(JSON.stringify(arrays));
-		var max = Math.round(Math.random() * arrays[0].length / 2 + arrays[0].length / 2);
-	var min = Math.round(Math.random() * arrays[0].length / 2);
-	arrays = arrays.map(function(e){ return e.slice(min, max); });
-	
-    updatingMulti
-      .text(arrays.map(function(e){return e.join(",");}).join("|"))
-      .change()
-  }, 5000)
-})
-</script>
+
+            }, 5000);
+        })
+    </script>
 </head>
 <body>
-<div id="container">
-	<div class="pie">1/5</div>
-	<div class="pie">226/360</div>
-	<div class="pie">0.52,1.041</div>
-	<div class="pie">1,2,3,2,2</div>
+    <div id="container">
+        <div class="pie">1/5</div>
+        <div class="pie">226/360</div>
+        <div class="pie">0.52,1.041</div>
+        <div class="pie">1,2,3,2,2</div>
+        <div class="datapie">
+            <div data-fill='["red", "#eeeeee"]' data-diameter="64">1/7</div>
+            <div data-fill='["orange", "#eeeeee"]' data-diameter="48">2/7</div>
+            <div data-fill='["yellow", "#eeeeee"]' data-diameter="32">3/7</div>
+        </div>
+        <div class="bar-fill-1">5,3,9,6,5,9,7,3,5,2</div>
+        <div class="bar-fill-2">5,3,2,-1,-3,-2,2,3,5,2</div>
+        <div class="bar-fill-3">0,-3,-6,-4,-5,-4,-7,-3,-5,-2</div>
+        <div class="pie-fill-2">5,3,9,6,5</div>
+        <p>
+            <div class="line">5,3,9,6,5,9,7,3,5,2</div>
+            <div class="line">5,3,2,-1,-3,-2,2,3,5,2</div>
+            <div class="line">0,-3,-6,-4,-5,-4,-7,-3,-5,-2</div>
+            <div class="lines">0,3,6,4,-5,4,-7,3,-5,-2|-5,-4,-7,-3,5,-2,0,3,6,-4</div>
+        </p>
+        <p>
+            <div class="bar">5,3,9,6,5,9,7,3,5,2</div>
+            <div class="bar">5,3,2,-1,-3,-2,2,3,5,2</div>
+            <div class="bar">0,-3,-6,-4,-5,-4,-7,-3,-5,-2</div>
+            <div class="updating-chart">5,3,9,6,5,9,7,3,5,2,5,3,9,6,5,9,7,3,5,2</div>
+        </p>
 
-	<div class="line">5,3,9,6,5,9,7,3,5,2</div>
-	<div class="line">5,3,2,-1,-3,-2,2,3,5,2</div>
-	<div class="line">0,-3,-6,-4,-5,-4,-7,-3,-5,-2</div>
-	<div class="lines">0,3,6,4,-5,4,-7,3,-5,-2|-5,-4,-7,-3,5,-2,0,3,6,-4</div>
+        
 
-	<div class="bar">5,3,9,6,5,9,7,3,5,2</div>
-	<div class="bar">5,3,2,-1,-3,-2,2,3,5,2</div>
-	<div class="bar">0,-3,-6,-4,-5,-4,-7,-3,-5,-2</div>
-
-
-	<div class="bar-fill-1">5,3,9,6,5,9,7,3,5,2</div>
-	<div class="bar-fill-2">5,3,2,-1,-3,-2,2,3,5,2</div>
-	<div class="bar-fill-3">0,-3,-6,-4,-5,-4,-7,-3,-5,-2</div>
-	<div class="pie-fill-2">5,3,9,6,5</div>
-
-	<div class="updating-chart">5,3,9,6,5,9,7,3,5,2,5,3,9,6,5,9,7,3,5,2</div>
-	<div class="datapie">
-		<div data-fill='["red", "#eeeeee"]' data-diameter="64">1/7</div>
-		<div data-fill='["orange", "#eeeeee"]' data-diameter="48">2/7</div>
-		<div data-fill='["yellow", "#eeeeee"]' data-diameter="32">3/7</div>
-	</div>
-</div>
+    </div>
 </body>
 </html>
