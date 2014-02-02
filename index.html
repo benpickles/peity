@@ -1,529 +1,619 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0">
-<title>Peity &bull; progressive &lt;canvas&gt; pie charts</title>
-<style>
-body {
-  background: #fff;
-  font-family: Baskerville, Georgia, "Times New Roman", serif;
-  font-size: 1em;
-  line-height: 1.5em;
-  margin: 0;
-  padding: 0;
-}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0">
+    <title>Peity &bull; progressive &lt;canvas&gt; pie charts</title>
+    <style>
+        body {
+            background: #fff;
+            font-family: Baskerville, Georgia, "Times New Roman", serif;
+            font-size: 1em;
+            line-height: 1.5em;
+            margin: 0;
+            padding: 0;
+        }
 
-#fork-me {
-  background: none;
-  display: block;
-  margin: 0;
-  padding: 0;
-  position: absolute;
-  right: 0;
-  top: 0;
-}
-#fork-me img {
-  border: none;
-  height: 149px;
-  width: 149px;
-}
+        #fork-me {
+            background: none;
+            display: block;
+            margin: 0;
+            padding: 0;
+            position: absolute;
+            right: 0;
+            top: 0;
+        }
 
-#container {
-  padding: 10px;
-}
+            #fork-me img {
+                border: none;
+                height: 149px;
+                width: 149px;
+            }
 
-h1 {
-  font-size: 3em;
-  margin: 0.2em 0 0.4em;
-}
+        #container {
+            padding: 10px;
+        }
 
-h2 {
-  font-size: 1.8em;
-  margin: 0.7em 0 0.2em;
-}
+        footer {
+            display: block;
+            margin: 1em 0;
+        }
 
-h3 {
-  font-size: 1.2em;
-  margin: 0.7em 0 0;
-}
+        .version {
+            font-size: 0.6em;
+            font-weight: normal;
+            line-height: 1em;
+        }
 
-h4 {
-  color: #666;
-  font-size: 1em;
-  margin: 0.7em 0 0;
-}
+        a {
+            color: #246;
+        }
 
-p {
-  margin: 0.2em 0 0.3em;
-}
+            a:hover {
+                color: #123;
+                text-decoration: none;
+            }
 
-dl {
-  margin: 0.2em 0 0.3em 10px;
-}
+        .example {
+            background: #fbfbff;
+            border: 1px solid #ddf;
+            border-radius: 10px;
+            padding: 1px 2px;
+            margin: 1em 0px;
+            padding: 0 10px;
+        }
 
-dd {
-  margin-left: 1em;
-}
+        code {
+            background: #f4f4ff;
+            border: 1px solid #ddf;
+            padding: 1px 2px;
+        }
 
-footer {
-  display: block;
-  margin: 1em 0;
-}
+        pre {
+            background: #fff;
+            padding: 5px 10px;
+            border: 1px solid #ddf;
+            border-radius: 10px;
+            line-height: 1.4em;
+            overflow-x: auto;
+        }
 
-.version {
-  font-size: 0.6em;
-  font-weight: normal;
-  line-height: 1em;
-}
+            pre code {
+                background: transparent;
+                border: none;
 
-a {
-  background: #eef;
-  color: #246;
-  padding: 1px 2px;
-}
-a:hover {
-  color: #123;
-  text-decoration: none;
-}
+                padding: 0;
+            }
 
-code {
-  background: #f4f4ff;
-  border: 1px solid #ddf;
-  padding: 1px 2px;
-}
+        /* Browser */
+        @media screen and (min-width: 481px) {
+            body {
+                text-align: center;
+            }
 
-pre {
-  background: #f4f4ff;
-  border-top: 1px solid #ddf;
-  border-bottom: 1px solid #ddf;
-  line-height: 1.4em;
-  margin: 0.3em -10px;
-  overflow-x: auto;
-  padding: 0.5em 10px;
-}
+            #container {
+                margin: 0 auto;
+                max-width: 600px;
+                text-align: left;
+            }
 
-pre code {
-  background: transparent;
-  border: none;
-  padding: 0;
-}
+            pre {
+                border-right: 1px solid #ddf;
+                border-left: 1px solid #ddf;
+            }
+        }
 
-/* Browser */
-@media screen and (min-width: 481px) {
-  body {
-    text-align: center;
-  }
+        /* iPhone */
+        @media screen and (max-width: 480px) {
+            html {
+                -webkit-text-size-adjust: none;
+            }
+        }
 
-  #container {
-    margin: 0 auto;
-    max-width: 600px;
-    text-align: left;
-  }
+        /* Retina */
+        @media screen and (-webkit-min-device-pixel-ratio: 2) {
+            #fork-me img {
+                height: 74.5px;
+                width: 74.5px;
+            }
+        }
+    </style>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
+    <script src="jquery.peity.js"></script>
+    <script>
+        $(function() {
 
-  pre {
-    border-right: 1px solid #ddf;
-    border-left: 1px solid #ddf;
-  }
-}
 
-/* iPhone */
-@media screen and (max-width: 480px) {
-  html {
-    -webkit-text-size-adjust: none;
-  }
-}
 
-/* Retina */
-@media screen and (-webkit-min-device-pixel-ratio: 2) {
-  #fork-me img {
-    height: 74.5px;
-    width: 74.5px;
-  }
-}
-</style>
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
-<script src="jquery.peity.js"></script>
-<script>
-$(function() {
-  // Just the defaults.
-  $("span.pie").peity("pie")
-  $(".line").peity("line", {width:256, height:32, lineWidth:2})
-	
-  $(".bar").peity("bar", { width : 256, height : 128, gap : 4, focusColor : "#000", focusWidth: 2, font: "12pt Trebuchet MS" })
+            //Pie charts
+            $(".pie").peity("pie");
+            $("#pie-1").peity("pie", { diameter: 48, fill: ["red", "blue"] });
+            $("#pie-2").peity("pie", { diameter: 48, lineWidth: 1, lineColor: "#090" });
+            $("#pie-3").peity("pie", { diameter: 48, focusWidth: 1, focusColor: "#090" });
 
-  $(".bar-fill-1").peity("bar", {
-    fill: ["red", "green", "blue"]
-  })
+            //Line charts
+            $(".line").peity("line");
+            $("#line-1").peity("line", { width: 128, height: 64, fill: "#f99", lineColor: "#f00", gridlines: { widths: [0, 1], colors: ["#fff", "#99f"] } });
+            $("#line-2").peity("line", { width: 200, height: 64, lineWidth: 2, pointSize: 4, focus: true });
+            $("#line-3").peity("line", { width: 200, height: 64, left: 40, region: 3, yAxis: { formatter: function(e) { return Math.round(e); } }, gridlines: { widths: [1, 1] } });
 
-  $(".bar-fill-2").peity("bar", {
-    fill: function(value) {
-      return value > 0 ? "green" : "red"
-    }
-  })
+            //Multi-Line charts
+            $(".lines").peity("lines");
+            $("#lines-1").peity("lines", { width: 128, height: 64, left: 40, region: 4, lineColors: ["#f00", "green"], gridlines: { widths: [0, 1], colors: ["#fff", "#99f"] } });
+            $("#lines-2").peity("lines", { width: 200, height: 64, lineWidth: 2, pointSize: 4, focus: true, labels: [1, 2, 3, 4, 5, 6, 7, 8, 9, 0] });
 
-  $(".bar-fill-3").peity("bar", {
-    fill: function(_, i, all) {
-      var g = parseInt((i / all.length) * 255)
-      return "rgb(255, " + g + ", 0)"
-    }
-  })
+            //Bar Charts
+            $(".bar").peity("bar");
+            $(".bar-fill-1").peity("bar", { fill: ["red", "green", "blue"] });
+            $(".bar-fill-2").peity("bar", { fill: function(value) { return value > 0 ? "green" : "red"; } });
+            $(".bar-fill-3").peity("bar", { fill: function(e, i, a) { return "rgb(255, " + parseInt((i / a.length) * 255) + ", 0)"; } });
 
-  $(".pie-fill-1").peity("pie", {
-    fill: ["cyan", "magenta", "yellow", "black"],
-  })
+            $(".pie-fill-1").peity("pie", { fill: ["cyan", "magenta", "yellow", "black"] });
+            $(".pie-fill-2").peity("pie", { fill: function(e, i, a) { return "rgb(255, " + parseInt((i / a.length) * 255) + ", 0)"; } });
 
-  $(".pie-fill-2").peity("pie", {
-    fill: function(_, i, all) {
-      var g = parseInt((i / all.length) * 255)
-      return "rgb(255, " + g + ", 0)"
-    }
-  })
+            // Using data attributes
+            $(".pie-data span").peity("pie");
 
-  // Using data attributes
-  $(".pie span").peity("pie", {lineWidth : 1, focusWidth : 3});
+            // Simple evented example.
+            $("select").change(function() {
+                var text = this.value + "/" + 5;
+                $(this).siblings("span.graph").text(text).change();
+                $("#notice").text("Chart updated: " + text);
+            }).change();
 
-  // Simple evented example.
-  $("select").change(function() {
-    var text = $(this).val() + "/" + 5
+            $("span.graph").peity("pie");
 
-    $(this)
-      .siblings("span.graph")
-      .text(text)
-      .change()
+            // Updating chart
+            var updatingChart = $(".updating-chart").peity("line", { width: 64 });
+            updatingChart.data("allValues", updatingChart.text());
+            setInterval(function() {
+                var values = updatingChart.data("allValues").split(",")
+                var limit = Math.round((Math.random() + 1) * values.length / 2);
+                var limit2 = Math.round(Math.random() * values.length / 2);
+                values = values.slice(Math.min(limit, limit2), Math.max(limit, limit2));
+                console.log(JSON.stringify(values));
+                updatingChart.text(values.join(",")).change();
+            }, 1000);
 
-    $("#notice").text("Chart updated: " + text)
-  }).change()
-
-  $("span.graph").peity("pie")
-
-  // Updating charts.
-  var updatingChart = $(".updating-chart").peity("line", { width: 64 });
-	updatingChart.data("allValues", updatingChart.text());
-//Testing using same values but changing interval
-  setInterval(function() {
-   
-    var values = updatingChart.data("allValues").split(",")
-	var limit = Math.round(Math.random() * values.length / 2 + values.length / 2);
-	var limit2 = Math.round(Math.random() * values.length / 2);
-	values = values.slice(Math.min(limit, limit2), Math.max(limit, limit2));
-console.log(JSON.stringify(values));
-    updatingChart
-      .text(values.join(","))
-      .change();
-			
-			
-  }, 1000)
-	
-	$(".lines").peity("lines", {width:256, height:32})
-})
-</script>
+        })
+    </script>
 </head>
 <body>
-<div id="container">
-  <h1>Peity</h1>
+    <div id="container">
+        <h1>Peity</h1>
 
-  <iframe src="http://ghbtns.com/github-btn.html?user=fmorel90&repo=peity&type=watch&count=true" allowtransparency="true" frameborder="0" scrolling="0" width="110" height="20"></iframe>
-  <iframe src="http://ghbtns.com/github-btn.html?user=fmorel90&repo=peity&type=fork&count=true" allowtransparency="true" frameborder="0" scrolling="0" width="95" height="20"></iframe>
+        <iframe src="http://ghbtns.com/github-btn.html?user=fmorel90&repo=peity&type=watch&count=true" allowtransparency="true" frameborder="0" scrolling="0" width="110" height="20"></iframe>
+        <iframe src="http://ghbtns.com/github-btn.html?user=fmorel90&repo=peity&type=fork&count=true" allowtransparency="true" frameborder="0" scrolling="0" width="95" height="20"></iframe>
 
-  <p>Peity (sounds like deity) is a simple <a href="http://jquery.com/">jQuery</a>
-    plugin that converts an element's content into a simple <code>&lt;canvas&gt;</code>
-    mini pie <span class="pie">2/5</span>
-    line <span class="line">5,3,9,6,5,9,7,3,5,2</span>
-    or bar chart <span class="bar">5,3,9,6,5,9,7,3,5,2</span> and is
-    compatible with any browser that supports <code>&lt;canvas&gt;</code>:
-    Chrome, Firefox, IE9+, Opera, Safari.</p>
+        <p>Peity (sounds like deity) is a simple <a href="http://jquery.com/">jQuery</a> plugin that converts an element's content into a simple <code>&lt;canvas&gt;</code> mini pie <span class="pie">2/5</span>, line <span class="line">5,3,9,6,5,9,7,3,5,2</span>, or bar chart <span class="bar">5,3,9,6,5,9,7,3,5,2</span> and is compatible with any browser that supports <code>&lt;canvas&gt;</code>: Chrome, Firefox, IE9+, Opera, Safari.</p>
 
-  <nav>
-    <p>
-      Read about <a href="#pie-charts">pie charts</a>,
-      <a href="#line-charts">line charts</a>,
-      <a href="#bar-charts">bar charts</a>,
-      <a href="#dynamic-fill">setting fill dynamically</a>,
-      <a href="#updating-charts">updating charts</a>,
-      <a href="#custom-charts">custom charts</a>,
-      <a href="#data-attributes">data-* attributes</a> and
-      <a href="#events">events</a>,
-      <a href="#defaults">default settings</a>.
-    </p>
-  </nav>
+        <nav>
+            <p>
+                Read about <a href="#pie-charts">pie charts</a>,
+                <a href="#line-charts">line charts</a>,
+                <a href="#bar-charts">bar charts</a>,
+                <a href="#dynamic-fill">setting fill dynamically</a>,
+                <a href="#updating-charts">updating charts</a>,
+                <a href="#custom-charts">custom charts</a>,
+                <a href="#data-attributes">data-* attributes</a> and
+                <a href="#events">events</a>,
+                <a href="#defaults">default settings</a>.
+            </p>
+        </nav>
 
-  <h2>Download <span class="version">version 1.2.0</span></h2>
+        <h2>Download <span class="version">version 1.?.?</span></h2>
 
-  <dl>
-    <dt>Uncompressed 6.4Kb</dt>
-    <dd><a href="jquery.peity.js">jquery.peity.js</a></dd>
-    <dt>Minified 3.0Kb (+gzipped 1.4Kb)</dt>
-    <dd><a href="jquery.peity.min.js">jquery.peity.min.js</a></dd>
-    <dt>Source</dt>
-    <dd><a href="https://github.com/fmorel90/peity">github.com/fmorel90/peity</a></dd>
-  </dl>
+        <dl>
+            <dt>Uncompressed ?.?Kb</dt>
+            <dd><a href="jquery.peity.js">jquery.peity.js</a></dd>
+            <dt>Minified ?.?Kb (+gzipped ?.?Kb)</dt>
+            <dd><a href="jquery.peity.min.js">jquery.peity.min.js</a></dd>
+            <dt>Source</dt>
+            <dd><a href="https://github.com/fmorel90/peity">github.com/fmorel90/peity</a></dd>
+        </dl>
 
-  <a href="https://github.com/fmorel90/peity" id="fork-me"><img src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"></a>
+        <a href="https://github.com/fmorel90/peity" id="fork-me"><img src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"></a>
 
-  <h2 id="pie-charts">Pie Charts</h2>
+        <!--Pie Charts-->
+        <div class="chart-type">
+            <h2 id="pie-charts">Pie Charts</h2>
 
-  <p>Simply call <code>peity("pie")</code> on a jQuery selection. There are
-    two subtly different pie chart semantics, a "/" delimiter is assumed to
-    mean "three out of five" and only the first two values will be drawn,
-    otherwise all of the values are included in the chart and the total is the
-    sum of all values.</p>
+            <p>Simply call <code>peity("pie")</code> on a jQuery selection. There are two subtly different pie chart semantics, a "/" delimiter is assumed to mean "three out of five" and only the first two values will be drawn, otherwise all of the values are included in the chart and the total is the sum of all values.</p>
 
-  <p>You can also pass <code>fill</code>, <code>delimiter</code>,
-    <code>diameter</code>, <code>height</code> and <code>width</code> options.
-    Setting a diameter is a shortcut for setting the width and height to the
-    same value.</p>
+            <p>You can also pass <code>fill</code>, <code>delimiter</code>, <code>diameter</code>, <code>lineColor</code>, <code>lineWidth</code>, <code>focusColor</code> and <code>focusWidth</code> options. Fill is an array of colors for the slices of pie. Delimiter is the string used to separate numbers. Diameter sets the size of the canvas (and resulting pie chart). lineColor is only relevant if lineWidth > 0. It creates an outline on the circle. focusColor and focusWidth work similarly, but only outline the arc of a slice of the pie.</p>
 
-  <p>
-    <span class="pie">1/5</span>
-    <span class="pie">226/360</span>
-    <span class="pie">0.52/1.561</span>
-    <span class="pie">1,4</span>
-    <span class="pie">226,134</span>
-    <span class="pie">0.52,1.041</span>
-    <span class="pie">1,2,3,2,2</span>
-  </p>
+            <div class="example">
+                <h3>Example</h3>
+                <p>
+                    <span class="pie">226/360</span>
+                    <span class="pie">0.52/1.561</span>
+                    <span class="pie">1,2,3,2,2</span>
+                </p>
+                <h4>HTML</h4>
 
-  <div class="example">
-    <h4>HTML</h4>
-
-    <pre><code class="html">&lt;span class=&quot;pie&quot;&gt;1/5&lt;/span&gt;
-&lt;span class=&quot;pie&quot;&gt;226/360&lt;/span&gt;
+                <pre><code class="html">&lt;span class=&quot;pie&quot;&gt;226/360&lt;/span&gt;
 &lt;span class=&quot;pie&quot;&gt;0.52/1.561&lt;/span&gt;
-&lt;span class=&quot;pie&quot;&gt;1,4&lt;/span&gt;
-&lt;span class=&quot;pie&quot;&gt;226,134&lt;/span&gt;
-&lt;span class=&quot;pie&quot;&gt;0.52,1.041&lt;/span&gt;
 &lt;span class=&quot;pie&quot;&gt;1,2,3,2,2&lt;/span&gt;</code></pre>
 
-    <h4>JavaScript</h4>
+                <h4>JavaScript</h4>
 
-    <pre><code class="javascript">$("span.pie").peity("pie")</code></pre>
-  </div>
+                <pre><code class="javascript">$("span.pie").peity("pie");</code></pre>
+            </div>
 
-  <h2 id="line-charts">Line Charts</h2>
+            <div class="example">
+                <h3>Example</h3>
+                <p>
+                    <span id="pie-1">1/5</span>
+                    <span id="pie-2">1,2,3,2,2</span>
+                    <span id="pie-3">4,8,7,5,9</span>
+                </p>
+                <h4>HTML</h4>
 
-  <p>Line charts work on a comma-separated list of digits. Line charts can
-    take the following options: <code>color</code>, <code>lineColor</code>,
-    <code>lineWidth</code>, <code>delimiter</code>, <code>max</code>,
-    <code>min</code>, <code>width</code> and <code>height</code>.</p>
+                <pre><code class="html">&lt;span id=&quot;pie-1&quot;&gt;1/5&lt;/span&gt;
+&lt;span id=&quot;pie-2&quot;&gt;1,2,3,2,2&lt;/span&gt;
+&lt;span id=&quot;pie-3&quot;&gt;4,8,7,5,9&lt;/span&gt;</code></pre>
 
-  <p>
-    <span class="line">5,3,9,6,5,9,7,3,5,2</span>
-    <span class="line">5,3,2,-1,-3,-2,2,3,5,2</span>
-    <span class="line">0,-3,-6,-4,-5,-4,-7,-3,-5,-2</span>
-		<span class="lines">0,3,6,4,-5,4,-7,3,-5,-2|-5,-4,-7,-3,5,-2,0,3,6,-4</span>
-  </p>
+                <h4>JavaScript</h4>
 
-  <div class="example">
-    <h4>HTML</h4>
-    <pre><code class="html">&lt;span class="line"&gt;5,3,9,6,5,9,7,3,5,2&lt;/span&gt;
+                <pre><code class="javascript">$(".pie-1").peity("pie", {
+    diameter: 48,
+    fill: ["red", "blue"]
+});
+$(".pie-2").peity("pie", {
+    diameter: 48,
+    lineWidth: 1,
+    lineColor: "#090"
+});
+$(".pie-3").peity("pie", {
+    diameter: 48,
+    focusWidth: 1,
+    focusColor: "#090"
+});
+                </code></pre>
+            </div>
+        </div>
+
+        <!--Line Charts-->
+        <div class="chart-type">
+            <h2 id="line-charts">Line Charts</h2>
+
+            <p>Line charts work on a comma-separated list of digits. Line charts can take the following options: <code>fill</code>, <code>lineColor</code>, <code>lineWidth</code>, <code>delimiter</code>, <code>max</code>, <code>min</code>, <code>width</code>, <code>height</code>, <code>left</code>, <code>pointSize</code>, <code>region</code>, and <code>focus</code>. <code>xAxis</code>, <code>yAxis</code>, and <code>tooltip</code> support the following sub-options: <code>color</code>, <code>size</code> and <code>formatter</code>. <code>gridlines</code> supports <code>widths</code> and <code>colors</code>.</p>
+
+            <div class="example">
+                <h3>Examples</h3>
+                <p>
+                    <span class="line">5,3,9,6,5,9,7,3,5,2</span>
+                    <span class="line">5.5,3,2.5,-1,-3.5,-2,2,3,5,2</span>
+                    <span class="line">0,-3,-6,-4,-5,-4,-7,-3,-5,-2</span>
+                </p>
+                <h4>HTML</h4>
+                <pre><code class="html">&lt;span class="line"&gt;5,3,9,6,5,9,7,3,5,2&lt;/span&gt;
 &lt;span class=&quot;line&quot;&gt;5,3,2,-1,-3,-2,2,3,5,2&lt;/span&gt;
 &lt;span class=&quot;line&quot;&gt;0,-3,-6,-4,-5,-4,-7,-3,-5,-2&lt;/span&gt;</code></pre>
 
-    <h4>JavaScript</h4>
-    <pre><code class="javascript">$(".line").peity("line")</code></pre>
-  </div>
+                <h4>JavaScript</h4>
+                <pre><code class="javascript">$(".line").peity("line");</code></pre>
+            </div>
 
-  <h2 id="bar-charts">Bar Charts</h2>
+            <div class="example">
+                <h3>Examples</h3>
+                <p>
+                    <span id="line-1">5,3,9,6,5,9,7,3,5,2</span>
+                    <span id="line-2">5.5,3,2.5,-1,-3.5,-2,2,3,5,2</span>
+                    <span id="line-3">0,-3,-6,-4,-5,-4,-7,-3,-5,-2</span>
+                </p>
+                <h4>HTML</h4>
+                <pre><code class="html">&lt;span id="line-1"&gt;5,3,9,6,5,9,7,3,5,2&lt;/span&gt;
+&lt;span id=&quot;line-2&quot;&gt;5,3,2,-1,-3,-2,2,3,5,2&lt;/span&gt;
+&lt;span id=&quot;line-3&quot;&gt;0,-3,-6,-4,-5,-4,-7,-3,-5,-2&lt;/span&gt;</code></pre>
 
-  <p>Bar charts work in the same way as line charts and take the following
-    options: <code>fill</code>, <code>delimiter</code>, <code>max</code>,
-    <code>min</code>, <code>gap</code>, <code>width</code> and
-    <code>height</code>.</p>
+                <h4>JavaScript</h4>
+                <pre><code class="javascript">$("#line-1").peity("line", {
+    width: 128, height: 64,
+    fill: "#f99", lineColor: "#f00",
+    gridlines: { widths: [0, 1], colors: ["#fff", "#99f"] }
+});
+$("#line-2").peity("line", {
+    width: 200, height: 64,
+    lineWidth: 2, pointSize: 4, focus: true
+});
+$("#line-3").peity("line", {
+    width: 200, height: 64, left: 40,
+    region:3,
+    xAxis: { size: 13 },
+    yAxis: { formatter: function(e) { return Math.round(e); } },
+    gridlines: { widths: [1, 1] }
+});</code></pre>
+            </div>
 
-  <p>
-    <span class="bar">5,3,9,6,5,9,7,3,5,2</span>
-    <span class="bar">5,3,2,-1,-3,-2,2,3,5,2</span>
-    <span class="bar">0,-3,-6,-4,-5,-4,-7,-3,-5,-2</span>
-  </p>
+        </div>
 
-  <div class="example">
-    <h4>HTML</h4>
-    <pre><code class="html">&lt;span class="bar"&gt;5,3,9,6,5,9,7,3,5,2&lt;/span&gt;
+        <!--Multi-Line Charts-->
+        <div class="chart-type">
+            <h2 id="line-charts">Multi-Line Charts</h2>
+
+            <p>Multi-Line charts work on a vertical bar, "|", separated list of comma-separated list of digits. Multi-Line charts can take the following options: <code>lineColors</code>, <code>lineWidths</code>, <code>delimiter</code>, <code>seriesDelimiter</code>, <code>max</code>, <code>min</code>, <code>width</code>, <code>height</code>, <code>left</code>, <code>labels</code>, <code>pointSizes</code>, <code>region</code>, and <code>focus</code>. <code>xAxis</code>, <code>yAxis</code>, and <code>tooltip</code> support the following sub-options: <code>color</code>, <code>size</code> and <code>formatter</code>. <code>gridlines</code> supports <code>widths</code> and <code>colors</code>. It works very similarly to line charts, but some of the properties are arrays instead of plain values.</p>
+
+            <div class="example">
+                <h3>Examples</h3>
+                <p>
+                    <span class="lines">5,3,9,6,5,9,7,3,5,2|5.5,3,2.5,-1,-3.5,-2,2,3,5,2</span>
+                    <span class="lines">0,-3,-6,-4,-5,-4,-7,-3,-5,-2|5,3,9,6,5,9,7,3,5,2</span>
+                </p>
+                <h4>HTML</h4>
+                <pre><code class="html">&lt;span class="lines"&gt;5,3,9,6,5,9,7,3,5,2|5.5,3,2.5,-1,-3.5,-2,2,3,5,2&lt;/span&gt;
+&lt;span class=&quot;lines&quot;&gt;0,-3,-6,-4,-5,-4,-7,-3,-5,-2|5,3,9,6,5,9,7,3,5,2&lt;/span&gt;</code></pre>
+
+                <h4>JavaScript</h4>
+                <pre><code class="javascript">$(".lines").peity("lines");</code></pre>
+            </div>
+
+            <div class="example">
+                <h3>Examples</h3>
+                <p>
+                    <span id="lines-1">5,3,9,6,5,9,7,3,5,2|5.5,3,2.5,-1,-3.5,-2,2,3,5,2</span>
+                    <span id="lines-2">0,-3,-6,-4,-5,-4,-7,-3,-5,-2|5,3,9,6,5,9,7,3,5,2</span>
+                </p>
+                <h4>HTML</h4>
+                <pre><code class="html">&lt;span id="line-1"&gt;5,3,9,6,5,9,7,3,5,2&lt;/span&gt;
+&lt;span id=&quot;line-2&quot;&gt;5,3,2,-1,-3,-2,2,3,5,2&lt;/span&gt;
+&lt;span id=&quot;line-3&quot;&gt;0,-3,-6,-4,-5,-4,-7,-3,-5,-2&lt;/span&gt;</code></pre>
+
+                <h4>JavaScript</h4>
+                <pre><code class="javascript">$("#line-1").peity("line", {
+    width: 128, height: 64,
+    fill: "#f99", lineColor: "#f00",
+    gridlines: { widths: [0, 1], colors: ["#fff", "#99f"] }
+});
+$("#line-2").peity("line", {
+    width: 200, height: 64,
+    lineWidth: 2, pointSize: 4, focus: true
+});
+$("#line-3").peity("line", {
+    width: 200, height: 64, left: 40,
+    region:3,
+    xAxis: { size: 13 },
+    yAxis: { formatter: function(e) { return Math.round(e); } },
+    gridlines: { widths: [1, 1] }
+});</code></pre>
+            </div>
+        </div>
+
+        <!--Bar Charts-->
+        <div class="chart-type">
+            <h2 id="bar-charts">Bar Charts</h2>
+
+            <p>Bar charts work in the same way as line charts and take the following options: <code>fill</code>, <code>delimiter</code>, <code>max</code>, <code>min</code>, <code>gap</code>, <code>width</code>, <code>height</code>. <code>xAxis</code>, <code>yAxis</code>, <code>tooltip</code> have the following sub-options: <code>color</code>, <code>size</code>, and <code>formatter</code>. <code>focus</code> has the following sub-options: <code>color</code> and <code>width</code>. <code>gridlines</code> supports <code>widths</code> and <code>colors</code>.</p>
+
+
+
+            <div class="example">
+                <h4>Examples</h4>
+                <p>
+                    <span class="bar">5,3,9,6,5,9,7,3,5,2</span>
+                    <span class="bar">5,3,2,-1,-3,-2,2,3,5,2</span>
+                    <span class="bar">0,-3,-6,-4,-5,-4,-7,-3,-5,-2</span>
+                </p>
+                <h4>HTML</h4>
+                <pre><code class="html">&lt;span class="bar"&gt;5,3,9,6,5,9,7,3,5,2&lt;/span&gt;
 &lt;span class=&quot;bar&quot;&gt;5,3,2,-1,-3,-2,2,3,5,2&lt;/span&gt;
 &lt;span class=&quot;bar&quot;&gt;0,-3,-6,-4,-5,-4,-7,-3,-5,-2&lt;/span&gt;</code></pre>
 
-    <h4>JavaScript</h4>
-    <pre><code class="javascript">$(".bar").peity("bar")</code></pre>
-  </div>
+                <h4>JavaScript</h4>
+                <pre><code class="javascript">$(".bar").peity("bar")</code></pre>
+            </div>
 
-  <h2 id="dynamic-fill">Setting fill Dynamically</h2>
+            <div class="example">
+                <h4>Examples</h4>
+                <p>
+                    <span class="bar">5,3,9,6,5,9,7,3,5,2</span>
+                    <span class="bar">5,3,2,-1,-3,-2,2,3,5,2</span>
+                    <span class="bar">0,-3,-6,-4,-5,-4,-7,-3,-5,-2</span>
+                </p>
+                <h4>HTML</h4>
+                <pre><code class="html">&lt;span class="bar"&gt;5,3,9,6,5,9,7,3,5,2&lt;/span&gt;
+&lt;span class=&quot;bar&quot;&gt;5,3,2,-1,-3,-2,2,3,5,2&lt;/span&gt;
+&lt;span class=&quot;bar&quot;&gt;0,-3,-6,-4,-5,-4,-7,-3,-5,-2&lt;/span&gt;</code></pre>
 
-  <p>Bar and pie chart fill can be defined dynamically based on the values
-    of the chart. When passing an array its values are cycled, when passing a
-    function it is called once for each value allowing you to define each
-    bar's color. The function is called with a similar signature to
-    <code>Array#forEach</code> with the bar's value, its index, and the full
-    array of values.
-  </p>
+                <h4>JavaScript</h4>
+                <pre><code class="javascript">$(".bar").peity("bar")</code></pre>
+            </div>
+            <div class="chart-type">
+                <h2 id="dynamic-fill">Setting fill Dynamically</h2>
 
-  <p>
-    <span class="bar-fill-1">5,3,9,6,5,9,7,3,5,2</span>
-    <span class="bar-fill-2">5,3,2,-1,-3,-2,2,3,5,2</span>
-    <span class="bar-fill-3">0,-3,-6,-4,-5,-4,-7,-3,-5,-2</span>
-    <span class="pie-fill-1">4,7,6,5</span>
-    <span class="pie-fill-2">5,3,9,6,5</span>
-  </p>
+                <p>
+                    Bar and pie chart fill can be defined dynamically based on the values
+                    of the chart. When passing an array its values are cycled, when passing a
+                    function it is called once for each value allowing you to define each
+                    bar's color. The function is called with a similar signature to
+                    <code>Array#forEach</code> with the bar's value, its index, and the full
+                    array of values.
+                </p>
 
-  <div class="example">
-    <h4>HTML</h4>
-    <pre><code class="html">&lt;span class="bar-fill-1"&gt;5,3,9,6,5,9,7,3,5,2&lt;/span&gt;
+
+
+                <div class="example">
+                    <h4>Examples</h4>
+                    <p>
+                        <span class="bar-fill-1">5,3,9,6,5,9,7,3,5,2</span>
+                        <span class="bar-fill-2">5,3,2,-1,-3,-2,2,3,5,2</span>
+                        <span class="bar-fill-3">0,-3,-6,-4,-5,-4,-7,-3,-5,-2</span>
+                        <span class="pie-fill-1">4,7,6,5</span>
+                        <span class="pie-fill-2">5,3,9,6,5</span>
+                    </p>
+                    <h4>HTML</h4>
+                    <pre><code class="html">&lt;span class="bar-fill-1"&gt;5,3,9,6,5,9,7,3,5,2&lt;/span&gt;
 &lt;span class=&quot;bar-fill-2&quot;&gt;5,3,2,-1,-3,-2,2,3,5,2&lt;/span&gt;
 &lt;span class=&quot;bar-fill-3&quot;&gt;0,-3,-6,-4,-5,-4,-7,-3,-5,-2&lt;/span&gt;
 &lt;span class=&quot;pie-fill-1&quot;&gt;4,7,6,5&lt;/span&gt;
 &lt;span class=&quot;pie-fill-2&quot;&gt;5,3,9,6,5&lt;/span&gt;</code></pre>
 
-    <h4>JavaScript</h4>
-    <pre><code class="javascript">$(".bar-fill-1").peity("bar", {
+                    <h4>JavaScript</h4>
+                    <pre><code class="javascript">$(".bar-fill-1").peity("bar", {
   fill: ["red", "green", "blue"]
 })
-
 $(".bar-fill-2").peity("bar", {
   fill: function(value) {
     return value > 0 ? "green" : "red"
   }
 })
-
 $(".bar-fill-3").peity("bar", {
   fill: function(_, i, all) {
     var g = parseInt((i / all.length) * 255)
     return "rgb(255, " + g + ", 0)"
   }
 })
-
 $(".pie-fill-1").peity("pie", {
   fill: ["cyan", "magenta", "yellow", "black"]
 })
-
 $(".pie-fill-2").peity("pie", {
   fill: function(_, i, all) {
     var g = parseInt((i / all.length) * 255)
     return "rgb(255, " + g + ", 0)"
   }
 })</code></pre>
-  </div>
+                </div>
+            </div>
+        </div>
 
-  <h2 id="updating-charts">Updating Charts</h2>
+        <!--Updating Charts-->
+        <div class="chart-type">
+            <h2 id="updating-charts">Updating Charts</h2>
 
-  <p>Charts can be updated by changing the the jQuery selection's text content
-    and calling <code>change()</code> on it. The chart will be redrawn with
-    the same options that were originally passed to it.</p>
+            <p>
+                Charts can be updated by changing the the jQuery selection's text content
+                and calling <code>change()</code> on it. The chart will be redrawn with
+                the same options that were originally passed to it.
+            </p>
 
-  <p>
-    <span class="updating-chart">5,3,9,6,5,9,7,3,5,2,5,3,9,6,5,9,7,3,5,2</span>
-  </p>
 
-  <div class="example">
-    <h4>HTML</h4>
-    <pre><code class="html">&lt;span class="updating-chart"&gt;5,3,9,6,5,9,7,3,5,2,5,3,9,6,5,9,7,3,5,2&lt;/span&gt;</code></pre>
+            <div class="example">
+                <h4>Examples</h4>
 
-    <h4>JavaScript</h4>
-    <pre><code class="javascript">var updatingChart = $(".updating-chart").peity("line", { width: 64 })
+                <p>
+                    <span class="updating-chart">5,3,9,6,5,9,7,3,5,2,5,3,9,6,5,9,7,3,5,2</span>
+                </p>
+                <h4>HTML</h4>
+                <pre><code class="html">&lt;span class="updating-chart"&gt;5,3,9,6,5,9,7,3,5,2,5,3,9,6,5,9,7,3,5,2&lt;/span&gt;</code></pre>
 
+                <h4>JavaScript</h4>
+                <pre><code class="javascript">var updatingChart = $(".updating-chart").peity("line", { width: 64 })
 setInterval(function() {
   var random = Math.round(Math.random() * 10)
   var values = updatingChart.text().split(",")
   values.shift()
   values.push(random)
-
   updatingChart
     .text(values.join(","))
     .change()
 }, 1000)</code></pre>
-  </div>
+            </div>
+        </div>
+        <div class="chart-type">
+            <h2 id="custom-charts">Custom Charts</h2>
 
-  <h2 id="custom-charts">Custom Charts</h2>
+            <p>
+                You can easily add your own custom chart by registering it with
+                Peity with name, defaults and the draw function which receives an options
+                object.
+            </p>
 
-  <p>You can easily add your own custom chart by registering it with
-    Peity with name, defaults and the draw function which receives an options
-    object.</p>
-
-  <pre><code class="javascript">$.fn.peity.add("custom", {
+            <pre><code class="javascript">$.fn.peity.add("custom", {
     color: "#FFCC00"
   }, function(opts) {
     ...
   }
 )</code></pre>
+        </div>
+        <div class="chart-type">
+            <h2 id="data-attributes">data-* attributes</h2>
 
-  <h2 id="data-attributes">data-* attributes</h2>
+            <p>
+                If you use data attributes, Peity will apply their values to the defaults
+                with the same names automatically. Options passed to the
+                <code>peity()</code> function take precedence over data-* attributes.
+            </p>
 
-  <p>If you use data attributes, Peity will apply their values to the defaults
-    with the same names automatically. Options passed to the
-    <code>peity()</code> function take precedence over data-* attributes.</p>
+            <div class="example">
+                <h4>Examples</h4>
 
-  <p class="pie">
-    <span data-fill='["red", "#eeeeee"]'    data-diameter="40">1/7</span>
-    <span data-fill='["orange", "#eeeeee"]' data-diameter="36">2/7</span>
-    <span data-fill='["yellow", "#eeeeee"]' data-diameter="32">3/7</span>
-    <span data-fill='["green", "#eeeeee"]'  data-diameter="28">4/7</span>
-    <span data-fill='["blue", "#eeeeee"]'   data-diameter="24">5/7</span>
-    <span data-fill='["indigo", "#eeeeee"]' data-diameter="20">6/7</span>
-    <span data-fill='["violet", "#eeeeee"]' data-diameter="16">7/7</span>
-  </p>
+                <p class="pie-data">
+                    <span data-fill='["red", "#eeeeee"]' data-diameter="40">1/7</span>
+                    <span data-fill='["orange", "#eeeeee"]' data-diameter="36">2/7</span>
+                    <span data-fill='["yellow", "#eeeeee"]' data-diameter="32">3/7</span>
+                    <span data-fill='["green", "#eeeeee"]' data-diameter="28">4/7</span>
+                    <span data-fill='["blue", "#eeeeee"]' data-diameter="24">5/7</span>
+                    <span data-fill='["indigo", "#eeeeee"]' data-diameter="20">6/7</span>
+                    <span data-fill='["violet", "#eeeeee"]' data-diameter="16">7/7</span>
+                </p>
+                <h4>HTML</h4>
 
-  <div class="example">
-    <h4>HTML</h4>
-
-    <pre><code class="html">&lt;span data-fill=&#x27;[&quot;red&quot;, &quot;#eeeeee&quot;]&#x27;    data-diameter=&quot;40&quot;&gt;1/7&lt;/span&gt;
+                <pre><code class="html">&lt;span data-fill=&#x27;[&quot;red&quot;, &quot;#eeeeee&quot;]&#x27;    data-diameter=&quot;40&quot;&gt;1/7&lt;/span&gt;
 &lt;span data-fill=&#x27;[&quot;orange&quot;, &quot;#eeeeee&quot;]&#x27; data-diameter=&quot;36&quot;&gt;2/7&lt;/span&gt;
 &lt;span data-fill=&#x27;[&quot;yellow&quot;, &quot;#eeeeee&quot;]&#x27; data-diameter=&quot;32&quot;&gt;3/7&lt;/span&gt;
 &lt;span data-fill=&#x27;[&quot;green&quot;, &quot;#eeeeee&quot;]&#x27;  data-diameter=&quot;28&quot;&gt;4/7&lt;/span&gt;
 &lt;span data-fill=&#x27;[&quot;blue&quot;, &quot;#eeeeee&quot;]&#x27;   data-diameter=&quot;24&quot;&gt;5/7&lt;/span&gt;
 &lt;span data-fill=&#x27;[&quot;indigo&quot;, &quot;#eeeeee&quot;]&#x27; data-diameter=&quot;20&quot;&gt;6/7&lt;/span&gt;
 &lt;span data-fill=&#x27;[&quot;violet&quot;, &quot;#eeeeee&quot;]&#x27; data-diameter=&quot;16&quot;&gt;7/7&lt;/span&gt;</code></pre>
-    <h4>JavaScript</h4>
+                <h4>JavaScript</h4>
 
-    <pre><code class="javascript">$(&quot;.pie span&quot;).peity(&quot;pie&quot;)</code></pre>
-  </div>
+                <pre><code class="javascript">$(&quot;.pie span&quot;).peity(&quot;pie&quot;)</code></pre>
+            </div>
+        </div>
+        <div class="chart-type">
+            <h2 id="events">Events</h2>
 
-  <h2 id="events">Events</h2>
+            <p>
+                Peity adds a "change" event trigger to your graph elements, so if you
+                update their data your can regenerate one or more charts by triggering
+                <code>change()</code> on them.
+            </p>
 
-  <p>Peity adds a "change" event trigger to your graph elements, so if you
-    update their data your can regenerate one or more charts by triggering
-    <code>change()</code> on them.</p>
 
-  <ul>
-    <li>
-      <span class="graph"></span>
-      <select>
-        <option value="0">0</option>
-        <option value="1">1</option>
-        <option value="2">2</option>
-        <option value="3">3</option>
-        <option value="4" selected>4</option>
-        <option value="5">5</option>
-      </select>
-    </li>
-    <li>
-      <span class="graph"></span>
-      <select>
-        <option value="0">0</option>
-        <option value="1" selected>1</option>
-        <option value="2">2</option>
-        <option value="3">3</option>
-        <option value="4">4</option>
-        <option value="5">5</option>
-      </select>
-    </li>
-    <li>
-      <span class="graph"></span>
-      <select>
-        <option value="0">0</option>
-        <option value="1">1</option>
-        <option value="2">2</option>
-        <option value="3" selected>3</option>
-        <option value="4">4</option>
-        <option value="5">5</option>
-      </select>
-    </li>
-  </ul>
 
-  <p id="notice">Nothing's happened yet.</p>
 
-  <div class="example">
-    <h4>HTML</h4>
+            <div class="example">
+                <h4>Examples</h4>
+                <ul>
+                    <li>
+                        <span class="graph"></span>
+                        <select>
+                            <option value="0">0</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4" selected>4</option>
+                            <option value="5">5</option>
+                        </select>
+                    </li>
+                    <li>
+                        <span class="graph"></span>
+                        <select>
+                            <option value="0">0</option>
+                            <option value="1" selected>1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                        </select>
+                    </li>
+                    <li>
+                        <span class="graph"></span>
+                        <select>
+                            <option value="0">0</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3" selected>3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                        </select>
+                    </li>
+                </ul>
 
-    <pre><code class="html">&lt;ul&gt;
+                <p id="notice">Nothing's happened yet.</p>
+                <h4>HTML</h4>
+
+                <pre><code class="html">&lt;ul&gt;
   &lt;li&gt;
     &lt;span class="graph"&gt;&lt;/span&gt;
     &lt;select&gt;
@@ -558,40 +648,39 @@ setInterval(function() {
     &lt;/select&gt;
   &lt;/li&gt;
 &lt;/ul&gt;
-
 &lt;p id="notice"&gt;Nothing's happened yet.&lt;/p&gt;</code></pre>
 
-    <h4>JavaScript</h4>
 
-    <pre><code class="javascript">$("select").change(function() {
+                <h4>JavaScript</h4>
+
+                <pre><code class="javascript">$("select").change(function() {
   $(this)
     .siblings("span.graph")
     .text($(this).val() + "/" + 5).change()
 }).change()
-
 var chartUpdate = function(event, value, max) {
   $("#notice").text(
     "Chart updated: " + value + "/" + max
   )
 }
-
 $("span.graph")
   .peity("pie")
   .bind("change.peity", chartUpdate)</code></pre>
-  </div>
+            </div>
+        </div>
+        <div class="chart-type">
+            <h2 id="defaults">Default Settings</h2>
 
-  <h2 id="defaults">Default Settings</h2>
-
-  <p>Defaults can be overridden globally like so:</p>
-
-  <pre><code class="javascript">$.fn.peity.defaults.pie = {
+            <p>Defaults can be overridden globally like so:</p>
+            <div class="example">
+                <h4>JavaScript</h4>
+                <pre><code class="javascript">$.fn.peity.defaults.pie = {
   fill: ["<span style="background:#ff9900">#ff9900</span>", "<span style="background:#fff4dd">#fff4dd</span>", "<span style="background:#ffd592">#ffd592</span>"],
   delimiter: null,
   diameter: 16,
   height: null,
   width: null
 }
-
 $.fn.peity.defaults.line = {
   color: "<span style="background:#c6d9fd">#c6d9fd</span>",
   lineColor: "<span style="background:#4d89f9">#4d89f9</span>",
@@ -602,7 +691,6 @@ $.fn.peity.defaults.line = {
   min: 0,
   width: 32
 }
-
 $.fn.peity.defaults.bar = {
   fill: ["<span style="background:#4d89f9">#4d89f9</span>"],
   delimiter: ",",
@@ -612,13 +700,9 @@ $.fn.peity.defaults.bar = {
   gap: devicePixelRatio || 1,
   width: 32
 }</code></pre>
-
-  <footer>
-    <p>
-      &copy; 2013 <a href="http://benpickles.com/">Ben Pickles</a>.
-      <a href="https://github.com/benpickles/peity/blob/master/MIT-LICENCE">MIT LICENCE</a>.
-    </p>
-  </footer>
-</div>
+            </div>
+        </div>
+        <footer><p>&copy; 2013 <a href="http://benpickles.com/">Ben Pickles</a>. <a href="https://github.com/benpickles/peity/blob/master/MIT-LICENCE">MIT LICENCE</a>.</p></footer>
+    </div>
 </body>
 </html>

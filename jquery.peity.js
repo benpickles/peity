@@ -9,22 +9,29 @@
 	var peity = $.fn.peity = function(type, options) {
 		if(canvasSupported) {
 			this.each(function() {
+				//See if element is already a peity chart and load
 				var $this = $(this);
 				var chart = $this.data("peity");
 
 				if(chart) {
+					//If chart already exists, pass new options and redraw
 					if(type) chart.type = type;
 					$.extend(true, chart.opt, options);
 					chart.draw();
 				} else {
+					//Initialize with defaults
 					var defaults = peity.defaults[type];
+					//Then load from data attributes on element
 					var data = {};
 					$.each($this.data(), function(name, value) { if(name in defaults) data[name] = value; });
-
+					//Then combine with passed options
 					var opt = $.extend(true, {}, defaults, data, options);
+
+					//Create and draw
 					chart = new Peity($this, type, opt);
 					chart.draw();
 
+					//Adds change handler that redraws the chart
 					$this.change(function(a, b, c) { chart.draw(); }).data("peity", chart);
 				}
 			});
@@ -32,7 +39,10 @@
 		return this;
 	};
 
+	//Create object with defaults and drawers
 	var Peity = function($el, type, opt) { this.$el = $el; this.type = type; this.opt = opt; };
+
+	//Minifies references to the prototype
 	var PeityPrototype = Peity.prototype;
 
 	PeityPrototype.fill = function() {
@@ -104,6 +114,7 @@
 		context.strokeStyle = color;
 	};
 
+	//Draw an arc
 	PeityPrototype.drawArc = function(context, x, y, r, start, end, color, width) {
 		context.beginPath();
 		context.arc(x, y, r, start, end, true);//true = counterclockwise
@@ -111,6 +122,7 @@
 		context.stroke();
 	};
 
+	//Draw a circle
 	PeityPrototype.drawCircle = function(context, x, y, r, start, end, color) {
 		context.beginPath();
 		context.moveTo(x, y);
@@ -119,6 +131,7 @@
 		context.fill();
 	};
 
+	//Draw a line
 	PeityPrototype.drawLine = function(context, points, color, width) {
 		context.beginPath();
 		context.moveTo(points[0].x, points[0].y);
@@ -127,6 +140,7 @@
 		context.stroke();
 	};
 
+	//Draw y-axis gridlines and left labels
 	PeityPrototype.drawYAxis = function(context, baseWidth, gridWidth, baseColor, gridColor, fontColor, fontSize, formatter, left, right, height, yQuotient, min, max, region, gap) {
 		var valueToY = function() { return height - (yQuotient * (value - min)) + gap; };
 		var value = 0;
@@ -161,6 +175,7 @@
 
 	}
 
+	//Draw x-axis labels if given
 	PeityPrototype.drawXAxis = function(context, color, size, y, points, labels) {
 		context.fillStyle = color;
 		context.font = size + "px sans-serif";
@@ -258,14 +273,14 @@
 		fill: "#cdf",
 		lineColor: "#48f", lineWidth: 1,
 		delimiter: ",",
-		height: 150, width: 400, left: 0,
+		height: 16, width: 32, left: 0,
 		max: null, min: 0,
-		pointSize: 3, focus: false,
+		pointSize: 2, focus: false,
 		xAxis: { color: "#000", size: 13, formatter: function(e) { return e; } },
 		yAxis: { color: "#000", size: 13, formatter: function(e) { return e; } },
-		focus: { color: "#000", width: 0 },
+		focus: false,
 		tooltip: { color: "#000", size: 13, formatter: function(e) { return e; } },
-		gridlines: { widths: [1, 1], colors: ["#000", "#bbb"] }
+		gridlines: { widths: [1, 0], colors: ["#000", "#bbb"] }
 	},
 		function(opt) {
 			var self = this;
@@ -281,7 +296,6 @@
 			var region = opt.region || ((max - min) / 5);
 			var lineWidth = opt.lineWidth;
 			var pointSize = opt.pointSize;
-			var focus = opt.focus;
 			var xAxis = opt.xAxis;
 			var yAxis = opt.yAxis;
 			var tooltip = opt.tooltip;
@@ -292,7 +306,7 @@
 			var left = opt.left + pointSize;
 			var fullWidth = canvas.width;
 			var fullHeight = canvas.height;
-			var bottom = levels * xAxis.size + 4;
+			var bottom = levels * xAxis.size + (levels ? 4 :0);
 			var width = fullWidth - pointSize - left;
 			var height = fullHeight - lineWidth - bottom;
 
@@ -335,7 +349,7 @@
 			if(levels) { self.drawXAxis(context, xAxis.color, xAxis.size, height, coords, labels); }
 
 			//Draw focus around hovered rectangle and write value
-			if(focus && hoverPos) {
+			if(opt.focus && hoverPos) {
 				hoverPos = JSON.parse(hoverPos);
 
 				//Loop through values again
@@ -358,7 +372,7 @@
 				}
 			}
 
-			if(focus) { self.addEvents(canvas); }
+			if(opt.focus) { self.addEvents(canvas); }
 		}
 	);
 
@@ -366,14 +380,14 @@
 	peity.register("lines", {
 		lineColors: ["#666666", "#803E75"], lineWidths: [1],
 		delimiter: ",", seriesDelimiter: "|",
-		height: 16, width: 32, left: 0,
+		height: 32, width: 32, left: 0,
 		max: null, min: 0,
 		pointSizes: [2],
 		xAxis: { color: "#000", size: 13, formatter: function(e) { return e; } },
 		yAxis: { color: "#000", size: 13, formatter: function(e) { return e; } },
 		focus: false,
 		tooltip: { color: "#000", size: 13, formatter: function(e) { return e; } },
-		gridlines: { widths: [1, 1], colors: ["#000", "#bbb"] }
+		gridlines: { widths: [1, 0], colors: ["#000", "#bbb"] }
 	},
 		function(opt) {
 			var self = this;
@@ -396,7 +410,7 @@
 			var canvas = self.prepareCanvas(opt.width, opt.height);
 			var context = self.context;
 			var left = opt.left;
-			var bottom = levels * xAxis.size + 4;
+			var bottom = levels * xAxis.size + (levels ? 4 : 0);
 			var fullWidth = canvas.width;
 			var width = fullWidth - Math.max.apply(Math, pointSizes) * 2 - left;
 			var height = canvas.height - bottom;
@@ -469,13 +483,13 @@
 	peity.register("bar", {
 		fill: ["#48f"],
 		delimiter: ",",
-		height: 40, width: 100, left: 0,
+		height: 16, width: 32, left: 0,
 		gap: 1,
 		xAxis: { color: "#000", size: 13, formatter: function(e) { return e; } },
 		yAxis: { color: "#000", size: 13, formatter: function(e) { return e; } },
 		focus: { color: "#000", width: 0 },
 		tooltip: { color: "#000", size: 13, formatter: function(e) { return e; } },
-		gridlines: { widths: [1, 1], colors: ["#000", "#bbb"] },
+		gridlines: { widths: [1, 0], colors: ["#000", "#bbb"] },
 		max: null, min: 0
 	},
 		function(opt) {
@@ -511,7 +525,7 @@
 			var fullHeight = canvas.height;
 			var gap = opt.gap;
 			var left = opt.left;
-			var bottom = levels * xAxis.size + 4;
+			var bottom = levels * xAxis.size + (levels ? 4 : 0);
 			var width = fullWidth - gap * 2 - left;
 			var height = fullHeight - bottom - gridlines.widths[0];
 
