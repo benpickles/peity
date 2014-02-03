@@ -118,7 +118,7 @@
             }
         }
     </style>
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.js"></script>
     <script src="jquery.peity.js"></script>
     <script>
         $(function() {
@@ -132,10 +132,10 @@
             $("#pie-3").peity("pie", { diameter: 48, focusWidth: 1, focusColor: "#090" });
 
             //Line charts
-            $(".line").peity("line");
-            $("#line-1").peity("line", { width: 128, height: 64, fill: "#f99", lineColor: "#f00", gridlines: { widths: [0, 1], colors: ["#fff", "#99f"] } });
-            $("#line-2").peity("line", { width: 200, height: 64, lineWidth: 2, pointSize: 4, focus: true });
-            $("#line-3").peity("line", { width: 200, height: 64, left: 40, region: 3, yAxis: { formatter: function(e) { return Math.round(e); } }, gridlines: { widths: [1, 1] } });
+            $(".line").peity("lines");
+            $("#line-1").peity("lines", { width: 128, height: 64, fill: "#f99", lineColors: ["#f00"], gridlines: { widths: [0, 1], colors: ["#fff", "#99f"] } });
+            $("#line-2").peity("lines", { width: 200, height: 64, lineWidths: [2], pointSizes: [4], focus: true });
+            $("#line-3").peity("lines", { width: 200, height: 64, left: 40, region: 3, yAxis: { formatter: function(e) { return Math.round(e); } }, gridlines: { widths: [1, 1] } });
 
             //Multi-Line charts
             $(".lines").peity("lines");

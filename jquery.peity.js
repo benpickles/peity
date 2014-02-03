@@ -6,6 +6,7 @@
 // Released under MIT license.
 (function($, Math) {
 	var canvasSupported = document.createElement("canvas").getContext;
+	var defaultAxis = { color: "#000", size: 13, formatter: function(e) { return e; } };
 	var peity = $.fn.peity = function(type, options) {
 		if(canvasSupported) {
 			this.each(function() {
@@ -269,124 +270,17 @@
 	);
 
 	//Line Chart
-	peity.register("line", {
-		fill: "#cdf",
-		lineColor: "#48f", lineWidth: 1,
-		delimiter: ",",
-		height: 16, width: 32, left: 0,
-		max: null, min: 0,
-		pointSize: 2, focus: false,
-		xAxis: { color: "#000", size: 13, formatter: function(e) { return e; } },
-		yAxis: { color: "#000", size: 13, formatter: function(e) { return e; } },
-		focus: false,
-		tooltip: { color: "#000", size: 13, formatter: function(e) { return e; } },
-		gridlines: { widths: [1, 0], colors: ["#000", "#bbb"] }
-	},
-		function(opt) {
-			var self = this;
-			var hoverPos = self.$el.data("mouse");
-			var values = self.values();
-			if(values.length == 1) values.push(values[0]);
-			var labels = opt.labels;
-			if(labels) labels = labels.map(function(e) { return e + ""; });
-			var levels = 0;
-			if(labels) levels = Math.max.apply(this, labels.map(function(e) { return e.replace(/[^ ]/g, "").length; })) + 1;
-			var max = Math.max.apply(Math, values.concat([opt.max]));
-			var min = Math.min.apply(Math, values.concat([opt.min]));
-			var region = opt.region || ((max - min) / 5);
-			var lineWidth = opt.lineWidth;
-			var pointSize = opt.pointSize;
-			var xAxis = opt.xAxis;
-			var yAxis = opt.yAxis;
-			var tooltip = opt.tooltip;
-			var gridlines = opt.gridlines;
-
-			var canvas = self.prepareCanvas(opt.width, opt.height);
-			var context = self.context;
-			var left = opt.left + pointSize;
-			var fullWidth = canvas.width;
-			var fullHeight = canvas.height;
-			var bottom = levels * xAxis.size + (levels ? 4 :0);
-			var width = fullWidth - pointSize - left;
-			var height = fullHeight - lineWidth - bottom;
-
-			var xQuotient = width / (values.length - 1);
-			var yQuotient = height / (max - min);
-			var baseline = height + min * yQuotient;
-
-			var coords = [];
-			var i;
-
-			//Trace path for fill (and save point coordinates for the line afterwards)
-			context.beginPath();
-			context.moveTo(left, baseline);
-			for(i = 0; i < values.length; i++) {
-				var x = i * xQuotient + left;
-				var y = baseline - yQuotient * values[i] + lineWidth / 2;
-
-				coords.push({ x: x, y: y });
-				context.lineTo(x, y);
-
-			}
-			context.lineTo(fullWidth-pointSize/2, baseline);
-
-			if(opt.fill) {
-				context.fillStyle = opt.fill;
-				context.fill();
-			}
-
-			self.drawYAxis(context, gridlines.widths[0], gridlines.widths[1], gridlines.colors[0], gridlines.colors[1], yAxis.color, yAxis.size, yAxis.formatter, left, fullWidth, height, yQuotient, min, max, region, 0);
-
-			//Draw line second to make sure it's on top of fill
-			if(lineWidth) { self.drawLine(context, coords, opt.lineColor, lineWidth); }
-
-			//Finally draw points
-			if(opt.pointSize) {
-				for(i = 0; i < coords.length; i++) self.drawCircle(context, coords[i].x, coords[i].y, opt.pointSize, 0, 2 * Math.PI, opt.lineColor);
-			}
-
-			//Draw x-axis
-			if(levels) { self.drawXAxis(context, xAxis.color, xAxis.size, height, coords, labels); }
-
-			//Draw focus around hovered rectangle and write value
-			if(opt.focus && hoverPos) {
-				hoverPos = JSON.parse(hoverPos);
-
-				//Loop through values again
-				for(i = 0; i < coords.length; i++) {
-					var box = coords[i];
-					//Check if mouse is within the point's double space
-					if(hoverPos.x >= box.x - xQuotient / 3 && hoverPos.x <= box.x + xQuotient / 3) {
-						//Draw label
-						context.fillStyle = tooltip.color;
-						context.font = tooltip.size + "px sans-serif";
-						if(hoverPos.x > fullWidth / 2) context.textAlign = "right";
-						if(hoverPos.y < height / 2) {
-							context.textBaseline = "top";
-							hoverPos.y += 20;
-						}
-						context.fillText(tooltip.formatter(values[i]) + "", hoverPos.x, hoverPos.y);
-
-						break;//Don't analyze other values
-					}
-				}
-			}
-
-			if(opt.focus) { self.addEvents(canvas); }
-		}
-	);
-
-	//Multi Line Chart
 	peity.register("lines", {
-		lineColors: ["#666666", "#803E75"], lineWidths: [1],
+		lineColors: ["#78A", "#827"], lineWidths: [1],
+		fill : "#cdf",
 		delimiter: ",", seriesDelimiter: "|",
 		height: 32, width: 32, left: 0,
 		max: null, min: 0,
 		pointSizes: [2],
-		xAxis: { color: "#000", size: 13, formatter: function(e) { return e; } },
-		yAxis: { color: "#000", size: 13, formatter: function(e) { return e; } },
+		xAxis: defaultAxis,
+		yAxis: defaultAxis,
 		focus: false,
-		tooltip: { color: "#000", size: 13, formatter: function(e) { return e; } },
+		tooltip: defaultAxis,
 		gridlines: { widths: [1, 0], colors: ["#000", "#bbb"] }
 	},
 		function(opt) {
@@ -407,6 +301,8 @@
 			var max = Math.max.apply(Math, allValues);
 			var min = Math.min.apply(Math, allValues);
 			var region = opt.region || ((max - min) / 5);
+			max = Math.ceil(max / region) * region;
+			min = Math.floor(min / region) * region;
 			var canvas = self.prepareCanvas(opt.width, opt.height);
 			var context = self.context;
 			var left = opt.left;
@@ -426,8 +322,10 @@
 			var fontColor = opt.fontColor;
 			var formatter = opt.formatter;
 
-			var i, j, series, coords, firstCoords;
-			self.drawYAxis(context, gridlines.widths[0], gridlines.widths[1], gridlines.colors[0], gridlines.colors[1], yAxis.color, yAxis.size, yAxis.formatter, left, fullWidth, height, yQuotient, min, max, region, 0);
+			var i, j, series, coords, allCoords = [];
+
+
+			
 
 			//Loop through each series then each value in the series
 			for(j = 0; j < values.length; j += 1) {
@@ -436,16 +334,33 @@
 
 				//Calculate coordinates for each value
 				for(i = 0; i < series.length; i++) {
-					value = series[i]
-					coords.push({ x: i * xQuotient + pointSizes[j % pointSizes.length] + left + xQuotient/4, y: valueToY() });
-					self.drawCircle(context, coords[i].x, coords[i].y, pointSizes[j % pointSizes.length], 0, 2 * Math.PI, lineColors[j % lineColors.length]);
+					value = series[i];
+					coords.push({ x: i * xQuotient + pointSizes[j % pointSizes.length] + left + xQuotient / 4, y: valueToY() });
 				}
+				if(opt.fill && values.length === 1) {
+					//Trace path for fill (and save point coordinates for the line afterwards)
+					context.beginPath();
+					value = 0;
+					context.moveTo(left + xQuotient / 4 + pointSizes[0], valueToY());
+					for(i = 0; i < coords.length; i++) { context.lineTo(coords[i].x, coords[i].y); }
+					value = 0;
+					context.lineTo(fullWidth - pointSizes[0] - xQuotient / 4, valueToY());
+					context.fillStyle = opt.fill;
+					context.fill();
+				}
+				allCoords.push(coords);
+			}
+
+			self.drawYAxis(context, gridlines.widths[0], gridlines.widths[1], gridlines.colors[0], gridlines.colors[1], yAxis.color, yAxis.size, yAxis.formatter, left, fullWidth, height, yQuotient, min, max, region, 0);
+
+			for(j = 0; j < values.length; j += 1) {
+				coords = allCoords[j];
+				for(i = 0; i < coords.length; i++) self.drawCircle(context, coords[i].x, coords[i].y, pointSizes[j % pointSizes.length], 0, 2 * Math.PI, lineColors[j % lineColors.length]);
 				self.drawLine(context, coords, lineColors[j % lineColors.length], lineWidths[j % lineWidths.length]);
-				if(j === 0) firstCoords = coords.slice(0);
 			}
 
 			//Draw x-axis
-			if(levels) { self.drawXAxis(context, xAxis.color, xAxis.size, height, coords, labels); }
+			if(levels) { self.drawXAxis(context, xAxis.color, xAxis.size, height, allCoords[0], labels); }
 
 			//Draw focus around hovered rectangle and write value
 			
@@ -453,8 +368,8 @@
 				hoverPos = JSON.parse(hoverPos);
 				
 				//Loop through values again
-				for(i = 0; i < firstCoords.length; i++) {
-					var box = firstCoords[i];
+				for(i = 0; i < allCoords[0].length; i++) {
+					var box = allCoords[0][i];
 					//Check if mouse is within the point's double space
 					if(hoverPos.x >= box.x - xQuotient / 3 && hoverPos.x <= box.x + xQuotient / 3) {
 						//Draw label
@@ -485,10 +400,10 @@
 		delimiter: ",",
 		height: 16, width: 32, left: 0,
 		gap: 1,
-		xAxis: { color: "#000", size: 13, formatter: function(e) { return e; } },
-		yAxis: { color: "#000", size: 13, formatter: function(e) { return e; } },
+		xAxis: defaultAxis,
+		yAxis: defaultAxis,
 		focus: { color: "#000", width: 0 },
-		tooltip: { color: "#000", size: 13, formatter: function(e) { return e; } },
+		tooltip: defaultAxis,
 		gridlines: { widths: [1, 0], colors: ["#000", "#bbb"] },
 		max: null, min: 0
 	},
@@ -506,6 +421,8 @@
 			var max = Math.max.apply(Math, values.concat([opt.max]));
 			var min = Math.min.apply(Math, values.concat([opt.min]));
 			var region = opt.region || ((max - min) / 5);
+			max = Math.ceil(max / region) * region;
+			min = Math.floor(min / region) * region;
 
 			//Prepare canvas
 			var hoverPos = self.$el.data("mouse");

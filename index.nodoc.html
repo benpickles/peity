@@ -5,91 +5,139 @@
     <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0">
     <title>Peity &bull; progressive &lt;canvas&gt; pie charts</title>
     <style>
-        body {
-            text-align: center;
-        }
+        /* Browser */
+        @media screen and (min-width: 481px) {
+            body {
+                text-align: center;
+            }
 
-        div, canvas {
-            display: inline-block;
-            margin: 10px;
+            #container {
+                margin: 0 auto;
+                max-width: 600px;
+                text-align: left;
+            }
         }
     </style>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.js"></script>
     <script src="jquery.peity.js"></script>
     <script>
-        var rounder = function(e){ return Math.round(e * 100) / 100; };
         $(function() {
 
-            $("div.pie").peity("pie");
-            $(".line").peity("line", { labels : [1,2,3,4,5,6,7,8,9,0], lineWidth: 2, height: 150, width: 500, left: 50, bottom: 20, yAxis: { formatter: rounder }, tooltip: { formatter: rounder }, focus: true });
-            $(".bar").peity("bar", { width: 500, height: 150, left: 100, gap: 400 / 10 * 0.38, bottom: 20, focus: { color: "#000", width: 2 }, yAxis: { formatter: rounder }, tooltip: { formatter: rounder }, labels: [1,2,3,4,5,6,7,8,9,10] });
-            $(".bar-fill-1").peity("bar", { fill: ["red", "green", "blue"] });
-            $(".bar-fill-2").peity("bar", { fill: function(value) { return value > 0 ? "green" : "red"; } });
-            $(".bar-fill-3").peity("bar", { fill: function(_, i, all) { var g = parseInt((i / all.length) * 255); return "rgb(255, " + g + ", 0)"; } });
-            $(".pie-fill-2").peity("pie", { fill: function(_, i, all) { var g = parseInt((i / all.length) * 255); return "rgb(255, " + g + ", 0)"; } });
-            $(".lines").peity("lines", {
-                width: 500, height: 150, left: 70,
-                focus: true,
-                yAxis: { formatter: rounder },
-                tooltip: { formatter: rounder },
-                lineWidths: [2],
-                pointSizes: [4],
-                labels: ["Oct", "Nov", "Dec", "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep"]
+            //Pie charts
+            $(".pie").peity("pie");
+            $("#pie-1").peity("pie", { diameter: 48, fill: ["red", "blue"] });
+            $("#pie-2").peity("pie", { diameter: 48, lineWidth: 1, lineColor: "#090" });
+            $("#pie-3").peity("pie", { diameter: 48, focusWidth: 1, focusColor: "#090" });
+
+            //Line charts
+            $("#line-1").peity("lines", { width: 128, height: 64, fill: "#f99", lineColors: ["#f00"], gridlines: { widths: [0, 1], colors: ["#fff", "#99f"] } });
+            $("#line-2").peity("lines", { width: 200, height: 64, lineWidths: [2], pointSizes: [4], focus: true });
+            $("#line-3").peity("lines", { width: 200, height: 64, left: 40, region: 3, yAxis: { formatter: function(e) { return Math.round(e); } }, gridlines: { widths: [1, 1] } });
+
+            //Multi-Line charts
+            $(".lines").peity("lines");
+            $("#lines-1").peity("lines", { width: 128, height: 64, left: 40, region: 4, lineColors: ["#f00", "green"], gridlines: { widths: [0, 1], colors: ["#fff", "#99f"] } });
+            $("#lines-2").peity("lines", { width: 200, height: 64, lineWidth: 2, pointSize: 4, focus: true, labels: [1, 2, 3, 4, 5, 6, 7, 8, 9, 0] });
+            $("#lines-3").peity("lines", { width: 200, height: 64, lineWidth: 2, pointSize: 4, focus: true});
+
+            //Bar Charts
+            $(".bar").peity("bar");
+            $("#bar-1").peity("bar", { width: 128, height: 64, fill: ["#f99", "#faa", "#9f9"], gridlines: { widths: [2, 1], colors: ["#000", "#aaa"] } });
+            $("#bar-2").peity("bar", { width: 200, height: 64, region:6, fill: function(value) { return value > 0 ? "green" : "red"; }, focus: { color: "#000", width: 3 } });
+            $("#bar-3").peity("bar", {
+                width: 200, height: 64, left: 40, region: 4,
+                fill: function(e, i, a) { return "rgb(255, " + parseInt((i / a.length) * 255) + ", 0)"; },
+                yAxis: { formatter: function(e) { return Math.round(e); } }, gridlines: { widths: [2, 1] }
             });
 
+
             // Using data attributes
-            $(".datapie div").peity("pie", { lineWidth: 1, focusWidth: 3 });
+            $(".pie-data span").peity("pie");
 
             // Updating chart
-            var updatingChart = $(".updating-chart").peity("line");
-            updatingChart.data("allValues", updatingChart.text());
-            //Testing using same values but changing interval
+            var updatingChart = $(".updating-chart").peity("lines", { width: 64 });
+            updatingChart.data("peity-values", updatingChart.text());
             setInterval(function() {
+                var values = updatingChart.data("peity-values").split(",");
+                values = values.slice(Math.round(Math.random() * values.length / 2), Math.round((Math.random() + 1) * values.length / 2));
+                updatingChart.text(values.join(",")).change();
+            }, 1000);
 
-                var values = updatingChart.data("allValues").split(",")
-                var limit = Math.round(Math.random() * values.length / 2 + values.length / 2);
-                var limit2 = Math.round(Math.random() * values.length / 2);
-                values = values.slice(Math.min(limit, limit2), Math.max(limit, limit2));
-                //console.log(JSON.stringify(values));
-                updatingChart
-                  .text(values.join(","))
-                  .change();
-
-
-            }, 5000);
         })
     </script>
 </head>
 <body>
     <div id="container">
-        <div class="pie">1/5</div>
-        <div class="pie">226/360</div>
-        <div class="pie">0.52,1.041</div>
-        <div class="pie">1,2,3,2,2</div>
-        <div class="datapie">
-            <div data-fill='["red", "#eeeeee"]' data-diameter="64">1/7</div>
-            <div data-fill='["orange", "#eeeeee"]' data-diameter="48">2/7</div>
-            <div data-fill='["yellow", "#eeeeee"]' data-diameter="32">3/7</div>
+        <!--Pie Charts-->
+        <div class="chart-type">
+            <h3 id="pie-charts">Pie Charts</h3>
+            <p>
+                <span class="pie">226/360</span>
+                <span class="pie">0.52/1.561</span>
+                <span class="pie">1,2,3,2,2</span>
+                <span id="pie-1">1/5</span>
+                <span id="pie-2">1,2,3,2,2</span>
+                <span id="pie-3">4,8,7,5,9</span>
         </div>
-        <div class="bar-fill-1">5,3,9,6,5,9,7,3,5,2</div>
-        <div class="bar-fill-2">5,3,2,-1,-3,-2,2,3,5,2</div>
-        <div class="bar-fill-3">0,-3,-6,-4,-5,-4,-7,-3,-5,-2</div>
-        <div class="pie-fill-2">5,3,9,6,5</div>
-        <p>
-            <div class="line">5,3,9,6,5,9,7,3,5,2</div>
-            <div class="line">5,3,2,-1,-3,-2,2,3,5,2</div>
-            <div class="line">0,-3,-6,-4,-5,-4,-7,-3,-5,-2</div>
-            <div class="lines">0,3,6,4,-5,4,-7,3,-5,-2|-5,-4,-7,-3,5,-2,0,3,6,-4</div>
-        </p>
-        <p>
-            <div class="bar">5,3,9,6,5,9,7,3,5,2</div>
-            <div class="bar">5,3,2,-1,-3,-2,2,3,5,2</div>
-            <div class="bar">0,-3,-6,-4,-5,-4,-7,-3,-5,-2</div>
-            <div class="updating-chart">5,3,9,6,5,9,7,3,5,2,5,3,9,6,5,9,7,3,5,2</div>
-        </p>
 
+        <!--Line Charts-->
+        <div class="chart-type">
+            <h3 id="line-charts">Line Charts</h3>
 
+            <p>
+                <span class="lines">5,3,9,6,5,9,7,3,5,2</span>
+                <span class="lines">5.5,3,2.5,-1,-3.5,-2,2,3,5,2</span>
+                <span class="lines">0,-3,-6,-4,-5,-4,-7,-3,-5,-2</span>
+                <span id="line-1">5,3,9,6,5,9,7,3,5,2</span>
+                <span id="line-2">5.5,3,2.5,-1,-3.5,-2,2,3,5,2</span>
+                <span id="line-3">0,-3,-6,-4,-5,-4,-7,-3,-5,-2</span>
+            </p>
+        </div>
 
+        <!--Multi-Line Charts-->
+        <div class="chart-type">
+            <h3 id="line-charts">Multi-Line Charts</h3>
+            <p>
+                <span class="lines">5,3,9,6,5,9,7,3,5,2|5.5,3,2.5,-1,-3.5,-2,2,3,5,2</span>
+                <span class="lines">0,-3,-6,-4,-5,-4,-7,-3,-5,-2|5,3,9,6,5,9,7,3,5,2</span>
+                <span id="lines-1">5,3,9,6,5,9,7,3,5,2|5.5,3,2.5,-1,-3.5,-2,2,3,5,2</span>
+                <span id="lines-2">0,-3,-6,-4,-5,-4,-7,-3,-5,-2|5,3,9,6,5,9,7,3,5,2</span>
+                <span id="lines-3">5,3,9,6,5,9,7,3,5,2</span>
+            </p>
+        </div>
+
+        <!--Bar Charts-->
+        <div class="chart-type">
+            <h3 id="bar-charts">Bar Charts</h3>
+            <p>
+                <span class="bar">5,3,9,6,5,9,7,3,5,2</span>
+                <span class="bar">5,3,2,-1,-3,-2,2,3,5,2</span>
+                <span class="bar">0,-3,-6,-4,-5,-4,-7,-3,-5,-2</span>
+                <span id="bar-1">5,3,9,6,5,9,7,3,5,2</span>
+                <span id="bar-2">5,3,2,-1,-3,-2,2,3,5,2</span>
+                <span id="bar-3">0,-3,-6,-4,-5,-4,-7,-3,-5,-2</span>
+            </p>
+        </div>
+
+        <!--Updating Charts-->
+        <div class="chart-type">
+            <h3 id="updating-charts">Updating Charts</h3>
+            <p>
+                <span class="updating-chart">5,3,9,6,5,9,7,3,5,2,5,3,9,6,5,9,7,3,5,2</span>
+            </p>
+        </div>
+        <div class="chart-type">
+            <h3 id="data-attributes">data-* attributes</h3>
+            <p class="pie-data">
+                <span data-fill='["red", "#eeeeee"]' data-diameter="40">1/7</span>
+                <span data-fill='["orange", "#eeeeee"]' data-diameter="36">2/7</span>
+                <span data-fill='["yellow", "#eeeeee"]' data-diameter="32">3/7</span>
+                <span data-fill='["green", "#eeeeee"]' data-diameter="28">4/7</span>
+                <span data-fill='["blue", "#eeeeee"]' data-diameter="24">5/7</span>
+                <span data-fill='["indigo", "#eeeeee"]' data-diameter="20">6/7</span>
+                <span data-fill='["violet", "#eeeeee"]' data-diameter="16">7/7</span>
+            </p>
+        </div>
     </div>
 </body>
 </html>
