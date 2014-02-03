@@ -6,7 +6,7 @@
 // Released under MIT license.
 (function($, Math) {
 	var canvasSupported = document.createElement("canvas").getContext;
-	var defaultAxis = { color: "#000", size: 13, formatter: function(e) { return e; } };
+
 	var peity = $.fn.peity = function(type, options) {
 		if(canvasSupported) {
 			this.each(function() {
@@ -58,13 +58,12 @@
 	PeityPrototype.prepareCanvas = function(width, height) {
 		var self = this;
 		var canvas = self.canvas;
-		var $canvas;
 
 		//If pre-existing canvas, clear it, otherwise create it.
 		if(canvas) {
 			canvas.width = canvas.width;//Reset width to clear it instead of drawing blank rectangle. Fixes flicker in Firefox
 		} else {
-			$canvas = $("<canvas>").css({ height: height, width: width }).addClass("peity").data("peity", self);
+			var $canvas = $("<canvas>").css({ height: height, width: width }).addClass("peity").data("peity", self);
 			self.canvas = canvas = $canvas[0];
 			self.context = canvas.getContext("2d");
 			self.$el.hide().after(canvas);
@@ -74,102 +73,84 @@
 		return canvas;
 	};
 
-	//Redraw chart with hover effect based on mouse position
-	PeityPrototype.hoverEvent = function(evt) {
-		PeityPrototype.removeEvents(this);
-		var rect = this.getBoundingClientRect();
-		$(this).prev().data("mouse", JSON.stringify({ x: evt.clientX - rect.left, y: evt.clientY - rect.top })).change();
-	};
-
-	//Redraw chart with no hover effect
-	PeityPrototype.exitEvent = function(evt) {
-		PeityPrototype.removeEvents(this);
-		$(this).prev().removeData("mouse").change();
-	};
-
-	//Remove event listeners from pie and bar charts to avoid infinite redrawing of hover effects
-	PeityPrototype.removeEvents = function(node) {
-		node.removeEventListener("mouseout", node.exitEvent, false);
-		node.removeEventListener("mousemove", node.hoverEvent, false);
-	};
-
-	//Add event listeners to pie and bar charts to redraw hover effects
-	PeityPrototype.addEvents = function(node) {
-		node.addEventListener("mousemove", PeityPrototype.hoverEvent, false);
-		node.addEventListener("mouseout", PeityPrototype.exitEvent, false);
-	};
-
 	//Splits values string into array by delimiter and returns the numbers. Split into multiple series if necessary 
 	PeityPrototype.values = function() {
-		var delim = this.opt.delimiter;
-		var series = this.opt.seriesDelimiter;
-		var text = this.$el.text();
-		var splitter = function(e) { return e.split(delim).map(function(value) { return parseFloat(value); }); };
-		if(series) return text.split(series).map(splitter);
-		else return splitter(text);
+		var parseFloats = function(s) { return parseFloat(s); };
+		var delims = arguments;
+		var text = this.$el.text().split(delims[0]);
+		if(delims.length === 1) {
+			return text.map(parseFloats);
+		} else {
+			return text.map(function(e) { return e.split(delims[1]).map(parseFloats); });
+		}
 	};
+
+	//Default properties for an axis/tooltip (font color and size, plus label formatter)
+	var defaultAxis = { color: "#000", size: 13, formatter: function(e) { return e; } };
+
+	//Events for tooltips
+	var events = {
+		//Redraw chart with hover effect based on mouse position
+		hover: function(evt) {
+			var rect = this.getBoundingClientRect();
+			$(this).off().prev().data("mouse", JSON.stringify({ x: evt.clientX - rect.left, y: evt.clientY - rect.top })).change();
+		},
+		//Redraw chart with no hover effect
+		exit: function(evt) {
+			$(this).off().prev().removeData("mouse").change();
+		}
+	}
 
 	//Add event listeners to pie and bar charts to redraw hover effects
-	PeityPrototype.setLineStyle = function(context, color, width) {
-		context.lineWidth = width;
-		context.strokeStyle = color;
-	};
-
-	//Draw an arc
-	PeityPrototype.drawArc = function(context, x, y, r, start, end, color, width) {
-		context.beginPath();
-		context.arc(x, y, r, start, end, true);//true = counterclockwise
-		PeityPrototype.setLineStyle(context, color, width);
-		context.stroke();
-	};
-
-	//Draw a circle
-	PeityPrototype.drawCircle = function(context, x, y, r, start, end, color) {
-		context.beginPath();
-		context.moveTo(x, y);
-		context.arc(x, y, r, start, end, true);//true = counterclockwise
-		context.fillStyle = color;
-		context.fill();
-	};
-
-	//Draw a line
-	PeityPrototype.drawLine = function(context, points, color, width) {
-		context.beginPath();
-		context.moveTo(points[0].x, points[0].y);
-		for(var i = 1; i < points.length; i++) context.lineTo(points[i].x, points[i].y);
-		this.setLineStyle(context, color, width);
-		context.stroke();
-	};
-
-	//Draw y-axis gridlines and left labels
-	PeityPrototype.drawYAxis = function(context, baseWidth, gridWidth, baseColor, gridColor, fontColor, fontSize, formatter, left, right, height, yQuotient, min, max, region, gap) {
-		var valueToY = function() { return height - (yQuotient * (value - min)) + gap; };
-		var value = 0;
-		//Baseline
-		if(baseWidth) {
+	var addEvents = function(node) { $(node).on('mousemove', events.hover).on('mouseout', events.hover); };
+	
+	//Add event listeners to pie and bar charts to redraw hover effects
+	var Drawers = {
+		arc : function(context, x, y, r, start, end, color, width) {
 			context.beginPath();
-			context.moveTo(left, valueToY());
-			context.lineTo(right, valueToY());
-			//Draw in specified color
-			this.setLineStyle(context, baseColor, baseWidth);
+			context.arc(x, y, r, start, end, true);//true = counterclockwise
+			context.lineWidth = width;
+			context.strokeStyle = color;
+			context.stroke();
+		},
+		circle : function(context, x, y, r, start, end, color) {
+			context.beginPath();
+			context.moveTo(x, y);
+			context.arc(x, y, r, start, end, true);//true = counterclockwise
+			context.fillStyle = color;
+			context.fill();
+		},
+		line : function(context, points, color, width) {
+			context.beginPath();
+			context.moveTo(points[0].x, points[0].y);
+			for(var i = 1; i < points.length; i++) context.lineTo(points[i].x, points[i].y);
+			context.lineWidth = width;
+			context.strokeStyle = color;
 			context.stroke();
 		}
+	};
+	
+	//Draw y-axis gridlines and left labels
+	Drawers.drawYAxis = function(context, baseWidth, gridWidth, baseColor, gridColor, fontColor, fontSize, formatter, left, right, height, yQuotient, min, max, region, gap) {
+		var valueToY = function() { return height - (yQuotient * (value - min)) + gap; };
+		var value = 0, y = valueToY();
+		//Baseline
+		if(baseWidth) { Drawers.line(context, [{ x: left, y: y }, { x: right, y: y }], baseColor, baseWidth); }
 
 		//Gridlines
 		if(gridWidth) {
-			this.setLineStyle(context, gridColor, gridWidth);
+			//Set text styles out here to only set once instead of on every line
+			context.fillStyle = fontColor;
+			context.font = fontSize + "px sans-serif";
+			context.textAlign = "right";
+
 			for(value = min; value <= max; value += region) {
-				context.beginPath();
-				context.moveTo(left, valueToY());
-				context.lineTo(right, valueToY());
-				context.stroke();
-				if(left > 3) {
+				y = valueToY();
+				Drawers.line(context, [{ x: left, y: y }, { x: right, y: y }], gridColor, gridWidth);
+				if(left) {
 					//Draw label
-					context.fillStyle = fontColor;
-					context.font = fontSize + "px sans-serif";
-					context.textAlign = "right";
-					context.textBaseline = valueToY() > fontSize / 2 ? valueToY() > height - fontSize / 2 ? "bottom" : "middle" : "top";
-					context.fillText(formatter(value) + "", left - 1, valueToY());
+					context.textBaseline = y > fontSize / 2 ? y > height - fontSize / 2 ? "bottom" : "middle" : "top";
+					context.fillText(formatter(value) + "", left - 2, y);
 				}
 			}
 		}
@@ -177,15 +158,15 @@
 	}
 
 	//Draw x-axis labels if given
-	PeityPrototype.drawXAxis = function(context, color, size, y, points, labels) {
+	Drawers.drawXAxis = function(context, color, size, y, points, labels) {
 		context.fillStyle = color;
 		context.font = size + "px sans-serif";
 		context.textBaseline = "top";
 		context.textAlign = "center";
 		for(var i = 0; i < points.length; i++) {
 			var pieces = labels[i].split(" ");
-			for(var j = 0; j < pieces.length;j++){
-				context.fillText(pieces[j], points[i].x, y + 1 + j * size); 
+			for(var j = 0; j < pieces.length; j++) {
+				context.fillText(pieces[j], points[i].x, y + 1 + j * size);
 			}
 		}
 	}
@@ -197,32 +178,31 @@
 	//Pie chart
 	peity.register("pie", {
 		fill: ["#f90", "#ffd", "#fc6"],
-		lineColor: "#000", lineWidth: 0,
-		focusColor: "#000", focusWidth: 0,
+		line: { color: "#000", width: 0 },
+		focus: { color: "#000", width: 0 },
 		delimiter: null,
 		diameter: 16
 	},
 		function(opt) {
 			var self = this;
-			if(!opt.delimiter) {
+			var delimiter = opt.delimiter;
+			if(!delimiter) {
 				//Default to first non-digit and non-period character found, or comma
-				var delimiter = self.$el.text().match(/[^0-9\.]/);
-				opt.delimiter = delimiter ? delimiter[0] : ",";
+				delimiter = self.$el.text().match(/[^0-9\.]/);
+				delimiter = delimiter ? delimiter[0] : ",";
 			}
-
-			var values = self.values();
+			var values = self.values.apply(self, [delimiter]);
 			//If something like 3/5, then this makes 3 and 2
-			if(opt.delimiter === "/") { values = [values[0], values[1] - values[0]]; }
+			if(delimiter === "/") { values = [values[0], values[1] - values[0]]; }
 
 			var i, sum = 0, length = values.length;
 			for(i = 0; i < length; i++) { sum += values[i]; }
 
 			//Try width and height, but default to diameter (add 1 for a slight offset from edge)
-			var element = self.$el;
-			var hoverPos = element.data("mouse");
-			var focusWidth = opt.focusWidth;
-			var lineWidth = opt.lineWidth;
-			var padding = Math.max(focusWidth, lineWidth) + 1;
+			var hoverPos = self.$el.data("mouse");
+			var focus = opt.focus;
+			var line = opt.line;
+			var padding = Math.max(focus.width, line.width) + 1;
 			var diameter = opt.diameter;
 			var canvas = self.prepareCanvas(diameter + padding, diameter + padding);
 			var context = self.context;
@@ -234,7 +214,7 @@
 			var unit = tau / sum;
 			var fill = self.fill();
 
-			if(focusWidth && hoverPos) {
+			if(focus.width && hoverPos) {
 				hoverPos = JSON.parse(hoverPos);
 				//x and y are position from top left. r and a are radius and angle from center
 				//Move origin from 0,0 to center of canvas
@@ -255,38 +235,37 @@
 			for(i = 0; i < length; i++) {
 				value = values[i];
 				slice = value * unit;//Size of slice
-				self.drawCircle(context, 0, 0, radius, -start, -(start + slice), fill.call(self, value, i, values));
+				Drawers.circle(context, 0, 0, radius, -start, -(start + slice), fill.call(self, value, i, values));
 
 				//Draw focus around hovered rectangle
-				if(focusWidth && hoverPos && hoverPos.a > start && hoverPos.a < (start + slice)) {
-					self.drawArc(context, 0, 0, radius + focusWidth / 2, -start, -(start + slice), opt.focusColor, focusWidth);
+				if(focus.width && hoverPos && hoverPos.a > start && hoverPos.a < (start + slice)) {
+					Drawers.arc(context, 0, 0, radius + focus.width / 2, -start, -(start + slice), focus.color, focus.width);
 				}
 				start += slice;
 			}
 
-			if(lineWidth) { self.drawArc(context, 0, 0, radius + lineWidth / 2, 0, tau, opt.lineColor, lineWidth); }
-			if(focusWidth) { self.addEvents(canvas); }
+			if(line.width) { Drawers.arc(context, 0, 0, radius + line.width / 2, 0, tau, line.color, line.width); }
+			if(focus.width) { addEvents(canvas); }
 		}
 	);
 
 	//Line Chart
 	peity.register("lines", {
 		lineColors: ["#78A", "#827"], lineWidths: [1],
-		fill : "#cdf",
-		delimiter: ",", seriesDelimiter: "|",
+		fill: "#cdf",
+		delimiters: ["|", ","],
 		height: 32, width: 32, left: 0,
 		max: null, min: 0,
 		pointSizes: [2],
-		xAxis: defaultAxis,
-		yAxis: defaultAxis,
-		focus: false,
-		tooltip: defaultAxis,
+		xAxis: defaultAxis, yAxis: defaultAxis,
+		focus: false, tooltip: defaultAxis,
 		gridlines: { widths: [1, 0], colors: ["#000", "#bbb"] }
 	},
 		function(opt) {
 			var self = this;
 			var hoverPos = self.$el.data("mouse");
-			var values = self.values(), value;
+			var values = self.values.apply(self, opt.delimiters);
+			var value;
 			var pointSizes = opt.pointSizes;
 			var xAxis = opt.xAxis;
 			var yAxis = opt.yAxis;
@@ -325,7 +304,7 @@
 			var i, j, series, coords, allCoords = [];
 
 
-			
+
 
 			//Loop through each series then each value in the series
 			for(j = 0; j < values.length; j += 1) {
@@ -351,22 +330,22 @@
 				allCoords.push(coords);
 			}
 
-			self.drawYAxis(context, gridlines.widths[0], gridlines.widths[1], gridlines.colors[0], gridlines.colors[1], yAxis.color, yAxis.size, yAxis.formatter, left, fullWidth, height, yQuotient, min, max, region, 0);
+			Drawers.drawYAxis(context, gridlines.widths[0], gridlines.widths[1], gridlines.colors[0], gridlines.colors[1], yAxis.color, yAxis.size, yAxis.formatter, left, fullWidth, height, yQuotient, min, max, region, 0);
 
 			for(j = 0; j < values.length; j += 1) {
 				coords = allCoords[j];
-				for(i = 0; i < coords.length; i++) self.drawCircle(context, coords[i].x, coords[i].y, pointSizes[j % pointSizes.length], 0, 2 * Math.PI, lineColors[j % lineColors.length]);
-				self.drawLine(context, coords, lineColors[j % lineColors.length], lineWidths[j % lineWidths.length]);
+				for(i = 0; i < coords.length; i++) Drawers.circle(context, coords[i].x, coords[i].y, pointSizes[j % pointSizes.length], 0, 2 * Math.PI, lineColors[j % lineColors.length]);
+				Drawers.line(context, coords, lineColors[j % lineColors.length], lineWidths[j % lineWidths.length]);
 			}
 
 			//Draw x-axis
-			if(levels) { self.drawXAxis(context, xAxis.color, xAxis.size, height, allCoords[0], labels); }
+			if(levels) { Drawers.drawXAxis(context, xAxis.color, xAxis.size, height, allCoords[0], labels); }
 
 			//Draw focus around hovered rectangle and write value
-			
+
 			if(focus && hoverPos) {
 				hoverPos = JSON.parse(hoverPos);
-				
+
 				//Loop through values again
 				for(i = 0; i < allCoords[0].length; i++) {
 					var box = allCoords[0][i];
@@ -390,7 +369,7 @@
 				}
 			}
 
-			if(focus) { self.addEvents(canvas); }
+			if(focus) { addEvents(canvas); }
 		}
 	);
 
@@ -398,14 +377,11 @@
 	peity.register("bar", {
 		fill: ["#48f"],
 		delimiter: ",",
-		height: 16, width: 32, left: 0,
-		gap: 1,
-		xAxis: defaultAxis,
-		yAxis: defaultAxis,
-		focus: { color: "#000", width: 0 },
-		tooltip: defaultAxis,
-		gridlines: { widths: [1, 0], colors: ["#000", "#bbb"] },
-		max: null, min: 0
+		height: 16, width: 32, left: 0, gap: 1,
+		max: null, min: 0,
+		xAxis: defaultAxis, yAxis: defaultAxis,
+		focus: { color: "#000", width: 0 }, tooltip: defaultAxis,
+		gridlines: { widths: [1, 0], colors: ["#000", "#bbb"] }
 	},
 		function(opt) {
 			//Declare variables
@@ -413,7 +389,7 @@
 			var self = this;
 
 			//Find minimum and maximum in values to determine range
-			var values = self.values();
+			var values = self.values.apply(self, [opt.delimiter]);
 			var labels = opt.labels;
 			if(labels) labels = labels.map(function(e) { return e + ""; });
 			var levels = 0;
@@ -452,7 +428,7 @@
 			var middle = yQuotient * max + gap;
 			var valueToY = function() { return height - (yQuotient * (value - min)); };
 
-			self.drawYAxis(context, gridlines.widths[0], gridlines.widths[1], gridlines.colors[0], gridlines.colors[1], yAxis.color, yAxis.size, yAxis.formatter, left, fullWidth, height, yQuotient, min, max, region, 0);
+			Drawers.drawYAxis(context, gridlines.widths[0], gridlines.widths[1], gridlines.colors[0], gridlines.colors[1], yAxis.color, yAxis.size, yAxis.formatter, left, fullWidth, height, yQuotient, min, max, region, 0);
 
 			//Loop through values and draw each bar
 			var boxes = [];
@@ -471,7 +447,7 @@
 			}
 
 			//Draw x-axis
-			if(levels) { self.drawXAxis(context, xAxis.color, xAxis.size, height, boxes.map(function(e) { return { x: e[0] + e[2] / 2 }; }), labels); }
+			if(levels) { Drawers.drawXAxis(context, xAxis.color, xAxis.size, height, boxes.map(function(e) { return { x: e[0] + e[2] / 2 }; }), labels); }
 
 
 			//Draw focus around hovered rectangle and write value
@@ -489,7 +465,9 @@
 						box[3] = Math.abs(box[3]);
 						if(hoverPos.y >= box[1] && hoverPos.y <= box[1] + box[3]) {
 							//If mouse is within a bar, draw a focus
-							self.setLineStyle(context, focus.color, focus.width);
+
+							context.lineWidth = focus.width;
+							context.strokeStyle = focus.color;
 							context.strokeRect(
 								box[0] - focus.width / 2, box[1] - focus.width / 2,
 								box[2] + focus.width, box[3] + focus.width
@@ -511,7 +489,7 @@
 				}
 			}
 
-			if(focus.width) { self.addEvents(canvas); }
+			if(focus.width) { addEvents(canvas); }
 		}
 	);
 })(jQuery, Math);

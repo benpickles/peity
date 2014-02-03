@@ -26,18 +26,16 @@
             //Pie charts
             $(".pie").peity("pie");
             $("#pie-1").peity("pie", { diameter: 48, fill: ["red", "blue"] });
-            $("#pie-2").peity("pie", { diameter: 48, lineWidth: 1, lineColor: "#090" });
-            $("#pie-3").peity("pie", { diameter: 48, focusWidth: 1, focusColor: "#090" });
+            $("#pie-2").peity("pie", { diameter: 48, line : { width: 1, color: "#090" } });
+            $("#pie-3").peity("pie", { diameter: 48, focus: { width: 1, color: "#090" } });
 
             //Line charts
             $("#line-1").peity("lines", { width: 128, height: 64, fill: "#f99", lineColors: ["#f00"], gridlines: { widths: [0, 1], colors: ["#fff", "#99f"] } });
             $("#line-2").peity("lines", { width: 200, height: 64, lineWidths: [2], pointSizes: [4], focus: true });
             $("#line-3").peity("lines", { width: 200, height: 64, left: 40, region: 3, yAxis: { formatter: function(e) { return Math.round(e); } }, gridlines: { widths: [1, 1] } });
-
-            //Multi-Line charts
             $(".lines").peity("lines");
             $("#lines-1").peity("lines", { width: 128, height: 64, left: 40, region: 4, lineColors: ["#f00", "green"], gridlines: { widths: [0, 1], colors: ["#fff", "#99f"] } });
-            $("#lines-2").peity("lines", { width: 200, height: 64, lineWidth: 2, pointSize: 4, focus: true, labels: [1, 2, 3, 4, 5, 6, 7, 8, 9, 0] });
+            $("#lines-2").peity("lines", { width: 200, height: 64, lineWidth: 2, pointSize: 4, focus: true, labels: ["1 1", 2, 3, 4, 5, 6, 7, 8, 9, 0] });
             $("#lines-3").peity("lines", { width: 200, height: 64, lineWidth: 2, pointSize: 4, focus: true});
 
             //Bar Charts
@@ -91,13 +89,6 @@
                 <span id="line-1">5,3,9,6,5,9,7,3,5,2</span>
                 <span id="line-2">5.5,3,2.5,-1,-3.5,-2,2,3,5,2</span>
                 <span id="line-3">0,-3,-6,-4,-5,-4,-7,-3,-5,-2</span>
-            </p>
-        </div>
-
-        <!--Multi-Line Charts-->
-        <div class="chart-type">
-            <h3 id="line-charts">Multi-Line Charts</h3>
-            <p>
                 <span class="lines">5,3,9,6,5,9,7,3,5,2|5.5,3,2.5,-1,-3.5,-2,2,3,5,2</span>
                 <span class="lines">0,-3,-6,-4,-5,-4,-7,-3,-5,-2|5,3,9,6,5,9,7,3,5,2</span>
                 <span id="lines-1">5,3,9,6,5,9,7,3,5,2|5.5,3,2.5,-1,-3.5,-2,2,3,5,2</span>
