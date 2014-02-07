@@ -16,7 +16,7 @@
 
 				if(chart) {
 					//If chart already exists, pass new options and redraw
-					if(type) chart.type = type;
+					if(type) { chart.type = type; }
 					$.extend(true, chart.opt, options);
 					chart.draw();
 				} else {
@@ -24,7 +24,7 @@
 					var defaults = peity.defaults[type];
 					//Then load from data attributes on element
 					var data = {};
-					$.each($this.data(), function(name, value) { if(name in defaults) data[name] = value; });
+					$.each($this.data(), function(name, value) { data[name] = value; });
 					//Then combine with passed options
 					var opt = $.extend(true, {}, defaults, data, options);
 
@@ -33,7 +33,7 @@
 					chart.draw();
 
 					//Adds change handler that redraws the chart
-					$this.change(function(a, b, c) { chart.draw(); }).data("peity", chart);
+					$this.change(function() { chart.draw(); }).data("peity", chart);
 				}
 			});
 		}
@@ -46,10 +46,11 @@
 	//Minifies references to the prototype
 	var PeityPrototype = Peity.prototype;
 
+	//Converts fill array to fill function (pass value to fill)
 	PeityPrototype.fill = function() {
 		var fill = this.opt.fill;
-		if($.isFunction(fill)) return fill;
-		else return function(value, i) { return fill[i % fill.length]; };
+		if($.isFunction(fill)) { return fill; }
+		return function(value, i) { return fill[i % fill.length]; };
 	};
 
 	PeityPrototype.draw = function() { peity.graphers[this.type].call(this, this.opt); };
@@ -63,7 +64,7 @@
 		if(canvas) {
 			canvas.width = canvas.width;//Reset width to clear it instead of drawing blank rectangle. Fixes flicker in Firefox
 		} else {
-			var $canvas = $("<canvas>").css({ height: height, width: width }).addClass("peity").data("peity", self);
+			var $canvas = $("<canvas class='peity'>").css({ height: height, width: width }).data("peity", self);
 			self.canvas = canvas = $canvas[0];
 			self.context = canvas.getContext("2d");
 			self.$el.hide().after(canvas);
@@ -75,34 +76,49 @@
 
 	//Splits values string into array by delimiter and returns the numbers. Split into multiple series if necessary 
 	PeityPrototype.values = function() {
-		var parseFloats = function(s) { return parseFloat(s); };
 		var delims = arguments;
 		var text = this.$el.text().split(delims[0]);
-		if(delims.length === 1) {
-			return text.map(parseFloats);
-		} else {
-			return text.map(function(e) { return e.split(delims[1]).map(parseFloats); });
-		}
+		if(delims.length === 1) return Helpers.parseFloats(text);
+		return text.map(function(e) { return Helpers.parseFloats(e.split(delims[1])); });
 	};
 
-	//Default properties for an axis/tooltip (font color and size, plus label formatter)
-	var defaultAxis = { color: "#000", size: 13, formatter: function(e) { return e; } };
+	//Some common code that's not categorized
+	var Helpers = {
+		//Default properties for an axis/tooltip (font color and size, plus label formatter)
+		defaultText: {
+			color: "#000",
+			size: 13,
+			formatter: function(e) { return e; }
+		},
+		//Figures out how many levels a label will take (split by space)
+		labelLeveler: function(labels) {
+			return Math.max.apply(this, labels.map(function(e) { return e.replace(/[^ ]/g, "").length; })) + 1;
+		},
+		stringifier: function(values, formatter) {
+			if(formatter) return values.map(function(e) { return formatter(e) + ""; });
+			return values.map(function(e) { return e + ""; });
+		},
+		parseFloats: function(values) {
+			return values.map(function(e) { return parseFloat(e); });
+		},
+		extractor: function(propName) { return function(e) { return e[propName]; }; }
+	};
 
-	//Events for tooltips
-	var events = {
+	//Events for point hover
+	var Events = {
 		//Redraw chart with hover effect based on mouse position
 		hover: function(evt) {
 			var rect = this.getBoundingClientRect();
 			$(this).off().prev().data("mouse", JSON.stringify({ x: evt.clientX - rect.left, y: evt.clientY - rect.top })).change();
 		},
 		//Redraw chart with no hover effect
-		exit: function(evt) {
+		exit: function() {
 			$(this).off().prev().removeData("mouse").change();
 		}
-	}
+	};
 
 	//Add event listeners to pie and bar charts to redraw hover effects
-	var addEvents = function(node) { $(node).on('mousemove', events.hover).on('mouseout', events.hover); };
+	var addEvents = function(node) { $(node).on('mousemove', Events.hover).on('mouseout', Events.hover); };
 	
 	//Add event listeners to pie and bar charts to redraw hover effects
 	var Drawers = {
@@ -120,10 +136,11 @@
 			context.fillStyle = color;
 			context.fill();
 		},
-		line : function(context, points, color, width) {
+		line: function(context, points, color, width) {
+			var i;
 			context.beginPath();
 			context.moveTo(points[0].x, points[0].y);
-			for(var i = 1; i < points.length; i++) context.lineTo(points[i].x, points[i].y);
+			for(i = 1; i < points.length; i++) { context.lineTo(points[i].x, points[i].y); }
 			context.lineWidth = width;
 			context.strokeStyle = color;
 			context.stroke();
@@ -171,13 +188,14 @@
 
 	//Draw x-axis labels if given
 	Drawers.drawXAxis = function(context, color, size, y, points, labels) {
+		var i, j, pieces;
 		context.fillStyle = color;
 		context.font = size + "px sans-serif";
 		context.textBaseline = "top";
 		context.textAlign = "center";
-		for(var i = 0; i < points.length; i++) {
-			var pieces = labels[i].split(" ");
-			for(var j = 0; j < pieces.length; j++) {
+		for(i = 0; i < points.length; i++) {
+			pieces = labels[i].split(" ");
+			for(j = 0; j < pieces.length; j++) {
 				context.fillText(pieces[j], points[i].x, y + 1 + j * size);
 			}
 		}
@@ -192,13 +210,13 @@
 		var blockWidth = context.measureText("■").width;
 
 		//Convert values to labels and measure longest
-		var strings = values.map(function(e) { return (textFormatter(e) || " ") + " "; });
+		var strings = Helpers.stringifier(values, textFormatter);
 		var textWidth = Math.max.apply([], strings.map(function(e) { return context.measureText(e).width; }));
 
 		//Move tooltip slightly left and adjust based on position within canvas and mouse
 		x -= 6;
-		if(y > values.length * fontSize + 6) y -= values.length * fontSize;
-		if(x <= textWidth + blockWidth + 7) x += textWidth + blockWidth + 20 + 7;
+		if(y > values.length * fontSize + 6) { y -= values.length * fontSize; }
+		if(x <= textWidth + blockWidth + 7) { x += textWidth + blockWidth + 20 + 7; }
 
 		//Draw outlined rectangle for tooltip
 		Drawers.rect(context, x - textWidth - blockWidth - 4, y - 3, textWidth + blockWidth + 7, values.length * fontSize + 8, "#fff", 1, "#000");
@@ -207,10 +225,10 @@
 		strings.forEach(function(e, i) {
 			context.fillStyle = colors[i % colors.length];
 			context.fillText("■", x - textWidth - blockWidth - 3, y + i * fontSize);
-			context.fillStyle = "#000";
+			context.fillStyle = fontColor;
 			context.fillText(e, x - textWidth - 2, y + i * fontSize);
 		});
-	}
+	};
 
 
 	//Default options and drawing functions per type
@@ -224,7 +242,7 @@
 		focus: { color: "#000", width: 0 },
 		delimiter: null,
 		diameter: 16,
-		tooltip: defaultAxis
+		tooltip: Helpers.defaultText
 	},
 		function(opt) {
 			var self = this;
@@ -257,6 +275,7 @@
 			var unit = tau / sum;
 			var fill = self.fill();
 			var tooltip = opt.tooltip;
+			var focusI;
 
 			if(focus.width && hoverPos) {
 				hoverPos = JSON.parse(hoverPos);
@@ -285,7 +304,7 @@
 				//Draw focus around hovered rectangle
 				if(focus.width && hoverPos && hoverPos.a > start && hoverPos.a < (start + slice) && hoverPos.r < radius) {
 					Drawers.arc(context, 0, 0, radius + focus.width / 2, -start, -(start + slice), focus.color, focus.width);
-					var focusI = i;
+					focusI = i;
 				}
 				start += slice;
 			}
@@ -310,8 +329,8 @@
 		height: 32, width: 32, left: 0,
 		max: null, min: 0,
 		pointSizes: [2],
-		xAxis: defaultAxis, yAxis: defaultAxis,
-		focus: false, tooltip: defaultAxis,
+		xAxis: Helpers.defaultText, yAxis: Helpers.defaultText, tooltip: Helpers.defaultText,
+		focus: false,
 		gridlines: { widths: [1, 0], colors: ["#000", "#bbb"] }
 	},
 		function(opt) {
@@ -327,9 +346,9 @@
 			var gridlines = opt.gridlines;
 			var allValues = [].concat.apply([opt.max, opt.min], values);
 			var labels = opt.labels;
-			if(labels) labels = labels.map(function(e) { return e + ""; });
+			if(labels) labels = Helpers.stringifier(labels);
 			var levels = 0;
-			if(labels) levels = Math.max.apply(this, labels.map(function(e) { return e.replace(/[^ ]/g, "").length; })) + 1;
+			if(labels) levels = Helpers.labelLeveler(labels);
 			var max = Math.max.apply(Math, allValues);
 			var min = Math.min.apply(Math, allValues);
 			var region = opt.region || ((max - min) / 5);
@@ -346,13 +365,9 @@
 			var yQuotient = height / (max - min);//1 / range of all values, 1 = yQuotient px;
 			var lineColors = opt.lineColors;
 			var lineWidths = opt.lineWidths;
-			var gridlines = opt.gridlines;
-			var gridlineColors = opt.gridlineColors;
 			var valueToY = function() { return height - (yQuotient * (value - min)); };
+			var fill = opt.fill;//Don't convert this to a function since there's only one possible fill
 
-			var fontSize = opt.fontSize;
-			var fontColor = opt.fontColor;
-			var formatter = opt.formatter;
 
 			var i, j, series, coords, allCoords = [];
 
@@ -366,7 +381,7 @@
 					value = series[i];
 					coords.push({ x: i * xQuotient + pointSizes[j % pointSizes.length] + left + xQuotient / 4, y: valueToY() });
 				}
-				if(opt.fill && values.length === 1) {
+				if(fill && values.length === 1) {
 					//Trace path for fill (and save point coordinates for the line afterwards)
 					context.beginPath();
 					value = 0;
@@ -374,7 +389,7 @@
 					for(i = 0; i < coords.length; i++) { context.lineTo(coords[i].x, coords[i].y); }
 					value = 0;
 					context.lineTo(fullWidth - pointSizes[0] - xQuotient / 4, valueToY());
-					context.fillStyle = opt.fill;
+					context.fillStyle = fill;
 					context.fill();
 				}
 				allCoords.push(coords);
@@ -401,7 +416,7 @@
 					var box = allCoords[0][i];
 					//Check if mouse is within the point's double space
 					if(hoverPos.x >= box.x - xQuotient / 3 && hoverPos.x <= box.x + xQuotient / 3) {
-						Drawers.tooltip(context, hoverPos.x, hoverPos.y, values.map(function(e){ return e[i];}), lineColors, tooltip.size, tooltip.color, tooltip.formatter);
+						Drawers.tooltip(context, hoverPos.x, hoverPos.y, values.map(Helpers.extractor(i)), lineColors, tooltip.size, tooltip.color, tooltip.formatter);
 						break;//Don't analyze other values
 					}
 				}
@@ -417,21 +432,27 @@
 		delimiter: ",",
 		height: 16, width: 32, left: 0, gap: 1,
 		max: null, min: 0,
-		xAxis: defaultAxis, yAxis: defaultAxis,
-		focus: { color: "#000", width: 0 }, tooltip: defaultAxis,
+		xAxis: Helpers.defaultText, yAxis: Helpers.defaultText,
+		focus: { color: "#000", width: 0 }, tooltip: Helpers.defaultText,
 		gridlines: { widths: [1, 0], colors: ["#000", "#bbb"] }
 	},
 		function(opt) {
 			//Declare variables
-			var i, x, y, h, w, value;
+			var i, value;
 			var self = this;
 
 			//Find minimum and maximum in values to determine range
 			var values = self.values.apply(self, [opt.delimiter]);
+
+			//Identify labels and height needed to display them
 			var labels = opt.labels;
-			if(labels) labels = labels.map(function(e) { return e + ""; });
 			var levels = 0;
-			if(labels) levels = Math.max.apply(this, labels.map(function(e) { return e.replace(/[^ ]/g, "").length; })) + 1;
+			if(labels) {
+				labels = Helpers.stringifier(labels);
+				levels = Helpers.labelLeveler(labels);
+			}
+
+			//Find range of values
 			var max = Math.max.apply(Math, values.concat([opt.max]));
 			var min = Math.min.apply(Math, values.concat([opt.min]));
 			var region = opt.region || ((max - min) / 5);
@@ -463,25 +484,25 @@
 			//Value to Pixel conversion
 			var yQuotient = height / (max - min);
 			var xQuotient = (width + gap) / values.length;
-			var middle = yQuotient * max + gap;
 			var valueToY = function() { return height - (yQuotient * (value - min)); };
 
+			//Draw baseline and yAxis gridlines
 			Drawers.drawYAxis(context, gridlines.widths[0], gridlines.widths[1], gridlines.colors[0], gridlines.colors[1], yAxis.color, yAxis.size, yAxis.formatter, left, fullWidth, height, yQuotient, min, max, region, 0);
 
 			//Loop through values and draw each bar
-			var boxes = [];
+			var boxes = [], box;
 			for(i = 0; i < values.length; i++) {
 				value = values[i];
-				boxes.push([
+				box = [
 					left + i * xQuotient + gap,//x
 					valueToY(),//y
 					xQuotient - gap,//w
 					value === 0 ? 1 : yQuotient * value//h
-				]);
+				];
+				boxes.push(box);
 
 				//Draw the bar
-				context.fillStyle = fill.call(self, value, i, values);
-				context.fillRect.apply(context, boxes[i]);
+				Drawers.rect(context, box[0], box[1], box[2], box[3], fill.call(self, value, i, values), 0)
 			}
 
 			//Draw x-axis
@@ -504,7 +525,7 @@
 						if(hoverPos.y >= box[1] && hoverPos.y <= box[1] + box[3]) {
 							//If mouse is within a bar, draw a focus
 							value = values[i];
-							Drawers.rect(context, box[0] - focus.width / 2, box[1] - focus.width / 2, box[2] + focus.width, box[3] + focus.width, undefined, focus.width, focus.color)
+							Drawers.rect(context, box[0] - focus.width / 2, box[1] - focus.width / 2, box[2] + focus.width, box[3] + focus.width, undefined, focus.width, focus.color);
 							Drawers.tooltip(context, hoverPos.x, hoverPos.y, [values[i]], [fill.call(self, value, i, values)], tooltip.size, tooltip.color, tooltip.formatter);
 						}
 						break;//Don't analyze other values
