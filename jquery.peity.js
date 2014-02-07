@@ -127,6 +127,18 @@
 			context.lineWidth = width;
 			context.strokeStyle = color;
 			context.stroke();
+		},
+		rect: function(context, x, y, width, height, fill, strokeWidth, stroke) {
+			if(fill) {
+				context.fillStyle = fill;
+				context.fillRect(x, y, width, height);
+			}
+			if(stroke) {
+				context.strokeStyle = stroke;
+				context.lineWidth = strokeWidth;
+				context.strokeRect(x, y, width, height);
+			}
+
 		}
 	};
 	
@@ -354,14 +366,22 @@
 						//Draw label
 						context.font = tooltip.size + "px sans-serif";
 						context.textAlign = "right";
-						if(hoverPos.y < height / 2) {
-							context.textBaseline = "top"; hoverPos.y += tooltip.size;
-						} else {
-							context.textBaseline = "bottom"; hoverPos.y -= tooltip.size;
-						}
-						values.forEach(function(e, j) {
+						context.textBaseline = "top";
+						context.fillStyle = "#fff";
+						context.strokeStyle = "#000";
+
+						hoverPos.x -= 2;
+						if(hoverPos.y > values.length * tooltip.size) hoverPos.y -= values.length * tooltip.size;
+
+						
+						var strings = values.map(function(e) { return (tooltip.formatter(e[i]) || " ") + " ■"; });
+						var textWidth = Math.max.apply([], strings.map(function(e) { return context.measureText(e).width; }));
+						if(hoverPos.x <= textWidth + 2) hoverPos.x += textWidth + 20;
+						Drawers.rect(context, hoverPos.x - textWidth - 1, hoverPos.y - 1, textWidth + 2, values.length * tooltip.size + 4, "#fff", 1, "#000");
+
+						strings.forEach(function(e, j) {
 							context.fillStyle = lineColors[j % lineColors.length];
-							context.fillText((tooltip.formatter(e[i]) || " ") + " ■", hoverPos.x, hoverPos.y + j * tooltip.size);
+							context.fillText(e, hoverPos.x, hoverPos.y + j * tooltip.size);
 						});
 
 						break;//Don't analyze other values
@@ -466,22 +486,16 @@
 						if(hoverPos.y >= box[1] && hoverPos.y <= box[1] + box[3]) {
 							//If mouse is within a bar, draw a focus
 
-							context.lineWidth = focus.width;
-							context.strokeStyle = focus.color;
-							context.strokeRect(
-								box[0] - focus.width / 2, box[1] - focus.width / 2,
-								box[2] + focus.width, box[3] + focus.width
-							);
+							Drawers.rect(context, box[0] - focus.width / 2, box[1] - focus.width / 2, box[2] + focus.width, box[3] + focus.width, undefined, focus.width, focus.color)
 							//Draw label
 							context.fillStyle = tooltip.color;
 							context.font = tooltip.size + "px sans-serif";
-							if(hoverPos.x > fullWidth / 2) context.textAlign = "right";
-							if(hoverPos.y < fullHeight / 2) {
-								context.textBaseline = "top";
-								hoverPos.y += 20;
-							} else {
-								context.textBaseline = "bottom";
-							}
+							context.textBaseline = "top";
+							context.textAlign = "right";
+							value = tooltip.formatter(values[i]) + "";
+							var textWidth = context.measureText(value).width
+							if(hoverPos.x < textWidth) hoverPos.x += textWidth + 20
+							if(hoverPos.y > fullHeight - tooltip.size) hoverPos.y -= tooltip.size+1;
 							context.fillText(tooltip.formatter(values[i]) + "", hoverPos.x, hoverPos.y);
 						}
 						break;//Don't analyze other values
