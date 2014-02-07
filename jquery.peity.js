@@ -167,7 +167,7 @@
 			}
 		}
 
-	}
+	};
 
 	//Draw x-axis labels if given
 	Drawers.drawXAxis = function(context, color, size, y, points, labels) {
@@ -181,7 +181,37 @@
 				context.fillText(pieces[j], points[i].x, y + 1 + j * size);
 			}
 		}
+	};
+
+	//Draw tooltip for hovered value(s)
+	Drawers.tooltip = function(context, x, y, values, colors, fontSize, fontColor, textFormatter) {
+		//Set properties
+		context.font = fontSize + "px sans-serif";
+		context.textAlign = "left";
+		context.textBaseline = "top";
+		var blockWidth = context.measureText("■").width;
+
+		//Convert values to labels and measure longest
+		var strings = values.map(function(e) { return (textFormatter(e) || " ") + " "; });
+		var textWidth = Math.max.apply([], strings.map(function(e) { return context.measureText(e).width; }));
+
+		//Move tooltip slightly left and adjust based on position within canvas and mouse
+		x -= 6;
+		if(y > values.length * fontSize + 6) y -= values.length * fontSize;
+		if(x <= textWidth + blockWidth + 7) x += textWidth + blockWidth + 20 + 7;
+
+		//Draw outlined rectangle for tooltip
+		Drawers.rect(context, x - textWidth - blockWidth - 4, y - 3, textWidth + blockWidth + 7, values.length * fontSize + 8, "#fff", 1, "#000");
+
+		//Draw each label
+		strings.forEach(function(e, i) {
+			context.fillStyle = colors[i % colors.length];
+			context.fillText("■", x - textWidth - blockWidth - 3, y + i * fontSize);
+			context.fillStyle = "#000";
+			context.fillText(e, x - textWidth - 2, y + i * fontSize);
+		});
 	}
+
 
 	//Default options and drawing functions per type
 	peity.defaults = {}; peity.graphers = {};
@@ -193,7 +223,8 @@
 		line: { color: "#000", width: 0 },
 		focus: { color: "#000", width: 0 },
 		delimiter: null,
-		diameter: 16
+		diameter: 16,
+		tooltip: defaultAxis
 	},
 		function(opt) {
 			var self = this;
@@ -225,6 +256,7 @@
 			var tau = 2 * pi;
 			var unit = tau / sum;
 			var fill = self.fill();
+			var tooltip = opt.tooltip;
 
 			if(focus.width && hoverPos) {
 				hoverPos = JSON.parse(hoverPos);
@@ -241,6 +273,7 @@
 			}
 
 			//Save state and then move axes to be in center
+			context.save();
 			context.translate(width / 2, height / 2);
 
 			var value, slice, start = 0;
@@ -250,14 +283,22 @@
 				Drawers.circle(context, 0, 0, radius, -start, -(start + slice), fill.call(self, value, i, values));
 
 				//Draw focus around hovered rectangle
-				if(focus.width && hoverPos && hoverPos.a > start && hoverPos.a < (start + slice)) {
+				if(focus.width && hoverPos && hoverPos.a > start && hoverPos.a < (start + slice) && hoverPos.r < radius) {
 					Drawers.arc(context, 0, 0, radius + focus.width / 2, -start, -(start + slice), focus.color, focus.width);
+					var focusI = i;
 				}
 				start += slice;
 			}
 
 			if(line.width) { Drawers.arc(context, 0, 0, radius + line.width / 2, 0, tau, line.color, line.width); }
-			if(focus.width) { addEvents(canvas); }
+			if(focus.width) {
+				if(hoverPos && focusI !== undefined) {
+					hoverPos = JSON.parse(self.$el.data("mouse"));
+					context.restore();
+					Drawers.tooltip(context, hoverPos.x, hoverPos.y, [values[focusI]], [fill.call(self, values[focusI], focusI, values)], tooltip.size, tooltip.color, tooltip.formatter);
+				}
+				addEvents(canvas);
+			}
 		}
 	);
 
@@ -315,9 +356,6 @@
 
 			var i, j, series, coords, allCoords = [];
 
-
-
-
 			//Loop through each series then each value in the series
 			for(j = 0; j < values.length; j += 1) {
 				series = values[j];
@@ -363,27 +401,7 @@
 					var box = allCoords[0][i];
 					//Check if mouse is within the point's double space
 					if(hoverPos.x >= box.x - xQuotient / 3 && hoverPos.x <= box.x + xQuotient / 3) {
-						//Draw label
-						context.font = tooltip.size + "px sans-serif";
-						context.textAlign = "right";
-						context.textBaseline = "top";
-						context.fillStyle = "#fff";
-						context.strokeStyle = "#000";
-
-						hoverPos.x -= 2;
-						if(hoverPos.y > values.length * tooltip.size) hoverPos.y -= values.length * tooltip.size;
-
-						
-						var strings = values.map(function(e) { return (tooltip.formatter(e[i]) || " ") + " ■"; });
-						var textWidth = Math.max.apply([], strings.map(function(e) { return context.measureText(e).width; }));
-						if(hoverPos.x <= textWidth + 2) hoverPos.x += textWidth + 20;
-						Drawers.rect(context, hoverPos.x - textWidth - 1, hoverPos.y - 1, textWidth + 2, values.length * tooltip.size + 4, "#fff", 1, "#000");
-
-						strings.forEach(function(e, j) {
-							context.fillStyle = lineColors[j % lineColors.length];
-							context.fillText(e, hoverPos.x, hoverPos.y + j * tooltip.size);
-						});
-
+						Drawers.tooltip(context, hoverPos.x, hoverPos.y, values.map(function(e){ return e[i];}), lineColors, tooltip.size, tooltip.color, tooltip.formatter);
 						break;//Don't analyze other values
 					}
 				}
@@ -485,18 +503,9 @@
 						box[3] = Math.abs(box[3]);
 						if(hoverPos.y >= box[1] && hoverPos.y <= box[1] + box[3]) {
 							//If mouse is within a bar, draw a focus
-
+							value = values[i];
 							Drawers.rect(context, box[0] - focus.width / 2, box[1] - focus.width / 2, box[2] + focus.width, box[3] + focus.width, undefined, focus.width, focus.color)
-							//Draw label
-							context.fillStyle = tooltip.color;
-							context.font = tooltip.size + "px sans-serif";
-							context.textBaseline = "top";
-							context.textAlign = "right";
-							value = tooltip.formatter(values[i]) + "";
-							var textWidth = context.measureText(value).width
-							if(hoverPos.x < textWidth) hoverPos.x += textWidth + 20
-							if(hoverPos.y > fullHeight - tooltip.size) hoverPos.y -= tooltip.size+1;
-							context.fillText(tooltip.formatter(values[i]) + "", hoverPos.x, hoverPos.y);
+							Drawers.tooltip(context, hoverPos.x, hoverPos.y, [values[i]], [fill.call(self, value, i, values)], tooltip.size, tooltip.color, tooltip.formatter);
 						}
 						break;//Don't analyze other values
 					}
