@@ -467,7 +467,7 @@
 	peity.register("bars", {
 		fill: [["#48f"], ["#f90"], ["#99f"]],
 		delimiters: ["|", ","],
-		height: 16, width: 32, left: 0, gap: 1,
+		height: 16, width: 32, left: 0, gap: 1, seriesGap : 0,
 		max: null, min: 0,
 		xAxis: Helpers.defaultText, yAxis: Helpers.defaultText, tooltip: Helpers.defaultText,
 		focus: { color: "#000", width: 0 },
@@ -515,15 +515,16 @@
 			var fullWidth = canvas.width;
 			var fullHeight = canvas.height;
 			var gap = opt.gap;
+			var seriesGap = opt.seriesGap;
 			var left = opt.left;
 			var bottom = levels * xAxis.size + (levels ? 4 : 0);
-			var width = fullWidth - gap * 2 - left;
+			var width = fullWidth - left;
 			var height = fullHeight - bottom - gridlines.widths[0];
 
 
 			//Value to Pixel conversion
 			var yQuotient = height / (max - min);
-			var xQuotient = (width + gap) / values[0].length;
+			var xQuotient = (width - (gap * values[0].length)) / values[0].length;
 
 			var valueToY = function() { return height - (yQuotient * (value - min)); };
 
@@ -539,9 +540,11 @@
 				for(j = 0; j < values[i].length; j++) {
 					value = series[j];
 					box = [
-						left + j * xQuotient + xQuotient / seriesNum * i + gap,//x
+						//left margin + group*groupWidth + groupWidth/#series*series + groupMargin
+						left + gap/2 + j * (gap + xQuotient) + xQuotient / seriesNum * i,//x
 						valueToY(),//y
-						xQuotient / seriesNum - gap,//w
+						//groupWidth/#series
+						xQuotient / seriesNum - seriesGap/2,//w
 						value === 0 ? 1 : yQuotient * value//h
 					];
 					boxes.push(box);
