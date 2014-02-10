@@ -532,12 +532,13 @@
 			Drawers.drawYAxis(context, gridlines.widths[0], gridlines.widths[1], gridlines.colors[0], gridlines.colors[1], yAxis.color, yAxis.size, yAxis.formatter, left, fullWidth, height, yQuotient, min, max, region, 0);
 
 			//Loop through values and draw each bar
-			var boxes, series, box, firstBoxes, allBoxes = [];
+			var boxes, series, box, firstBoxes, allBoxes = [], midpoints = [];
 			for(i = 0; i < values.length; i++) {
 				series = values[i];
 				
 				boxes = [];
 				for(j = 0; j < values[i].length; j++) {
+					midpoints[j] = { x: left + gap / 2 + j * (gap + xQuotient) + xQuotient / 2 };
 					value = series[j];
 					box = [
 						//left margin + group*groupWidth + groupWidth/#series*series + groupMargin
@@ -555,9 +556,9 @@
 				if(i === 0) firstBoxes = boxes.slice(0);
 				allBoxes.push(boxes.slice(0));
 			}
-
+			
 			//Draw x-axis
-			if(levels) { Drawers.drawXAxis(context, xAxis.color, xAxis.size, height, firstBoxes.map(function(e) { return { x: e[0] + e[2] / 2 }; }), labels); }
+			if(levels) { Drawers.drawXAxis(context, xAxis.color, xAxis.size, height, midpoints, labels); }
 
 			//Draw focus around hovered rectangle and write value
 			if(focus.width && hoverPos) {
