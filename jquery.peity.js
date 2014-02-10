@@ -26,7 +26,7 @@
 					var data = {};
 					$.each($this.data(), function(name, value) { data[name] = value; });
 					//Then combine with passed options
-					var opt = $.extend(true, {}, defaults, data, options);
+					var opt = $.extend({}, defaults, data, options);
 
 					//Create and draw
 					chart = new Peity($this, type, opt);
@@ -49,8 +49,22 @@
 	//Converts fill array to fill function (pass value to fill)
 	PeityPrototype.fill = function() {
 		var fill = this.opt.fill;
-		if($.isFunction(fill)) { return fill; }
-		return function(value, i) { return fill[i % fill.length]; };
+
+		//If given an array of fills (multiple colors for one series and/or multiple series
+		if($.isArray(fill)) {
+			//If first item is sub-array or function, that means there are multiple series
+			if($.isArray(fill[0]) || $.isFunction(fill[0])) {
+				//Return array of functions (original function if given, otherwise function to return relevant array element
+				return fill.map(function(e) {
+					if($.isFunction(e)) { return e; }
+					return function(value, i) { return e[i % e.length]; };
+				});
+			}
+			//If only one series, return function to return relevant element
+			return function(value, i) { return fill[i % fill.length]; };
+		}
+		//If any other type of object or already a function, return it
+		return fill;
 	};
 
 	PeityPrototype.draw = function() { peity.graphers[this.type].call(this, this.opt); };
@@ -466,7 +480,9 @@
 			min = Math.floor(min / region) * region;
 
 			//Formatting options
-			var fill = opt.fill;
+			var fill = self.fill();
+			console.log(opt.fill);
+			console.log(fill);
 			var yAxis = opt.yAxis;
 			var xAxis = opt.xAxis;
 			var focus = opt.focus;
@@ -498,10 +514,10 @@
 			Drawers.drawYAxis(context, gridlines.widths[0], gridlines.widths[1], gridlines.colors[0], gridlines.colors[1], yAxis.color, yAxis.size, yAxis.formatter, left, fullWidth, height, yQuotient, min, max, region, 0);
 
 			//Loop through values and draw each bar
-			var boxes, series, fillSeries, box, firstBoxes, allBoxes = [];
+			var boxes, series, box, firstBoxes, allBoxes = [];
 			for(i = 0; i < values.length; i++) {
 				series = values[i];
-				fillSeries = fill[i % fill.length];
+				
 				boxes = [];
 				for(j = 0; j < values[i].length; j++) {
 					value = series[j];
@@ -512,9 +528,9 @@
 						value === 0 ? 1 : yQuotient * value//h
 					];
 					boxes.push(box);
-
+					console.log(fill[j % fill.length]);
 					//Draw the bar
-					Drawers.rect(context, box[0], box[1], box[2], box[3], fillSeries[j % fillSeries.length], 0);
+					Drawers.rect(context, box[0], box[1], box[2], box[3], fill[j % fill.length].call(self, value, j, values[i]), 0);
 				}
 				if(i === 0) firstBoxes = boxes.slice(0);
 				allBoxes.push(boxes.slice(0));
@@ -622,7 +638,7 @@
 				boxes.push(box);
 
 				//Draw the bar
-				Drawers.rect(context, box[0], box[1], box[2], box[3], fill.call(self, value, i, values), 0)
+				Drawers.rect(context, box[0], box[1], box[2], box[3], fill.call(self, value, i, values), 0);
 			}
 
 			//Draw x-axis
