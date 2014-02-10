@@ -94,13 +94,16 @@
 		labelLeveler: function(labels) {
 			return Math.max.apply(this, labels.map(function(e) { return e.replace(/[^ ]/g, "").length; })) + 1;
 		},
+		//Given values and formatter, returns strings for text output
 		stringifier: function(values, formatter) {
 			if(formatter) return values.map(function(e) { return formatter(e) + ""; });
 			return values.map(function(e) { return e + ""; });
 		},
+		//Parse all values of an array as floats
 		parseFloats: function(values) {
 			return values.map(function(e) { return parseFloat(e); });
 		},
+		//Function to extract given property from object
 		extractor: function(propName) { return function(e) { return e[propName]; }; }
 	};
 
@@ -119,17 +122,17 @@
 
 	//Add event listeners to pie and bar charts to redraw hover effects
 	var addEvents = function(node) { $(node).on('mousemove', Events.hover).on('mouseout', Events.hover); };
-	
-	//Add event listeners to pie and bar charts to redraw hover effects
+
+	//Function to draw specific items
 	var Drawers = {
-		arc : function(context, x, y, r, start, end, color, width) {
+		arc: function(context, x, y, r, start, end, color, width) {
 			context.beginPath();
 			context.arc(x, y, r, start, end, true);//true = counterclockwise
 			context.lineWidth = width;
 			context.strokeStyle = color;
 			context.stroke();
 		},
-		circle : function(context, x, y, r, start, end, color) {
+		circle: function(context, x, y, r, start, end, color) {
 			context.beginPath();
 			context.moveTo(x, y);
 			context.arc(x, y, r, start, end, true);//true = counterclockwise
@@ -158,7 +161,7 @@
 
 		}
 	};
-	
+
 	//Draw y-axis gridlines and left labels
 	Drawers.drawYAxis = function(context, baseWidth, gridWidth, baseColor, gridColor, fontColor, fontSize, formatter, left, right, height, yQuotient, min, max, region, gap) {
 		var valueToY = function() { return height - (yQuotient * (value - min)) + gap; };
@@ -229,7 +232,6 @@
 			context.fillText(e, x - textWidth - 2, y + i * fontSize);
 		});
 	};
-
 
 	//Default options and drawing functions per type
 	peity.defaults = {}; peity.graphers = {};
@@ -346,9 +348,11 @@
 			var gridlines = opt.gridlines;
 			var allValues = [].concat.apply([opt.max, opt.min], values);
 			var labels = opt.labels;
-			if(labels) labels = Helpers.stringifier(labels);
 			var levels = 0;
-			if(labels) levels = Helpers.labelLeveler(labels);
+			if(labels) {
+				labels = Helpers.stringifier(labels);
+				levels = Helpers.labelLeveler(labels);
+			}
 			var max = Math.max.apply(Math, allValues);
 			var min = Math.min.apply(Math, allValues);
 			var region = opt.region || ((max - min) / 5);
@@ -423,6 +427,122 @@
 			}
 
 			if(focus) { addEvents(canvas); }
+		}
+	);
+
+	//Bar chart
+	peity.register("bars", {
+		fill: [["#48f"], ["#f90"], ["#99f"]],
+		delimiters: ["|", ","],
+		height: 16, width: 32, left: 0, gap: 1,
+		max: null, min: 0,
+		xAxis: Helpers.defaultText, yAxis: Helpers.defaultText, tooltip: Helpers.defaultText,
+		focus: { color: "#000", width: 0 },
+		gridlines: { widths: [1, 0], colors: ["#000", "#bbb"] }
+	},
+		function(opt) {
+			//Declare variables
+			var self = this;
+
+			//Find minimum and maximum in values to determine range
+			var values = self.values.apply(self, opt.delimiters);
+			var seriesNum = values.length;
+			var allValues = [].concat.apply([opt.max, opt.min], values);
+			var value, i, j;
+
+			//Identify labels and height needed to display them
+			var labels = opt.labels;
+			var levels = 0;
+			if(labels) {
+				labels = Helpers.stringifier(labels);
+				levels = Helpers.labelLeveler(labels);
+			}
+
+			//Find range of values
+			var max = Math.max.apply(Math, allValues);
+			var min = Math.min.apply(Math, allValues);
+			var region = opt.region || ((max - min) / 5);
+			max = Math.ceil(max / region) * region;
+			min = Math.floor(min / region) * region;
+
+			//Formatting options
+			var fill = opt.fill;
+			var yAxis = opt.yAxis;
+			var xAxis = opt.xAxis;
+			var focus = opt.focus;
+			var tooltip = opt.tooltip;
+			var gridlines = opt.gridlines;
+
+			//Prepare canvas
+			var hoverPos = self.$el.data("mouse");
+			var canvas = self.prepareCanvas(opt.width, opt.height);
+			var context = self.context;
+
+			//Size
+			var fullWidth = canvas.width;
+			var fullHeight = canvas.height;
+			var gap = opt.gap;
+			var left = opt.left;
+			var bottom = levels * xAxis.size + (levels ? 4 : 0);
+			var width = fullWidth - gap * 2 - left;
+			var height = fullHeight - bottom - gridlines.widths[0];
+
+
+			//Value to Pixel conversion
+			var yQuotient = height / (max - min);
+			var xQuotient = (width + gap) / values[0].length;
+
+			var valueToY = function() { return height - (yQuotient * (value - min)); };
+
+			//Draw baseline and yAxis gridlines
+			Drawers.drawYAxis(context, gridlines.widths[0], gridlines.widths[1], gridlines.colors[0], gridlines.colors[1], yAxis.color, yAxis.size, yAxis.formatter, left, fullWidth, height, yQuotient, min, max, region, 0);
+
+			//Loop through values and draw each bar
+			var boxes, series, fillSeries, box, firstBoxes, allBoxes = [];
+			for(i = 0; i < values.length; i++) {
+				series = values[i];
+				fillSeries = fill[i % fill.length];
+				boxes = [];
+				for(j = 0; j < values[i].length; j++) {
+					value = series[j];
+					box = [
+						left + j * xQuotient + xQuotient / seriesNum * i + gap,//x
+						valueToY(),//y
+						xQuotient / seriesNum - gap,//w
+						value === 0 ? 1 : yQuotient * value//h
+					];
+					boxes.push(box);
+
+					//Draw the bar
+					Drawers.rect(context, box[0], box[1], box[2], box[3], fillSeries[j % fillSeries.length], 0);
+				}
+				if(i === 0) firstBoxes = boxes.slice(0);
+				allBoxes.push(boxes.slice(0));
+			}
+
+			//Draw x-axis
+			if(levels) { Drawers.drawXAxis(context, xAxis.color, xAxis.size, height, firstBoxes.map(function(e) { return { x: e[0] + e[2] / 2 }; }), labels); }
+
+			//Draw focus around hovered rectangle and write value
+			if(focus.width && hoverPos) {
+				hoverPos = JSON.parse(hoverPos);
+
+				//Loop through values again
+				for(i = 0; i < allBoxes[0].length; i++) {
+					var box = allBoxes[0][i];
+					//Check if mouse is within this group's horizontal space
+					if(hoverPos.x >= box[0] && hoverPos.x <= box[0] + xQuotient) {
+						//If mouse is within a bar, draw a focus
+						for(j = 0; j < allBoxes.length; j++) {
+							Drawers.rect(context, allBoxes[j][i][0] - focus.width / 2, allBoxes[j][i][1] - focus.width / 2, allBoxes[j][i][2] + focus.width, allBoxes[j][i][3] + focus.width, undefined, focus.width, focus.color);
+						}
+						Drawers.tooltip(context, hoverPos.x, hoverPos.y, values.map(Helpers.extractor(i)), fill.map(Helpers.extractor(i % fill[0].length)), tooltip.size, tooltip.color, tooltip.formatter);
+						break;//Don't analyze other values
+					}
+				}
+			}
+
+			if(focus.width) { addEvents(canvas); }
 		}
 	);
 
