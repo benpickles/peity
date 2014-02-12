@@ -1,7 +1,10 @@
 ﻿// Peity jQuery plugin version 1.2.1
 // (c) 2013 Ben Pickles
-//
 // http://benpickles.github.io/peity
+//
+// Peity jQuery plugin version 0.9.0
+// (c) 2014 Fred Morel
+// http://fmorel90.github.io/peity
 //
 // Released under MIT license.
 (function($, Math) {
@@ -356,7 +359,7 @@
 	);
 
 	//Line Chart
-	peity.register("lines", {
+	peity.register("line", {
 		lineColors: ["#78A", "#827"], lineWidths: [1],
 		fill: "#cdf",
 		delimiters: ["|", ","],
@@ -464,7 +467,7 @@
 	);
 
 	//Bar chart
-	peity.register("bars", {
+	peity.register("bar", {
 		fill: [["#48f"], ["#f90"], ["#99f"]],
 		delimiters: ["|", ","],
 		height: 16, width: 32, left: 0, gap: 1, seriesGap : 0,

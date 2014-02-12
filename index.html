@@ -122,6 +122,7 @@
     <script src="jquery.peity.js"></script>
     <script>
         $(function() {
+		
 
 
 
@@ -132,21 +133,20 @@
             $("#pie-3").peity("pie", { diameter: 48, focusWidth: 1, focusColor: "#090" });
 
             //Line charts
-            $(".line").peity("lines");
-            $("#line-1").peity("lines", { width: 128, height: 64, fill: "#f99", lineColors: ["#f00"], gridlines: { widths: [0, 1], colors: ["#fff", "#99f"] } });
-            $("#line-2").peity("lines", { width: 200, height: 64, lineWidths: [2], pointSizes: [4], focus: true });
-            $("#line-3").peity("lines", { width: 200, height: 64, left: 40, region: 3, yAxis: { formatter: function(e) { return Math.round(e); } }, gridlines: { widths: [1, 1] } });
+            $(".line").peity("line");
+            $("#line-1").peity("line", { width: 128, height: 64, fill: "#f99", lineColors: ["#f00"], gridlines: { widths: [0, 1], colors: ["#fff", "#99f"] } });
+            $("#line-2").peity("line", { width: 200, height: 64, lineWidths: [2], pointSizes: [4], focus: true });
+            $("#line-3").peity("line", { width: 200, height: 64, left: 40, region: 3, yAxis: { formatter: function(e) { return Math.round(e); } }, gridlines: { widths: [1, 1], colors: ["#fff", "#99f"] } });
 
-            //Multi-Line charts
-            $(".lines").peity("lines");
-            $("#lines-1").peity("lines", { width: 128, height: 64, left: 40, region: 4, lineColors: ["#f00", "green"], gridlines: { widths: [0, 1], colors: ["#fff", "#99f"] } });
-            $("#lines-2").peity("lines", { width: 200, height: 64, lineWidth: 2, pointSize: 4, focus: true, labels: [1, 2, 3, 4, 5, 6, 7, 8, 9, 0] });
+            $(".lines").peity("line");
+            $("#lines-1").peity("line", { width: 128, height: 64, left: 40, region: 4, lineColors: ["#f00", "green"], gridlines: { widths: [0, 1], colors: ["#fff", "#99f"] } });
+            $("#lines-2").peity("line", { width: 200, height: 64, lineWidth: 2, pointSize: 4, focus: true, labels: [1, 2, 3, 4, 5, 6, 7, 8, 9, 0] });
 
             //Bar Charts
             $(".bar").peity("bar");
-            $(".bar-fill-1").peity("bar", { fill: ["red", "green", "blue"] });
-            $(".bar-fill-2").peity("bar", { fill: function(value) { return value > 0 ? "green" : "red"; } });
-            $(".bar-fill-3").peity("bar", { fill: function(e, i, a) { return "rgb(255, " + parseInt((i / a.length) * 255) + ", 0)"; } });
+            $(".bar-fill-1").peity("bar", { fill: [["red", "green", "blue"]] });
+            $(".bar-fill-2").peity("bar", { fill: [function(value) { return value > 0 ? "green" : "red"; }] });
+            $(".bar-fill-3").peity("bar", { fill: [function(e, i, a) { return "rgb(255, " + parseInt((i / a.length) * 255) + ", 0)"; }] });
 
             $(".pie-fill-1").peity("pie", { fill: ["cyan", "magenta", "yellow", "black"] });
             $(".pie-fill-2").peity("pie", { fill: function(e, i, a) { return "rgb(255, " + parseInt((i / a.length) * 255) + ", 0)"; } });
@@ -176,7 +176,8 @@
             }, 1000);
 
         })
-    </script>
+    $(window).on("scroll",function(e){console.log("scrolling"); });
+	</script>
 </head>
 <body>
     <div id="container">
@@ -345,7 +346,7 @@ $("#line-3").peity("line", {
 &lt;span class=&quot;lines&quot;&gt;0,-3,-6,-4,-5,-4,-7,-3,-5,-2|5,3,9,6,5,9,7,3,5,2&lt;/span&gt;</code></pre>
 
                 <h4>JavaScript</h4>
-                <pre><code class="javascript">$(".lines").peity("lines");</code></pre>
+                <pre><code class="javascript">$(".lines").peity("line");</code></pre>
             </div>
 
             <div class="example">
