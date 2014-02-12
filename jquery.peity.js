@@ -78,16 +78,14 @@
 		var canvas = self.canvas;
 
 		//If pre-existing canvas, clear it, otherwise create it.
-		if(canvas) {
-			canvas.width = canvas.width;//Reset width to clear it instead of drawing blank rectangle. Fixes flicker in Firefox
-		} else {
-			var $canvas = $("<canvas class='peity'>").css({ height: height, width: width }).data("peity", self);
-			self.canvas = canvas = $canvas[0];
+		if(!canvas) {
+			self.canvas = canvas = $("<canvas class='peity'>")[0];
 			self.context = canvas.getContext("2d");
-			self.$el.hide().after(canvas);
-			canvas.height = $canvas.height();
-			canvas.width = $canvas.width();
+			self.$el.hide().removeData("mouse").after(canvas);
 		}
+		canvas.width = width;//Reset width to clear it instead of drawing blank rectangle. Fixes flicker in Firefox
+		canvas.height = height;
+		$(canvas).css({ height: height, width: width }).data("peity", self).off();
 		return canvas;
 	};
 
