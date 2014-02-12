@@ -1,12 +1,14 @@
 # History
 
-## Version 1.3 - 2014/??/??
+## Version 0.9 - 2014/??/??
  * Add outline to pie chart
  * Add horizontal axis to bar chart
  * Add multi-line chart
  * Add hover outline on pie and bar charts
  * Refactoring to improve minified size
  * Fix flickering when redrawing chart in Firefox
+ 
+# History as Peity
 
 ## Version 1.2.1 - 2013/11/21
  * Ensure a line chart's outline doesn't spill off the canvas.

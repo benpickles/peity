@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0">
-    <title>Peity &bull; progressive &lt;canvas&gt; pie charts</title>
+    <title>CanVis &bull; progressive &lt;canvas&gt; pie charts</title>
     <style>
         body {
             background: #fff;
@@ -119,7 +119,7 @@
         }
     </style>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.js"></script>
-    <script src="jquery.peity.js"></script>
+    <script src="jquery.canvis.js"></script>
     <script>
         $(function() {
 		
@@ -127,32 +127,32 @@
 
 
             //Pie charts
-            $(".pie").peity("pie");
-            $("#pie-1").peity("pie", { diameter: 48, fill: ["red", "blue"] });
-            $("#pie-2").peity("pie", { diameter: 48, lineWidth: 1, lineColor: "#090" });
-            $("#pie-3").peity("pie", { diameter: 48, focusWidth: 1, focusColor: "#090" });
+            $(".pie").canvis("pie");
+            $("#pie-1").canvis("pie", { diameter: 48, fill: ["red", "blue"] });
+            $("#pie-2").canvis("pie", { diameter: 48, lineWidth: 1, lineColor: "#090" });
+            $("#pie-3").canvis("pie", { diameter: 48, focusWidth: 1, focusColor: "#090" });
 
             //Line charts
-            $(".line").peity("line");
-            $("#line-1").peity("line", { width: 128, height: 64, fill: "#f99", lineColors: ["#f00"], gridlines: { widths: [0, 1], colors: ["#fff", "#99f"] } });
-            $("#line-2").peity("line", { width: 200, height: 64, lineWidths: [2], pointSizes: [4], focus: true });
-            $("#line-3").peity("line", { width: 200, height: 64, left: 40, region: 3, yAxis: { formatter: function(e) { return Math.round(e); } }, gridlines: { widths: [1, 1], colors: ["#fff", "#99f"] } });
+            $(".line").canvis("line");
+            $("#line-1").canvis("line", { width: 128, height: 64, fill: "#f99", lineColors: ["#f00"], gridlines: { widths: [0, 1], colors: ["#fff", "#99f"] } });
+            $("#line-2").canvis("line", { width: 200, height: 64, lineWidths: [2], pointSizes: [4], focus: true });
+            $("#line-3").canvis("line", { width: 200, height: 64, left: 40, region: 3, yAxis: { formatter: function(e) { return Math.round(e); } }, gridlines: { widths: [1, 1], colors: ["#fff", "#99f"] } });
 
-            $(".lines").peity("line");
-            $("#lines-1").peity("line", { width: 128, height: 64, left: 40, region: 4, lineColors: ["#f00", "green"], gridlines: { widths: [0, 1], colors: ["#fff", "#99f"] } });
-            $("#lines-2").peity("line", { width: 200, height: 64, lineWidth: 2, pointSize: 4, focus: true, labels: [1, 2, 3, 4, 5, 6, 7, 8, 9, 0] });
+            $(".lines").canvis("line");
+            $("#lines-1").canvis("line", { width: 128, height: 64, left: 40, region: 4, lineColors: ["#f00", "green"], gridlines: { widths: [0, 1], colors: ["#fff", "#99f"] } });
+            $("#lines-2").canvis("line", { width: 200, height: 64, lineWidth: 2, pointSize: 4, focus: true, labels: [1, 2, 3, 4, 5, 6, 7, 8, 9, 0] });
 
             //Bar Charts
-            $(".bar").peity("bar");
-            $(".bar-fill-1").peity("bar", { fill: [["red", "green", "blue"]] });
-            $(".bar-fill-2").peity("bar", { fill: [function(value) { return value > 0 ? "green" : "red"; }] });
-            $(".bar-fill-3").peity("bar", { fill: [function(e, i, a) { return "rgb(255, " + parseInt((i / a.length) * 255) + ", 0)"; }] });
+            $(".bar").canvis("bar");
+            $(".bar-fill-1").canvis("bar", { fill: [["red", "green", "blue"]] });
+            $(".bar-fill-2").canvis("bar", { fill: [function(value) { return value > 0 ? "green" : "red"; }] });
+            $(".bar-fill-3").canvis("bar", { fill: [function(e, i, a) { return "rgb(255, " + parseInt((i / a.length) * 255) + ", 0)"; }] });
 
-            $(".pie-fill-1").peity("pie", { fill: ["cyan", "magenta", "yellow", "black"] });
-            $(".pie-fill-2").peity("pie", { fill: function(e, i, a) { return "rgb(255, " + parseInt((i / a.length) * 255) + ", 0)"; } });
+            $(".pie-fill-1").canvis("pie", { fill: ["cyan", "magenta", "yellow", "black"] });
+            $(".pie-fill-2").canvis("pie", { fill: function(e, i, a) { return "rgb(255, " + parseInt((i / a.length) * 255) + ", 0)"; } });
 
             // Using data attributes
-            $(".pie-data span").peity("pie");
+            $(".pie-data span").canvis("pie");
 
             // Simple evented example.
             $("select").change(function() {
@@ -161,10 +161,10 @@
                 $("#notice").text("Chart updated: " + text);
             }).change();
 
-            $("span.graph").peity("pie");
+            $("span.graph").canvis("pie");
 
             // Updating chart
-            var updatingChart = $(".updating-chart").peity("line", { width: 64 });
+            var updatingChart = $(".updating-chart").canvis("line", { width: 64 });
             updatingChart.data("allValues", updatingChart.text());
             setInterval(function() {
                 var values = updatingChart.data("allValues").split(",")
@@ -181,12 +181,12 @@
 </head>
 <body>
     <div id="container">
-        <h1>Peity</h1>
+        <h1>CanVis</h1>
 
-        <iframe src="http://ghbtns.com/github-btn.html?user=fmorel90&repo=peity&type=watch&count=true" allowtransparency="true" frameborder="0" scrolling="0" width="110" height="20"></iframe>
-        <iframe src="http://ghbtns.com/github-btn.html?user=fmorel90&repo=peity&type=fork&count=true" allowtransparency="true" frameborder="0" scrolling="0" width="95" height="20"></iframe>
+        <iframe src="http://ghbtns.com/github-btn.html?user=fmorel90&repo=canvis&type=watch&count=true" allowtransparency="true" frameborder="0" scrolling="0" width="110" height="20"></iframe>
+        <iframe src="http://ghbtns.com/github-btn.html?user=fmorel90&repo=canvis&type=fork&count=true" allowtransparency="true" frameborder="0" scrolling="0" width="95" height="20"></iframe>
 
-        <p>Peity (sounds like deity) is a simple <a href="http://jquery.com/">jQuery</a> plugin that converts an element's content into a simple <code>&lt;canvas&gt;</code> mini pie <span class="pie">2/5</span>, line <span class="line">5,3,9,6,5,9,7,3,5,2</span>, or bar chart <span class="bar">5,3,9,6,5,9,7,3,5,2</span> and is compatible with any browser that supports <code>&lt;canvas&gt;</code>: Chrome, Firefox, IE9+, Opera, Safari.</p>
+        <p>CanVis (sounds like deity) is a simple <a href="http://jquery.com/">jQuery</a> plugin that converts an element's content into a simple <code>&lt;canvas&gt;</code> mini pie <span class="pie">2/5</span>, line <span class="line">5,3,9,6,5,9,7,3,5,2</span>, or bar chart <span class="bar">5,3,9,6,5,9,7,3,5,2</span> and is compatible with any browser that supports <code>&lt;canvas&gt;</code>: Chrome, Firefox, IE9+, Opera, Safari.</p>
 
         <nav>
             <p>
@@ -206,20 +206,20 @@
 
         <dl>
             <dt>Uncompressed ?.?Kb</dt>
-            <dd><a href="jquery.peity.js">jquery.peity.js</a></dd>
+            <dd><a href="jquery.canvis.js">jquery.canvis.js</a></dd>
             <dt>Minified ?.?Kb (+gzipped ?.?Kb)</dt>
-            <dd><a href="jquery.peity.min.js">jquery.peity.min.js</a></dd>
+            <dd><a href="jquery.canvis.min.js">jquery.canvis.min.js</a></dd>
             <dt>Source</dt>
-            <dd><a href="https://github.com/fmorel90/peity">github.com/fmorel90/peity</a></dd>
+            <dd><a href="https://github.com/fmorel90/canvis">github.com/fmorel90/canvis</a></dd>
         </dl>
 
-        <a href="https://github.com/fmorel90/peity" id="fork-me"><img src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"></a>
+        <a href="https://github.com/fmorel90/canvis" id="fork-me"><img src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"></a>
 
         <!--Pie Charts-->
         <div class="chart-type">
             <h2 id="pie-charts">Pie Charts</h2>
 
-            <p>Simply call <code>peity("pie")</code> on a jQuery selection. There are two subtly different pie chart semantics, a "/" delimiter is assumed to mean "three out of five" and only the first two values will be drawn, otherwise all of the values are included in the chart and the total is the sum of all values.</p>
+            <p>Simply call <code>canvis("pie")</code> on a jQuery selection. There are two subtly different pie chart semantics, a "/" delimiter is assumed to mean "three out of five" and only the first two values will be drawn, otherwise all of the values are included in the chart and the total is the sum of all values.</p>
 
             <p>You can also pass <code>fill</code>, <code>delimiter</code>, <code>diameter</code>, <code>lineColor</code>, <code>lineWidth</code>, <code>focusColor</code> and <code>focusWidth</code> options. Fill is an array of colors for the slices of pie. Delimiter is the string used to separate numbers. Diameter sets the size of the canvas (and resulting pie chart). lineColor is only relevant if lineWidth > 0. It creates an outline on the circle. focusColor and focusWidth work similarly, but only outline the arc of a slice of the pie.</p>
 
@@ -238,7 +238,7 @@
 
                 <h4>JavaScript</h4>
 
-                <pre><code class="javascript">$("span.pie").peity("pie");</code></pre>
+                <pre><code class="javascript">$("span.pie").canvis("pie");</code></pre>
             </div>
 
             <div class="example">
@@ -256,16 +256,16 @@
 
                 <h4>JavaScript</h4>
 
-                <pre><code class="javascript">$(".pie-1").peity("pie", {
+                <pre><code class="javascript">$(".pie-1").canvis("pie", {
     diameter: 48,
     fill: ["red", "blue"]
 });
-$(".pie-2").peity("pie", {
+$(".pie-2").canvis("pie", {
     diameter: 48,
     lineWidth: 1,
     lineColor: "#090"
 });
-$(".pie-3").peity("pie", {
+$(".pie-3").canvis("pie", {
     diameter: 48,
     focusWidth: 1,
     focusColor: "#090"
@@ -293,7 +293,7 @@ $(".pie-3").peity("pie", {
 &lt;span class=&quot;line&quot;&gt;0,-3,-6,-4,-5,-4,-7,-3,-5,-2&lt;/span&gt;</code></pre>
 
                 <h4>JavaScript</h4>
-                <pre><code class="javascript">$(".line").peity("line");</code></pre>
+                <pre><code class="javascript">$(".line").canvis("line");</code></pre>
             </div>
 
             <div class="example">
@@ -309,16 +309,16 @@ $(".pie-3").peity("pie", {
 &lt;span id=&quot;line-3&quot;&gt;0,-3,-6,-4,-5,-4,-7,-3,-5,-2&lt;/span&gt;</code></pre>
 
                 <h4>JavaScript</h4>
-                <pre><code class="javascript">$("#line-1").peity("line", {
+                <pre><code class="javascript">$("#line-1").canvis("line", {
     width: 128, height: 64,
     fill: "#f99", lineColor: "#f00",
     gridlines: { widths: [0, 1], colors: ["#fff", "#99f"] }
 });
-$("#line-2").peity("line", {
+$("#line-2").canvis("line", {
     width: 200, height: 64,
     lineWidth: 2, pointSize: 4, focus: true
 });
-$("#line-3").peity("line", {
+$("#line-3").canvis("line", {
     width: 200, height: 64, left: 40,
     region:3,
     xAxis: { size: 13 },
@@ -346,7 +346,7 @@ $("#line-3").peity("line", {
 &lt;span class=&quot;lines&quot;&gt;0,-3,-6,-4,-5,-4,-7,-3,-5,-2|5,3,9,6,5,9,7,3,5,2&lt;/span&gt;</code></pre>
 
                 <h4>JavaScript</h4>
-                <pre><code class="javascript">$(".lines").peity("line");</code></pre>
+                <pre><code class="javascript">$(".lines").canvis("line");</code></pre>
             </div>
 
             <div class="example">
@@ -361,16 +361,16 @@ $("#line-3").peity("line", {
 &lt;span id=&quot;line-3&quot;&gt;0,-3,-6,-4,-5,-4,-7,-3,-5,-2&lt;/span&gt;</code></pre>
 
                 <h4>JavaScript</h4>
-                <pre><code class="javascript">$("#line-1").peity("line", {
+                <pre><code class="javascript">$("#line-1").canvis("line", {
     width: 128, height: 64,
     fill: "#f99", lineColor: "#f00",
     gridlines: { widths: [0, 1], colors: ["#fff", "#99f"] }
 });
-$("#line-2").peity("line", {
+$("#line-2").canvis("line", {
     width: 200, height: 64,
     lineWidth: 2, pointSize: 4, focus: true
 });
-$("#line-3").peity("line", {
+$("#line-3").canvis("line", {
     width: 200, height: 64, left: 40,
     region:3,
     xAxis: { size: 13 },
@@ -401,7 +401,7 @@ $("#line-3").peity("line", {
 &lt;span class=&quot;bar&quot;&gt;0,-3,-6,-4,-5,-4,-7,-3,-5,-2&lt;/span&gt;</code></pre>
 
                 <h4>JavaScript</h4>
-                <pre><code class="javascript">$(".bar").peity("bar")</code></pre>
+                <pre><code class="javascript">$(".bar").canvis("bar")</code></pre>
             </div>
 
             <div class="example">
@@ -417,7 +417,7 @@ $("#line-3").peity("line", {
 &lt;span class=&quot;bar&quot;&gt;0,-3,-6,-4,-5,-4,-7,-3,-5,-2&lt;/span&gt;</code></pre>
 
                 <h4>JavaScript</h4>
-                <pre><code class="javascript">$(".bar").peity("bar")</code></pre>
+                <pre><code class="javascript">$(".bar").canvis("bar")</code></pre>
             </div>
             <div class="chart-type">
                 <h2 id="dynamic-fill">Setting fill Dynamically</h2>
@@ -450,24 +450,24 @@ $("#line-3").peity("line", {
 &lt;span class=&quot;pie-fill-2&quot;&gt;5,3,9,6,5&lt;/span&gt;</code></pre>
 
                     <h4>JavaScript</h4>
-                    <pre><code class="javascript">$(".bar-fill-1").peity("bar", {
+                    <pre><code class="javascript">$(".bar-fill-1").canvis("bar", {
   fill: ["red", "green", "blue"]
 })
-$(".bar-fill-2").peity("bar", {
+$(".bar-fill-2").canvis("bar", {
   fill: function(value) {
     return value > 0 ? "green" : "red"
   }
 })
-$(".bar-fill-3").peity("bar", {
+$(".bar-fill-3").canvis("bar", {
   fill: function(_, i, all) {
     var g = parseInt((i / all.length) * 255)
     return "rgb(255, " + g + ", 0)"
   }
 })
-$(".pie-fill-1").peity("pie", {
+$(".pie-fill-1").canvis("pie", {
   fill: ["cyan", "magenta", "yellow", "black"]
 })
-$(".pie-fill-2").peity("pie", {
+$(".pie-fill-2").canvis("pie", {
   fill: function(_, i, all) {
     var g = parseInt((i / all.length) * 255)
     return "rgb(255, " + g + ", 0)"
@@ -498,7 +498,7 @@ $(".pie-fill-2").peity("pie", {
                 <pre><code class="html">&lt;span class="updating-chart"&gt;5,3,9,6,5,9,7,3,5,2,5,3,9,6,5,9,7,3,5,2&lt;/span&gt;</code></pre>
 
                 <h4>JavaScript</h4>
-                <pre><code class="javascript">var updatingChart = $(".updating-chart").peity("line", { width: 64 })
+                <pre><code class="javascript">var updatingChart = $(".updating-chart").canvis("line", { width: 64 })
 setInterval(function() {
   var random = Math.round(Math.random() * 10)
   var values = updatingChart.text().split(",")
@@ -515,11 +515,11 @@ setInterval(function() {
 
             <p>
                 You can easily add your own custom chart by registering it with
-                Peity with name, defaults and the draw function which receives an options
+                CanVis with name, defaults and the draw function which receives an options
                 object.
             </p>
 
-            <pre><code class="javascript">$.fn.peity.add("custom", {
+            <pre><code class="javascript">$.fn.canvis.add("custom", {
     color: "#FFCC00"
   }, function(opts) {
     ...
@@ -530,9 +530,9 @@ setInterval(function() {
             <h2 id="data-attributes">data-* attributes</h2>
 
             <p>
-                If you use data attributes, Peity will apply their values to the defaults
+                If you use data attributes, CanVis will apply their values to the defaults
                 with the same names automatically. Options passed to the
-                <code>peity()</code> function take precedence over data-* attributes.
+                <code>canvis()</code> function take precedence over data-* attributes.
             </p>
 
             <div class="example">
@@ -558,14 +558,14 @@ setInterval(function() {
 &lt;span data-fill=&#x27;[&quot;violet&quot;, &quot;#eeeeee&quot;]&#x27; data-diameter=&quot;16&quot;&gt;7/7&lt;/span&gt;</code></pre>
                 <h4>JavaScript</h4>
 
-                <pre><code class="javascript">$(&quot;.pie span&quot;).peity(&quot;pie&quot;)</code></pre>
+                <pre><code class="javascript">$(&quot;.pie span&quot;).canvis(&quot;pie&quot;)</code></pre>
             </div>
         </div>
         <div class="chart-type">
             <h2 id="events">Events</h2>
 
             <p>
-                Peity adds a "change" event trigger to your graph elements, so if you
+                CanVis adds a "change" event trigger to your graph elements, so if you
                 update their data your can regenerate one or more charts by triggering
                 <code>change()</code> on them.
             </p>
@@ -665,8 +665,8 @@ var chartUpdate = function(event, value, max) {
   )
 }
 $("span.graph")
-  .peity("pie")
-  .bind("change.peity", chartUpdate)</code></pre>
+  .canvis("pie")
+  .bind("change.canvis", chartUpdate)</code></pre>
             </div>
         </div>
         <div class="chart-type">
@@ -675,14 +675,14 @@ $("span.graph")
             <p>Defaults can be overridden globally like so:</p>
             <div class="example">
                 <h4>JavaScript</h4>
-                <pre><code class="javascript">$.fn.peity.defaults.pie = {
+                <pre><code class="javascript">$.fn.canvis.defaults.pie = {
   fill: ["<span style="background:#ff9900">#ff9900</span>", "<span style="background:#fff4dd">#fff4dd</span>", "<span style="background:#ffd592">#ffd592</span>"],
   delimiter: null,
   diameter: 16,
   height: null,
   width: null
 }
-$.fn.peity.defaults.line = {
+$.fn.canvis.defaults.line = {
   color: "<span style="background:#c6d9fd">#c6d9fd</span>",
   lineColor: "<span style="background:#4d89f9">#4d89f9</span>",
   lineWidth: 1,
@@ -692,7 +692,7 @@ $.fn.peity.defaults.line = {
   min: 0,
   width: 32
 }
-$.fn.peity.defaults.bar = {
+$.fn.canvis.defaults.bar = {
   fill: ["<span style="background:#4d89f9">#4d89f9</span>"],
   delimiter: ",",
   height: 16,
@@ -703,7 +703,7 @@ $.fn.peity.defaults.bar = {
 }</code></pre>
             </div>
         </div>
-        <footer><p>&copy; 2013 <a href="http://benpickles.com/">Ben Pickles</a>. <a href="https://github.com/benpickles/peity/blob/master/MIT-LICENCE">MIT LICENCE</a>.</p></footer>
+        <footer><p>&copy; 2013 <a href="http://benpickles.com/">Ben Pickles</a>. <a href="https://github.com/benpickles/canvis/blob/master/MIT-LICENCE">MIT LICENCE</a>.</p></footer>
     </div>
 </body>
 </html>

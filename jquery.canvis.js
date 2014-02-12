@@ -1,21 +1,21 @@
-﻿// Peity jQuery plugin version 1.2.1
+﻿// CanVis jQuery plugin version 1.2.1
 // (c) 2013 Ben Pickles
-// http://benpickles.github.io/peity
+// http://benpickles.github.io/canvis
 //
-// Peity jQuery plugin version 0.9.0
+// CanVis jQuery plugin version 0.9.0
 // (c) 2014 Fred Morel
-// http://fmorel90.github.io/peity
+// http://fmorel90.github.io/canvis
 //
 // Released under MIT license.
 (function($, Math) {
 	var canvasSupported = document.createElement("canvas").getContext;
 
-	var peity = $.fn.peity = function(type, options) {
+	var canvis = $.fn.canvis = function(type, options) {
 		if(canvasSupported) {
 			this.each(function() {
-				//See if element is already a peity chart and load
+				//See if element is already a canvis chart and load
 				var $this = $(this);
-				var chart = $this.data("peity");
+				var chart = $this.data("canvis");
 
 				if(chart) {
 					//If chart already exists, pass new options and redraw
@@ -24,7 +24,7 @@
 					chart.draw();
 				} else {
 					//Initialize with defaults
-					var defaults = peity.defaults[type];
+					var defaults = canvis.defaults[type];
 					//Then load from data attributes on element
 					var data = {};
 					$.each($this.data(), function(name, value) { data[name] = value; });
@@ -32,11 +32,11 @@
 					var opt = $.extend({}, defaults, data, options);
 
 					//Create and draw
-					chart = new Peity($this, type, opt);
+					chart = new CanVis($this, type, opt);
 					chart.draw();
 
 					//Adds change handler that redraws the chart
-					$this.change(function() { chart.draw(); }).data("peity", chart);
+					$this.change(function() { chart.draw(); }).data("canvis", chart);
 				}
 			});
 		}
@@ -44,13 +44,13 @@
 	};
 
 	//Create object with defaults and drawers
-	var Peity = function($el, type, opt) { this.$el = $el; this.type = type; this.opt = opt; };
+	var CanVis = function($el, type, opt) { this.$el = $el; this.type = type; this.opt = opt; };
 
 	//Minifies references to the prototype
-	var PeityPrototype = Peity.prototype;
+	var CanVisPrototype = CanVis.prototype;
 
 	//Converts fill array to fill function (pass value to fill)
-	PeityPrototype.fill = function() {
+	CanVisPrototype.fill = function() {
 		var fill = this.opt.fill;
 
 		//If given an array of fills (multiple colors for one series and/or multiple series
@@ -70,58 +70,57 @@
 		return fill;
 	};
 
-	PeityPrototype.draw = function() { peity.graphers[this.type].call(this, this.opt); };
+	CanVisPrototype.draw = function() { canvis.graphers[this.type].call(this, this.opt); };
 
 	//Prepare a canvas element to draw on
-	PeityPrototype.prepareCanvas = function(width, height) {
+	CanVisPrototype.prepareCanvas = function(width, height) {
 		var self = this;
 		var canvas = self.canvas;
 
 		//If pre-existing canvas, clear it, otherwise create it.
 		if(!canvas) {
-			self.canvas = canvas = $("<canvas class='peity'>")[0];
+			self.canvas = canvas = $("<canvas class='canvis'>")[0];
 			self.context = canvas.getContext("2d");
 			self.$el.hide().removeData("mouse").after(canvas);
 		}
 		canvas.width = width;//Reset width to clear it instead of drawing blank rectangle. Fixes flicker in Firefox
 		canvas.height = height;
-		$(canvas).css({ height: height, width: width }).data("peity", self).off();
+		$(canvas).css({ height: height, width: width }).data("canvis", self).off();
 		return canvas;
 	};
 
 	//Splits values string into array by delimiter and returns the numbers. Split into multiple series if necessary 
-	PeityPrototype.values = function() {
+	CanVisPrototype.values = function() {
+		//Parse all values of an array as floats
+		var parser = function(e) { return parseFloat(e); };
 		var delims = arguments;
 		var text = this.$el.text().split(delims[0]);
-		if(delims.length === 1) return Helpers.parseFloats(text);
-		return text.map(function(e) { return Helpers.parseFloats(e.split(delims[1])); });
+		if(delims.length === 1) return text.map(parser);
+		return text.map(function(e) { return e.split(delims[1]).map(parser); });
 	};
 
+
+	//Default properties for an axis/tooltip (font color and size, plus label formatter)
+	var DefaulTextProperties = {
+		color: "#000",
+		size: 13,
+		formatter: function(e) { return e; }
+	};
 	//Some common code that's not categorized
 	var Helpers = {
-		//Default properties for an axis/tooltip (font color and size, plus label formatter)
-		defaultText: {
-			color: "#000",
-			size: 13,
-			formatter: function(e) { return e; }
-		},
 		//Figures out how many levels a label will take (split by space)
-		labelLeveler: function(labels) {
+		labelLevels: function(labels) {
 			return Math.max.apply(this, labels.map(function(e) { return e.replace(/[^ ]/g, "").length; })) + 1;
 		},
 		//Given values and formatter, returns strings for text output
-		stringifier: function(values, formatter) {
+		toString: function(values, formatter) {
 			if(formatter) return values.map(function(e) { return formatter(e) + ""; });
 			return values.map(function(e) { return e + ""; });
-		},
-		//Parse all values of an array as floats
-		parseFloats: function(values) {
-			return values.map(function(e) { return parseFloat(e); });
 		},
 		//Function to extract given property from object
 		extractor: function(propName) { return function(e) { return e[propName]; }; },
 		//Convert array of items to function that returns those
-		toFunction : function(items) {
+		toFunction: function(items) {
 			//If given an array of fills (multiple colors for one series and/or multiple series
 			if($.isArray(items)) {
 				//If first item is sub-array or function, that means there are multiple series
@@ -137,7 +136,9 @@
 			}
 			//If any other type of object or already a function, return it
 			return items;
-		}
+		},
+		//Labels size of string if drawn
+		getWidth: function(context, string) { return context.measureText(string).width; }
 	};
 
 	//Events for point hover
@@ -173,10 +174,9 @@
 			context.fill();
 		},
 		line: function(context, points, color, width) {
-			var i;
 			context.beginPath();
 			context.moveTo(points[0].x, points[0].y);
-			for(i = 1; i < points.length; i++) { context.lineTo(points[i].x, points[i].y); }
+			for(var i = 1; i < points.length; i++) { context.lineTo(points[i].x, points[i].y); }
 			context.lineWidth = width;
 			context.strokeStyle = color;
 			context.stroke();
@@ -238,46 +238,55 @@
 	};
 
 	//Draw tooltip for hovered value(s)
-	Drawers.tooltip = function(context, x, y, values, colors, fontSize, fontColor, textFormatter) {
+	Drawers.tooltip = function(context, x, y, values, colors, fontSize, fontColor, valueFormatter, label, labelFormatter) {
 		//Set properties
 		context.font = fontSize + "px sans-serif";
 		context.textAlign = "left";
 		context.textBaseline = "top";
-		var blockWidth = context.measureText("■").width;
 
 		//Convert values to labels and measure longest
-		var strings = Helpers.stringifier(values, textFormatter);
-		var textWidth = Math.max.apply([], strings.map(function(e) { return context.measureText(e).width; }));
+		values = Helpers.toString(values, valueFormatter);
+		if(label) values.splice(0, 0, Helpers.toString([label], labelFormatter)[0]);
+		var textWidth = Math.max.apply([], values.map(function(e) { return Helpers.getWidth(context, e); }));
+		var blockWidth = Helpers.getWidth(context, "■");
+		var totalLabelWidth = textWidth + blockWidth;
 
 		//Move tooltip slightly left and adjust based on position within canvas and mouse
 		x -= 6;
-		if(y > values.length * fontSize + 6) { y -= values.length * fontSize; }
+		var ySize = values.length * fontSize;
+		if(y > ySize - 6) { y -= ySize; }
 		if(x <= textWidth + blockWidth + 7) { x += textWidth + blockWidth + 20 + 7; }
 
 		//Draw outlined rectangle for tooltip
-		Drawers.rect(context, x - textWidth - blockWidth - 4, y - 3, textWidth + blockWidth + 7, values.length * fontSize + 8, "#fff", 1, "#000");
+		Drawers.rect(context, x - totalLabelWidth - 4, y - 3, totalLabelWidth + 7, ySize + 8, "#fff", 1, "#000");
 
 		//Draw each label
-		strings.forEach(function(e, i) {
-			context.fillStyle = colors[i % colors.length];
-			context.fillText("■", x - textWidth - blockWidth - 3, y + i * fontSize);
+		if(label) {
 			context.fillStyle = fontColor;
-			context.fillText(e, x - textWidth - 2, y + i * fontSize);
+			context.fillText(values.splice(0, 1)[0], x - totalLabelWidth - 2, y);
+			y += fontSize;
+		}
+		values.forEach(function(e, i) {
+			var labelY = y + i * fontSize;
+			context.fillStyle = colors[i % colors.length];
+			context.fillText("■", x - totalLabelWidth - 3, labelY);
+			context.fillStyle = fontColor;
+			context.fillText(e, x - textWidth - 2, labelY);
 		});
 	};
 
 	//Default options and drawing functions per type
-	peity.defaults = {}; peity.graphers = {};
-	peity.register = function(type, defaults, grapher) { this.defaults[type] = defaults; this.graphers[type] = grapher; };
+	canvis.defaults = {}; canvis.graphers = {};
+	canvis.register = function(type, defaults, grapher) { this.defaults[type] = defaults; this.graphers[type] = grapher; };
 
 	//Pie chart
-	peity.register("pie", {
+	canvis.register("pie", {
 		fill: ["#f90", "#ffd", "#fc6"],
 		line: { color: "#000", width: 0 },
 		focus: { color: "#000", width: 0 },
 		delimiter: null,
 		diameter: 16,
-		tooltip: Helpers.defaultText
+		tooltip: DefaulTextProperties
 	},
 		function(opt) {
 			var self = this;
@@ -357,14 +366,14 @@
 	);
 
 	//Line Chart
-	peity.register("line", {
+	canvis.register("line", {
 		lineColors: ["#78A", "#827"], lineWidths: [1],
 		fill: "#cdf",
 		delimiters: ["|", ","],
 		height: 32, width: 32, left: 0,
 		max: null, min: 0,
 		pointSizes: [2],
-		xAxis: Helpers.defaultText, yAxis: Helpers.defaultText, tooltip: Helpers.defaultText,
+		xAxis: DefaulTextProperties, yAxis: DefaulTextProperties, tooltip: DefaulTextProperties,
 		focus: false,
 		gridlines: { widths: [1, 0], colors: ["#000", "#bbb"] }
 	},
@@ -383,8 +392,8 @@
 			var labels = opt.labels;
 			var levels = 0;
 			if(labels) {
-				labels = Helpers.stringifier(labels);
-				levels = Helpers.labelLeveler(labels);
+				labels = Helpers.toString(labels);
+				levels = Helpers.labelLevels(labels);
 			}
 			var max = Math.max.apply(Math, allValues);
 			var min = Math.min.apply(Math, allValues);
@@ -454,7 +463,7 @@
 					var box = allCoords[0][i];
 					//Check if mouse is within the point's double space
 					if(hoverPos.x >= box.x - xQuotient / 3 && hoverPos.x <= box.x + xQuotient / 3) {
-						Drawers.tooltip(context, hoverPos.x, hoverPos.y, values.map(Helpers.extractor(i)), lineColors, tooltip.size, tooltip.color, tooltip.formatter);
+						Drawers.tooltip(context, hoverPos.x, hoverPos.y, values.map(Helpers.extractor(i)), lineColors, tooltip.size, tooltip.color, tooltip.formatter, labels ? labels[i] : undefined, xAxis.formatter);
 						break;//Don't analyze other values
 					}
 				}
@@ -465,12 +474,12 @@
 	);
 
 	//Bar chart
-	peity.register("bar", {
+	canvis.register("bar", {
 		fill: [["#48f"], ["#f90"], ["#99f"]],
 		delimiters: ["|", ","],
-		height: 16, width: 32, left: 0, gap: 1, seriesGap : 0,
+		height: 16, width: 32, left: 0, gap: 1, seriesGap: 0,
 		max: null, min: 0,
-		xAxis: Helpers.defaultText, yAxis: Helpers.defaultText, tooltip: Helpers.defaultText,
+		xAxis: DefaulTextProperties, yAxis: DefaulTextProperties, tooltip: DefaulTextProperties,
 		focus: { color: "#000", width: 0 },
 		gridlines: { widths: [1, 0], colors: ["#000", "#bbb"] }
 	},
@@ -488,8 +497,8 @@
 			var labels = opt.labels;
 			var levels = 0;
 			if(labels) {
-				labels = Helpers.stringifier(labels);
-				levels = Helpers.labelLeveler(labels);
+				labels = Helpers.toString(labels);
+				levels = Helpers.labelLevels(labels);
 			}
 
 			//Find range of values
@@ -536,17 +545,17 @@
 			var boxes, series, box, firstBoxes, allBoxes = [], midpoints = [];
 			for(i = 0; i < values.length; i++) {
 				series = values[i];
-				
+
 				boxes = [];
 				for(j = 0; j < values[i].length; j++) {
 					midpoints[j] = { x: left + gap / 2 + j * (gap + xQuotient) + xQuotient / 2 };
 					value = series[j];
 					box = [
 						//left margin + group*groupWidth + groupWidth/#series*series + groupMargin
-						left + gap/2 + j * (gap + xQuotient) + xQuotient / seriesNum * i,//x
+						left + gap / 2 + j * (gap + xQuotient) + xQuotient / seriesNum * i,//x
 						valueToY(),//y
 						//groupWidth/#series
-						xQuotient / seriesNum - seriesGap/2,//w
+						xQuotient / seriesNum - seriesGap / 2,//w
 						value === 0 ? 1 : yQuotient * value//h
 					];
 					boxes.push(box);
@@ -557,7 +566,7 @@
 				if(i === 0) firstBoxes = boxes.slice(0);
 				allBoxes.push(boxes.slice(0));
 			}
-			
+
 			//Draw x-axis
 			if(levels) { Drawers.drawXAxis(context, xAxis.color, xAxis.size, height, midpoints, labels); }
 
@@ -575,8 +584,9 @@
 							Drawers.rect(context, allBoxes[j][i][0] - focus.width / 2, allBoxes[j][i][1] - focus.width / 2, allBoxes[j][i][2] + focus.width, allBoxes[j][i][3] + focus.width, undefined, focus.width, focus.color);
 						}
 						Drawers.tooltip(context, hoverPos.x, hoverPos.y, values.map(Helpers.extractor(i)), values.map(function(e, k) {
-							return fill[k].call(self, e[i], i, e); }
-						), tooltip.size, tooltip.color, tooltip.formatter);
+							return fill[k].call(self, e[i], i, e);
+						}
+						), tooltip.size, tooltip.color, tooltip.formatter, labels ? labels[i] : undefined, xAxis.formatter);
 						break;//Don't analyze other values
 					}
 				}
