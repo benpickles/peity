@@ -433,7 +433,6 @@
 					value = 0;
 					context.moveTo(left + xQuotient / 4 + pointSizes[0], valueToY());
 					for(i = 0; i < coords.length; i++) { context.lineTo(coords[i].x, coords[i].y); }
-					value = 0;
 					context.lineTo(fullWidth - pointSizes[0] - xQuotient / 4, valueToY());
 					context.fillStyle = fill;
 					context.fill();
@@ -443,11 +442,12 @@
 
 			Drawers.drawYAxis(context, gridlines.widths[0], gridlines.widths[1], gridlines.colors[0], gridlines.colors[1], yAxis.color, yAxis.size, yAxis.formatter, left, fullWidth, height, yQuotient, min, max, region, 0);
 
+			var lineColorsArray = [];
 			for(j = 0; j < values.length; j += 1) {
 				coords = allCoords[j];
-				lineColors[j] = lineColors.call(self, values[j][i], j, values[j]);
-				for(i = 0; i < coords.length; i++) Drawers.circle(context, coords[i].x, coords[i].y, pointSizes[j % pointSizes.length], 0, 2 * Math.PI, lineColors[j]);
-				Drawers.line(context, coords, lineColors[j], lineWidths[j % lineWidths.length]);
+				lineColorsArray[j] = lineColors.call(self, values[j][i], j, values[j]);
+				for(i = 0; i < coords.length; i++) Drawers.circle(context, coords[i].x, coords[i].y, pointSizes[j % pointSizes.length], 0, 2 * Math.PI, lineColorsArray[j]);
+				Drawers.line(context, coords, lineColorsArray[j], lineWidths[j % lineWidths.length]);
 			}
 
 			//Draw x-axis
@@ -455,27 +455,28 @@
 
 			//Draw focus around hovered rectangle and write value
 
-			if(focus && hoverPos) {
-				hoverPos = JSON.parse(hoverPos);
+			if(focus) {
+				if(hoverPos) {
+					hoverPos = JSON.parse(hoverPos);
 
-				//Loop through values again
-				for(i = 0; i < allCoords[0].length; i++) {
-					var box = allCoords[0][i];
-					//Check if mouse is within the point's double space
-					if(hoverPos.x >= box.x - xQuotient / 3 && hoverPos.x <= box.x + xQuotient / 3) {
-						Drawers.tooltip(context, hoverPos.x, hoverPos.y, values.map(Helpers.extractor(i)), lineColors, tooltip.size, tooltip.color, tooltip.formatter, labels ? labels[i] : undefined, xAxis.formatter);
-						break;//Don't analyze other values
+					//Loop through values again
+					for(i = 0; i < allCoords[0].length; i++) {
+						var box = allCoords[0][i];
+						//Check if mouse is within the point's double space
+						if(hoverPos.x >= box.x - xQuotient / 3 && hoverPos.x <= box.x + xQuotient / 3) {
+							Drawers.tooltip(context, hoverPos.x, hoverPos.y, values.map(Helpers.extractor(i)), lineColorsArray, tooltip.size, tooltip.color, tooltip.formatter, labels ? labels[i] : undefined, xAxis.formatter);
+							break;//Don't analyze other values
+						}
 					}
 				}
+				addEvents(canvas);
 			}
-
-			if(focus) { addEvents(canvas); }
 		}
 	);
 
 	//Bar chart
 	canvis.register("bar", {
-		fill: [["#48f"], ["#f90"], ["#99f"]],
+		fill: [["#48f"], ["#f90"]],
 		delimiters: ["|", ","],
 		height: 16, width: 32, left: 0, gap: 1, seriesGap: 0,
 		max: null, min: 0,
@@ -571,28 +572,26 @@
 			if(levels) { Drawers.drawXAxis(context, xAxis.color, xAxis.size, height, midpoints, labels); }
 
 			//Draw focus around hovered rectangle and write value
-			if(focus.width && hoverPos) {
-				hoverPos = JSON.parse(hoverPos);
+			if(focus.width) {
+				if(hoverPos) {
+					hoverPos = JSON.parse(hoverPos);
 
-				//Loop through values again
-				for(i = 0; i < allBoxes[0].length; i++) {
-					var box = allBoxes[0][i];
-					//Check if mouse is within this group's horizontal space
-					if(hoverPos.x >= box[0] && hoverPos.x <= box[0] + xQuotient) {
-						//If mouse is within a bar, draw a focus
-						for(j = 0; j < allBoxes.length; j++) {
-							Drawers.rect(context, allBoxes[j][i][0] - focus.width / 2, allBoxes[j][i][1] - focus.width / 2, allBoxes[j][i][2] + focus.width, allBoxes[j][i][3] + focus.width, undefined, focus.width, focus.color);
+					//Loop through values again
+					for(i = 0; i < allBoxes[0].length; i++) {
+						var box = allBoxes[0][i];
+						//Check if mouse is within this group's horizontal space
+						if(hoverPos.x >= box[0] && hoverPos.x <= box[0] + xQuotient) {
+							//If mouse is within a bar, draw a focus
+							for(j = 0; j < allBoxes.length; j++) {
+								Drawers.rect(context, allBoxes[j][i][0] - focus.width / 2, allBoxes[j][i][1] - focus.width / 2, allBoxes[j][i][2] + focus.width, allBoxes[j][i][3] + focus.width, undefined, focus.width, focus.color);
+							}
+							Drawers.tooltip(context, hoverPos.x, hoverPos.y, values.map(Helpers.extractor(i)), values.map(function(e, k) { return fill[k].call(self, e[i], i, e); }), tooltip.size, tooltip.color, tooltip.formatter, labels ? labels[i] : undefined, xAxis.formatter);
+							break;//Don't analyze other values
 						}
-						Drawers.tooltip(context, hoverPos.x, hoverPos.y, values.map(Helpers.extractor(i)), values.map(function(e, k) {
-							return fill[k].call(self, e[i], i, e);
-						}
-						), tooltip.size, tooltip.color, tooltip.formatter, labels ? labels[i] : undefined, xAxis.formatter);
-						break;//Don't analyze other values
 					}
 				}
+				addEvents(canvas);
 			}
-
-			if(focus.width) { addEvents(canvas); }
 		}
 	);
 })(jQuery, Math);
