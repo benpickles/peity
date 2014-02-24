@@ -30,35 +30,35 @@
             $("#pie-3").canvis("pie", { diameter: 128, focus: { width: 1, color: "#090" } });
 
             //Line charts
-            $("#line-1").canvis("line", { width: 128, height: 64, fill: "#f99", lineColors: ["#f00"], gridlines: { widths: [0, 1], colors: ["#fff", "#99f"] } });
-            $("#line-2").canvis("line", { width: 200, height: 64, lineWidths: [2], pointSizes: [4], focus: true });
-            $("#line-3").canvis("line", { width: 200, height: 64, left: 40, region: 3, yAxis: { size:13, color : "#000", formatter: function(e) { return Math.round(e); } }, gridlines: { widths: [1, 1], colors : ["#000","#999"] } });
-            $(".lines").canvis("line");
-            $("#lines-1").canvis("line", { width: 128, height: 64, left: 40, region: 4, lineColors: ["#f00", "green"], gridlines: { widths: [0, 1], colors: ["#fff", "#99f"] } });
-            $("#lines-2").canvis("line", { width: 200, height: 64, lineWidth: 2, pointSize: 4, focus: true, labels: ["1 1", 2, 3, 4, 5, 6, 7, 8, 9, 0] });
-            $("#lines-3").canvis("line", { width: 200, height: 64, lineWidth: 2, pointSize: 4, focus: true });
+            $("#line-1").canvis("combo", { width: 128, height: 64, series: [{ type: "line", color: ["#f00"], points : 2, width: 1 }], gridlines: { widths: [0, 1], colors: ["#fff", "#99f"] } });
+            $("#line-2").canvis("combo", { width: 200, height: 64, series: [{ type: "line", color: ["#49f"], points : 4, width: 2 }], focus: { color: "#000", width: 1 } });
+            $("#line-3").canvis("combo", { width: 200, height: 64, left: 40, region: 3, yAxis: { size: 13, color: "#000", formatter: function(e) { return Math.round(e); } }, gridlines: { widths: [1, 1], colors: ["#000", "#999"] } });
+            $(".lines").canvis("combo");
+            $("#lines-1").canvis("combo", { width: 128, height: 64, left: 40, region: 4, series: [{ type: "line", color: ["#f00"], width: 1, points: 2 }, { type: "line", color: ["green"], width: 1, points: 2 }], gridlines: { widths: [0, 1], colors: ["#fff", "#99f"] } });
+            $("#lines-2").canvis("combo", { width: 200, height: 64, series: [{ type: "line", color: ["#f00"], width: 2, points: 4 }, { type: "line", color: ["green"], width: 2, points: 4 }], focus: { color: "#000", width: 1 }, labels: ["1 1", 2, 3, 4, 5, 6, 7, 8, 9, 0] });
+            $("#lines-3").canvis("combo", { width: 200, height: 64, series: [{ type: "line", color: ["#f00"], width: 2, points: 4 }, { type: "line", color: ["green"], width: 2, points: 4 }], focus: { color: "#000", width: 1 } });
 
             //Bar Charts
-            $(".bar").canvis("bar");
-            $("#bar-1").canvis("bar", { width: 128, height: 64, fill: [["#f99", "#faa", "#9f9"]], gridlines: { widths: [2, 1], colors: ["#000", "#aaa"] } });
-            $("#bar-2").canvis("bar", { width: 200, height: 64, region: 6, fill: [function(value) { return value > 0 ? "green" : "red"; }], focus: { color: "#000", width: 3 } });
-            $("#bar-3").canvis("bar", {
+            $(".bar").canvis("combo");
+            $("#bar-1").canvis("combo", { width: 128, height: 64, series: [{ type: "bar", color: ["#f99", "#faa", "#9f9"] }], gridlines: { widths: [2, 1], colors: ["#000", "#aaa"] } });
+            $("#bar-2").canvis("combo", { width: 200, height: 64, region: 6, series: [{ type: "bar", color: function(value) { return value > 0 ? "green" : "red"; } }], focus: { color: "#000", width: 3 } });
+            $("#bar-3").canvis("combo", {
                 width: 250, height: 100, left: 40, region: 4,
-                fill: [function(e, i, a) { return "rgb(255, " + parseInt((i / a.length) * 255) + ", 0)"; }],
+                series : [{type : "bar", color : function(e, i, a) { return "rgb(255, " + parseInt((i / a.length) * 255) + ", 0)"; } }],
                 yAxis: { color: "#000", size: 13, formatter: function(e) { return Math.round(e); } },
                 gridlines: { widths: [2, 1], colors: ["#000", "#aaa"] },
-                labels : ["a","b","c","d","e","f","g","h","i","j"]
+                labels: ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j"]
             });
 
             //Multi-series bar charts
-            $(".bars").canvis("bar", { width: 250, height: 300, focus: { width: 1, color: "#000" }, seriesGap: 1, gap: 4, labels: ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j"] });
+            $(".bars").canvis("combo", { width: 250, height: 300, focus: { width: 1, color: "#000" }, seriesGap: 1, gap: 4, labels: ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j"], series: [{ type: "bar", color: ["#48f"] }, { type: "bar", color: ["#f90"] }] });
 
 
             // Using data attributes
             $(".pie-data span").canvis("pie");
 
             // Updating chart
-            var updatingChart = $(".updating-chart").canvis("line", { width: 64 });
+            var updatingChart = $(".updating-chart").canvis("combo", { width: 64 });
             updatingChart.data("canvis-values", updatingChart.text());
             setInterval(function() {
                 var values = updatingChart.data("canvis-values").split(",");
@@ -85,7 +85,7 @@
 
         <!--Line Charts-->
         <div class="chart-type">
-            <h3 id="line-charts">Line Charts</h3>
+            <h3 id="combo-charts">Line and Bar Charts</h3>
 
             <p>
                 <span class="lines">5,3,9,6,5,9,7,3,5,2</span>
@@ -99,25 +99,12 @@
                 <span id="lines-1">5,3,9,6,5,9,7,3,5,2|5.5,3,2.5,-1,-3.5,-2,2,3,5,2</span>
                 <span id="lines-2">0,-3,-6,-4,-5,-4,-7,-3,-5,-2|5,3,9,6,5,9,7,3,5,2</span>
                 <span id="lines-3">5,3,9,6,5,9,7,3,5,2</span>
-            </p>
-        </div>
-
-        <!--Bar Charts-->
-        <div class="chart-type">
-            <h3 id="bar-charts">Bar Charts</h3>
-            <p>
-                <span class="bar">5,3,9,6,5,9,7,3,5,2</span>
-                <span class="bar">5,3,2,-1,-3,-2,2,3,5,2</span>
+                <span class="bar">0,-3,-6,-4,-5,-4,-7,-3,-5,-2|5,3,9,6,5,9,7,3,5,2</span>
+                <span class="bar">5,3,2,-1,-3,-2,2,3,5,2|5,3,9,6,5,9,7,3,5,2</span>
                 <span class="bar">0,-3,-6,-4,-5,-4,-7,-3,-5,-2</span>
                 <span id="bar-1">5,3,9,6,5,9,7,3,5,2</span>
                 <span id="bar-2">5,3,2,-1,-3,-2,2,3,5,2</span>
                 <span id="bar-3">0,-3,-6,-4,-5,-4,-7,-3,-5,-2</span>
-            </p>
-        </div>
-        <!--Multi-series Bar Charts-->
-        <div class="chart-type">
-            <h3 id="bar-charts">Bar Charts</h3>
-            <p>
                 <span class="bars">5,3,9,6,5,9,7,3,5,2|5.5,3,2.5,-1,-3.5,-2,2,3,5,2</span>
                 <span class="bars">0,-3,-6,-4,-5,-4,-7,-3,-5,-2|5,3,9,6,5,9,7,3,5,2</span>
             </p>

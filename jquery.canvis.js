@@ -48,28 +48,7 @@
 
 	//Minifies references to the prototype
 	var CanVisPrototype = CanVis.prototype;
-
-	//Converts fill array to fill function (pass value to fill)
-	CanVisPrototype.fill = function() {
-		var fill = this.opt.fill;
-
-		//If given an array of fills (multiple colors for one series and/or multiple series
-		if($.isArray(fill)) {
-			//If first item is sub-array or function, that means there are multiple series
-			if($.isArray(fill[0]) || $.isFunction(fill[0])) {
-				//Return array of functions (original function if given, otherwise function to return relevant array element
-				return fill.map(function(e) {
-					if($.isFunction(e)) { return e; }
-					return function(value, i) { return e[i % e.length]; };
-				});
-			}
-			//If only one series, return function to return relevant element
-			return function(value, i) { return fill[i % fill.length]; };
-		}
-		//If any other type of object or already a function, return it
-		return fill;
-	};
-
+	
 	CanVisPrototype.draw = function() { canvis.graphers[this.type].call(this, this.opt); };
 
 	//Prepare a canvas element to draw on
@@ -364,124 +343,12 @@
 			}
 		}
 	);
-
-	//Line Chart
-	canvis.register("line", {
-		lineColors: ["#78A", "#827"], lineWidths: [1],
-		fill: "#cdf",
+		
+	//Line and Bar chart
+	canvis.register("combo", {
+		series: [{ type: "bar", color: ["#48f"] }, { type: "line", color: ["#827"], width: 1, points: 3 }],
 		delimiters: ["|", ","],
-		height: 32, width: 32, left: 0,
-		max: null, min: 0,
-		pointSizes: [2],
-		xAxis: DefaulTextProperties, yAxis: DefaulTextProperties, tooltip: DefaulTextProperties,
-		focus: false,
-		gridlines: { widths: [1, 0], colors: ["#000", "#bbb"] }
-	},
-		function(opt) {
-			var self = this;
-			var hoverPos = self.$el.data("mouse");
-			var values = self.values.apply(self, opt.delimiters);
-			var value;
-			var pointSizes = opt.pointSizes;
-			var xAxis = opt.xAxis;
-			var yAxis = opt.yAxis;
-			var focus = opt.focus;
-			var tooltip = opt.tooltip;
-			var gridlines = opt.gridlines;
-			var allValues = [].concat.apply([opt.max, opt.min], values);
-			var labels = opt.labels;
-			var levels = 0;
-			if(labels) {
-				labels = Helpers.toString(labels);
-				levels = Helpers.labelLevels(labels);
-			}
-			var max = Math.max.apply(Math, allValues);
-			var min = Math.min.apply(Math, allValues);
-			var range = max-min;
-			var region = opt.region || (range / 5);
-			if(max!==0) max = Math.ceil(max + region/2);
-			if(min!==0) min = Math.floor(min - region/2);
-			range = max-min;
-			region = opt.region || (range / 5);
-			var canvas = self.prepareCanvas(opt.width, opt.height);
-			var context = self.context;
-			var left = opt.left;
-			var bottom = levels * xAxis.size + (levels ? 4 : 0);
-			var fullWidth = canvas.width;
-			var width = fullWidth - Math.max.apply(Math, pointSizes) * 2 - left;
-			var height = canvas.height - bottom;
-			var xQuotient = width / (values[0].length - 0.5);
-			var yQuotient = height / (max - min);//1 / range of all values, 1 = yQuotient px;
-			var lineColors = Helpers.toFunction(opt.lineColors);
-			var lineWidths = opt.lineWidths;
-			var valueToY = function() { return height - (yQuotient * (value - min)); };
-			var fill = opt.fill;//Don't convert this to a function since there's only one possible fill
-
-
-			var i, j, series, coords, allCoords = [];
-
-			//Loop through each series then each value in the series
-			for(j = 0; j < values.length; j += 1) {
-				series = values[j];
-				coords = [];
-
-				//Calculate coordinates for each value
-				for(i = 0; i < series.length; i++) {
-					value = series[i];
-					coords.push({ x: i * xQuotient + pointSizes[j % pointSizes.length] + left + xQuotient / 4, y: valueToY() });
-				}
-				if(fill && values.length === 1) {
-					//Trace path for fill (and save point coordinates for the line afterwards)
-					context.beginPath();
-					value = 0;
-					context.moveTo(left + xQuotient / 4 + pointSizes[0], valueToY());
-					for(i = 0; i < coords.length; i++) { context.lineTo(coords[i].x, coords[i].y); }
-					context.lineTo(fullWidth - pointSizes[0] - xQuotient / 4, valueToY());
-					context.fillStyle = fill;
-					context.fill();
-				}
-				allCoords.push(coords);
-			}
-
-			Drawers.drawYAxis(context, gridlines.widths[0], gridlines.widths[1], gridlines.colors[0], gridlines.colors[1], yAxis.color, yAxis.size, yAxis.formatter, left, fullWidth, height, yQuotient, min, max, region, 0);
-
-			var lineColorsArray = [];
-			for(j = 0; j < values.length; j += 1) {
-				coords = allCoords[j];
-				lineColorsArray[j] = lineColors.call(self, values[j][i], j, values[j]);
-				for(i = 0; i < coords.length; i++) Drawers.circle(context, coords[i].x, coords[i].y, pointSizes[j % pointSizes.length], 0, 2 * Math.PI, lineColorsArray[j]);
-				Drawers.line(context, coords, lineColorsArray[j], lineWidths[j % lineWidths.length]);
-			}
-
-			//Draw x-axis
-			if(levels) { Drawers.drawXAxis(context, xAxis.color, xAxis.size, height, allCoords[0], labels); }
-
-			//Draw focus around hovered rectangle and write value
-
-			if(focus) {
-				if(hoverPos) {
-					hoverPos = JSON.parse(hoverPos);
-
-					//Loop through values again
-					for(i = 0; i < allCoords[0].length; i++) {
-						var box = allCoords[0][i];
-						//Check if mouse is within the point's double space
-						if(hoverPos.x >= box.x - xQuotient / 3 && hoverPos.x <= box.x + xQuotient / 3) {
-							Drawers.tooltip(context, hoverPos.x, hoverPos.y, values.map(Helpers.extractor(i)), lineColorsArray, tooltip.size, tooltip.color, tooltip.formatter, labels ? labels[i] : undefined, xAxis.formatter);
-							break;//Don't analyze other values
-						}
-					}
-				}
-				addEvents(canvas);
-			}
-		}
-	);
-
-	//Bar chart
-	canvis.register("bar", {
-		fill: [["#48f"], ["#f90"]],
-		delimiters: ["|", ","],
-		height: 16, width: 32, left: 0, gap: 1, seriesGap: 0,
+		height: 50, width: 200, left: 0, gap: 1, seriesGap: 0,
 		max: null, min: 0,
 		xAxis: DefaulTextProperties, yAxis: DefaulTextProperties, tooltip: DefaulTextProperties,
 		focus: { color: "#000", width: 0 },
@@ -508,15 +375,15 @@
 			//Find range of values
 			var max = Math.max.apply(Math, allValues);
 			var min = Math.min.apply(Math, allValues);
-			var range = max-min;
+			var range = max - min;
 			var region = opt.region || (range / 5);
-			if(max!==0) max = Math.ceil(max + region/2);
-			if(min!==0) min = Math.floor(min - region/2);
-			range = max-min;
+			if(max !== 0) max = Math.ceil(max + region / 2);
+			if(min !== 0) min = Math.floor(min - region / 2);
+			range = max - min;
 			region = opt.region || (range / 5);
 
 			//Formatting options
-			var fill = Helpers.toFunction(opt.fill);
+			var series = opt.series;
 			var yAxis = opt.yAxis;
 			var xAxis = opt.xAxis;
 			var focus = opt.focus;
@@ -549,14 +416,15 @@
 			Drawers.drawYAxis(context, gridlines.widths[0], gridlines.widths[1], gridlines.colors[0], gridlines.colors[1], yAxis.color, yAxis.size, yAxis.formatter, left, fullWidth, height, yQuotient, min, max, region, 0);
 
 			//Loop through values and draw each bar
-			var boxes, series, box, firstBoxes, allBoxes = [], midpoints = [];
+			var boxes, seriesValues, box, firstBoxes, allBoxes = [], midpoints = [];
 			for(i = 0; i < values.length; i++) {
-				series = values[i];
+				seriesValues = values[i];
+				var seriesColors = series[i].color = Helpers.toFunction(series[i].color);
 
 				boxes = [];
-				for(j = 0; j < values[i].length; j++) {
+				for(j = 0; j < seriesValues.length; j++) {
 					midpoints[j] = { x: left + gap / 2 + j * (gap + xQuotient) + xQuotient / 2 };
-					value = series[j];
+					value = seriesValues[j];
 					box = [
 						//left margin + group*groupWidth + groupWidth/#series*series + groupMargin
 						left + gap / 2 + j * (gap + xQuotient) + xQuotient / seriesNum * i,//x
@@ -568,36 +436,46 @@
 					boxes.push(box);
 
 					//Draw the bar
-					Drawers.rect(context, box[0], box[1], box[2], box[3], fill[i % fill.length].call(self, value, j, values[i]), 0);
+					if(series[i].type === "bar")
+						Drawers.rect(context, box[0], box[1], box[2], box[3], seriesColors.call(self, value, j, values[i]), 0);
 				}
+				if(series[i].type === "line") {
+					for(j = 0; j < boxes.length; j++) Drawers.circle(context, boxes[j][0], boxes[j][1], series[i].points, 0, 2 * Math.PI, seriesColors.call(self, seriesValues[j], j, seriesValues));
+					Drawers.line(context, boxes.map(function(e) { return { x: e[0], y: e[1] }; }), seriesColors.call(self, seriesValues[0], 0, seriesValues), series[i].width);
+				}
+
+
 				if(i === 0) firstBoxes = boxes.slice(0);
 				allBoxes.push(boxes.slice(0));
 			}
 
 			//Draw x-axis
 			if(levels) { Drawers.drawXAxis(context, xAxis.color, xAxis.size, height, midpoints, labels); }
-
+			
 			//Draw focus around hovered rectangle and write value
 			if(focus.width) {
 				if(hoverPos) {
 					hoverPos = JSON.parse(hoverPos);
-
+					
 					//Loop through values again
 					for(i = 0; i < allBoxes[0].length; i++) {
-						var box = allBoxes[0][i];
+						box = allBoxes[0][i];
 						//Check if mouse is within this group's horizontal space
 						if(hoverPos.x >= box[0] && hoverPos.x <= box[0] + xQuotient) {
 							//If mouse is within a bar, draw a focus
 							for(j = 0; j < allBoxes.length; j++) {
-								Drawers.rect(context, allBoxes[j][i][0] - focus.width / 2, allBoxes[j][i][1] - focus.width / 2, allBoxes[j][i][2] + focus.width, allBoxes[j][i][3] + focus.width, undefined, focus.width, focus.color);
+								if(series[j].type === "bar")
+									Drawers.rect(context, allBoxes[j][i][0] - focus.width / 2, allBoxes[j][i][1] - focus.width / 2, allBoxes[j][i][2] + focus.width, allBoxes[j][i][3] + focus.width, undefined, focus.width, focus.color);
 							}
-							Drawers.tooltip(context, hoverPos.x, hoverPos.y, values.map(Helpers.extractor(i)), values.map(function(e, k) { return fill[k].call(self, e[i], i, e); }), tooltip.size, tooltip.color, tooltip.formatter, labels ? labels[i] : undefined, xAxis.formatter);
+							Drawers.tooltip(context, hoverPos.x, hoverPos.y, values.map(Helpers.extractor(i)), values.map(function(e, k) { return series[k].color.call(self, e[i], i, e); }), tooltip.size, tooltip.color, tooltip.formatter, labels ? labels[i] : undefined, xAxis.formatter);
 							break;//Don't analyze other values
 						}
 					}
+					
 				}
 				addEvents(canvas);
 			}
 		}
 	);
+
 })(jQuery, Math);
