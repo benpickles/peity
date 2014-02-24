@@ -397,9 +397,12 @@
 			}
 			var max = Math.max.apply(Math, allValues);
 			var min = Math.min.apply(Math, allValues);
-			var region = opt.region || ((max - min) / 5);
-			max = Math.ceil(max / region) * region;
-			min = Math.floor(min / region) * region;
+			var range = max-min;
+			var region = opt.region || (range / 5);
+			if(max!==0) max = Math.ceil(max + region/2);
+			if(min!==0) min = Math.floor(min - region/2);
+			range = max-min;
+			region = opt.region || (range / 5);
 			var canvas = self.prepareCanvas(opt.width, opt.height);
 			var context = self.context;
 			var left = opt.left;
@@ -505,9 +508,12 @@
 			//Find range of values
 			var max = Math.max.apply(Math, allValues);
 			var min = Math.min.apply(Math, allValues);
-			var region = opt.region || ((max - min) / 5);
-			max = Math.ceil(max / region) * region;
-			min = Math.floor(min / region) * region;
+			var range = max-min;
+			var region = opt.region || (range / 5);
+			if(max!==0) max = Math.ceil(max + region/2);
+			if(min!==0) min = Math.floor(min - region/2);
+			range = max-min;
+			region = opt.region || (range / 5);
 
 			//Formatting options
 			var fill = Helpers.toFunction(opt.fill);
