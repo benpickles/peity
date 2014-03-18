@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title><%= title %></title>
+  <link href="/style.css" rel="stylesheet"></link>
+</head>
+<body>
+  <div><span><%= text %></span></div>
+  <script src="/jquery.min.js"></script>
+  <script src="/jquery.peity.js"></script>
+  <script>
+    $("span").peity("<%= type %>", <%- options %>)
+  </script>
+</body>
+</html>

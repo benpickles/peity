@@ -1,0 +1,29 @@
+{
+  "pie1": {
+    "type": "pie",
+    "text": "1/5",
+    "width": 16,
+    "height": 16
+  },
+  "pie2": {
+    "type": "pie",
+    "text": "0.52/1.561",
+    "width": 16,
+    "height": 16
+  },
+  "pie3": {
+    "type": "pie",
+    "text": "1,4",
+    "width": 16,
+    "height": 16
+  },
+  "pie4": {
+    "type": "pie",
+    "text": "4,7,6,5",
+    "opts": {
+      "fill": ["cyan", "magenta", "yellow", "black"]
+    },
+    "width": 16,
+    "height": 16
+  }
+}

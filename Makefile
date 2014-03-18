@@ -5,10 +5,13 @@ jquery.peity.min.js: jquery.peity.js
 jquery.peity.min.js.gz: jquery.peity.min.js
 	gzip -9f < $< > $@
 
-sizes: jquery.peity.min.js.gz
-	ls -lh jquery.peity.* | awk '{print $$5}'
-
 clean:
 	rm jquery.peity.min.js*
 
-.PHONY: clean
+server:
+	node test/server.js
+
+sizes: jquery.peity.min.js.gz
+	ls -lh jquery.peity.* | awk '{print $$5}'
+
+.PHONY: clean server

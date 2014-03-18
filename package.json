@@ -1,0 +1,22 @@
+{
+  "name": "peity",
+  "version": "0.0.0",
+  "description": "Peity (sounds like deity) is a simple jQuery plugin that converts an element's content into a simple mini `svg` pie, line or bar chart.",
+  "scripts": {
+    "test": "make test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/benpickles/peity.git"
+  },
+  "author": "Ben Pickles",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/benpickles/peity/issues"
+  },
+  "homepage": "http://benpickles.github.io/peity",
+  "devDependencies": {
+    "ejs": "~0.8.5",
+    "express": "~3.4.8"
+  }
+}
