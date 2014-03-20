@@ -8,10 +8,14 @@ jquery.peity.min.js.gz: jquery.peity.min.js
 clean:
 	rm jquery.peity.min.js*
 
+fixtures:
+	rm -f test/fixtures/*
+	node test/fixtures.js
+
 server:
 	node test/server.js
 
 sizes: jquery.peity.min.js.gz
 	ls -lh jquery.peity.* | awk '{print $$5}'
 
-.PHONY: clean server
+.PHONY: clean fixtures server

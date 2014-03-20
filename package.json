@@ -17,6 +17,7 @@
   "homepage": "http://benpickles.github.io/peity",
   "devDependencies": {
     "ejs": "~0.8.5",
-    "express": "~3.4.8"
+    "express": "~3.4.8",
+    "queue-async": "~1.0.7"
   }
 }
