@@ -18,4 +18,9 @@ server:
 sizes: jquery.peity.min.js.gz
 	ls -lh jquery.peity.* | awk '{print $$5}'
 
-.PHONY: clean fixtures server
+test:
+	rm -f test/comparisons/*
+	rm -f test/images/*
+	./node_modules/mocha/bin/mocha ./test/index.js
+
+.PHONY: clean fixtures server test

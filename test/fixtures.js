@@ -12,7 +12,7 @@ server.listen(0, function() {
   Chart.forEach(function(chart) {
     q.defer(function(callback) {
       process.stdout.write('.')
-      chart.screenshot(callback)
+      chart.screenshot(chart.fixturePath, callback)
     })
   })
 
