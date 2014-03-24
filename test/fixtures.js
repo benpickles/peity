@@ -7,7 +7,7 @@ var http = require('http')
 server.listen(0, function() {
   Chart.port(server.address().port)
 
-  var q = queue(1)
+  var q = queue(4)
 
   Chart.forEach(function(chart) {
     q.defer(function(callback) {
