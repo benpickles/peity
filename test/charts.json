@@ -1,4 +1,83 @@
 {
+  "bar1": {
+    "type": "bar",
+    "text": "5,3,9,6,5,9,7,3,5,2",
+    "width": 32,
+    "height": 16
+  },
+  "bar2": {
+    "type": "bar",
+    "text": "5,3,2,-1,-3,-2,2,3,5,2",
+    "opts": {
+      "width": 64,
+      "height": 32
+    },
+    "width": 64,
+    "height": 32
+  },
+  "bar3": {
+    "type": "bar",
+    "text": "0,-3,-6,-4,-5,-4,-7,-3,-5,-2",
+    "width": 32,
+    "height": 16
+  },
+  "bar4": {
+    "type": "bar",
+    "text": "5,3,9,6,5,9,7,3,5,2",
+    "opts": "{ fill: ['red', 'green', 'blue'] }",
+    "width": 32,
+    "height": 16
+  },
+  "bar5": {
+    "type": "bar",
+    "text": "5,3,2,-1,-3,-2,2,3,5,2",
+    "opts": "{ fill: function(value) { return value > 0 ? 'green' : 'red' } }",
+    "width": 32,
+    "height": 16
+  },
+  "bar6": {
+    "type": "bar",
+    "text": "0,-3,-6,-4,-5,-4,-7,-3,-5,-2",
+    "opts": "{ fill: function(_, i, all) { var g = parseInt((i / all.length) * 255); return 'rgb(255, ' + g + ', 0)' } }",
+    "width": 32,
+    "height": 16
+  },
+  "line1": {
+    "type": "line",
+    "text": "5,3,9,6,5,9,7,3,5,2",
+    "opts": {
+      "fill": "yellow",
+      "stroke": "red",
+      "strokeWidth": 2
+    },
+    "width": 32,
+    "height": 16
+  },
+  "line2": {
+    "type": "line",
+    "text": "5,3,2,-1,-3,-2,2,3,5,2",
+    "opts": {
+      "width": 64,
+      "height": 32
+    },
+    "width": 64,
+    "height": 32
+  },
+  "line3": {
+    "type": "line",
+    "text": "0,-3,-6,-4,-5,-4,-7,-3,-5,-2",
+    "width": 32,
+    "height": 16
+  },
+  "line4": {
+    "type": "line",
+    "text": "5,3,9,6,5,9,7,3,5,2",
+    "opts": {
+      "max": 25
+    },
+    "width": 32,
+    "height": 16
+  },
   "pie1": {
     "type": "pie",
     "text": "1/5",
@@ -8,22 +87,29 @@
   "pie2": {
     "type": "pie",
     "text": "0.52/1.561",
-    "width": 16,
-    "height": 16
+    "opts": {
+      "diameter": 32
+    },
+    "width": 32,
+    "height": 32
   },
   "pie3": {
     "type": "pie",
     "text": "1,4",
-    "width": 16,
+    "opts": {
+      "width": 32
+    },
+    "width": 32,
     "height": 16
   },
   "pie4": {
     "type": "pie",
     "text": "4,7,6,5",
     "opts": {
-      "fill": ["cyan", "magenta", "yellow", "black"]
+      "fill": ["cyan", "magenta", "yellow", "black"],
+      "height": 32
     },
     "width": 16,
-    "height": 16
+    "height": 32
   }
 }
