@@ -1,1 +1,4 @@
 jquery.peity.min.js.gz
+/node_modules
+/test/comparisons
+/test/images

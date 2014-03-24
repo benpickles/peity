@@ -5,10 +5,22 @@ jquery.peity.min.js: jquery.peity.js
 jquery.peity.min.js.gz: jquery.peity.min.js
 	gzip -9f < $< > $@
 
-sizes: jquery.peity.min.js.gz
-	ls -lh jquery.peity.* | awk '{print $$5}'
-
 clean:
 	rm jquery.peity.min.js*
 
-.PHONY: clean
+fixtures:
+	rm -f test/fixtures/*
+	node test/fixtures.js
+
+server:
+	node test/server.js
+
+sizes: jquery.peity.min.js.gz
+	ls -lh jquery.peity.* | awk '{print $$5}'
+
+test:
+	rm -f test/comparisons/*
+	rm -f test/images/*
+	./node_modules/mocha/bin/mocha ./test/index.js
+
+.PHONY: clean fixtures server test
