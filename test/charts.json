@@ -1,13 +1,13 @@
 {
   "bar1": {
     "type": "bar",
-    "text": "5,3,9,6,5,9,7,3,5,2",
+    "text": "5,0,9,6,5,9,7,3,5,2",
     "width": 32,
     "height": 16
   },
   "bar2": {
     "type": "bar",
-    "text": "5,3,2,-1,-3,-2,2,3,5,2",
+    "text": "0,3,2,-1,-3,-2,2,3,5,2",
     "opts": {
       "width": 64,
       "height": 32
@@ -17,7 +17,7 @@
   },
   "bar3": {
     "type": "bar",
-    "text": "0,-3,-6,-4,-5,-4,-7,-3,-5,-2",
+    "text": "-3,0,-6,-4,-5,-4,-7,-3,-5,-2",
     "width": 32,
     "height": 16
   },
@@ -39,6 +39,12 @@
     "type": "bar",
     "text": "0,-3,-6,-4,-5,-4,-7,-3,-5,-2",
     "opts": "{ fill: function(_, i, all) { var g = parseInt((i / all.length) * 255); return 'rgb(255, ' + g + ', 0)' } }",
+    "width": 32,
+    "height": 16
+  },
+  "bar7": {
+    "type": "bar",
+    "text": "0,0,0,0,0",
     "width": 32,
     "height": 16
   },

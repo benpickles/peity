@@ -283,16 +283,14 @@
       for (var i = 0; i < values.length; i++) {
         var value = values[i]
         var y = height - (yQuotient * (value - min))
-        var h
+        var h = yQuotient * value
 
-        if (value == min) {
-          if (min >= 0 || max > 0) y -= pixel
+        if (h == 0) {
+          // Always show a bar even if it represents zero.
           h = pixel
-        } else {
-          h = yQuotient * value
-        }
 
-        if (h < 0) {
+          if (min <= 0 && max > 0 || diff == 0) y -= pixel
+        } else if (h < 0) {
           y += h
           h = -h
         }
