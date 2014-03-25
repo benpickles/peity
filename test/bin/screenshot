@@ -15,7 +15,9 @@ var url = args[1]
   , height = args[4]
   , page = webpage.create()
 
-page.viewportSize = {
+page.clipRect = {
+  top: 0,
+  left: 0,
   width: width,
   height: height
 }

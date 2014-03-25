@@ -5,6 +5,7 @@ var http = require('http')
   , server = http.createServer(app)
   , Chart = require('./chart')
   , assert = require('assert')
+  , FUZZY = 4
 
 describe('Peity', function() {
   before(function(done) {
@@ -25,7 +26,7 @@ describe('Peity', function() {
         .defer(chart.compare.bind(chart))
         .await(function(err, _, difference) {
           if (err) throw err
-          assert.strictEqual(difference, 0)
+          assert.ok(difference <= FUZZY, 'unacceptable difference of ' + difference)
           done()
         })
     })
