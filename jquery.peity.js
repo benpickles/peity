@@ -18,6 +18,8 @@
   // https://gist.github.com/madrobby/3201472
   var svgSupported = "createElementNS" in document && svgElement("svg", {}).createSVGRect
 
+  var pixel = 1 / (window.devicePixelRatio || 1)
+
   var peity = $.fn.peity = function(type, options) {
     if (svgSupported) {
       this.each(function() {
@@ -284,7 +286,6 @@
         var h
 
         if (value == min) {
-          var pixel = 1 / (window.devicePixelRatio || 1)
           if (min >= 0 || max > 0) y -= pixel
           h = pixel
         } else {
