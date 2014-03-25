@@ -1,5 +1,7 @@
 # Peity
 
+[![Build Status](https://travis-ci.org/benpickles/peity.svg?branch=master)](https://travis-ci.org/benpickles/peity)
+
 Peity (sounds like deity) is a simple jQuery plugin that converts an element's content into a simple mini `<svg>` pie, line or bar chart.
 
 ## Basic Usage
