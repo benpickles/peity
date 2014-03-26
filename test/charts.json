@@ -48,6 +48,21 @@
     "width": 32,
     "height": 16
   },
+  "bar8": {
+    "type": "bar",
+    "text": "1,1,1,1,1",
+    "width": 32,
+    "height": 16
+  },
+  "bar9": {
+    "type": "bar",
+    "text": "1,1,1,1,1",
+    "opts": {
+      "min": 1
+    },
+    "width": 32,
+    "height": 16
+  },
   "line1": {
     "type": "line",
     "text": "5,3,9,6,5,9,7,3,5,2",
