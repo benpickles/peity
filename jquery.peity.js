@@ -18,6 +18,8 @@
   // https://gist.github.com/madrobby/3201472
   var svgSupported = "createElementNS" in document && svgElement("svg", {}).createSVGRect
 
+  var pixel = 1 / (window.devicePixelRatio || 1)
+
   var peity = $.fn.peity = function(type, options) {
     if (svgSupported) {
       this.each(function() {
@@ -281,17 +283,14 @@
       for (var i = 0; i < values.length; i++) {
         var value = values[i]
         var y = height - (yQuotient * (value - min))
-        var h
+        var h = yQuotient * value
 
-        if (value == min) {
-          var pixel = 1 / (window.devicePixelRatio || 1)
-          if (min >= 0 || max > 0) y -= pixel
+        if (h == 0) {
+          // Always show a bar even if it represents zero.
           h = pixel
-        } else {
-          h = yQuotient * value
-        }
 
-        if (h < 0) {
+          if (min <= 0 && max > 0 || diff == 0) y -= pixel
+        } else if (h < 0) {
           y += h
           h = -h
         }

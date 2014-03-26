@@ -21,6 +21,6 @@ sizes: jquery.peity.min.js.gz
 test:
 	rm -f test/comparisons/*
 	rm -f test/images/*
-	./node_modules/mocha/bin/mocha ./test/index.js
+	./node_modules/mocha/bin/mocha -R spec -t 30000 $(ARGS) ./test/index.js
 
 .PHONY: clean fixtures server test
