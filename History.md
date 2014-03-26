@@ -1,5 +1,9 @@
 # History
 
+## Version 2.0.2 - 2014/3/26
+
+ * Fix misaligned bar when its value is negative and equal to the minimum.
+
 ## Version 2.0.1 - 2014/1/22
 
  * Ensure bars are positioned correctly when a bar chart's values are all equal its minimum value.
