@@ -132,5 +132,23 @@
     },
     "width": 16,
     "height": 32
+  },
+  "pie5": {
+    "type": "pie",
+    "text": "3/3",
+    "width": 16,
+    "height": 16
+  },
+  "pie6": {
+    "type": "pie",
+    "text": "0/3",
+    "width": 16,
+    "height": 16
+  },
+  "pie7": {
+    "type": "pie",
+    "text": "3,0",
+    "width": 16,
+    "height": 16
   }
 }
