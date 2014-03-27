@@ -150,5 +150,11 @@
     "text": "3,0",
     "width": 16,
     "height": 16
+  },
+  "pie8": {
+    "type": "pie",
+    "text": "4/3",
+    "width": 16,
+    "height": 16
   }
 }
