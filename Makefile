@@ -1,5 +1,7 @@
 VERSION = $(shell head -1 jquery.peity.js | awk '{print $$(NF)}')
 
+first: test
+
 %.json: jquery.peity.js
 	sed -i '' 's/\"version":.*,/"version": "$(VERSION)",/' $@
 
