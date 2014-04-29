@@ -1,0 +1,19 @@
+#!/usr/bin/env ruby
+
+require 'bundler/setup'
+require 'hpricot'
+
+INDEX = 'index.html'
+VERSION = ARGV[0]
+
+def size(filename)
+  '%.1fKb' % (File.size(filename).to_f / 1024)
+end
+
+doc = Hpricot(File.read(INDEX))
+doc.at('.version').inner_html = "version #{VERSION}"
+doc.at('.size-js').inner_html = size('jquery.peity.js')
+doc.at('.size-min').inner_html = size('jquery.peity.min.js')
+doc.at('.size-gz').inner_html = size('jquery.peity.min.js.gz')
+
+File.write(INDEX, doc.to_original_html)

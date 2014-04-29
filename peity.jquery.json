@@ -1,4 +1,7 @@
 {
+  "name": "peity",
+  "title": "Peity",
+  "version": "2.0.2",
   "author": {
     "name": "Ben Pickles",
     "url": "https://github.com/benpickles"
@@ -22,8 +25,5 @@
       "type": "MIT",
       "url": "http://opensource.org/licenses/MIT"
     }
-  ],
-  "name": "peity",
-  "title": "Peity",
-  "version": "2.0.2"
+  ]
 }
