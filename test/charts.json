@@ -99,6 +99,21 @@
     "width": 32,
     "height": 16
   },
+  "line5": {
+    "type": "line",
+    "text": "0,0,0,0,0",
+    "width": 32,
+    "height": 16
+  },
+  "line6": {
+    "type": "line",
+    "text": "1,1,1,1,1",
+    "opts": {
+      "min": 1
+    },
+    "width": 32,
+    "height": 16
+  },
   "pie1": {
     "type": "pie",
     "text": "1/5",

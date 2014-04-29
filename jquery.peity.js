@@ -221,7 +221,8 @@
         , width = $svg.width()
         , height = $svg.height() - opts.strokeWidth
         , xQuotient = width / (values.length - 1)
-        , yQuotient = height / (max - min)
+        , diff = max - min
+        , yQuotient = diff == 0 ? height : height / diff
         , zero = height + (min * yQuotient)
         , coords = [0, zero]
 
