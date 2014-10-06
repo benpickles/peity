@@ -134,11 +134,10 @@
         values = [v1, Math.max(0, v2 - v1)]
       }
 
-      var i = 0
       var length = values.length
       var sum = 0
 
-      for (; i < length; i++) {
+      for (i = 0; i < length; i++) {
         sum += values[i]
       }
 
@@ -226,7 +225,7 @@
         , zero = height + (min * yQuotient)
         , coords = [0, zero]
 
-      for (var i = 0; i < values.length; i++) {
+      for (var i = 0, length = values.length; i < length; i++) {
         var x = i * xQuotient
         var y = height - (yQuotient * (values[i] - min)) + opts.strokeWidth / 2
 
@@ -281,7 +280,7 @@
         , xQuotient = (width + gap) / values.length
         , fill = this.fill()
 
-      for (var i = 0; i < values.length; i++) {
+      for (var i = 0, length = values.length; i < length; i++) {
         var value = values[i]
         var y = height - (yQuotient * (value - min))
         var h = yQuotient * value
