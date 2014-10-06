@@ -137,7 +137,7 @@
       var length = values.length
       var sum = 0
 
-      for (; i < length; i++) {
+      for (i = 0; i < length; i++) {
         sum += values[i]
       }
 
