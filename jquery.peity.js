@@ -137,7 +137,7 @@
       var length = values.length
       var sum = 0
 
-      for (var i = 0, ii = length; i < ii; i++) {
+      for (; i < length; i++) {
         sum += values[i]
       }
 
@@ -156,7 +156,7 @@
       var fill = this.fill()
       var start = -pi / 2
 
-      for (var i = 0, ii = length; i < ii; i++) {
+      for (i = 0; i < length; i++) {
         var value = values[i]
           , portion = value / sum
           , node
@@ -225,7 +225,7 @@
         , zero = height + (min * yQuotient)
         , coords = [0, zero]
 
-      for (var i = 0, ii = values.length; i < ii; i++) {
+      for (var i = 0, length = values.length; i < length; i++) {
         var x = i * xQuotient
         var y = height - (yQuotient * (values[i] - min)) + opts.strokeWidth / 2
 
@@ -280,7 +280,7 @@
         , xQuotient = (width + gap) / values.length
         , fill = this.fill()
 
-      for (var i = 0, ii = values.length; i < ii; i++) {
+      for (var i = 0, length = values.length; i < length; i++) {
         var value = values[i]
         var y = height - (yQuotient * (value - min))
         var h = yQuotient * value
