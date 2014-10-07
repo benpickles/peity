@@ -214,7 +214,7 @@
     function(opts) {
       var values = this.values()
       if (values.length == 1) values.push(values[0])
-      var max = Math.max.apply(Math, values.concat([opts.max]));
+      var max = Math.max.apply(Math, opts.max ? values.concat([opts.max]) : values)
       var min = Math.min.apply(Math, values.concat([opts.min]))
 
       var $svg = this.prepare(opts.width, opts.height)
@@ -269,7 +269,7 @@
     },
     function(opts) {
       var values = this.values()
-      var max = Math.max.apply(Math, values.concat([opts.max]));
+      var max = Math.max.apply(Math, opts.max ? values.concat([opts.max]) : values)
       var min = Math.min.apply(Math, values.concat([opts.min]))
 
       var $svg = this.prepare(opts.width, opts.height)
