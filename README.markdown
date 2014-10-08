@@ -26,6 +26,20 @@ $("span.bar").peity("bar");
 
 More detailed usage can be found at [benpickles.github.io/peity](http://benpickles.github.io/peity/).
 
+## Development
+
+Run the tests with:
+
+    make test
+
+Run a filtered set of tests with:
+
+    ARGS="--grep bar" make test
+
+## Release
+
+Update the version string in `jquery.peity.js`, run `make release`, and follow the instructions.
+
 ## Copyright
 
 Copyright 2009-2014 [Ben Pickles](http://benpickles.com/). See [MIT-LICENCE](https://github.com/benpickles/peity/blob/master/MIT-LICENCE) for details.
