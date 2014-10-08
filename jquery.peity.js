@@ -286,15 +286,28 @@
 
       for (var i = 0; i < values.length; i++) {
         var value = values[i]
-          , valueY = yScale(value)
-          , y1, y2
+          , y1, y2, h
 
-        if (value < 0) {
-          y1 = yScale(Math.min(max, 0))
-          y2 = valueY
+        if (diff == 0) {
+          y1 = height - 1
+          h = 1
         } else {
-          y1 = valueY
-          y2 = yScale(Math.max(min, 0))
+          var valueY = yScale(value)
+
+          if (value < 0) {
+            y1 = yScale(Math.min(max, 0))
+            y2 = valueY
+          } else {
+            y1 = valueY
+            y2 = yScale(Math.max(min, 0))
+          }
+
+          h = y2 - y1
+
+          if (h == 0) {
+            h = 1
+            if (max > 0) y1--
+          }
         }
 
         var rect = svgElement("rect", {
@@ -302,7 +315,7 @@
           x: i * xQuotient,
           y: y1,
           width: xQuotient - gap,
-          height: y2 - y1
+          height: h
         })
 
         this.svg.appendChild(rect)
