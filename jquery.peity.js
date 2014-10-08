@@ -276,32 +276,33 @@
         , width = $svg.width()
         , height = $svg.height()
         , diff = max - min
-        , yQuotient = diff == 0 ? 0 : height / diff
         , gap = opts.gap
         , xQuotient = (width + gap) / values.length
         , fill = this.fill()
 
+      var yScale = function(input) {
+        return height - (((input - min) / diff) * height)
+      }
+
       for (var i = 0; i < values.length; i++) {
         var value = values[i]
-        var y = height - (yQuotient * (value - min))
-        var h = yQuotient * value
+          , valueY = yScale(value)
+          , y1, y2
 
-        if (h == 0) {
-          // Always show a bar even if it represents zero.
-          h = pixel
-
-          if (min <= 0 && max > 0 || diff == 0) y -= pixel
-        } else if (h < 0) {
-          y += h
-          h = -h
+        if (value < 0) {
+          y1 = yScale(Math.min(max, 0))
+          y2 = valueY
+        } else {
+          y1 = valueY
+          y2 = yScale(Math.max(min, 0))
         }
 
         var rect = svgElement("rect", {
           fill: fill.call(this, value, i, values),
           x: i * xQuotient,
-          y: y,
+          y: y1,
           width: xQuotient - gap,
-          height: h
+          height: y2 - y1
         })
 
         this.svg.appendChild(rect)
