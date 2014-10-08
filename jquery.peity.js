@@ -235,23 +235,23 @@
 
       coords.push(width, zero)
 
-      var polygon = svgElement("polygon", {
-        fill: opts.fill,
-        points: coords.join(" ")
-      })
-
-      this.svg.appendChild(polygon)
+      this.svg.appendChild(
+        svgElement('polygon', {
+          fill: opts.fill,
+          points: coords.join(' ')
+        })
+      )
 
       if (opts.strokeWidth) {
-        var polyline = svgElement("polyline", {
-          fill: "transparent",
-          points: coords.slice(2, coords.length - 2).join(" "),
-          stroke: opts.stroke,
-          "stroke-width": opts.strokeWidth,
-          "stroke-linecap": "square"
-        })
-
-        this.svg.appendChild(polyline)
+        this.svg.appendChild(
+          svgElement('polyline', {
+            fill: 'transparent',
+            points: coords.slice(2, coords.length - 2).join(' '),
+            stroke: opts.stroke,
+            'stroke-width': opts.strokeWidth,
+            'stroke-linecap': 'square'
+          })
+        )
       }
     }
   );
@@ -310,15 +310,15 @@
           }
         }
 
-        var rect = svgElement("rect", {
-          fill: fill.call(this, value, i, values),
-          x: i * xQuotient,
-          y: y1,
-          width: xQuotient - gap,
-          height: h
-        })
-
-        this.svg.appendChild(rect)
+        this.svg.appendChild(
+          svgElement('rect', {
+            fill: fill.call(this, value, i, values),
+            x: i * xQuotient,
+            y: y1,
+            width: xQuotient - gap,
+            height: h
+          })
+        )
       }
     }
   );
