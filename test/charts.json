@@ -78,6 +78,15 @@
     "width": 32,
     "height": 16
   },
+  "bar12": {
+    "type": "bar",
+    "text": "1000,1005,1003,1004,1001",
+    "opts": {
+      "min": null
+    },
+    "width": 32,
+    "height": 16
+  },
   "line1": {
     "type": "line",
     "text": "5,3,9,6,5,9,7,3,5,2",
@@ -140,6 +149,15 @@
     "text": "-10,-15,-13,-14,-11",
     "opts": {
       "max": 0
+    },
+    "width": 32,
+    "height": 16
+  },
+  "line9": {
+    "type": "line",
+    "text": "1000,1005,1003,1004,1001",
+    "opts": {
+      "min": null
     },
     "width": 32,
     "height": 16

@@ -215,7 +215,7 @@
       var values = this.values()
       if (values.length == 1) values.push(values[0])
       var max = Math.max.apply(Math, typeof opts.max == 'number' ? values.concat([opts.max]) : values)
-      var min = Math.min.apply(Math, values.concat([opts.min]))
+      var min = Math.min.apply(Math, typeof opts.min == 'number' ? values.concat([opts.min]) : values)
 
       var $svg = this.prepare(opts.width, opts.height)
         , width = $svg.width()
@@ -270,7 +270,7 @@
     function(opts) {
       var values = this.values()
       var max = Math.max.apply(Math, typeof opts.max == 'number' ? values.concat([opts.max]) : values)
-      var min = Math.min.apply(Math, values.concat([opts.min]))
+      var min = Math.min.apply(Math, typeof opts.min == 'number' ? values.concat([opts.min]) : values)
 
       var $svg = this.prepare(opts.width, opts.height)
         , width = $svg.width()
