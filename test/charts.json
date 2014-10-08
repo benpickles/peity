@@ -69,6 +69,15 @@
     "width": 32,
     "height": 16
   },
+  "bar11": {
+    "type": "bar",
+    "text": "-10,-15,-13,-14,-11",
+    "opts": {
+      "max": 0
+    },
+    "width": 32,
+    "height": 16
+  },
   "line1": {
     "type": "line",
     "text": "5,3,9,6,5,9,7,3,5,2",
@@ -123,6 +132,15 @@
   "line7": {
     "type": "line",
     "text": "-10,-15,-13,-14,-11",
+    "width": 32,
+    "height": 16
+  },
+  "line8": {
+    "type": "line",
+    "text": "-10,-15,-13,-14,-11",
+    "opts": {
+      "max": 0
+    },
     "width": 32,
     "height": 16
   },
