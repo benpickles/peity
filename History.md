@@ -1,5 +1,10 @@
 # History
 
+## Version 2.0.4 - 2014/10/8
+
+ * Fix a null max argument being calculated as zero when all values are negative.
+ * Ensure that a null min argument means that the minimum is calculated from a chart’s values.
+
 ## Version 2.0.3 - 2014/4/29
 
  * Don't blow up drawing a line chart of all zeros.
