@@ -219,7 +219,7 @@
       var yScale = this.y = function(input) {
         var y = height
 
-        if (diff != 0) {
+        if (diff) {
           y -= ((input - min) / diff) * height
         }
 
@@ -288,9 +288,9 @@
 
       var yScale = this.y = function(input) {
         return height - (
-          diff == 0
-            ? 1
-            : ((input - min) / diff) * height
+          diff
+            ? ((input - min) / diff) * height
+            : 1
         )
       }
 
@@ -303,7 +303,7 @@
           , y2 = valueY
           , h
 
-        if (diff == 0) {
+        if (!diff) {
           h = 1
         } else if (value < 0) {
           y1 = yScale(Math.min(max, 0))
@@ -315,7 +315,7 @@
 
         if (h == 0) {
           h = 1
-          if (max > 0 && diff > 0) y1--
+          if (max > 0 && diff) y1--
         }
 
         this.svg.appendChild(
