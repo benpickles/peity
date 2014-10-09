@@ -208,17 +208,30 @@
       var $svg = this.prepare(opts.width, opts.height)
         , width = $svg.width()
         , height = $svg.height() - opts.strokeWidth
-        , xQuotient = width / (values.length - 1)
         , diff = max - min
-        , yQuotient = diff == 0 ? height : height / diff
-        , zero = height + (min * yQuotient)
+
+      var xScale = function(input) {
+        return input * (width / (values.length - 1))
+      }
+
+      var yScale = function(input) {
+        var y = height
+
+        if (diff != 0) {
+          y -= ((input - min) / diff) * height
+        }
+
+        return y + opts.strokeWidth / 2
+      }
+
+      var zero = yScale(Math.max(min, 0))
         , coords = [0, zero]
 
       for (var i = 0; i < values.length; i++) {
-        var x = i * xQuotient
-        var y = height - (yQuotient * (values[i] - min)) + opts.strokeWidth / 2
-
-        coords.push(x, y)
+        coords.push(
+          xScale(i),
+          yScale(values[i])
+        )
       }
 
       coords.push(width, zero)
