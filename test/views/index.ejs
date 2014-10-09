@@ -9,8 +9,10 @@
   <script src="/jquery.min.js"></script>
   <script src="/jquery.peity.js"></script>
 
-  <% charts.forEach(function(chart) { %>
-    <% include chart %>
-  <% }) %>
+  <div class="charts">
+    <% charts.forEach(function(chart) { %>
+      <% include chart %>
+    <% }) %>
+  </div>
 </body>
 </html>

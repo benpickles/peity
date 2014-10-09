@@ -6,3 +6,13 @@ body {
 svg {
   background: white;
 }
+
+.charts {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.charts .chart {
+  padding: 5px;
+}
