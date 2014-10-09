@@ -28,13 +28,19 @@ More detailed usage can be found at [benpickles.github.io/peity](http://benpickl
 
 ## Development
 
-Run the tests with:
+Run the automated visual regression tests with:
 
     make test
 
 Run a filtered set of tests with:
 
     ARGS="--grep bar" make test
+
+To manually view all test cases run:
+
+    make server
+
+And hit <http://localhost:8080/>.
 
 ## Release
 
