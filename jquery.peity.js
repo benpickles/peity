@@ -7,16 +7,12 @@
 (function($, document, Math) {
   var svgElement = function(tag, attrs) {
     var elem = document.createElementNS("http://www.w3.org/2000/svg", tag)
-
-    $.each(attrs, function(name, value) {
-      elem.setAttribute(name, value)
-    })
-
+    $(elem).attr(attrs)
     return elem
   }
 
   // https://gist.github.com/madrobby/3201472
-  var svgSupported = "createElementNS" in document && svgElement("svg", {}).createSVGRect
+  var svgSupported = 'createElementNS' in document && svgElement('svg').createSVGRect
 
   var pixel = 1 / (window.devicePixelRatio || 1)
 
