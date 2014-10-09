@@ -19,7 +19,7 @@ describe('Peity', function() {
     server.close()
   })
 
-  Chart.forEach(function(chart) {
+  Chart.all().forEach(function(chart) {
     it(chart.id, function(done) {
       queue(1)
         .defer(chart.screenshot.bind(chart), chart.imagePath)

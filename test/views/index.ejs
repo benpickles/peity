@@ -1,15 +1,16 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title><%= title %></title>
+  <meta content="width=device-width" name="viewport">
+  <title>Charts</title>
   <link href="/style.css" rel="stylesheet"></link>
 </head>
 <body>
-  <div><span><%= text %></span></div>
   <script src="/jquery.min.js"></script>
   <script src="/jquery.peity.js"></script>
-  <script>
-    $("span").peity("<%= type %>", <%- options %>)
-  </script>
+
+  <% charts.forEach(function(chart) { %>
+    <% include chart %>
+  <% }) %>
 </body>
 </html>

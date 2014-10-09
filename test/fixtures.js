@@ -9,7 +9,7 @@ server.listen(0, function() {
 
   var q = queue(4)
 
-  Chart.forEach(function(chart) {
+  Chart.all().forEach(function(chart) {
     q.defer(function(callback) {
       process.stdout.write('.')
       chart.screenshot(chart.fixturePath, callback)
