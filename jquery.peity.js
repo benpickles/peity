@@ -210,11 +210,11 @@
         , height = $svg.height() - opts.strokeWidth
         , diff = max - min
 
-      var xScale = function(input) {
+      var xScale = this.x = function(input) {
         return input * (width / (values.length - 1))
       }
 
-      var yScale = function(input) {
+      var yScale = this.y = function(input) {
         var y = height
 
         if (diff != 0) {
@@ -280,11 +280,11 @@
         , padding = opts.padding
         , fill = this.fill()
 
-      var xScale = function(input) {
+      var xScale = this.x = function(input) {
         return input * width / values.length
       }
 
-      var yScale = function(input) {
+      var yScale = this.y = function(input) {
         return height - (
           diff == 0
             ? 1
