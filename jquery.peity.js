@@ -143,7 +143,17 @@
       var radius = Math.min(cx, cy)
       var pi = Math.PI
       var fill = this.fill()
-      var start = -pi / 2
+
+      var scale = this.scale = function(value, radius) {
+        var radians = value / sum * pi * 2 - pi / 2
+
+        return [
+          radius * Math.cos(radians) + cx,
+          radius * Math.sin(radians) + cy
+        ]
+      }
+
+      var cumulative = 0
 
       for (i = 0; i < length; i++) {
         var value = values[i]
@@ -159,25 +169,17 @@
             r: radius
           })
         } else {
-          var slice = portion * pi * 2
-            , end = start + slice
-            , x1 = radius * Math.cos(start) + cx
-            , y1 = radius * Math.sin(start) + cy
-            , x2 = radius * Math.cos(end) + cx
-            , y2 = radius * Math.sin(end) + cy
-
-          var d = [
-            "M", cx, cy,
-            "L", x1, y1,
-            "A", radius, radius, 0, slice > pi ? 1 : 0, 1, x2, y2,
-            "Z"
-          ]
+          var d = ['M', cx, cy, 'L']
+            .concat(
+              scale(cumulative, radius),
+              ['A', radius, radius, 0, portion > 0.5 ? 1 : 0, 1],
+              scale(cumulative += value, radius),
+              ['Z']
+            )
 
           node = svgElement("path", {
             d: d.join(" ")
           })
-
-          start = end
         }
 
         $(node).attr('fill', fill.call(this, value, i, values))
