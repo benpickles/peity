@@ -249,10 +249,10 @@
     {
       delimiter: ",",
       fill: ["#4D89F9"],
-      gap: 1,
       height: 16,
       max: null,
       min: 0,
+      padding: 0.1,
       width: 32
     },
     function(opts) {
@@ -264,9 +264,12 @@
         , width = $svg.width()
         , height = $svg.height()
         , diff = max - min
-        , gap = opts.gap
-        , xQuotient = (width + gap) / values.length
+        , padding = opts.padding
         , fill = this.fill()
+
+      var xScale = function(input) {
+        return input * width / values.length
+      }
 
       var yScale = function(input) {
         return height - (
@@ -277,7 +280,9 @@
       }
 
       for (var i = 0; i < values.length; i++) {
-        var value = values[i]
+        var x = xScale(i + padding)
+          , w = xScale(i + 1 - padding) - x
+          , value = values[i]
           , valueY = yScale(value)
           , y1 = valueY
           , y2 = valueY
@@ -301,9 +306,9 @@
         this.svg.appendChild(
           svgElement('rect', {
             fill: fill.call(this, value, i, values),
-            x: i * xQuotient,
+            x: x,
             y: y1,
-            width: xQuotient - gap,
+            width: w,
             height: h
           })
         )
