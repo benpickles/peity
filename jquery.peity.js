@@ -315,7 +315,7 @@
 
         if (h == 0) {
           h = 1
-          if (max > 0) y1--
+          if (max > 0 && diff > 0) y1--
         }
 
         this.svg.appendChild(
