@@ -105,8 +105,8 @@
     'pie',
     {
       delimiter: null,
-      diameter: 16,
-      fill: ["#ff9900", "#fff4dd", "#ffc66e"]
+      fill: ['#ff9900', '#fff4dd', '#ffc66e'],
+      radius: 8
     },
     function(opts) {
       if (!opts.delimiter) {
@@ -130,9 +130,11 @@
         sum += values[i]
       }
 
+      var diameter = opts.radius * 2
+
       var $svg = this.prepare(
-        opts.width || opts.diameter,
-        opts.height || opts.diameter
+        opts.width || diameter,
+        opts.height || diameter
       )
 
       var width = $svg.width()
