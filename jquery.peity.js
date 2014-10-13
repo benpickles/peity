@@ -87,10 +87,10 @@
       $svg = $(this.svg).data("peity", this)
     }
 
-    this.svg.setAttribute("height", height)
-    this.svg.setAttribute("width", width)
-
-    return $svg
+    return $svg.attr({
+      height: height,
+      width: width
+    })
   }
 
   PeityPrototype.values = function() {
