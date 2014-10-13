@@ -176,8 +176,7 @@
                 'M', cx, y1,
                 'A', radius, radius, 0, 1, 1, x2, y1,
                 'L', x2, y2,
-                'A', innerRadius, innerRadius, 0, 1, 0, cx, y2,
-                'Z'
+                'A', innerRadius, innerRadius, 0, 1, 0, cx, y2
               ].join(' ')
             })
           } else {
@@ -201,11 +200,10 @@
             d = d.concat(
               scale(cumulativePlusValue, innerRadius),
               'A', innerRadius, innerRadius, 0, portion > 0.5 ? 1 : 0, 0,
-              scale(cumulative, innerRadius),
-              'Z'
+              scale(cumulative, innerRadius)
             )
           } else {
-            d.push(cx, cy, 'Z')
+            d.push(cx, cy)
           }
 
           cumulative += value
