@@ -31,9 +31,11 @@
             if (name in defaults) data[name] = value
           })
 
-          var opts = $.extend({}, defaults, data, options)
-
-          chart = new Peity($this, type, opts)
+          chart = new Peity(
+            $this,
+            type,
+            $.extend({}, defaults, data, options)
+          )
 
           $this
             .change(function() { chart.draw() })
