@@ -61,15 +61,10 @@
 
   PeityPrototype.fill = function() {
     var fill = this.opts.fill
-    var func = fill
 
-    if (!$.isFunction(func)) {
-      func = function(_, i) {
-        return fill[i % fill.length]
-      }
-    }
-
-    return func
+    return $.isFunction(fill)
+      ? fill
+      : function(_, i) { return fill[i % fill.length] }
   }
 
   PeityPrototype.prepare = function(width, height) {
