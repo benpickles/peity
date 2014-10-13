@@ -74,11 +74,11 @@
 
   PeityPrototype.prepare = function(width, height) {
     if (!this.svg) {
-      this.svg = svgElement("svg", {
-        "class": "peity"
-      })
-
-      this.$el.hide().after(this.svg)
+      this.$el.hide().after(
+        this.svg = svgElement("svg", {
+          "class": "peity"
+        })
+      )
     }
 
     return $(this.svg)
