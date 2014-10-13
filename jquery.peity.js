@@ -73,24 +73,21 @@
   }
 
   PeityPrototype.prepare = function(width, height) {
-    var $svg
-
-    if (this.svg) {
-      $svg = $(this.svg).empty()
-    } else {
+    if (!this.svg) {
       this.svg = svgElement("svg", {
         "class": "peity"
       })
 
       this.$el.hide().after(this.svg)
-
-      $svg = $(this.svg).data("peity", this)
     }
 
-    return $svg.attr({
-      height: height,
-      width: width
-    })
+    return $(this.svg)
+      .empty()
+      .data('peity', this)
+      .attr({
+        height: height,
+        width: width
+      })
   }
 
   PeityPrototype.values = function() {
