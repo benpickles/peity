@@ -180,7 +180,7 @@
           start = end
         }
 
-        node.setAttribute("fill", fill.call(this, value, i, values))
+        $(node).attr('fill', fill.call(this, value, i, values))
 
         this.svg.appendChild(node)
       }
