@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta name="viewport" content="width=device-width">
-<title>Peity &bull; progressive &lt;svg&gt; pie charts</title>
+<title>Peity &bull; progressive &lt;svg&gt; pie, donut, bar and line charts</title>
 <link href="docs/style.css" rel="stylesheet">
 <script src="test/jquery-1.6.2.min.js"></script>
 <script src="jquery.peity.js"></script>
@@ -10,6 +10,7 @@
 $(function() {
   // Just the defaults.
   $("span.pie").peity("pie")
+  $('.donut').peity('donut')
   $(".line").peity("line")
   $(".bar").peity("bar")
 
@@ -98,6 +99,7 @@ $(function() {
   <p>Peity (sounds like deity) is a simple <a href="http://jquery.com/">jQuery</a>
     plugin that converts an element's content into a simple <code>&lt;svg&gt;</code>
     mini pie <span class="pie">2/5</span>
+    donut <span class="donut">5,2,3</span>
     line <span class="line">5,3,9,6,5,9,7,3,5,2</span>
     or bar chart <span class="bar">5,3,9,6,5,9,7,3,5,2</span> and is
     compatible with any browser that supports <code>&lt;svg&gt;</code>:
@@ -106,6 +108,7 @@ $(function() {
   <nav>
     <p>
       Read about <a href="#pie-charts">pie charts</a>,
+      <a href="#donut-charts">donut charts</a>,
       <a href="#line-charts">line charts</a>,
       <a href="#bar-charts">bar charts</a>,
       <a href="#dynamic-colours">setting colours dynamically</a>,
@@ -169,6 +172,37 @@ $(function() {
     <pre><code class="javascript">$("span.pie").peity("pie")</code></pre>
   </div>
 
+  <h2 id="donut-charts">Donut Charts</h2>
+
+  <p>Donut charts are the same as <a href="#pie-charts">pie charts</a> and takes the same options with
+    an added <code>innerRadius</code> option which defaults to half the radius.
+
+  <p>
+    <span class="donut">1/5</span>
+    <span class="donut">226/360</span>
+    <span class="donut">0.52/1.561</span>
+    <span class="donut">1,4</span>
+    <span class="donut">226,134</span>
+    <span class="donut">0.52,1.041</span>
+    <span class="donut">1,2,3,2,2</span>
+  </p>
+
+  <div class="example">
+    <h4>HTML</h4>
+
+    <pre><code class="html">&lt;span class=&quot;donut&quot;&gt;1/5&lt;/span&gt;
+&lt;span class=&quot;donut&quot;&gt;226/360&lt;/span&gt;
+&lt;span class=&quot;donut&quot;&gt;0.52/1.561&lt;/span&gt;
+&lt;span class=&quot;donut&quot;&gt;1,4&lt;/span&gt;
+&lt;span class=&quot;donut&quot;&gt;226,134&lt;/span&gt;
+&lt;span class=&quot;donut&quot;&gt;0.52,1.041&lt;/span&gt;
+&lt;span class=&quot;donut&quot;&gt;1,2,3,2,2&lt;/span&gt;</code></pre>
+
+    <h4>JavaScript</h4>
+
+    <pre><code class="javascript">$('.donut').peity('donut')</code></pre>
+  </div>
+
   <h2 id="line-charts">Line Charts</h2>
 
   <p>Line charts work on a comma-separated list of digits. Line charts can
@@ -217,11 +251,11 @@ $(function() {
 
   <h2 id="dynamic-colours">Setting Colours Dynamically</h2>
 
-  <p>Bar and pie chart colours can be defined dynamically based on the values
-    of the chart. When passing an array its values are cycled, when passing a
-    function it is called once for each value allowing you to define each
-    bar's colour. The callback is invoked with the value, its index, and the
-    full array of values - the same arguments as the callback for
+  <p>Pie, donut and bar chart colours can be defined dynamically based on the
+    values of the chart. When passing an array its values are cycled, when
+    passing a function it is called once for each value allowing you to define
+    each bar or segment's colour. The callback is invoked with the value, its
+    index, and the full array of values - the same arguments as the callback for
     <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/forEach#Description">Array#forEach</a></code>.</p>
 
   <p>
@@ -452,6 +486,15 @@ $('span.graph').peity('pie')</code></pre>
   delimiter: null,
   fill: ["<span style="background:#ff9900">#ff9900</span>", "<span style="background:#fff4dd">#fff4dd</span>", "<span style="background:#ffd592">#ffd592</span>"],
   height: null,
+  radius: 8,
+  width: null
+}
+
+$.fn.peity.defaults.donut = {
+  delimiter: null,
+  fill: ["<span style="background:#ff9900">#ff9900</span>", "<span style="background:#fff4dd">#fff4dd</span>", "<span style="background:#ffd592">#ffd592</span>"],
+  height: null,
+  innerRadius: null,
   radius: 8,
   width: null
 }
