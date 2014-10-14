@@ -301,14 +301,14 @@ setInterval(function() {
 
   <h2 id="custom-charts">Custom Charts</h2>
 
-  <p>You can easily add your own custom chart by registering it with
-    Peity with name, defaults and the draw function which receives an options
-    object.</p>
+  <p>You can add a custom chart type by registering it with Peity with a name,
+    defaults object, and custom chart drawing function which is called with an
+    options object. See the existing charts for examples.</p>
 
-  <pre><code class="javascript">$.fn.peity.add("custom", {
-    fill: "#FFCC00"
+  <pre><code class="javascript">$.fn.peity.register('custom', {
+    option: defaults
   }, function(opts) {
-    ...
+    // Implementation.
   }
 )</code></pre>
 
