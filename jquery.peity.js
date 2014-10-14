@@ -222,7 +222,7 @@
 
   peity.register(
     'donut',
-    peity.defaults.pie,
+    $.extend(true, {}, peity.defaults.pie),
     function(opts) {
       if (!opts.innerRadius) opts.innerRadius = opts.radius * 0.5
       peity.graphers.pie.call(this, opts)
