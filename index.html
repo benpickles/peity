@@ -430,21 +430,18 @@ setInterval(function() {
 
     <h4>JavaScript</h4>
 
-    <pre><code class="javascript">$("select").change(function() {
+    <pre><code class="javascript">$('select').change(function() {
+  var text = $(this).val() + '/' + 5
+
   $(this)
-    .siblings("span.graph")
-    .text($(this).val() + "/" + 5).change()
+    .siblings('span.graph')
+    .text(text)
+    .change()
+
+  $('#notice').text('Chart updated: ' + text)
 }).change()
 
-var chartUpdate = function(event, value, max) {
-  $("#notice").text(
-    "Chart updated: " + value + "/" + max
-  )
-}
-
-$("span.graph")
-  .peity("pie")
-  .bind("change.peity", chartUpdate)</code></pre>
+$('span.graph').peity('pie')</code></pre>
   </div>
 
   <h2 id="defaults">Default Settings</h2>
