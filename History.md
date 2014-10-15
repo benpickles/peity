@@ -1,5 +1,9 @@
 # History
 
+## Version 2.0.5 - 2014/10/15
+
+ * Changes to make the minified version 147 bytes smaller!
+
 ## Version 2.0.4 - 2014/10/8
 
  * Fix a null max argument being calculated as zero when all values are negative.
