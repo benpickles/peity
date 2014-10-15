@@ -1,5 +1,13 @@
 # History
 
+## Version 3.0.0 - 2014/10/15
+
+ * Remove the ability to read options from data attributes.
+ * Add donut chart type.
+ * Switch from `diameter` pie chart option to `radius`.
+ * Expose the internally-used scale functions to the outside world.
+ * Rename `gap` bar chart option to `padding`. It is now specified as a portion of the width of each bar and is present on both sides.
+
 ## Version 2.0.5 - 2014/10/15
 
  * Changes to make the minified version 147 bytes smaller!
