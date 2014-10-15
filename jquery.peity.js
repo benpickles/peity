@@ -97,7 +97,6 @@
   peity.register(
     'pie',
     {
-      delimiter: null,
       fill: ['#ff9900', '#fff4dd', '#ffc66e'],
       radius: 8
     },
@@ -228,7 +227,6 @@
       delimiter: ",",
       fill: "#c6d9fd",
       height: 16,
-      max: null,
       min: 0,
       stroke: "#4d89f9",
       strokeWidth: 1,
@@ -298,7 +296,6 @@
       delimiter: ",",
       fill: ["#4D89F9"],
       height: 16,
-      max: null,
       min: 0,
       padding: 0.1,
       width: 32
