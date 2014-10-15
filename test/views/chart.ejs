@@ -1,0 +1,7 @@
+<div class="chart chart-<%= chart.id %>">
+  <span><%= chart.text %></span>
+</div>
+
+<script>
+  $('.chart-<%= chart.id %> span').peity('<%= chart.type %>', <%- chart.optionsString() %>)
+</script>

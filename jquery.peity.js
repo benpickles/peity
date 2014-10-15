@@ -143,7 +143,17 @@
       var radius = Math.min(cx, cy)
       var pi = Math.PI
       var fill = this.fill()
-      var start = -pi / 2
+
+      var scale = this.scale = function(value, radius) {
+        var radians = value / sum * pi * 2 - pi / 2
+
+        return [
+          radius * Math.cos(radians) + cx,
+          radius * Math.sin(radians) + cy
+        ]
+      }
+
+      var cumulative = 0
 
       for (i = 0; i < length; i++) {
         var value = values[i]
@@ -159,25 +169,17 @@
             r: radius
           })
         } else {
-          var slice = portion * pi * 2
-            , end = start + slice
-            , x1 = radius * Math.cos(start) + cx
-            , y1 = radius * Math.sin(start) + cy
-            , x2 = radius * Math.cos(end) + cx
-            , y2 = radius * Math.sin(end) + cy
-
-          var d = [
-            "M", cx, cy,
-            "L", x1, y1,
-            "A", radius, radius, 0, slice > pi ? 1 : 0, 1, x2, y2,
-            "Z"
-          ]
+          var d = ['M', cx, cy, 'L']
+            .concat(
+              scale(cumulative, radius),
+              'A', radius, radius, 0, portion > 0.5 ? 1 : 0, 1,
+              scale(cumulative += value, radius),
+              'Z'
+            )
 
           node = svgElement("path", {
             d: d.join(" ")
           })
-
-          start = end
         }
 
         $(node).attr('fill', fill.call(this, value, i, values))
@@ -202,23 +204,36 @@
     function(opts) {
       var values = this.values()
       if (values.length == 1) values.push(values[0])
-      var max = Math.max.apply(Math, typeof opts.max == 'number' ? values.concat([opts.max]) : values)
-      var min = Math.min.apply(Math, typeof opts.min == 'number' ? values.concat([opts.min]) : values)
+      var max = Math.max.apply(Math, typeof opts.max == 'number' ? values.concat(opts.max) : values)
+      var min = Math.min.apply(Math, typeof opts.min == 'number' ? values.concat(opts.min) : values)
 
       var $svg = this.prepare(opts.width, opts.height)
         , width = $svg.width()
         , height = $svg.height() - opts.strokeWidth
-        , xQuotient = width / (values.length - 1)
         , diff = max - min
-        , yQuotient = diff == 0 ? height : height / diff
-        , zero = height + (min * yQuotient)
+
+      var xScale = this.x = function(input) {
+        return input * (width / (values.length - 1))
+      }
+
+      var yScale = this.y = function(input) {
+        var y = height
+
+        if (diff) {
+          y -= ((input - min) / diff) * height
+        }
+
+        return y + opts.strokeWidth / 2
+      }
+
+      var zero = yScale(Math.max(min, 0))
         , coords = [0, zero]
 
       for (var i = 0; i < values.length; i++) {
-        var x = i * xQuotient
-        var y = height - (yQuotient * (values[i] - min)) + opts.strokeWidth / 2
-
-        coords.push(x, y)
+        coords.push(
+          xScale(i),
+          yScale(values[i])
+        )
       }
 
       coords.push(width, zero)
@@ -249,61 +264,66 @@
     {
       delimiter: ",",
       fill: ["#4D89F9"],
-      gap: 1,
       height: 16,
       max: null,
       min: 0,
+      padding: 0.1,
       width: 32
     },
     function(opts) {
       var values = this.values()
-      var max = Math.max.apply(Math, typeof opts.max == 'number' ? values.concat([opts.max]) : values)
-      var min = Math.min.apply(Math, typeof opts.min == 'number' ? values.concat([opts.min]) : values)
+      var max = Math.max.apply(Math, typeof opts.max == 'number' ? values.concat(opts.max) : values)
+      var min = Math.min.apply(Math, typeof opts.min == 'number' ? values.concat(opts.min) : values)
 
       var $svg = this.prepare(opts.width, opts.height)
         , width = $svg.width()
         , height = $svg.height()
         , diff = max - min
-        , gap = opts.gap
-        , xQuotient = (width + gap) / values.length
+        , padding = opts.padding
         , fill = this.fill()
 
-      var yScale = function(input) {
-        return height - (((input - min) / diff) * height)
+      var xScale = this.x = function(input) {
+        return input * width / values.length
+      }
+
+      var yScale = this.y = function(input) {
+        return height - (
+          diff
+            ? ((input - min) / diff) * height
+            : 1
+        )
       }
 
       for (var i = 0; i < values.length; i++) {
-        var value = values[i]
-          , y1, y2, h
+        var x = xScale(i + padding)
+          , w = xScale(i + 1 - padding) - x
+          , value = values[i]
+          , valueY = yScale(value)
+          , y1 = valueY
+          , y2 = valueY
+          , h
 
-        if (diff == 0) {
-          y1 = height - 1
+        if (!diff) {
           h = 1
+        } else if (value < 0) {
+          y1 = yScale(Math.min(max, 0))
         } else {
-          var valueY = yScale(value)
+          y2 = yScale(Math.max(min, 0))
+        }
 
-          if (value < 0) {
-            y1 = yScale(Math.min(max, 0))
-            y2 = valueY
-          } else {
-            y1 = valueY
-            y2 = yScale(Math.max(min, 0))
-          }
+        h = y2 - y1
 
-          h = y2 - y1
-
-          if (h == 0) {
-            h = 1
-            if (max > 0) y1--
-          }
+        if (h == 0) {
+          h = 1
+          if (max > 0 && diff) y1--
         }
 
         this.svg.appendChild(
           svgElement('rect', {
             fill: fill.call(this, value, i, values),
-            x: i * xQuotient,
+            x: x,
             y: y1,
-            width: xQuotient - gap,
+            width: w,
             height: h
           })
         )

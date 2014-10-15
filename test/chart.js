@@ -74,17 +74,19 @@ Chart.prototype.screenshot = function(savePath, callback) {
 }
 
 Chart.prototype.url = function() {
-  return 'http://localhost:' + port + '/charts/' + this.id
+  return 'http://localhost:' + port + '/' + this.id
+}
+
+exports.all = function() {
+  return Object.keys(charts).reduce(function(memo, id) {
+    var chart = new Chart(id)
+    memo.push(chart)
+    return memo
+  }, [])
 }
 
 exports.find = function(id) {
   return charts[id] ? new Chart(id) : null
-}
-
-exports.forEach = function(callback) {
-  return Object.keys(charts).forEach(function(id) {
-    callback(new Chart(id))
-  })
 }
 
 exports.port = function(number) {
