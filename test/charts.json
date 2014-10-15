@@ -87,6 +87,73 @@
     "width": 32,
     "height": 16
   },
+  "donut1": {
+    "type": "donut",
+    "text": "1/5",
+    "width": 16,
+    "height": 16
+  },
+  "donut2": {
+    "type": "donut",
+    "text": "0.52/1.561",
+    "opts": {
+      "radius": 16
+    },
+    "width": 32,
+    "height": 32
+  },
+  "donut3": {
+    "type": "donut",
+    "text": "1,4",
+    "opts": {
+      "width": 32
+    },
+    "width": 32,
+    "height": 16
+  },
+  "donut4": {
+    "type": "donut",
+    "text": "4,7,6,5",
+    "opts": {
+      "fill": ["cyan", "magenta", "yellow", "black"],
+      "height": 32
+    },
+    "width": 16,
+    "height": 32
+  },
+  "donut5": {
+    "type": "donut",
+    "text": "3/3",
+    "width": 16,
+    "height": 16
+  },
+  "donut6": {
+    "type": "donut",
+    "text": "0/3",
+    "width": 16,
+    "height": 16
+  },
+  "donut7": {
+    "type": "donut",
+    "text": "3,0",
+    "width": 16,
+    "height": 16
+  },
+  "donut8": {
+    "type": "donut",
+    "text": "4/3",
+    "width": 16,
+    "height": 16
+  },
+  "donut9": {
+    "type": "donut",
+    "text": "1/5",
+    "opts": {
+      "innerRadius": 6
+    },
+    "width": 16,
+    "height": 16
+  },
   "line1": {
     "type": "line",
     "text": "5,3,9,6,5,9,7,3,5,2",
@@ -172,7 +239,7 @@
     "type": "pie",
     "text": "0.52/1.561",
     "opts": {
-      "diameter": 32
+      "radius": 16
     },
     "width": 32,
     "height": 32

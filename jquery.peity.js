@@ -105,8 +105,8 @@
     'pie',
     {
       delimiter: null,
-      diameter: 16,
-      fill: ["#ff9900", "#fff4dd", "#ffc66e"]
+      fill: ['#ff9900', '#fff4dd', '#ffc66e'],
+      radius: 8
     },
     function(opts) {
       if (!opts.delimiter) {
@@ -130,9 +130,11 @@
         sum += values[i]
       }
 
+      var diameter = opts.radius * 2
+
       var $svg = this.prepare(
-        opts.width || opts.diameter,
-        opts.height || opts.diameter
+        opts.width || diameter,
+        opts.height || diameter
       )
 
       var width = $svg.width()
@@ -141,6 +143,7 @@
         , cy = height / 2
 
       var radius = Math.min(cx, cy)
+        , innerRadius = opts.innerRadius
       var pi = Math.PI
       var fill = this.fill()
 
@@ -163,19 +166,47 @@
         if (portion == 0) continue
 
         if (portion == 1) {
-          node = svgElement("circle", {
-            cx: cx,
-            cy: cy,
-            r: radius
-          })
+          if (innerRadius) {
+            var x2 = cx - 0.01
+              , y1 = cy - radius
+              , y2 = cy - innerRadius
+
+            node = svgElement('path', {
+              d: [
+                'M', cx, y1,
+                'A', radius, radius, 0, 1, 1, x2, y1,
+                'L', x2, y2,
+                'A', innerRadius, innerRadius, 0, 1, 0, cx, y2
+              ].join(' ')
+            })
+          } else {
+            node = svgElement("circle", {
+              cx: cx,
+              cy: cy,
+              r: radius
+            })
+          }
         } else {
-          var d = ['M', cx, cy, 'L']
-            .concat(
-              scale(cumulative, radius),
-              'A', radius, radius, 0, portion > 0.5 ? 1 : 0, 1,
-              scale(cumulative += value, radius),
-              'Z'
+          var cumulativePlusValue = cumulative + value
+
+          var d = ['M'].concat(
+            scale(cumulative, radius),
+            'A', radius, radius, 0, portion > 0.5 ? 1 : 0, 1,
+            scale(cumulativePlusValue, radius),
+            'L'
+          )
+
+          if (innerRadius) {
+            d = d.concat(
+              scale(cumulativePlusValue, innerRadius),
+              'A', innerRadius, innerRadius, 0, portion > 0.5 ? 1 : 0, 0,
+              scale(cumulative, innerRadius)
             )
+          } else {
+            d.push(cx, cy)
+          }
+
+          cumulative += value
 
           node = svgElement("path", {
             d: d.join(" ")
@@ -186,6 +217,15 @@
 
         this.svg.appendChild(node)
       }
+    }
+  )
+
+  peity.register(
+    'donut',
+    $.extend(true, {}, peity.defaults.pie),
+    function(opts) {
+      if (!opts.innerRadius) opts.innerRadius = opts.radius * 0.5
+      peity.graphers.pie.call(this, opts)
     }
   )
 
