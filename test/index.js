@@ -5,7 +5,7 @@ var http = require('http')
   , server = http.createServer(app)
   , Chart = require('./chart')
   , assert = require('assert')
-  , FUZZY = 4
+  , FUZZY = 7
 
 describe('Peity', function() {
   before(function(done) {
