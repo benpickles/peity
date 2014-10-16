@@ -1,5 +1,9 @@
 # History
 
+## Version 3.0.1 - 2014/10/16
+
+ * jQuery > 1.6.2 doesn’t like `undefined` being passed to `#attr()`.
+
 ## Version 3.0.0 - 2014/10/15
 
  * Remove the ability to read options from data attributes.
