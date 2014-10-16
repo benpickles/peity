@@ -12,7 +12,7 @@
   }
 
   // https://gist.github.com/madrobby/3201472
-  var svgSupported = 'createElementNS' in document && svgElement('svg').createSVGRect
+  var svgSupported = 'createElementNS' in document && svgElement('svg', {}).createSVGRect
 
   var peity = $.fn.peity = function(type, options) {
     if (svgSupported) {
