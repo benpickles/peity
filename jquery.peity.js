@@ -4,7 +4,7 @@
 // http://benpickles.github.io/peity
 //
 // Released under MIT license.
-(function($, document, Math) {
+(function($, document, Math, undefined) {
   var svgElement = function(tag, attrs) {
     var elem = document.createElementNS("http://www.w3.org/2000/svg", tag)
     $(elem).attr(attrs)
@@ -235,8 +235,8 @@
     function(opts) {
       var values = this.values()
       if (values.length == 1) values.push(values[0])
-      var max = Math.max.apply(Math, typeof opts.max == 'number' ? values.concat(opts.max) : values)
-      var min = Math.min.apply(Math, typeof opts.min == 'number' ? values.concat(opts.min) : values)
+      var max = Math.max.apply(Math, opts.max == undefined ? values : values.concat(opts.max))
+        , min = Math.min.apply(Math, opts.min == undefined ? values : values.concat(opts.min))
 
       var $svg = this.prepare(opts.width, opts.height)
         , width = $svg.width()
@@ -302,8 +302,8 @@
     },
     function(opts) {
       var values = this.values()
-      var max = Math.max.apply(Math, typeof opts.max == 'number' ? values.concat(opts.max) : values)
-      var min = Math.min.apply(Math, typeof opts.min == 'number' ? values.concat(opts.min) : values)
+        , max = Math.max.apply(Math, opts.max == undefined ? values : values.concat(opts.max))
+        , min = Math.min.apply(Math, opts.min == undefined ? values : values.concat(opts.min))
 
       var $svg = this.prepare(opts.width, opts.height)
         , width = $svg.width()

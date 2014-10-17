@@ -87,6 +87,15 @@
     "width": 32,
     "height": 16
   },
+  "bar13": {
+    "type": "bar",
+    "text": "5,3,9,6,5,9,7,3,5,2",
+    "opts": {
+      "max": "25"
+    },
+    "width": 32,
+    "height": 16
+  },
   "donut1": {
     "type": "donut",
     "text": "1/5",
@@ -225,6 +234,15 @@
     "text": "1000,1005,1003,1004,1001",
     "opts": {
       "min": null
+    },
+    "width": 32,
+    "height": 16
+  },
+  "line10": {
+    "type": "line",
+    "text": "5,3,9,6,5,9,7,3,5,2",
+    "opts": {
+      "max": "25"
     },
     "width": 32,
     "height": 16
