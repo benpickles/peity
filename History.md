@@ -1,5 +1,9 @@
 # History
 
+## Version 3.0.2 - 2014/10/17
+
+ * Fix `max`/`min` option when it's a string.
+
 ## Version 3.0.1 - 2014/10/16
 
  * jQuery > 1.6.2 doesn’t like `undefined` being passed to `#attr()`.
