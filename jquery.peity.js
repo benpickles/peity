@@ -239,8 +239,9 @@
         , min = Math.min.apply(Math, opts.min == undefined ? values : values.concat(opts.min))
 
       var $svg = this.prepare(opts.width, opts.height)
+        , strokeWidth = opts.strokeWidth
         , width = $svg.width()
-        , height = $svg.height() - opts.strokeWidth
+        , height = $svg.height() - strokeWidth
         , diff = max - min
 
       var xScale = this.x = function(input) {
@@ -254,7 +255,7 @@
           y -= ((input - min) / diff) * height
         }
 
-        return y + opts.strokeWidth / 2
+        return y + strokeWidth / 2
       }
 
       var zero = yScale(Math.max(min, 0))
@@ -276,13 +277,13 @@
         })
       )
 
-      if (opts.strokeWidth) {
+      if (strokeWidth) {
         this.svg.appendChild(
           svgElement('polyline', {
             fill: 'transparent',
             points: coords.slice(2, coords.length - 2).join(' '),
             stroke: opts.stroke,
-            'stroke-width': opts.strokeWidth,
+            'stroke-width': strokeWidth,
             'stroke-linecap': 'square'
           })
         )
