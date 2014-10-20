@@ -106,7 +106,9 @@
         opts.delimiter = delimiter ? delimiter[0] : ","
       }
 
-      var values = this.values()
+      var values = $.map(this.values(), function(n) {
+        return n > 0 ? n : 0
+      })
 
       if (opts.delimiter == "/") {
         var v1 = values[0]
