@@ -54,7 +54,9 @@
   var svgSupported = 'createElementNS' in document && svgElement('svg', {})[0].createSVGRect
 
   PeityPrototype.draw = function() {
-    peity.graphers[this.type].call(this, this.opts)
+    var opts = this.opts
+    peity.graphers[this.type].call(this, opts)
+    if (opts.after) opts.after.call(this, opts)
   }
 
   PeityPrototype.fill = function() {
