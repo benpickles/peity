@@ -124,6 +124,12 @@
         sum += values[i]
       }
 
+      if (!sum) {
+        length = 2
+        sum = 1
+        values = [0, 1]
+      }
+
       var diameter = opts.radius * 2
         , width = opts.width || diameter
         , height = opts.height || diameter
