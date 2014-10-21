@@ -204,7 +204,7 @@
 
         $(node).attr('fill', fill.call(this, value, i, values))
 
-        this.svg.appendChild(node)
+        $svg.append(node)
       }
     }
   )
@@ -268,7 +268,7 @@
 
       coords.push(width, zero)
 
-      this.svg.appendChild(
+      $svg.append(
         svgElement('polygon', {
           fill: opts.fill,
           points: coords.join(' ')
@@ -276,7 +276,7 @@
       )
 
       if (strokeWidth) {
-        this.svg.appendChild(
+        $svg.append(
           svgElement('polyline', {
             fill: 'transparent',
             points: coords.slice(2, coords.length - 2).join(' '),
@@ -346,7 +346,7 @@
           if (max > 0 && diff) y1--
         }
 
-        this.svg.appendChild(
+        $svg.append(
           svgElement('rect', {
             fill: fill.call(this, value, i, values),
             x: x,
