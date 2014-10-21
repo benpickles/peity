@@ -163,6 +163,18 @@
     "width": 16,
     "height": 16
   },
+  "donut10": {
+    "type": "donut",
+    "text": "1,-2,3",
+    "width": 16,
+    "height": 16
+  },
+  "donut11": {
+    "type": "donut",
+    "text": "-2/3",
+    "width": 16,
+    "height": 16
+  },
   "line1": {
     "type": "line",
     "text": "5,3,9,6,5,9,7,3,5,2",
@@ -302,6 +314,18 @@
   "pie8": {
     "type": "pie",
     "text": "4/3",
+    "width": 16,
+    "height": 16
+  },
+  "pie9": {
+    "type": "pie",
+    "text": "1,-2,3",
+    "width": 16,
+    "height": 16
+  },
+  "pie10": {
+    "type": "pie",
+    "text": "-2/3",
     "width": 16,
     "height": 16
   }
