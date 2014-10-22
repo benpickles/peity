@@ -5,15 +5,6 @@
 //
 // Released under MIT license.
 (function($, document, Math, undefined) {
-  var svgElement = function(tag, attrs) {
-    return $(
-      document.createElementNS('http://www.w3.org/2000/svg', tag)
-    ).attr(attrs)
-  }
-
-  // https://gist.github.com/madrobby/3201472
-  var svgSupported = 'createElementNS' in document && svgElement('svg', {})[0].createSVGRect
-
   var peity = $.fn.peity = function(type, options) {
     if (svgSupported) {
       this.each(function() {
@@ -52,6 +43,15 @@
   }
 
   var PeityPrototype = Peity.prototype
+
+  var svgElement = PeityPrototype.svgElement = function(tag, attrs) {
+    return $(
+      document.createElementNS('http://www.w3.org/2000/svg', tag)
+    ).attr(attrs)
+  }
+
+  // https://gist.github.com/madrobby/3201472
+  var svgSupported = 'createElementNS' in document && svgElement('svg', {})[0].createSVGRect
 
   PeityPrototype.draw = function() {
     peity.graphers[this.type].call(this, this.opts)
