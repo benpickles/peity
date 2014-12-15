@@ -10,7 +10,7 @@
 <script>
 $(function() {
   // Just the defaults.
-  $(".pie").peity("pie")
+  $("span.pie").peity("pie")
   $('.donut').peity('donut')
   $(".line").peity("line")
   $(".bar").peity("bar")
@@ -42,6 +42,9 @@ $(function() {
       return "rgb(255, " + g + ", 0)"
     }
   })
+
+  // Using data attributes
+  $(".pie span").peity("pie")
 
   // Simple evented example.
   $("select").change(function() {
@@ -112,6 +115,7 @@ $(function() {
       <a href="#dynamic-colours">setting colours dynamically</a>,
       <a href="#updating-charts">updating charts</a>,
       <a href="#custom-charts">custom charts</a>,
+      <a href="#data-attributes">data-* attributes</a> and
       <a href="#events">events</a>,
       <a href="#defaults">default settings</a>,
       <a href="#changelog">CHANGELOG</a>.
@@ -167,7 +171,7 @@ $(function() {
 
     <h4>JavaScript</h4>
 
-    <pre><code class="javascript">$(".pie").peity("pie")</code></pre>
+    <pre><code class="javascript">$("span.pie").peity("pie")</code></pre>
   </div>
 
   <h2 id="donut-charts">Donut Charts</h2>
@@ -343,6 +347,37 @@ setInterval(function() {
     // Implementation.
   }
 )</code></pre>
+
+  <h2 id="data-attributes">data-* attributes</h2>
+
+  <p>If you use data attributes, Peity will apply their values to the defaults
+    with the same names automatically. Options passed to the
+    <code>peity()</code> function take precedence over data-* attributes.</p>
+
+  <p class="pie">
+    <span data-fill='["red", "#eeeeee"]'    data-radius="40">1/7</span>
+    <span data-fill='["orange", "#eeeeee"]' data-radius="36">2/7</span>
+    <span data-fill='["yellow", "#eeeeee"]' data-radius="32">3/7</span>
+    <span data-fill='["green", "#eeeeee"]'  data-radius="28">4/7</span>
+    <span data-fill='["blue", "#eeeeee"]'   data-radius="24">5/7</span>
+    <span data-fill='["indigo", "#eeeeee"]' data-radius="20">6/7</span>
+    <span data-fill='["violet", "#eeeeee"]' data-radius="16">7/7</span>
+  </p>
+
+  <div class="example">
+    <h4>HTML</h4>
+
+    <pre><code class="html">&lt;span data-fill=&#x27;[&quot;red&quot;, &quot;#eeeeee&quot;]&#x27;    data-radius=&quot;40&quot;&gt;1/7&lt;/span&gt;
+&lt;span data-fill=&#x27;[&quot;orange&quot;, &quot;#eeeeee&quot;]&#x27; data-radius=&quot;36&quot;&gt;2/7&lt;/span&gt;
+&lt;span data-fill=&#x27;[&quot;yellow&quot;, &quot;#eeeeee&quot;]&#x27; data-radius=&quot;32&quot;&gt;3/7&lt;/span&gt;
+&lt;span data-fill=&#x27;[&quot;green&quot;, &quot;#eeeeee&quot;]&#x27;  data-radius=&quot;28&quot;&gt;4/7&lt;/span&gt;
+&lt;span data-fill=&#x27;[&quot;blue&quot;, &quot;#eeeeee&quot;]&#x27;   data-radius=&quot;24&quot;&gt;5/7&lt;/span&gt;
+&lt;span data-fill=&#x27;[&quot;indigo&quot;, &quot;#eeeeee&quot;]&#x27; data-radius=&quot;20&quot;&gt;6/7&lt;/span&gt;
+&lt;span data-fill=&#x27;[&quot;violet&quot;, &quot;#eeeeee&quot;]&#x27; data-radius=&quot;16&quot;&gt;7/7&lt;/span&gt;</code></pre>
+    <h4>JavaScript</h4>
+
+    <pre><code class="javascript">$(&quot;.pie span&quot;).peity(&quot;pie&quot;)</code></pre>
+  </div>
 
   <h2 id="events">Events</h2>
 
