@@ -23,7 +23,7 @@ fixtures:
 	node test/fixtures.js
 
 release: test docs bower.json peity.jquery.json package.json
-	@printf '\e[0;32m%-6s\e[m\n' "Happy days, everything passes. Now update History.md, commit everything, and tag it:"
+	@printf '\e[0;32m%-6s\e[m\n' "Happy days, everything passes. Now update CHANGELOG.md, commit everything, and tag it:"
 	@echo '  $$ git commit -m "Version $(VERSION)."'
 	@echo '  $$ git tag v$(VERSION)'
 
