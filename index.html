@@ -112,10 +112,10 @@ $(function() {
       <a href="#donut-charts">donut charts</a>,
       <a href="#line-charts">line charts</a>,
       <a href="#bar-charts">bar charts</a>,
+      <a href="#data-attributes">data-* attributes</a>,
       <a href="#dynamic-colours">setting colours dynamically</a>,
       <a href="#updating-charts">updating charts</a>,
       <a href="#custom-charts">custom charts</a>,
-      <a href="#data-attributes">data-* attributes</a> and
       <a href="#events">events</a>,
       <a href="#defaults">default settings</a>,
       <a href="#changelog">CHANGELOG</a>.
@@ -251,6 +251,39 @@ $(function() {
     <pre><code class="javascript">$(".bar").peity("bar")</code></pre>
   </div>
 
+  <h2 id="data-attributes">data-* attributes</h2>
+
+  <p>Data attributes can be used to pass custom settings per-chart - options
+    explicitly passed to the <code>peity()</code> function take precedence over
+    data-* attributes.</p>
+
+  <p class="data-attributes">
+    <span data-peity='{ "fill": ["red", "#eeeeee"],    "innerRadius": 10, "radius": 40 }'>1/7</span>
+    <span data-peity='{ "fill": ["orange", "#eeeeee"], "innerRadius": 14, "radius": 36 }'>2/7</span>
+    <span data-peity='{ "fill": ["yellow", "#eeeeee"], "innerRadius": 16, "radius": 32 }'>3/7</span>
+    <span data-peity='{ "fill": ["green", "#eeeeee"],  "innerRadius": 18, "radius": 28 }'>4/7</span>
+    <span data-peity='{ "fill": ["blue", "#eeeeee"],   "innerRadius": 20, "radius": 24 }'>5/7</span>
+    <span data-peity='{ "fill": ["indigo", "#eeeeee"], "innerRadius": 18, "radius": 20 }'>6/7</span>
+    <span data-peity='{ "fill": ["violet", "#eeeeee"], "innerRadius": 15, "radius": 16 }'>7/7</span>
+  </p>
+
+  <div class="example">
+    <h4>HTML</h4>
+
+    <pre><code class="html">&lt;p class=&quot;data-attributes&quot;&gt;
+  &lt;span data-peity=&#x27;{ &quot;fill&quot;: [&quot;red&quot;, &quot;#eeeeee&quot;],    &quot;innerRadius&quot;: 10, &quot;radius&quot;: 40 }&#x27;&gt;1/7&lt;/span&gt;
+  &lt;span data-peity=&#x27;{ &quot;fill&quot;: [&quot;orange&quot;, &quot;#eeeeee&quot;], &quot;innerRadius&quot;: 14, &quot;radius&quot;: 36 }&#x27;&gt;2/7&lt;/span&gt;
+  &lt;span data-peity=&#x27;{ &quot;fill&quot;: [&quot;yellow&quot;, &quot;#eeeeee&quot;], &quot;innerRadius&quot;: 16, &quot;radius&quot;: 32 }&#x27;&gt;3/7&lt;/span&gt;
+  &lt;span data-peity=&#x27;{ &quot;fill&quot;: [&quot;green&quot;, &quot;#eeeeee&quot;],  &quot;innerRadius&quot;: 18, &quot;radius&quot;: 28 }&#x27;&gt;4/7&lt;/span&gt;
+  &lt;span data-peity=&#x27;{ &quot;fill&quot;: [&quot;blue&quot;, &quot;#eeeeee&quot;],   &quot;innerRadius&quot;: 20, &quot;radius&quot;: 24 }&#x27;&gt;5/7&lt;/span&gt;
+  &lt;span data-peity=&#x27;{ &quot;fill&quot;: [&quot;indigo&quot;, &quot;#eeeeee&quot;], &quot;innerRadius&quot;: 18, &quot;radius&quot;: 20 }&#x27;&gt;6/7&lt;/span&gt;
+  &lt;span data-peity=&#x27;{ &quot;fill&quot;: [&quot;violet&quot;, &quot;#eeeeee&quot;], &quot;innerRadius&quot;: 15, &quot;radius&quot;: 16 }&#x27;&gt;7/7&lt;/span&gt;
+&lt;/p&gt;</code></pre>
+    <h4>JavaScript</h4>
+
+    <pre><code class="javascript">$(&quot;.data-attributes span&quot;).peity(&quot;donut&quot;)</code></pre>
+  </div>
+
   <h2 id="dynamic-colours">Setting Colours Dynamically</h2>
 
   <p>Pie, donut and bar chart colours can be defined dynamically based on the
@@ -347,39 +380,6 @@ setInterval(function() {
     // Implementation.
   }
 )</code></pre>
-
-  <h2 id="data-attributes">data-* attributes</h2>
-
-  <p>Data attributes can be used to pass custom settings per-chart - options
-    explicitly passed to the <code>peity()</code> function take precedence over
-    data-* attributes.</p>
-
-  <p class="data-attributes">
-    <span data-peity='{ "fill": ["red", "#eeeeee"],    "innerRadius": 10, "radius": 40 }'>1/7</span>
-    <span data-peity='{ "fill": ["orange", "#eeeeee"], "innerRadius": 14, "radius": 36 }'>2/7</span>
-    <span data-peity='{ "fill": ["yellow", "#eeeeee"], "innerRadius": 16, "radius": 32 }'>3/7</span>
-    <span data-peity='{ "fill": ["green", "#eeeeee"],  "innerRadius": 18, "radius": 28 }'>4/7</span>
-    <span data-peity='{ "fill": ["blue", "#eeeeee"],   "innerRadius": 20, "radius": 24 }'>5/7</span>
-    <span data-peity='{ "fill": ["indigo", "#eeeeee"], "innerRadius": 18, "radius": 20 }'>6/7</span>
-    <span data-peity='{ "fill": ["violet", "#eeeeee"], "innerRadius": 15, "radius": 16 }'>7/7</span>
-  </p>
-
-  <div class="example">
-    <h4>HTML</h4>
-
-    <pre><code class="html">&lt;p class=&quot;data-attributes&quot;&gt;
-  &lt;span data-peity=&#x27;{ &quot;fill&quot;: [&quot;red&quot;, &quot;#eeeeee&quot;],    &quot;innerRadius&quot;: 10, &quot;radius&quot;: 40 }&#x27;&gt;1/7&lt;/span&gt;
-  &lt;span data-peity=&#x27;{ &quot;fill&quot;: [&quot;orange&quot;, &quot;#eeeeee&quot;], &quot;innerRadius&quot;: 14, &quot;radius&quot;: 36 }&#x27;&gt;2/7&lt;/span&gt;
-  &lt;span data-peity=&#x27;{ &quot;fill&quot;: [&quot;yellow&quot;, &quot;#eeeeee&quot;], &quot;innerRadius&quot;: 16, &quot;radius&quot;: 32 }&#x27;&gt;3/7&lt;/span&gt;
-  &lt;span data-peity=&#x27;{ &quot;fill&quot;: [&quot;green&quot;, &quot;#eeeeee&quot;],  &quot;innerRadius&quot;: 18, &quot;radius&quot;: 28 }&#x27;&gt;4/7&lt;/span&gt;
-  &lt;span data-peity=&#x27;{ &quot;fill&quot;: [&quot;blue&quot;, &quot;#eeeeee&quot;],   &quot;innerRadius&quot;: 20, &quot;radius&quot;: 24 }&#x27;&gt;5/7&lt;/span&gt;
-  &lt;span data-peity=&#x27;{ &quot;fill&quot;: [&quot;indigo&quot;, &quot;#eeeeee&quot;], &quot;innerRadius&quot;: 18, &quot;radius&quot;: 20 }&#x27;&gt;6/7&lt;/span&gt;
-  &lt;span data-peity=&#x27;{ &quot;fill&quot;: [&quot;violet&quot;, &quot;#eeeeee&quot;], &quot;innerRadius&quot;: 15, &quot;radius&quot;: 16 }&#x27;&gt;7/7&lt;/span&gt;
-&lt;/p&gt;</code></pre>
-    <h4>JavaScript</h4>
-
-    <pre><code class="javascript">$(&quot;.data-attributes span&quot;).peity(&quot;donut&quot;)</code></pre>
-  </div>
 
   <h2 id="events">Events</h2>
 
