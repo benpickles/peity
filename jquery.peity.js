@@ -6,13 +6,13 @@
 // Released under MIT license.
 (function($, document, Math, undefined) {
   var svgElement = function(tag, attrs) {
-    var elem = document.createElementNS("http://www.w3.org/2000/svg", tag)
-    $(elem).attr(attrs)
-    return elem
+    return $(
+      document.createElementNS('http://www.w3.org/2000/svg', tag)
+    ).attr(attrs)
   }
 
   // https://gist.github.com/madrobby/3201472
-  var svgSupported = 'createElementNS' in document && svgElement('svg', {}).createSVGRect
+  var svgSupported = 'createElementNS' in document && svgElement('svg', {})[0].createSVGRect
 
   var peity = $.fn.peity = function(type, options) {
     if (svgSupported) {
@@ -63,15 +63,15 @@
   }
 
   PeityPrototype.prepare = function(width, height) {
-    if (!this.svg) {
+    if (!this.$svg) {
       this.$el.hide().after(
-        this.svg = svgElement("svg", {
+        this.$svg = svgElement('svg', {
           "class": "peity"
         })
       )
     }
 
-    return $(this.svg)
+    return this.$svg
       .empty()
       .data('peity', this)
       .attr({
@@ -161,7 +161,7 @@
       for (i = 0; i < length; i++) {
         var value = values[i]
           , portion = value / sum
-          , node
+          , $node
 
         if (portion == 0) continue
 
@@ -171,7 +171,7 @@
               , y1 = cy - radius
               , y2 = cy - innerRadius
 
-            node = svgElement('path', {
+            $node = svgElement('path', {
               d: [
                 'M', cx, y1,
                 'A', radius, radius, 0, 1, 1, x2, y1,
@@ -180,7 +180,7 @@
               ].join(' ')
             })
           } else {
-            node = svgElement("circle", {
+            $node = svgElement('circle', {
               cx: cx,
               cy: cy,
               r: radius
@@ -208,14 +208,14 @@
 
           cumulative += value
 
-          node = svgElement("path", {
+          $node = svgElement('path', {
             d: d.join(" ")
           })
         }
 
-        $(node).attr('fill', fill.call(this, value, i, values))
+        $node.attr('fill', fill.call(this, value, i, values))
 
-        $svg.append(node)
+        $svg.append($node)
       }
     }
   )
