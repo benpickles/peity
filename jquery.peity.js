@@ -25,11 +25,7 @@
           $.extend(chart.opts, options)
         } else {
           var defaults = peity.defaults[type]
-          var data = {}
-
-          $.each($this.data(), function(name, value) {
-            if (name in defaults) data[name] = value
-          })
+            , data = $this.data('peity')
 
           chart = new Peity(
             $this,
