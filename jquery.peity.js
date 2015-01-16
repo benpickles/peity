@@ -18,7 +18,7 @@
     if (svgSupported) {
       this.each(function() {
         var $this = $(this)
-        var chart = $this.data("peity")
+        var chart = $this.data('_peity')
 
         if (chart) {
           if (type) chart.type = type
@@ -39,7 +39,7 @@
 
           $this
             .change(function() { chart.draw() })
-            .data("peity", chart)
+            .data('_peity', chart)
         }
 
         chart.draw()
