@@ -44,7 +44,7 @@ $(function() {
   })
 
   // Using data attributes
-  $(".pie span").peity("pie")
+  $(".data-attributes span").peity("donut")
 
   // Simple evented example.
   $("select").change(function() {
@@ -350,33 +350,35 @@ setInterval(function() {
 
   <h2 id="data-attributes">data-* attributes</h2>
 
-  <p>If you use data attributes, Peity will apply their values to the defaults
-    with the same names automatically. Options passed to the
-    <code>peity()</code> function take precedence over data-* attributes.</p>
+  <p>Data attributes can be used to pass custom settings per-chart - options
+    explicitly passed to the <code>peity()</code> function take precedence over
+    data-* attributes.</p>
 
-  <p class="pie">
-    <span data-fill='["red", "#eeeeee"]'    data-radius="40">1/7</span>
-    <span data-fill='["orange", "#eeeeee"]' data-radius="36">2/7</span>
-    <span data-fill='["yellow", "#eeeeee"]' data-radius="32">3/7</span>
-    <span data-fill='["green", "#eeeeee"]'  data-radius="28">4/7</span>
-    <span data-fill='["blue", "#eeeeee"]'   data-radius="24">5/7</span>
-    <span data-fill='["indigo", "#eeeeee"]' data-radius="20">6/7</span>
-    <span data-fill='["violet", "#eeeeee"]' data-radius="16">7/7</span>
+  <p class="data-attributes">
+    <span data-peity='{ "fill": ["red", "#eeeeee"],    "innerRadius": 10, "radius": 40 }'>1/7</span>
+    <span data-peity='{ "fill": ["orange", "#eeeeee"], "innerRadius": 14, "radius": 36 }'>2/7</span>
+    <span data-peity='{ "fill": ["yellow", "#eeeeee"], "innerRadius": 16, "radius": 32 }'>3/7</span>
+    <span data-peity='{ "fill": ["green", "#eeeeee"],  "innerRadius": 18, "radius": 28 }'>4/7</span>
+    <span data-peity='{ "fill": ["blue", "#eeeeee"],   "innerRadius": 20, "radius": 24 }'>5/7</span>
+    <span data-peity='{ "fill": ["indigo", "#eeeeee"], "innerRadius": 18, "radius": 20 }'>6/7</span>
+    <span data-peity='{ "fill": ["violet", "#eeeeee"], "innerRadius": 15, "radius": 16 }'>7/7</span>
   </p>
 
   <div class="example">
     <h4>HTML</h4>
 
-    <pre><code class="html">&lt;span data-fill=&#x27;[&quot;red&quot;, &quot;#eeeeee&quot;]&#x27;    data-radius=&quot;40&quot;&gt;1/7&lt;/span&gt;
-&lt;span data-fill=&#x27;[&quot;orange&quot;, &quot;#eeeeee&quot;]&#x27; data-radius=&quot;36&quot;&gt;2/7&lt;/span&gt;
-&lt;span data-fill=&#x27;[&quot;yellow&quot;, &quot;#eeeeee&quot;]&#x27; data-radius=&quot;32&quot;&gt;3/7&lt;/span&gt;
-&lt;span data-fill=&#x27;[&quot;green&quot;, &quot;#eeeeee&quot;]&#x27;  data-radius=&quot;28&quot;&gt;4/7&lt;/span&gt;
-&lt;span data-fill=&#x27;[&quot;blue&quot;, &quot;#eeeeee&quot;]&#x27;   data-radius=&quot;24&quot;&gt;5/7&lt;/span&gt;
-&lt;span data-fill=&#x27;[&quot;indigo&quot;, &quot;#eeeeee&quot;]&#x27; data-radius=&quot;20&quot;&gt;6/7&lt;/span&gt;
-&lt;span data-fill=&#x27;[&quot;violet&quot;, &quot;#eeeeee&quot;]&#x27; data-radius=&quot;16&quot;&gt;7/7&lt;/span&gt;</code></pre>
+    <pre><code class="html">&lt;p class=&quot;data-attributes&quot;&gt;
+  &lt;span data-peity=&#x27;{ &quot;fill&quot;: [&quot;red&quot;, &quot;#eeeeee&quot;],    &quot;innerRadius&quot;: 10, &quot;radius&quot;: 40 }&#x27;&gt;1/7&lt;/span&gt;
+  &lt;span data-peity=&#x27;{ &quot;fill&quot;: [&quot;orange&quot;, &quot;#eeeeee&quot;], &quot;innerRadius&quot;: 14, &quot;radius&quot;: 36 }&#x27;&gt;2/7&lt;/span&gt;
+  &lt;span data-peity=&#x27;{ &quot;fill&quot;: [&quot;yellow&quot;, &quot;#eeeeee&quot;], &quot;innerRadius&quot;: 16, &quot;radius&quot;: 32 }&#x27;&gt;3/7&lt;/span&gt;
+  &lt;span data-peity=&#x27;{ &quot;fill&quot;: [&quot;green&quot;, &quot;#eeeeee&quot;],  &quot;innerRadius&quot;: 18, &quot;radius&quot;: 28 }&#x27;&gt;4/7&lt;/span&gt;
+  &lt;span data-peity=&#x27;{ &quot;fill&quot;: [&quot;blue&quot;, &quot;#eeeeee&quot;],   &quot;innerRadius&quot;: 20, &quot;radius&quot;: 24 }&#x27;&gt;5/7&lt;/span&gt;
+  &lt;span data-peity=&#x27;{ &quot;fill&quot;: [&quot;indigo&quot;, &quot;#eeeeee&quot;], &quot;innerRadius&quot;: 18, &quot;radius&quot;: 20 }&#x27;&gt;6/7&lt;/span&gt;
+  &lt;span data-peity=&#x27;{ &quot;fill&quot;: [&quot;violet&quot;, &quot;#eeeeee&quot;], &quot;innerRadius&quot;: 15, &quot;radius&quot;: 16 }&#x27;&gt;7/7&lt;/span&gt;
+&lt;/p&gt;</code></pre>
     <h4>JavaScript</h4>
 
-    <pre><code class="javascript">$(&quot;.pie span&quot;).peity(&quot;pie&quot;)</code></pre>
+    <pre><code class="javascript">$(&quot;.data-attributes span&quot;).peity(&quot;donut&quot;)</code></pre>
   </div>
 
   <h2 id="events">Events</h2>
