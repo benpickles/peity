@@ -24,13 +24,13 @@
           if (type) chart.type = type
           $.extend(chart.opts, options)
         } else {
-          var defaults = peity.defaults[type]
-            , data = $this.data('peity')
-
           chart = new Peity(
             $this,
             type,
-            $.extend({}, defaults, data, options)
+            $.extend({},
+              peity.defaults[type],
+              $this.data('peity'),
+              options)
           )
 
           $this
