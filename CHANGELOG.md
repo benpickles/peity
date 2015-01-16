@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## Version 3.0.3 - 2015/1/16
+
+ * Don't allow negative or zero values to blow up a pie chart.
+
 ## Version 3.0.2 - 2014/10/17
 
  * Fix `max`/`min` option when it's a string.
