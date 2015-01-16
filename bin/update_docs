@@ -1,6 +1,7 @@
 #!/usr/bin/env ruby
 
 require 'bundler/setup'
+require 'github/markup'
 require 'hpricot'
 
 INDEX = 'index.html'
@@ -15,5 +16,20 @@ doc.at('.version').inner_html = "version #{VERSION}"
 doc.at('.size-js').inner_html = size('jquery.peity.js')
 doc.at('.size-min').inner_html = size('jquery.peity.min.js')
 doc.at('.size-gz').inner_html = size('jquery.peity.min.js.gz')
+
+changelog = 'CHANGELOG.md'
+changelog_md = File.read(changelog)
+changelog_html = GitHub::Markup.render(changelog, changelog_md)
+changelog_doc = Hpricot(changelog_html)
+
+changelog_doc.search('h2').each do |h2|
+  h2.name = 'h3'
+end
+
+h1 = changelog_doc.at('h1')
+h1.name = 'h2'
+h1['id'] = 'changelog'
+
+doc.at('.changelog').inner_html = changelog_doc.to_html
 
 File.write(INDEX, doc.to_original_html)

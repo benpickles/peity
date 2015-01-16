@@ -1,4 +1,4 @@
-# History
+# CHANGELOG
 
 ## Version 3.0.2 - 2014/10/17
 
