@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## Version 3.1.0 - 2015/1/19
+
+ * Bring back per-chart reading settings from data attributes but with a slightly different interface: all settings are stored on the `data-peity` attribute as JSON.
+
 ## Version 3.0.3 - 2015/1/16
 
  * Don't allow negative or zero values to blow up a pie chart.
