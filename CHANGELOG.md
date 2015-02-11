@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## Version 3.1.1 - 2015/2/11
+
+ * Ensure a donut's default inner radius honours percentage dimensions by deriving it from its calculated radius.
+
 ## Version 3.1.0 - 2015/1/19
 
  * Bring back per-chart reading settings from data attributes but with a slightly different interface: all settings are stored on the `data-peity` attribute as JSON.
