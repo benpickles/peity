@@ -147,6 +147,11 @@
 
       var radius = Math.min(cx, cy)
         , innerRadius = opts.innerRadius
+
+      if (this.type == 'donut' && !innerRadius) {
+        innerRadius = radius * 0.5
+      }
+
       var pi = Math.PI
       var fill = this.fill()
 
@@ -227,7 +232,6 @@
     'donut',
     $.extend(true, {}, peity.defaults.pie),
     function(opts) {
-      if (!opts.innerRadius) opts.innerRadius = opts.radius * 0.5
       peity.graphers.pie.call(this, opts)
     }
   )
