@@ -285,17 +285,19 @@
 
       coords.push(width, zero)
 
-      $svg.append(
-        svgElement('polygon', {
-          fill: opts.fill,
-          points: coords.join(' ')
-        })
-      )
+      if (opts.fill) {
+        $svg.append(
+          svgElement('polygon', {
+            fill: opts.fill,
+            points: coords.join(' ')
+          })
+        )
+      }
 
       if (strokeWidth) {
         $svg.append(
           svgElement('polyline', {
-            fill: 'transparent',
+            fill: 'none',
             points: coords.slice(2, coords.length - 2).join(' '),
             stroke: opts.stroke,
             'stroke-width': strokeWidth,

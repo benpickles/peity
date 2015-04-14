@@ -265,6 +265,15 @@
     "width": 32,
     "height": 16
   },
+  "line11": {
+    "type": "line",
+    "text": "5,3,9,6,5,9,7,3,5,2",
+    "opts": {
+      "fill": null
+    },
+    "width": 32,
+    "height": 16
+  },
   "pie1": {
     "type": "pie",
     "text": "1/5",
