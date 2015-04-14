@@ -285,12 +285,14 @@
 
       coords.push(width, zero)
 
-      $svg.append(
-        svgElement('polygon', {
-          fill: opts.fill,
-          points: coords.join(' ')
-        })
-      )
+      if (opts.fill) {
+        $svg.append(
+          svgElement('polygon', {
+            fill: opts.fill,
+            points: coords.join(' ')
+          })
+        )
+      }
 
       if (strokeWidth) {
         $svg.append(
