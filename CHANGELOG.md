@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## Version 3.1.2 - 2015/4/14
+
+ * Allow line charts with no fill, just the line.
+
 ## Version 3.1.1 - 2015/2/11
 
  * Ensure a donut's default inner radius honours percentage dimensions by deriving it from its calculated radius.
