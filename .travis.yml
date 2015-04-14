@@ -6,3 +6,4 @@ cache:
     - node_modules
 notifications:
   email: false
+sudo: false
