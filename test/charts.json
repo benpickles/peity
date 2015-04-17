@@ -96,6 +96,13 @@
     "width": 32,
     "height": 16
   },
+  "bar14": {
+    "type": "bar",
+    "text": "5,0,9,6,5,9,7,3,5,2",
+    "opts": "{ after: function() { this.$svg.append(this.svgElement('line', { stroke: 'black', x1: 0, x2: this.x(9), y1: this.y(9), y2: this.y(0) })) } }",
+    "width": 32,
+    "height": 16
+  },
   "donut1": {
     "type": "donut",
     "text": "1/5",
@@ -178,6 +185,13 @@
   "donut12": {
     "type": "donut",
     "text": "0,0,0,0,0",
+    "width": 16,
+    "height": 16
+  },
+  "donut13": {
+    "type": "donut",
+    "text": "2,4,5",
+    "opts": "{ after: function() { var xy = this.scale(4, 4); this.$svg.append(this.svgElement('rect', { fill: 'none', height: 3, stroke: 'black', width: 3, x: xy[0], y: xy[1] })) } }",
     "width": 16,
     "height": 16
   },
@@ -274,6 +288,13 @@
     "width": 32,
     "height": 16
   },
+  "line12": {
+    "type": "line",
+    "text": "5,0,9,6,5,9,7,3,5,2",
+    "opts": "{ after: function() { this.$svg.append(this.svgElement('line', { stroke: 'black', x1: 0, x2: this.x(9), y1: this.y(9), y2: this.y(0) })) } }",
+    "width": 32,
+    "height": 16
+  },
   "pie1": {
     "type": "pie",
     "text": "1/5",
@@ -347,6 +368,13 @@
   "pie11": {
     "type": "pie",
     "text": "0,0,0,0,0",
+    "width": 16,
+    "height": 16
+  },
+  "pie12": {
+    "type": "pie",
+    "text": "2,4,5",
+    "opts": "{ after: function() { var xy = this.scale(4, 2); this.$svg.append(this.svgElement('rect', { fill: 'none', height: 3, stroke: 'black', width: 3, x: xy[0], y: xy[1] })) } }",
     "width": 16,
     "height": 16
   }
