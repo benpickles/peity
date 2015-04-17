@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## Version 3.2.0 - 2015/4/17
+
+ * Add an `after` hook that can be used to decorate a chart.
+
 ## Version 3.1.2 - 2015/4/14
 
  * Allow line charts with no fill, just the line.
