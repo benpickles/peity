@@ -482,6 +482,21 @@ setInterval(function() {
 $('span.graph').peity('pie')</code></pre>
   </div>
 
+  <h2 id="tooltips">Tooltip Setup</h2>
+
+  <p>You can add a <code>value_attr</code> setting to the pie and donut charts so that tooltip plugins such as Bootstrap tooltip can display values when hovering over a pie slice. This works by adding an attribute (e.g. 'title' or 'data-value') as defined in value_attr to each svg path or circle created. For example (and this assumes you have jQuery and Bootstrap set up):</p>
+  <h4>JavaScript</h4>
+
+  <pre><code class="javascript">$(document).ready( function() {
+  $.fn.peity.defaults.pie = {
+    fill: ["#d9534f", "#5cb85c", "#f5f5f5"],
+    radius: 20,
+    value_attr: 'title'
+  };
+  $('span.pie').peity("pie");
+  $("svg.peity > path, svg.peity > circle").tooltip({container: 'body', placement: 'auto top' });
+});</code></pre>
+
   <h2 id="defaults">Default Settings</h2>
 
   <p>Defaults can be overridden globally like so:</p>
@@ -491,7 +506,8 @@ $('span.graph').peity('pie')</code></pre>
   fill: ["<span style="background:#ff9900">#ff9900</span>", "<span style="background:#fff4dd">#fff4dd</span>", "<span style="background:#ffd592">#ffd592</span>"],
   height: null,
   radius: 8,
-  width: null
+  width: null,
+  value_attr: 'title'
 }
 
 $.fn.peity.defaults.donut = {
@@ -525,6 +541,12 @@ $.fn.peity.defaults.bar = {
 }</code></pre>
 
   <div class="changelog"><h2 id="changelog">CHANGELOG</h2>
+
+<h3>Version 3.2.1rc - 2016/6/09</h3>
+
+<ul>
+  <li>Add a <code>value_attr</code> setting so that tooltips can display values when hovering over a pie slice.</li>
+</ul>
 
 <h3>Version 3.2.0 - 2015/4/17</h3>
 

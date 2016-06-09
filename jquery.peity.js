@@ -224,6 +224,9 @@
         }
 
         $node.attr('fill', fill.call(this, value, i, values))
+        if (opts.value_attr) {
+          $node.attr(opts.value_attr, value)
+        }
 
         $svg.append($node)
       }
