@@ -256,7 +256,10 @@
       if (values.length == 1) values.push(values[0])
       var max = Math.max.apply(Math, opts.max == undefined ? values : values.concat(opts.max))
         , min = Math.min.apply(Math, opts.min == undefined ? values : values.concat(opts.min))
-
+      if (max == min) {
+        max ++; min--;
+      }
+      
       var $svg = this.prepare(opts.width, opts.height)
         , strokeWidth = opts.strokeWidth
         , width = $svg.width()
