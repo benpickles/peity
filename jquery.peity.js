@@ -86,8 +86,9 @@
   }
 
   PeityPrototype.values = function() {
+    var invert = this.opts.invert;
     return $.map(this.$el.text().split(this.opts.delimiter), function(value) {
-      return parseFloat(value)
+      return invert ? parseFloat(value) * -1 : parseFloat(value)
     })
   }
 
@@ -247,7 +248,8 @@
       min: 0,
       stroke: "#4d89f9",
       strokeWidth: 1,
-      width: 32
+      width: 32,
+      invert: false
     },
     function(opts) {
       var values = this.values()
@@ -318,7 +320,8 @@
       height: 16,
       min: 0,
       padding: 0.1,
-      width: 32
+      width: 32,
+      invert: false
     },
     function(opts) {
       var values = this.values()
