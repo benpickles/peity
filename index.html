@@ -46,7 +46,7 @@ $(function() {
   // Using data attributes
   $(".data-attributes span").peity("donut")
 
-  // Simple evented example.
+  // Evented example.
   $("select").change(function() {
     var text = $(this).val() + "/" + 5
 
@@ -97,8 +97,8 @@ $(function() {
   <iframe src="http://ghbtns.com/github-btn.html?user=benpickles&repo=peity&type=fork&count=true"
     allowtransparency="true" frameborder="0" scrolling="0" width="95" height="20"></iframe>
 
-  <p>Peity (sounds like deity) is a simple <a href="http://jquery.com/">jQuery</a>
-    plugin that converts an element's content into a simple <code>&lt;svg&gt;</code>
+  <p>Peity (sounds like deity) is a <a href="http://jquery.com/">jQuery</a>
+    plugin that converts an element's content into a <code>&lt;svg&gt;</code>
     mini pie <span class="pie">2/5</span>
     donut <span class="donut">5,2,3</span>
     line <span class="line">5,3,9,6,5,9,7,3,5,2</span>
@@ -137,7 +137,7 @@ $(function() {
 
   <h2 id="pie-charts">Pie Charts</h2>
 
-  <p>Simply call <code>peity("pie")</code> on a jQuery selection. There are
+  <p>Call <code>peity("pie")</code> on a jQuery selection. There are
     two subtly different pie chart semantics, a "/" delimiter is assumed to
     mean "three out of five" and only the first two values will be drawn,
     otherwise all of the values are included in the chart and the total is the
