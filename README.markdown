@@ -50,4 +50,4 @@ Update the version string in `jquery.peity.js`, run `make release`, and follow t
 
 ## Copyright
 
-Copyright 2009-2015 [Ben Pickles](http://benpickles.com/). See [MIT-LICENCE](https://github.com/benpickles/peity/blob/master/MIT-LICENCE) for details.
+Copyright 2009-2016 [Ben Pickles](http://benpickles.com/). See [MIT-LICENCE](https://github.com/benpickles/peity/blob/master/MIT-LICENCE) for details.
