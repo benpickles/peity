@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## Version 3.2.1 - 2016-10-10
+
+ * Ensure NPM package includes only required files.
+ * Now available in Packagist <https://packagist.org/packages/benpickles/peity>.
+ * No functional changes.
+
 ## Version 3.2.0 - 2015-4-17
 
  * Add an `after` hook that can be used to decorate a chart.
