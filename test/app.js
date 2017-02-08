@@ -3,7 +3,7 @@ var express = require('express')
 
 var sendfile = function(filename, root) {
   return function(_, res) {
-    res.sendfile(filename, { root: root })
+    res.sendFile(filename, { root: root })
   }
 }
 
