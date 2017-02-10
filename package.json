@@ -14,7 +14,8 @@
     "ejs": "^2.5.5",
     "express": "^4.14.1",
     "mocha": "^3.2.0",
-    "queue-async": "^1.2.1"
+    "queue-async": "^1.2.1",
+    "uglify-js": "^2.7.5"
   },
   "scripts": {
     "test": "make test"

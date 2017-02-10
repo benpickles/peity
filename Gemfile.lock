@@ -1,7 +1,6 @@
 GEM
   remote: https://rubygems.org/
   specs:
-    closure-compiler (1.1.7)
     github-markup (1.3.1)
       posix-spawn (~> 0.3.8)
     hpricot (0.8.6)
@@ -12,7 +11,9 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  closure-compiler (= 1.1.7)
   github-markup
   hpricot
   redcarpet
+
+BUNDLED WITH
+   1.13.7
