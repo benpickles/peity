@@ -1,8 +1,8 @@
 #!/usr/bin/env ruby
 
 require 'bundler/setup'
-require 'github/markup'
 require 'hpricot'
+require 'kramdown'
 
 INDEX = 'index.html'
 VERSION = ARGV[0]
@@ -17,9 +17,8 @@ doc.at('.size-js').inner_html = size('jquery.peity.js')
 doc.at('.size-min').inner_html = size('jquery.peity.min.js')
 doc.at('.size-gz').inner_html = size('jquery.peity.min.js.gz')
 
-changelog = 'CHANGELOG.md'
-changelog_md = File.read(changelog)
-changelog_html = GitHub::Markup.render(changelog, changelog_md)
+changelog_md = File.read('CHANGELOG.md')
+changelog_html = Kramdown::Document.new(changelog_md, auto_ids: false, input: 'GFM').to_html
 changelog_doc = Hpricot(changelog_html)
 
 changelog_doc.search('h2').each do |h2|
