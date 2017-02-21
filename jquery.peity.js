@@ -78,7 +78,7 @@
 
     return this.$svg
       .empty()
-      .data('peity', this)
+      .data('_peity', this)
       .attr({
         height: height,
         width: width
