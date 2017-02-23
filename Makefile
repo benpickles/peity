@@ -1,3 +1,4 @@
+UGLIFY=./node_modules/.bin/uglifyjs --compress warnings=false --mangle --
 VERSION = $(shell head -1 jquery.peity.js | awk '{print $$(NF)}')
 
 first: test
@@ -7,7 +8,7 @@ first: test
 
 jquery.peity.min.js: jquery.peity.js
 	head -6 $< > $@
-	ruby -rbundler/setup -rclosure-compiler -e "puts Closure::Compiler.new.compile(File.new('$<'))" >> $@
+	$(UGLIFY) $< >> $@
 
 jquery.peity.min.js.gz: jquery.peity.min.js
 	gzip -9f < $< > $@
