@@ -187,12 +187,14 @@
                 'A', radius, radius, 0, 1, 1, x2, y1,
                 'L', x2, y2,
                 'A', innerRadius, innerRadius, 0, 1, 0, cx, y2
-              ].join(' ')
+              ].join(' '),
+              'data-value': value,
             })
           } else {
             $node = svgElement('circle', {
               cx: cx,
               cy: cy,
+              'data-value': value,
               r: radius
             })
           }
@@ -219,7 +221,8 @@
           cumulative += value
 
           $node = svgElement('path', {
-            d: d.join(" ")
+            d: d.join(" "),
+            'data-value': value,
           })
         }
 
@@ -370,6 +373,7 @@
 
         $svg.append(
           svgElement('rect', {
+            'data-value': value,
             fill: fill.call(this, value, i, values),
             x: x,
             y: y1,
