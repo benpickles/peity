@@ -1,4 +1,4 @@
-UGLIFY=./node_modules/.bin/uglifyjs --compress warnings=false --mangle --
+UGLIFY=./node_modules/.bin/uglifyjs --compress --mangle --
 VERSION = $(shell head -1 jquery.peity.js | awk '{print $$(NF)}')
 
 first: test
