@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## Version 3.3.0 - 2018-01-18
+
+ * Expose an item's value on bar and pie slice SVG nodes on the `data-value` attribute.
+
 ## Version 3.2.1 - 2016-10-10
 
  * Ensure NPM package includes only required files.

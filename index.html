@@ -122,10 +122,10 @@ $(function() {
     </p>
   </nav>
 
-  <h2>Download <span class="version">version 3.2.1</span></h2>
+  <h2>Download <span class="version">version 3.3.0</span></h2>
 
   <dl>
-    <dt>Uncompressed <span class="size-js">8.7Kb</span></dt>
+    <dt>Uncompressed <span class="size-js">8.8Kb</span></dt>
     <dd><a href="jquery.peity.js">jquery.peity.js</a></dd>
     <dt>Minified <span class="size-min">3.6Kb</span> (+gzipped <span class="size-gz">1.7Kb</span>)</dt>
     <dd><a href="jquery.peity.min.js">jquery.peity.min.js</a></dd>
@@ -526,222 +526,228 @@ $.fn.peity.defaults.bar = {
 
   <div class="changelog"><h2 id="changelog">CHANGELOG</h2>
 
+<h3>Version 3.3.0 - 2018-01-18</h3>
+
+<ul>
+  <li>Expose an item’s value on bar and pie slice SVG nodes on the <code>data-value</code> attribute.</li>
+</ul>
+
 <h3>Version 3.2.1 - 2016-10-10</h3>
 
 <ul>
-<li>Ensure NPM package includes only required files.</li>
-<li>Now available in Packagist <a href="https://packagist.org/packages/benpickles/peity">https://packagist.org/packages/benpickles/peity</a>.</li>
-<li>No functional changes.</li>
+  <li>Ensure NPM package includes only required files.</li>
+  <li>Now available in Packagist <a href="https://packagist.org/packages/benpickles/peity">https://packagist.org/packages/benpickles/peity</a>.</li>
+  <li>No functional changes.</li>
 </ul>
 
 <h3>Version 3.2.0 - 2015-4-17</h3>
 
 <ul>
-<li>Add an <code>after</code> hook that can be used to decorate a chart.</li>
+  <li>Add an <code>after</code> hook that can be used to decorate a chart.</li>
 </ul>
 
 <h3>Version 3.1.2 - 2015-4-14</h3>
 
 <ul>
-<li>Allow line charts with no fill, just the line.</li>
+  <li>Allow line charts with no fill, just the line.</li>
 </ul>
 
 <h3>Version 3.1.1 - 2015-2-11</h3>
 
 <ul>
-<li>Ensure a donut&#39;s default inner radius honours percentage dimensions by deriving it from its calculated radius.</li>
+  <li>Ensure a donut’s default inner radius honours percentage dimensions by deriving it from its calculated radius.</li>
 </ul>
 
 <h3>Version 3.1.0 - 2015-1-19</h3>
 
 <ul>
-<li>Bring back per-chart reading settings from data attributes but with a slightly different interface: all settings are stored on the <code>data-peity</code> attribute as JSON.</li>
+  <li>Bring back per-chart reading settings from data attributes but with a slightly different interface: all settings are stored on the <code>data-peity</code> attribute as JSON.</li>
 </ul>
 
 <h3>Version 3.0.3 - 2015-1-16</h3>
 
 <ul>
-<li>Don&#39;t allow negative or zero values to blow up a pie chart.</li>
+  <li>Don’t allow negative or zero values to blow up a pie chart.</li>
 </ul>
 
 <h3>Version 3.0.2 - 2014-10-17</h3>
 
 <ul>
-<li>Fix <code>max</code>/<code>min</code> option when it&#39;s a string.</li>
+  <li>Fix <code>max</code>/<code>min</code> option when it’s a string.</li>
 </ul>
 
 <h3>Version 3.0.1 - 2014-10-16</h3>
 
 <ul>
-<li>jQuery &gt; 1.6.2 doesn’t like <code>undefined</code> being passed to <code>#attr()</code>.</li>
+  <li>jQuery &gt; 1.6.2 doesn’t like <code>undefined</code> being passed to <code>#attr()</code>.</li>
 </ul>
 
 <h3>Version 3.0.0 - 2014-10-15</h3>
 
 <ul>
-<li>Remove the ability to read options from data attributes.</li>
-<li>Add donut chart type.</li>
-<li>Switch from <code>diameter</code> pie chart option to <code>radius</code>.</li>
-<li>Expose the internally-used scale functions to the outside world.</li>
-<li>Rename <code>gap</code> bar chart option to <code>padding</code>. It is now specified as a portion of the width of each bar and is present on both sides.</li>
+  <li>Remove the ability to read options from data attributes.</li>
+  <li>Add donut chart type.</li>
+  <li>Switch from <code>diameter</code> pie chart option to <code>radius</code>.</li>
+  <li>Expose the internally-used scale functions to the outside world.</li>
+  <li>Rename <code>gap</code> bar chart option to <code>padding</code>. It is now specified as a portion of the width of each bar and is present on both sides.</li>
 </ul>
 
 <h3>Version 2.0.5 - 2014-10-15</h3>
 
 <ul>
-<li>Changes to make the minified version 147 bytes smaller!</li>
+  <li>Changes to make the minified version 147 bytes smaller!</li>
 </ul>
 
 <h3>Version 2.0.4 - 2014-10-8</h3>
 
 <ul>
-<li>Fix a null max argument being calculated as zero when all values are negative.</li>
-<li>Ensure that a null min argument means that the minimum is calculated from a chart’s values.</li>
+  <li>Fix a null max argument being calculated as zero when all values are negative.</li>
+  <li>Ensure that a null min argument means that the minimum is calculated from a chart’s values.</li>
 </ul>
 
 <h3>Version 2.0.3 - 2014-4-29</h3>
 
 <ul>
-<li>Don&#39;t blow up drawing a line chart of all zeros.</li>
+  <li>Don’t blow up drawing a line chart of all zeros.</li>
 </ul>
 
 <h3>Version 2.0.2 - 2014-3-26</h3>
 
 <ul>
-<li>Fix misaligned bar when its value is negative and equal to the minimum.</li>
+  <li>Fix misaligned bar when its value is negative and equal to the minimum.</li>
 </ul>
 
 <h3>Version 2.0.1 - 2014-1-22</h3>
 
 <ul>
-<li>Ensure bars are positioned correctly when a bar chart&#39;s values are all equal its minimum value.</li>
+  <li>Ensure bars are positioned correctly when a bar chart’s values are all equal its minimum value.</li>
 </ul>
 
 <h3>Version 2.0.0 - 2014-1-3</h3>
 
 <ul>
-<li>Switch from <code>&lt;canvas&gt;</code> to <code>&lt;svg&gt;</code>.</li>
-<li>Update jQuery dependency from 1.4.4 to 1.6.2 due to problems fetching a <code>&lt;svg&gt;</code> element&#39;s dimensions in Firefox.</li>
-<li>Rename <code>colour</code>/<code>colours</code> options to <code>fill</code>.</li>
-<li>Rename <code>spacing</code> bar chart option to <code>gap</code>.</li>
-<li>Rename <code>strokeColour</code> line chart option to <code>stroke</code>.</li>
+  <li>Switch from <code>&lt;canvas&gt;</code> to <code>&lt;svg&gt;</code>.</li>
+  <li>Update jQuery dependency from 1.4.4 to 1.6.2 due to problems fetching a <code>&lt;svg&gt;</code> element’s dimensions in Firefox.</li>
+  <li>Rename <code>colour</code>/<code>colours</code> options to <code>fill</code>.</li>
+  <li>Rename <code>spacing</code> bar chart option to <code>gap</code>.</li>
+  <li>Rename <code>strokeColour</code> line chart option to <code>stroke</code>.</li>
 </ul>
 
 <h3>Version 1.2.1 - 2013-11-21</h3>
 
 <ul>
-<li>Ensure a line chart&#39;s outline doesn&#39;t spill off the canvas.</li>
+  <li>Ensure a line chart’s outline doesn’t spill off the canvas.</li>
 </ul>
 
 <h3>Version 1.2.0 - 2013-3-11</h3>
 
 <ul>
-<li>Easier CSS targeting of Peity-created canvas elements.</li>
-<li>Percentage dimensions (<code>width: &quot;100%&quot;</code>) now work.</li>
+  <li>Easier CSS targeting of Peity-created canvas elements.</li>
+  <li>Percentage dimensions (<code>width: "100%"</code>) now work.</li>
 </ul>
 
 <h3>Version 1.1.2 - 2013-2-23</h3>
 
 <ul>
-<li>Fix reference to <code>devicePixelRatio</code> - thanks <a href="https://github.com/kcivey">@kcivey</a>.</li>
+  <li>Fix reference to <code>devicePixelRatio</code> - thanks <a href="https://github.com/kcivey">@kcivey</a>.</li>
 </ul>
 
 <h3>Version 1.1.1 - 2013-2-5</h3>
 
 <ul>
-<li>component.json for Bower.</li>
-<li>Finally in the jQuery plugin registry: <a href="http://plugins.jquery.com/peity/">http://plugins.jquery.com/peity/</a></li>
+  <li>component.json for Bower.</li>
+  <li>Finally in the jQuery plugin registry: <a href="http://plugins.jquery.com/peity/">http://plugins.jquery.com/peity/</a></li>
 </ul>
 
 <h3>Version 1.1.0 - 2013-2-1</h3>
 
 <ul>
-<li>Multiple calls to <code>peity()</code> on the same element now update the existing chart rather than creating a new one.</li>
-<li>Zero values in a bar chart are now present as a single-pixel bar.</li>
+  <li>Multiple calls to <code>peity()</code> on the same element now update the existing chart rather than creating a new one.</li>
+  <li>Zero values in a bar chart are now present as a single-pixel bar.</li>
 </ul>
 
 <h3>Version 1.0.0 - 2012-12-4</h3>
 
 <ul>
-<li>Spacing between bars can now be configured.</li>
-<li>Pie charts can now be formed of more than 2 segments.</li>
-<li>The colours of bar and pie charts can now be set dynamically based on their value.</li>
-<li>Re-write of the internals so that the actual <code>&lt;canvas&gt;</code> element is only created once and <code>$.wrapInner</code> is no longer used to contain everything in a separate <code>&lt;span&gt;</code>.</li>
-<li>Peity now automatically reads data-* attributes and passes them as options when instantiating a chart. <a href="https://github.com/buunguyen">@buunguyen</a></li>
+  <li>Spacing between bars can now be configured.</li>
+  <li>Pie charts can now be formed of more than 2 segments.</li>
+  <li>The colours of bar and pie charts can now be set dynamically based on their value.</li>
+  <li>Re-write of the internals so that the actual <code>&lt;canvas&gt;</code> element is only created once and <code>$.wrapInner</code> is no longer used to contain everything in a separate <code>&lt;span&gt;</code>.</li>
+  <li>Peity now automatically reads data-* attributes and passes them as options when instantiating a chart. <a href="https://github.com/buunguyen">@buunguyen</a></li>
 </ul>
 
 <h3>Version 0.6.1 - 2012-10-12</h3>
 
 <ul>
-<li>Workaround for Linux/Chrome bug when using #arc to draw a full circle not having a zero starting angle.</li>
+  <li>Workaround for Linux/Chrome bug when using #arc to draw a full circle not having a zero starting angle.</li>
 </ul>
 
 <h3>Version 0.6.0 - 2012-1-27</h3>
 
 <ul>
-<li>Line and bar charts now support negative numbers.</li>
+  <li>Line and bar charts now support negative numbers.</li>
 </ul>
 
 <h3>Version 0.5.0 - 2011-12-6</h3>
 
 <ul>
-<li>Fix - rename radius to diameter.</li>
-<li>Allow line charts with no stroke.</li>
-<li>Support for iPhone 4 retina display.</li>
+  <li>Fix - rename radius to diameter.</li>
+  <li>Allow line charts with no stroke.</li>
+  <li>Support for iPhone 4 retina display.</li>
 </ul>
 
 <h3>Version 0.4.1 - 2011-9-29</h3>
 
 <ul>
-<li>For a line graph with a single value show a straight line instead of nothing.</li>
+  <li>For a line graph with a single value show a straight line instead of nothing.</li>
 </ul>
 
 <h3>Version 0.4.0 - 2011-6-30</h3>
 
 <ul>
-<li>Allow options to be passed a function called with a <code>this</code> value of the element in question.</li>
+  <li>Allow options to be passed a function called with a <code>this</code> value of the element in question.</li>
 </ul>
 
 <h3>Version 0.3.5 - 2011-5-12</h3>
 
 <ul>
-<li>Fix that if the numerator of a pie is zero an empty pie is drawn instead of nothing. <a href="https://github.com/munikho">@munikho</a></li>
+  <li>Fix that if the numerator of a pie is zero an empty pie is drawn instead of nothing. <a href="https://github.com/munikho">@munikho</a></li>
 </ul>
 
 <h3>Version 0.3.4 - 2011-5-12</h3>
 
 <ul>
-<li>Remove the little border that appears around the slice of a pie when the slice has a darker colour than the plate. <a href="https://github.com/munikho">@munikho</a></li>
+  <li>Remove the little border that appears around the slice of a pie when the slice has a darker colour than the plate. <a href="https://github.com/munikho">@munikho</a></li>
 </ul>
 
 <h3>Version 0.3.3 - 2011-3-20</h3>
 
 <ul>
-<li>Tweaks to aid minification.</li>
+  <li>Tweaks to aid minification.</li>
 </ul>
 
 <h3>Version 0.3.2 - 2010-5-9</h3>
 
 <ul>
-<li>Don&#39;t blow up if <code>&lt;canvas&gt;</code> isn&#39;t supported.</li>
+  <li>Don’t blow up if <code>&lt;canvas&gt;</code> isn’t supported.</li>
 </ul>
 
 <h3>Version 0.3.1 - 2010-5-8</h3>
 
 <ul>
-<li>Add &quot;strokeWidth&quot; option to line charts.</li>
-<li>Add &quot;max&quot; option to line and bar chart types.</li>
+  <li>Add “strokeWidth” option to line charts.</li>
+  <li>Add “max” option to line and bar chart types.</li>
 </ul>
 
 <h3>Version 0.3.0 - 2010-5-6</h3>
 
 <ul>
-<li>Add line and bar graph types and expose an interface for adding more. <a href="https://github.com/ismasan">@ismasan</a> and me.</li>
+  <li>Add line and bar graph types and expose an interface for adding more. <a href="https://github.com/ismasan">@ismasan</a> and me.</li>
 </ul>
 
 <h3>Version 0.2.0 - 2010-4-29</h3>
 
-<p>First official version. Thanks to <a href="https://github.com/ismasan">@ismasan</a> and <a href="https://github.com/olivernn">@olivernn</a> for adding support for the &quot;change&quot; event and making it work in Firefox respectively.</p>
+<p>First official version. Thanks to <a href="https://github.com/ismasan">@ismasan</a> and <a href="https://github.com/olivernn">@olivernn</a> for adding support for the “change” event and making it work in Firefox respectively.</p>
 
 <h3>Birthday - 2009-11-20</h3>
 
