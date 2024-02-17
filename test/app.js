@@ -1,38 +1,31 @@
-var express = require('express')
-  , Chart = require('./chart')
+const express = require('express')
 
-var sendfile = function(filename, root) {
-  return function(_, res) {
-    res.sendFile(filename, { root: root })
-  }
+const Chart = require('./chart')
+const data = require('./charts.json')
+
+const sendfile = (filename, root) => (_, res) =>
+  res.sendFile(filename, { root })
+
+const jquery = sendfile('/jquery-1.6.2.min.js', __dirname)
+const peity = sendfile('/jquery.peity.js', __dirname + '/..')
+const style = sendfile('/style.css', __dirname)
+
+const index = function (_, res) {
+  const charts = Object.keys(data).map(id => new Chart(id, data[id]))
+  res.render('index', { charts })
 }
 
-var jquery = sendfile('/jquery-1.6.2.min.js', __dirname)
-  , peity = sendfile('/jquery.peity.js', __dirname + '/..')
-  , style = sendfile('/style.css', __dirname)
+const show = function (req, res) {
+  const { id } = req.params
+  const props = data[id]
 
-var index = function(_, res) {
-  res.render('index', {
-    charts: Chart.all()
-  })
+  if (!props) return res.status(404).end()
+
+  const chart = new Chart(id, props)
+  res.render('show', { chart })
 }
 
-var show = function(req, res) {
-  var id = req.params.id
-    , chart = Chart.find(id)
-
-  if (chart) {
-    res.render('show', {
-      chart: chart
-    })
-  } else {
-    res
-      .status(404)
-      .end()
-  }
-}
-
-var app = express()
+const app = express()
   .set('view engine', 'ejs')
   .set('views', __dirname + '/views')
   .get('/jquery.min.js', jquery)

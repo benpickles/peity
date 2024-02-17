@@ -28,13 +28,9 @@ More detailed usage can be found at [benpickles.github.io/peity](http://benpickl
 
 ## Development
 
-Run the automated visual regression tests with:
+Run the automated tests with:
 
-    make test
-
-Run a filtered set of tests with:
-
-    ARGS="--grep bar" make test
+    npm test
 
 To manually view all test cases run:
 

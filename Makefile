@@ -19,10 +19,6 @@ clean:
 docs: jquery.peity.min.js.gz
 	bin/update_docs $(VERSION)
 
-fixtures:
-	rm -f test/fixtures/*
-	node test/fixtures.js
-
 release: test docs bower.json package.json
 	@printf '\e[0;32m%-6s\e[m\n' "Happy days, everything passes. Make sure CHANGELOG.md is already up-to-date, commit everything, and tag it:"
 	@echo '  $$ git commit -m "Version $(VERSION)."'
@@ -33,8 +29,6 @@ server:
 	node test/server.js
 
 test:
-	rm -f test/comparisons/*
-	rm -f test/images/*
-	./node_modules/.bin/mocha -R spec -t 30000 $(ARGS) ./test/index.js
+	npm test
 
-.PHONY: clean fixtures release server test
+.PHONY: clean release server test
