@@ -1,5 +1,7 @@
 # Peity
 
+[![Tests](https://github.com/benpickles/peity/actions/workflows/tests.yml/badge.svg)](https://github.com/benpickles/peity/actions/workflows/tests.yml)
+
 Peity (sounds like deity) is a jQuery plugin that converts an element's content into a mini `<svg>` pie, donut, line or bar chart.
 
 ## Basic Usage
