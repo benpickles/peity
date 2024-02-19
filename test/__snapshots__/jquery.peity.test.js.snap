@@ -1,0 +1,2087 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders test chart bar1 correctly 1`] = `
+<body>
+  <span
+    style="display: none;"
+  >
+    5,0,9,6,5,9,7,3,5,2
+  </span>
+  <svg
+    class="peity"
+    height="16"
+    width="32"
+  >
+    <rect
+      data-value="5"
+      fill="#4D89F9"
+      height="8.88888888888889"
+      width="2.56"
+      x="0.32"
+      y="7.111111111111111"
+    />
+    <rect
+      data-value="0"
+      fill="#4D89F9"
+      height="1"
+      width="2.5599999999999996"
+      x="3.5200000000000005"
+      y="15"
+    />
+    <rect
+      data-value="9"
+      fill="#4D89F9"
+      height="16"
+      width="2.5599999999999987"
+      x="6.720000000000001"
+      y="0"
+    />
+    <rect
+      data-value="6"
+      fill="#4D89F9"
+      height="10.666666666666666"
+      width="2.5600000000000005"
+      x="9.92"
+      y="5.333333333333334"
+    />
+    <rect
+      data-value="5"
+      fill="#4D89F9"
+      height="8.88888888888889"
+      width="2.5600000000000023"
+      x="13.12"
+      y="7.111111111111111"
+    />
+    <rect
+      data-value="9"
+      fill="#4D89F9"
+      height="16"
+      width="2.5600000000000023"
+      x="16.32"
+      y="0"
+    />
+    <rect
+      data-value="7"
+      fill="#4D89F9"
+      height="12.444444444444445"
+      width="2.5600000000000023"
+      x="19.52"
+      y="3.5555555555555554"
+    />
+    <rect
+      data-value="3"
+      fill="#4D89F9"
+      height="5.333333333333332"
+      width="2.5600000000000023"
+      x="22.72"
+      y="10.666666666666668"
+    />
+    <rect
+      data-value="5"
+      fill="#4D89F9"
+      height="8.88888888888889"
+      width="2.5600000000000023"
+      x="25.919999999999998"
+      y="7.111111111111111"
+    />
+    <rect
+      data-value="2"
+      fill="#4D89F9"
+      height="3.5555555555555554"
+      width="2.5600000000000023"
+      x="29.119999999999997"
+      y="12.444444444444445"
+    />
+  </svg>
+</body>
+`;
+
+exports[`renders test chart bar2 correctly 1`] = `
+<body>
+  <span
+    style="display: none;"
+  >
+    0,3,2,-1,-3,-2,2,3,5,2
+  </span>
+  <svg
+    class="peity"
+    height="32"
+    width="64"
+  >
+    <rect
+      data-value="0"
+      fill="#4D89F9"
+      height="1"
+      width="5.12"
+      x="0.64"
+      y="19"
+    />
+    <rect
+      data-value="3"
+      fill="#4D89F9"
+      height="12"
+      width="5.119999999999999"
+      x="7.040000000000001"
+      y="8"
+    />
+    <rect
+      data-value="2"
+      fill="#4D89F9"
+      height="8"
+      width="5.119999999999997"
+      x="13.440000000000001"
+      y="12"
+    />
+    <rect
+      data-value="-1"
+      fill="#4D89F9"
+      height="4"
+      width="5.120000000000001"
+      x="19.84"
+      y="20"
+    />
+    <rect
+      data-value="-3"
+      fill="#4D89F9"
+      height="12"
+      width="5.1200000000000045"
+      x="26.24"
+      y="20"
+    />
+    <rect
+      data-value="-2"
+      fill="#4D89F9"
+      height="8"
+      width="5.1200000000000045"
+      x="32.64"
+      y="20"
+    />
+    <rect
+      data-value="2"
+      fill="#4D89F9"
+      height="8"
+      width="5.1200000000000045"
+      x="39.04"
+      y="12"
+    />
+    <rect
+      data-value="3"
+      fill="#4D89F9"
+      height="12"
+      width="5.1200000000000045"
+      x="45.44"
+      y="8"
+    />
+    <rect
+      data-value="5"
+      fill="#4D89F9"
+      height="20"
+      width="5.1200000000000045"
+      x="51.839999999999996"
+      y="0"
+    />
+    <rect
+      data-value="2"
+      fill="#4D89F9"
+      height="8"
+      width="5.1200000000000045"
+      x="58.239999999999995"
+      y="12"
+    />
+  </svg>
+</body>
+`;
+
+exports[`renders test chart bar3 correctly 1`] = `
+<body>
+  <span
+    style="display: none;"
+  >
+    -3,0,-6,-4,-5,-4,-7,-3,-5,-2
+  </span>
+  <svg
+    class="peity"
+    height="16"
+    width="32"
+  >
+    <rect
+      data-value="-3"
+      fill="#4D89F9"
+      height="6.857142857142858"
+      width="2.56"
+      x="0.32"
+      y="0"
+    />
+    <rect
+      data-value="0"
+      fill="#4D89F9"
+      height="1"
+      width="2.5599999999999996"
+      x="3.5200000000000005"
+      y="0"
+    />
+    <rect
+      data-value="-6"
+      fill="#4D89F9"
+      height="13.714285714285715"
+      width="2.5599999999999987"
+      x="6.720000000000001"
+      y="0"
+    />
+    <rect
+      data-value="-4"
+      fill="#4D89F9"
+      height="9.142857142857142"
+      width="2.5600000000000005"
+      x="9.92"
+      y="0"
+    />
+    <rect
+      data-value="-5"
+      fill="#4D89F9"
+      height="11.428571428571429"
+      width="2.5600000000000023"
+      x="13.12"
+      y="0"
+    />
+    <rect
+      data-value="-4"
+      fill="#4D89F9"
+      height="9.142857142857142"
+      width="2.5600000000000023"
+      x="16.32"
+      y="0"
+    />
+    <rect
+      data-value="-7"
+      fill="#4D89F9"
+      height="16"
+      width="2.5600000000000023"
+      x="19.52"
+      y="0"
+    />
+    <rect
+      data-value="-3"
+      fill="#4D89F9"
+      height="6.857142857142858"
+      width="2.5600000000000023"
+      x="22.72"
+      y="0"
+    />
+    <rect
+      data-value="-5"
+      fill="#4D89F9"
+      height="11.428571428571429"
+      width="2.5600000000000023"
+      x="25.919999999999998"
+      y="0"
+    />
+    <rect
+      data-value="-2"
+      fill="#4D89F9"
+      height="4.571428571428571"
+      width="2.5600000000000023"
+      x="29.119999999999997"
+      y="0"
+    />
+  </svg>
+</body>
+`;
+
+exports[`renders test chart bar4 correctly 1`] = `
+<body>
+  <span
+    style="display: none;"
+  >
+    5,3,9,6,5,9,7,3,5,2
+  </span>
+  <svg
+    class="peity"
+    height="16"
+    width="32"
+  >
+    <rect
+      data-value="5"
+      fill="red"
+      height="8.88888888888889"
+      width="2.56"
+      x="0.32"
+      y="7.111111111111111"
+    />
+    <rect
+      data-value="3"
+      fill="green"
+      height="5.333333333333332"
+      width="2.5599999999999996"
+      x="3.5200000000000005"
+      y="10.666666666666668"
+    />
+    <rect
+      data-value="9"
+      fill="blue"
+      height="16"
+      width="2.5599999999999987"
+      x="6.720000000000001"
+      y="0"
+    />
+    <rect
+      data-value="6"
+      fill="red"
+      height="10.666666666666666"
+      width="2.5600000000000005"
+      x="9.92"
+      y="5.333333333333334"
+    />
+    <rect
+      data-value="5"
+      fill="green"
+      height="8.88888888888889"
+      width="2.5600000000000023"
+      x="13.12"
+      y="7.111111111111111"
+    />
+    <rect
+      data-value="9"
+      fill="blue"
+      height="16"
+      width="2.5600000000000023"
+      x="16.32"
+      y="0"
+    />
+    <rect
+      data-value="7"
+      fill="red"
+      height="12.444444444444445"
+      width="2.5600000000000023"
+      x="19.52"
+      y="3.5555555555555554"
+    />
+    <rect
+      data-value="3"
+      fill="green"
+      height="5.333333333333332"
+      width="2.5600000000000023"
+      x="22.72"
+      y="10.666666666666668"
+    />
+    <rect
+      data-value="5"
+      fill="blue"
+      height="8.88888888888889"
+      width="2.5600000000000023"
+      x="25.919999999999998"
+      y="7.111111111111111"
+    />
+    <rect
+      data-value="2"
+      fill="red"
+      height="3.5555555555555554"
+      width="2.5600000000000023"
+      x="29.119999999999997"
+      y="12.444444444444445"
+    />
+  </svg>
+</body>
+`;
+
+exports[`renders test chart bar5 correctly 1`] = `
+<body>
+  <span
+    style="display: none;"
+  >
+    5,3,2,-1,-3,-2,2,3,5,2
+  </span>
+  <svg
+    class="peity"
+    height="16"
+    width="32"
+  >
+    <rect
+      data-value="5"
+      fill="green"
+      height="10"
+      width="2.56"
+      x="0.32"
+      y="0"
+    />
+    <rect
+      data-value="3"
+      fill="green"
+      height="6"
+      width="2.5599999999999996"
+      x="3.5200000000000005"
+      y="4"
+    />
+    <rect
+      data-value="2"
+      fill="green"
+      height="4"
+      width="2.5599999999999987"
+      x="6.720000000000001"
+      y="6"
+    />
+    <rect
+      data-value="-1"
+      fill="red"
+      height="2"
+      width="2.5600000000000005"
+      x="9.92"
+      y="10"
+    />
+    <rect
+      data-value="-3"
+      fill="red"
+      height="6"
+      width="2.5600000000000023"
+      x="13.12"
+      y="10"
+    />
+    <rect
+      data-value="-2"
+      fill="red"
+      height="4"
+      width="2.5600000000000023"
+      x="16.32"
+      y="10"
+    />
+    <rect
+      data-value="2"
+      fill="green"
+      height="4"
+      width="2.5600000000000023"
+      x="19.52"
+      y="6"
+    />
+    <rect
+      data-value="3"
+      fill="green"
+      height="6"
+      width="2.5600000000000023"
+      x="22.72"
+      y="4"
+    />
+    <rect
+      data-value="5"
+      fill="green"
+      height="10"
+      width="2.5600000000000023"
+      x="25.919999999999998"
+      y="0"
+    />
+    <rect
+      data-value="2"
+      fill="green"
+      height="4"
+      width="2.5600000000000023"
+      x="29.119999999999997"
+      y="6"
+    />
+  </svg>
+</body>
+`;
+
+exports[`renders test chart bar6 correctly 1`] = `
+<body>
+  <span
+    style="display: none;"
+  >
+    0,-3,-6,-4,-5,-4,-7,-3,-5,-2
+  </span>
+  <svg
+    class="peity"
+    height="16"
+    width="32"
+  >
+    <rect
+      data-value="0"
+      fill="rgb(255, 0, 0)"
+      height="1"
+      width="2.56"
+      x="0.32"
+      y="0"
+    />
+    <rect
+      data-value="-3"
+      fill="rgb(255, 25, 0)"
+      height="6.857142857142858"
+      width="2.5599999999999996"
+      x="3.5200000000000005"
+      y="0"
+    />
+    <rect
+      data-value="-6"
+      fill="rgb(255, 51, 0)"
+      height="13.714285714285715"
+      width="2.5599999999999987"
+      x="6.720000000000001"
+      y="0"
+    />
+    <rect
+      data-value="-4"
+      fill="rgb(255, 76, 0)"
+      height="9.142857142857142"
+      width="2.5600000000000005"
+      x="9.92"
+      y="0"
+    />
+    <rect
+      data-value="-5"
+      fill="rgb(255, 102, 0)"
+      height="11.428571428571429"
+      width="2.5600000000000023"
+      x="13.12"
+      y="0"
+    />
+    <rect
+      data-value="-4"
+      fill="rgb(255, 127, 0)"
+      height="9.142857142857142"
+      width="2.5600000000000023"
+      x="16.32"
+      y="0"
+    />
+    <rect
+      data-value="-7"
+      fill="rgb(255, 153, 0)"
+      height="16"
+      width="2.5600000000000023"
+      x="19.52"
+      y="0"
+    />
+    <rect
+      data-value="-3"
+      fill="rgb(255, 178, 0)"
+      height="6.857142857142858"
+      width="2.5600000000000023"
+      x="22.72"
+      y="0"
+    />
+    <rect
+      data-value="-5"
+      fill="rgb(255, 204, 0)"
+      height="11.428571428571429"
+      width="2.5600000000000023"
+      x="25.919999999999998"
+      y="0"
+    />
+    <rect
+      data-value="-2"
+      fill="rgb(255, 229, 0)"
+      height="4.571428571428571"
+      width="2.5600000000000023"
+      x="29.119999999999997"
+      y="0"
+    />
+  </svg>
+</body>
+`;
+
+exports[`renders test chart bar7 correctly 1`] = `
+<body>
+  <span
+    style="display: none;"
+  >
+    0,0,0,0,0
+  </span>
+  <svg
+    class="peity"
+    height="16"
+    width="32"
+  >
+    <rect
+      data-value="0"
+      fill="#4D89F9"
+      height="1"
+      width="5.12"
+      x="0.64"
+      y="15"
+    />
+    <rect
+      data-value="0"
+      fill="#4D89F9"
+      height="1"
+      width="5.119999999999999"
+      x="7.040000000000001"
+      y="15"
+    />
+    <rect
+      data-value="0"
+      fill="#4D89F9"
+      height="1"
+      width="5.119999999999997"
+      x="13.440000000000001"
+      y="15"
+    />
+    <rect
+      data-value="0"
+      fill="#4D89F9"
+      height="1"
+      width="5.120000000000001"
+      x="19.84"
+      y="15"
+    />
+    <rect
+      data-value="0"
+      fill="#4D89F9"
+      height="1"
+      width="5.1200000000000045"
+      x="26.24"
+      y="15"
+    />
+  </svg>
+</body>
+`;
+
+exports[`renders test chart bar8 correctly 1`] = `
+<body>
+  <span
+    style="display: none;"
+  >
+    1,1,1,1,1
+  </span>
+  <svg
+    class="peity"
+    height="16"
+    width="32"
+  >
+    <rect
+      data-value="1"
+      fill="#4D89F9"
+      height="16"
+      width="5.12"
+      x="0.64"
+      y="0"
+    />
+    <rect
+      data-value="1"
+      fill="#4D89F9"
+      height="16"
+      width="5.119999999999999"
+      x="7.040000000000001"
+      y="0"
+    />
+    <rect
+      data-value="1"
+      fill="#4D89F9"
+      height="16"
+      width="5.119999999999997"
+      x="13.440000000000001"
+      y="0"
+    />
+    <rect
+      data-value="1"
+      fill="#4D89F9"
+      height="16"
+      width="5.120000000000001"
+      x="19.84"
+      y="0"
+    />
+    <rect
+      data-value="1"
+      fill="#4D89F9"
+      height="16"
+      width="5.1200000000000045"
+      x="26.24"
+      y="0"
+    />
+  </svg>
+</body>
+`;
+
+exports[`renders test chart bar9 correctly 1`] = `
+<body>
+  <span
+    style="display: none;"
+  >
+    1,1,1,1,1
+  </span>
+  <svg
+    class="peity"
+    height="16"
+    width="32"
+  >
+    <rect
+      data-value="1"
+      fill="#4D89F9"
+      height="1"
+      width="5.12"
+      x="0.64"
+      y="15"
+    />
+    <rect
+      data-value="1"
+      fill="#4D89F9"
+      height="1"
+      width="5.119999999999999"
+      x="7.040000000000001"
+      y="15"
+    />
+    <rect
+      data-value="1"
+      fill="#4D89F9"
+      height="1"
+      width="5.119999999999997"
+      x="13.440000000000001"
+      y="15"
+    />
+    <rect
+      data-value="1"
+      fill="#4D89F9"
+      height="1"
+      width="5.120000000000001"
+      x="19.84"
+      y="15"
+    />
+    <rect
+      data-value="1"
+      fill="#4D89F9"
+      height="1"
+      width="5.1200000000000045"
+      x="26.24"
+      y="15"
+    />
+  </svg>
+</body>
+`;
+
+exports[`renders test chart bar10 correctly 1`] = `
+<body>
+  <span
+    style="display: none;"
+  >
+    -10,-15,-13,-14,-11
+  </span>
+  <svg
+    class="peity"
+    height="16"
+    width="32"
+  >
+    <rect
+      data-value="-10"
+      fill="#4D89F9"
+      height="1"
+      width="5.12"
+      x="0.64"
+      y="0"
+    />
+    <rect
+      data-value="-15"
+      fill="#4D89F9"
+      height="16"
+      width="5.119999999999999"
+      x="7.040000000000001"
+      y="0"
+    />
+    <rect
+      data-value="-13"
+      fill="#4D89F9"
+      height="9.6"
+      width="5.119999999999997"
+      x="13.440000000000001"
+      y="0"
+    />
+    <rect
+      data-value="-14"
+      fill="#4D89F9"
+      height="12.8"
+      width="5.120000000000001"
+      x="19.84"
+      y="0"
+    />
+    <rect
+      data-value="-11"
+      fill="#4D89F9"
+      height="3.1999999999999993"
+      width="5.1200000000000045"
+      x="26.24"
+      y="0"
+    />
+  </svg>
+</body>
+`;
+
+exports[`renders test chart bar11 correctly 1`] = `
+<body>
+  <span
+    style="display: none;"
+  >
+    -10,-15,-13,-14,-11
+  </span>
+  <svg
+    class="peity"
+    height="16"
+    width="32"
+  >
+    <rect
+      data-value="-10"
+      fill="#4D89F9"
+      height="10.666666666666668"
+      width="5.12"
+      x="0.64"
+      y="0"
+    />
+    <rect
+      data-value="-15"
+      fill="#4D89F9"
+      height="16"
+      width="5.119999999999999"
+      x="7.040000000000001"
+      y="0"
+    />
+    <rect
+      data-value="-13"
+      fill="#4D89F9"
+      height="13.866666666666667"
+      width="5.119999999999997"
+      x="13.440000000000001"
+      y="0"
+    />
+    <rect
+      data-value="-14"
+      fill="#4D89F9"
+      height="14.933333333333334"
+      width="5.120000000000001"
+      x="19.84"
+      y="0"
+    />
+    <rect
+      data-value="-11"
+      fill="#4D89F9"
+      height="11.733333333333334"
+      width="5.1200000000000045"
+      x="26.24"
+      y="0"
+    />
+  </svg>
+</body>
+`;
+
+exports[`renders test chart bar12 correctly 1`] = `
+<body>
+  <span
+    style="display: none;"
+  >
+    1000,1005,1003,1004,1001
+  </span>
+  <svg
+    class="peity"
+    height="16"
+    width="32"
+  >
+    <rect
+      data-value="1000"
+      fill="#4D89F9"
+      height="1"
+      width="5.12"
+      x="0.64"
+      y="15"
+    />
+    <rect
+      data-value="1005"
+      fill="#4D89F9"
+      height="16"
+      width="5.119999999999999"
+      x="7.040000000000001"
+      y="0"
+    />
+    <rect
+      data-value="1003"
+      fill="#4D89F9"
+      height="9.6"
+      width="5.119999999999997"
+      x="13.440000000000001"
+      y="6.4"
+    />
+    <rect
+      data-value="1004"
+      fill="#4D89F9"
+      height="12.8"
+      width="5.120000000000001"
+      x="19.84"
+      y="3.1999999999999993"
+    />
+    <rect
+      data-value="1001"
+      fill="#4D89F9"
+      height="3.1999999999999993"
+      width="5.1200000000000045"
+      x="26.24"
+      y="12.8"
+    />
+  </svg>
+</body>
+`;
+
+exports[`renders test chart bar13 correctly 1`] = `
+<body>
+  <span
+    style="display: none;"
+  >
+    5,3,9,6,5,9,7,3,5,2
+  </span>
+  <svg
+    class="peity"
+    height="16"
+    width="32"
+  >
+    <rect
+      data-value="5"
+      fill="#4D89F9"
+      height="3.1999999999999993"
+      width="2.56"
+      x="0.32"
+      y="12.8"
+    />
+    <rect
+      data-value="3"
+      fill="#4D89F9"
+      height="1.92"
+      width="2.5599999999999996"
+      x="3.5200000000000005"
+      y="14.08"
+    />
+    <rect
+      data-value="9"
+      fill="#4D89F9"
+      height="5.76"
+      width="2.5599999999999987"
+      x="6.720000000000001"
+      y="10.24"
+    />
+    <rect
+      data-value="6"
+      fill="#4D89F9"
+      height="3.84"
+      width="2.5600000000000005"
+      x="9.92"
+      y="12.16"
+    />
+    <rect
+      data-value="5"
+      fill="#4D89F9"
+      height="3.1999999999999993"
+      width="2.5600000000000023"
+      x="13.12"
+      y="12.8"
+    />
+    <rect
+      data-value="9"
+      fill="#4D89F9"
+      height="5.76"
+      width="2.5600000000000023"
+      x="16.32"
+      y="10.24"
+    />
+    <rect
+      data-value="7"
+      fill="#4D89F9"
+      height="4.48"
+      width="2.5600000000000023"
+      x="19.52"
+      y="11.52"
+    />
+    <rect
+      data-value="3"
+      fill="#4D89F9"
+      height="1.92"
+      width="2.5600000000000023"
+      x="22.72"
+      y="14.08"
+    />
+    <rect
+      data-value="5"
+      fill="#4D89F9"
+      height="3.1999999999999993"
+      width="2.5600000000000023"
+      x="25.919999999999998"
+      y="12.8"
+    />
+    <rect
+      data-value="2"
+      fill="#4D89F9"
+      height="1.2799999999999994"
+      width="2.5600000000000023"
+      x="29.119999999999997"
+      y="14.72"
+    />
+  </svg>
+</body>
+`;
+
+exports[`renders test chart bar14 correctly 1`] = `
+<body>
+  <span
+    style="display: none;"
+  >
+    5,0,9,6,5,9,7,3,5,2
+  </span>
+  <svg
+    class="peity"
+    height="16"
+    width="32"
+  >
+    <rect
+      data-value="5"
+      fill="#4D89F9"
+      height="8.88888888888889"
+      width="2.56"
+      x="0.32"
+      y="7.111111111111111"
+    />
+    <rect
+      data-value="0"
+      fill="#4D89F9"
+      height="1"
+      width="2.5599999999999996"
+      x="3.5200000000000005"
+      y="15"
+    />
+    <rect
+      data-value="9"
+      fill="#4D89F9"
+      height="16"
+      width="2.5599999999999987"
+      x="6.720000000000001"
+      y="0"
+    />
+    <rect
+      data-value="6"
+      fill="#4D89F9"
+      height="10.666666666666666"
+      width="2.5600000000000005"
+      x="9.92"
+      y="5.333333333333334"
+    />
+    <rect
+      data-value="5"
+      fill="#4D89F9"
+      height="8.88888888888889"
+      width="2.5600000000000023"
+      x="13.12"
+      y="7.111111111111111"
+    />
+    <rect
+      data-value="9"
+      fill="#4D89F9"
+      height="16"
+      width="2.5600000000000023"
+      x="16.32"
+      y="0"
+    />
+    <rect
+      data-value="7"
+      fill="#4D89F9"
+      height="12.444444444444445"
+      width="2.5600000000000023"
+      x="19.52"
+      y="3.5555555555555554"
+    />
+    <rect
+      data-value="3"
+      fill="#4D89F9"
+      height="5.333333333333332"
+      width="2.5600000000000023"
+      x="22.72"
+      y="10.666666666666668"
+    />
+    <rect
+      data-value="5"
+      fill="#4D89F9"
+      height="8.88888888888889"
+      width="2.5600000000000023"
+      x="25.919999999999998"
+      y="7.111111111111111"
+    />
+    <rect
+      data-value="2"
+      fill="#4D89F9"
+      height="3.5555555555555554"
+      width="2.5600000000000023"
+      x="29.119999999999997"
+      y="12.444444444444445"
+    />
+    <line
+      stroke="black"
+      x1="0"
+      x2="28.8"
+      y1="0"
+      y2="16"
+    />
+  </svg>
+</body>
+`;
+
+exports[`renders test chart donut1 correctly 1`] = `
+<body>
+  <span
+    style="display: none;"
+  >
+    1/5
+  </span>
+  <svg
+    class="peity"
+    height="16"
+    width="16"
+  >
+    <path
+      d="M 8 0 A 8 8 0 0 1 15.60845213036123 5.52786404500042 L 11.804226065180615 6.76393202250021 A 4 4 0 0 0 8 4"
+      data-value="1"
+      fill="#ff9900"
+    />
+    <path
+      d="M 15.60845213036123 5.52786404500042 A 8 8 0 1 1 7.999999999999998 0 L 7.999999999999999 4 A 4 4 0 1 0 11.804226065180615 6.76393202250021"
+      data-value="4"
+      fill="#fff4dd"
+    />
+  </svg>
+</body>
+`;
+
+exports[`renders test chart donut2 correctly 1`] = `
+<body>
+  <span
+    style="display: none;"
+  >
+    0.52/1.561
+  </span>
+  <svg
+    class="peity"
+    height="32"
+    width="32"
+  >
+    <path
+      d="M 16 0 A 16 16 0 0 1 29.86712759263633 23.98140165193709 L 22.933563796318165 19.990700825968545 A 8 8 0 0 0 16 8"
+      data-value="0.52"
+      fill="#ff9900"
+    />
+    <path
+      d="M 29.86712759263633 23.98140165193709 A 16 16 0 1 1 15.999999999999996 0 L 15.999999999999998 8 A 8 8 0 1 0 22.933563796318165 19.990700825968545"
+      data-value="1.041"
+      fill="#fff4dd"
+    />
+  </svg>
+</body>
+`;
+
+exports[`renders test chart donut3 correctly 1`] = `
+<body>
+  <span
+    style="display: none;"
+  >
+    1,4
+  </span>
+  <svg
+    class="peity"
+    height="16"
+    width="32"
+  >
+    <path
+      d="M 16 0 A 8 8 0 0 1 23.60845213036123 5.52786404500042 L 19.804226065180615 6.76393202250021 A 4 4 0 0 0 16 4"
+      data-value="1"
+      fill="#ff9900"
+    />
+    <path
+      d="M 23.60845213036123 5.52786404500042 A 8 8 0 1 1 15.999999999999998 0 L 16 4 A 4 4 0 1 0 19.804226065180615 6.76393202250021"
+      data-value="4"
+      fill="#fff4dd"
+    />
+  </svg>
+</body>
+`;
+
+exports[`renders test chart donut4 correctly 1`] = `
+<body>
+  <span
+    style="display: none;"
+  >
+    4,7,6,5
+  </span>
+  <svg
+    class="peity"
+    height="32"
+    width="16"
+  >
+    <path
+      d="M 8 8 A 8 8 0 0 1 15.277055962836148 12.67667989598491 L 11.638527981418074 14.338339947992454 A 4 4 0 0 0 8 12"
+      data-value="4"
+      fill="cyan"
+    />
+    <path
+      d="M 15.277055962836148 12.67667989598491 A 8 8 0 0 1 8 24 L 8 20 A 4 4 0 0 0 11.638527981418074 14.338339947992454"
+      data-value="7"
+      fill="magenta"
+    />
+    <path
+      d="M 8 24 A 8 8 0 0 1 0.08142846495253764 14.861481293813721 L 4.040714232476269 15.43074064690686 A 4 4 0 0 0 8 20"
+      data-value="6"
+      fill="yellow"
+    />
+    <path
+      d="M 0.08142846495253764 14.861481293813721 A 8 8 0 0 1 7.999999999999998 8 L 7.999999999999999 12 A 4 4 0 0 0 4.040714232476269 15.43074064690686"
+      data-value="5"
+      fill="black"
+    />
+  </svg>
+</body>
+`;
+
+exports[`renders test chart donut5 correctly 1`] = `
+<body>
+  <span
+    style="display: none;"
+  >
+    3/3
+  </span>
+  <svg
+    class="peity"
+    height="16"
+    width="16"
+  >
+    <path
+      d="M 8 0 A 8 8 0 1 1 7.99 0 L 7.99 4 A 4 4 0 1 0 8 4"
+      data-value="3"
+      fill="#ff9900"
+    />
+  </svg>
+</body>
+`;
+
+exports[`renders test chart donut6 correctly 1`] = `
+<body>
+  <span
+    style="display: none;"
+  >
+    0/3
+  </span>
+  <svg
+    class="peity"
+    height="16"
+    width="16"
+  >
+    <path
+      d="M 8 0 A 8 8 0 1 1 7.99 0 L 7.99 4 A 4 4 0 1 0 8 4"
+      data-value="3"
+      fill="#fff4dd"
+    />
+  </svg>
+</body>
+`;
+
+exports[`renders test chart donut7 correctly 1`] = `
+<body>
+  <span
+    style="display: none;"
+  >
+    3,0
+  </span>
+  <svg
+    class="peity"
+    height="16"
+    width="16"
+  >
+    <path
+      d="M 8 0 A 8 8 0 1 1 7.99 0 L 7.99 4 A 4 4 0 1 0 8 4"
+      data-value="3"
+      fill="#ff9900"
+    />
+  </svg>
+</body>
+`;
+
+exports[`renders test chart donut8 correctly 1`] = `
+<body>
+  <span
+    style="display: none;"
+  >
+    4/3
+  </span>
+  <svg
+    class="peity"
+    height="16"
+    width="16"
+  >
+    <path
+      d="M 8 0 A 8 8 0 1 1 7.99 0 L 7.99 4 A 4 4 0 1 0 8 4"
+      data-value="4"
+      fill="#ff9900"
+    />
+  </svg>
+</body>
+`;
+
+exports[`renders test chart donut9 correctly 1`] = `
+<body>
+  <span
+    style="display: none;"
+  >
+    1/5
+  </span>
+  <svg
+    class="peity"
+    height="16"
+    width="16"
+  >
+    <path
+      d="M 8 0 A 8 8 0 0 1 15.60845213036123 5.52786404500042 L 13.706339097770922 6.145898033750315 A 6 6 0 0 0 8 2"
+      data-value="1"
+      fill="#ff9900"
+    />
+    <path
+      d="M 15.60845213036123 5.52786404500042 A 8 8 0 1 1 7.999999999999998 0 L 7.999999999999999 2 A 6 6 0 1 0 13.706339097770922 6.145898033750315"
+      data-value="4"
+      fill="#fff4dd"
+    />
+  </svg>
+</body>
+`;
+
+exports[`renders test chart donut10 correctly 1`] = `
+<body>
+  <span
+    style="display: none;"
+  >
+    1,-2,3
+  </span>
+  <svg
+    class="peity"
+    height="16"
+    width="16"
+  >
+    <path
+      d="M 8 0 A 8 8 0 0 1 16 8 L 12 8 A 4 4 0 0 0 8 4"
+      data-value="1"
+      fill="#ff9900"
+    />
+    <path
+      d="M 16 8 A 8 8 0 1 1 7.999999999999998 0 L 7.999999999999999 4 A 4 4 0 1 0 12 8"
+      data-value="3"
+      fill="#ffc66e"
+    />
+  </svg>
+</body>
+`;
+
+exports[`renders test chart donut11 correctly 1`] = `
+<body>
+  <span
+    style="display: none;"
+  >
+    -2/3
+  </span>
+  <svg
+    class="peity"
+    height="16"
+    width="16"
+  >
+    <path
+      d="M 8 0 A 8 8 0 1 1 7.99 0 L 7.99 4 A 4 4 0 1 0 8 4"
+      data-value="2"
+      fill="#fff4dd"
+    />
+  </svg>
+</body>
+`;
+
+exports[`renders test chart donut12 correctly 1`] = `
+<body>
+  <span
+    style="display: none;"
+  >
+    0,0,0,0,0
+  </span>
+  <svg
+    class="peity"
+    height="16"
+    width="16"
+  >
+    <path
+      d="M 8 0 A 8 8 0 1 1 7.99 0 L 7.99 4 A 4 4 0 1 0 8 4"
+      data-value="1"
+      fill="#fff4dd"
+    />
+  </svg>
+</body>
+`;
+
+exports[`renders test chart donut13 correctly 1`] = `
+<body>
+  <span
+    style="display: none;"
+  >
+    2,4,5
+  </span>
+  <svg
+    class="peity"
+    height="16"
+    width="16"
+  >
+    <path
+      d="M 8 0 A 8 8 0 0 1 15.277055962836148 4.676679895984909 L 11.638527981418074 6.338339947992455 A 4 4 0 0 0 8 4"
+      data-value="2"
+      fill="#ff9900"
+    />
+    <path
+      d="M 15.277055962836148 4.676679895984909 A 8 8 0 0 1 5.746139545268564 15.67594378891598 L 6.873069772634282 11.83797189445799 A 4 4 0 0 0 11.638527981418074 6.338339947992455"
+      data-value="4"
+      fill="#fff4dd"
+    />
+    <path
+      d="M 5.746139545268564 15.67594378891598 A 8 8 0 0 1 7.999999999999998 0 L 7.999999999999999 4 A 4 4 0 0 0 6.873069772634282 11.83797189445799"
+      data-value="5"
+      fill="#ffc66e"
+    />
+    <rect
+      fill="none"
+      height="3"
+      stroke="black"
+      width="3"
+      x="11.022998297417033"
+      y="10.61944293578114"
+    />
+  </svg>
+</body>
+`;
+
+exports[`renders test chart line1 correctly 1`] = `
+<body>
+  <span
+    style="display: none;"
+  >
+    5,3,9,6,5,9,7,3,5,2
+  </span>
+  <svg
+    class="peity"
+    height="16"
+    width="32"
+  >
+    <polygon
+      fill="yellow"
+      points="0 15 0 7.222222222222221 3.5555555555555554 10.333333333333334 7.111111111111111 1 10.666666666666666 5.666666666666668 14.222222222222221 7.222222222222221 17.77777777777778 1 21.333333333333332 4.111111111111111 24.888888888888886 10.333333333333334 28.444444444444443 7.222222222222221 32 11.88888888888889 32 15"
+    />
+    <polyline
+      fill="none"
+      points="0 7.222222222222221 3.5555555555555554 10.333333333333334 7.111111111111111 1 10.666666666666666 5.666666666666668 14.222222222222221 7.222222222222221 17.77777777777778 1 21.333333333333332 4.111111111111111 24.888888888888886 10.333333333333334 28.444444444444443 7.222222222222221 32 11.88888888888889"
+      stroke="red"
+      stroke-linecap="square"
+      stroke-width="2"
+    />
+  </svg>
+</body>
+`;
+
+exports[`renders test chart line2 correctly 1`] = `
+<body>
+  <span
+    style="display: none;"
+  >
+    5,3,2,-1,-3,-2,2,3,5,2
+  </span>
+  <svg
+    class="peity"
+    height="32"
+    width="64"
+  >
+    <polygon
+      fill="#c6d9fd"
+      points="0 19.875 0 0.5 7.111111111111111 8.25 14.222222222222221 12.125 21.333333333333332 23.75 28.444444444444443 31.5 35.55555555555556 27.625 42.666666666666664 12.125 49.77777777777777 8.25 56.888888888888886 0.5 64 12.125 64 19.875"
+    />
+    <polyline
+      fill="none"
+      points="0 0.5 7.111111111111111 8.25 14.222222222222221 12.125 21.333333333333332 23.75 28.444444444444443 31.5 35.55555555555556 27.625 42.666666666666664 12.125 49.77777777777777 8.25 56.888888888888886 0.5 64 12.125"
+      stroke="#4d89f9"
+      stroke-linecap="square"
+      stroke-width="1"
+    />
+  </svg>
+</body>
+`;
+
+exports[`renders test chart line3 correctly 1`] = `
+<body>
+  <span
+    style="display: none;"
+  >
+    0,-3,-6,-4,-5,-4,-7,-3,-5,-2
+  </span>
+  <svg
+    class="peity"
+    height="16"
+    width="32"
+  >
+    <polygon
+      fill="#c6d9fd"
+      points="0 0.5 0 0.5 3.5555555555555554 6.928571428571429 7.111111111111111 13.357142857142858 10.666666666666666 9.071428571428573 14.222222222222221 11.214285714285715 17.77777777777778 9.071428571428573 21.333333333333332 15.5 24.888888888888886 6.928571428571429 28.444444444444443 11.214285714285715 32 4.785714285714285 32 0.5"
+    />
+    <polyline
+      fill="none"
+      points="0 0.5 3.5555555555555554 6.928571428571429 7.111111111111111 13.357142857142858 10.666666666666666 9.071428571428573 14.222222222222221 11.214285714285715 17.77777777777778 9.071428571428573 21.333333333333332 15.5 24.888888888888886 6.928571428571429 28.444444444444443 11.214285714285715 32 4.785714285714285"
+      stroke="#4d89f9"
+      stroke-linecap="square"
+      stroke-width="1"
+    />
+  </svg>
+</body>
+`;
+
+exports[`renders test chart line4 correctly 1`] = `
+<body>
+  <span
+    style="display: none;"
+  >
+    5,3,9,6,5,9,7,3,5,2
+  </span>
+  <svg
+    class="peity"
+    height="16"
+    width="32"
+  >
+    <polygon
+      fill="#c6d9fd"
+      points="0 15.5 0 12.5 3.5555555555555554 13.7 7.111111111111111 10.100000000000001 10.666666666666666 11.9 14.222222222222221 12.5 17.77777777777778 10.100000000000001 21.333333333333332 11.3 24.888888888888886 13.7 28.444444444444443 12.5 32 14.3 32 15.5"
+    />
+    <polyline
+      fill="none"
+      points="0 12.5 3.5555555555555554 13.7 7.111111111111111 10.100000000000001 10.666666666666666 11.9 14.222222222222221 12.5 17.77777777777778 10.100000000000001 21.333333333333332 11.3 24.888888888888886 13.7 28.444444444444443 12.5 32 14.3"
+      stroke="#4d89f9"
+      stroke-linecap="square"
+      stroke-width="1"
+    />
+  </svg>
+</body>
+`;
+
+exports[`renders test chart line5 correctly 1`] = `
+<body>
+  <span
+    style="display: none;"
+  >
+    0,0,0,0,0
+  </span>
+  <svg
+    class="peity"
+    height="16"
+    width="32"
+  >
+    <polygon
+      fill="#c6d9fd"
+      points="0 15.5 0 15.5 8 15.5 16 15.5 24 15.5 32 15.5 32 15.5"
+    />
+    <polyline
+      fill="none"
+      points="0 15.5 8 15.5 16 15.5 24 15.5 32 15.5"
+      stroke="#4d89f9"
+      stroke-linecap="square"
+      stroke-width="1"
+    />
+  </svg>
+</body>
+`;
+
+exports[`renders test chart line6 correctly 1`] = `
+<body>
+  <span
+    style="display: none;"
+  >
+    1,1,1,1,1
+  </span>
+  <svg
+    class="peity"
+    height="16"
+    width="32"
+  >
+    <polygon
+      fill="#c6d9fd"
+      points="0 15.5 0 15.5 8 15.5 16 15.5 24 15.5 32 15.5 32 15.5"
+    />
+    <polyline
+      fill="none"
+      points="0 15.5 8 15.5 16 15.5 24 15.5 32 15.5"
+      stroke="#4d89f9"
+      stroke-linecap="square"
+      stroke-width="1"
+    />
+  </svg>
+</body>
+`;
+
+exports[`renders test chart line7 correctly 1`] = `
+<body>
+  <span
+    style="display: none;"
+  >
+    -10,-15,-13,-14,-11
+  </span>
+  <svg
+    class="peity"
+    height="16"
+    width="32"
+  >
+    <polygon
+      fill="#c6d9fd"
+      points="0 -29.5 0 0.5 8 15.5 16 9.5 24 12.5 32 3.5 32 -29.5"
+    />
+    <polyline
+      fill="none"
+      points="0 0.5 8 15.5 16 9.5 24 12.5 32 3.5"
+      stroke="#4d89f9"
+      stroke-linecap="square"
+      stroke-width="1"
+    />
+  </svg>
+</body>
+`;
+
+exports[`renders test chart line8 correctly 1`] = `
+<body>
+  <span
+    style="display: none;"
+  >
+    -10,-15,-13,-14,-11
+  </span>
+  <svg
+    class="peity"
+    height="16"
+    width="32"
+  >
+    <polygon
+      fill="#c6d9fd"
+      points="0 0.5 0 10.5 8 15.5 16 13.5 24 14.5 32 11.5 32 0.5"
+    />
+    <polyline
+      fill="none"
+      points="0 10.5 8 15.5 16 13.5 24 14.5 32 11.5"
+      stroke="#4d89f9"
+      stroke-linecap="square"
+      stroke-width="1"
+    />
+  </svg>
+</body>
+`;
+
+exports[`renders test chart line9 correctly 1`] = `
+<body>
+  <span
+    style="display: none;"
+  >
+    1000,1005,1003,1004,1001
+  </span>
+  <svg
+    class="peity"
+    height="16"
+    width="32"
+  >
+    <polygon
+      fill="#c6d9fd"
+      points="0 15.5 0 15.5 8 0.5 16 6.5 24 3.5 32 12.5 32 15.5"
+    />
+    <polyline
+      fill="none"
+      points="0 15.5 8 0.5 16 6.5 24 3.5 32 12.5"
+      stroke="#4d89f9"
+      stroke-linecap="square"
+      stroke-width="1"
+    />
+  </svg>
+</body>
+`;
+
+exports[`renders test chart line10 correctly 1`] = `
+<body>
+  <span
+    style="display: none;"
+  >
+    5,3,9,6,5,9,7,3,5,2
+  </span>
+  <svg
+    class="peity"
+    height="16"
+    width="32"
+  >
+    <polygon
+      fill="#c6d9fd"
+      points="0 15.5 0 12.5 3.5555555555555554 13.7 7.111111111111111 10.100000000000001 10.666666666666666 11.9 14.222222222222221 12.5 17.77777777777778 10.100000000000001 21.333333333333332 11.3 24.888888888888886 13.7 28.444444444444443 12.5 32 14.3 32 15.5"
+    />
+    <polyline
+      fill="none"
+      points="0 12.5 3.5555555555555554 13.7 7.111111111111111 10.100000000000001 10.666666666666666 11.9 14.222222222222221 12.5 17.77777777777778 10.100000000000001 21.333333333333332 11.3 24.888888888888886 13.7 28.444444444444443 12.5 32 14.3"
+      stroke="#4d89f9"
+      stroke-linecap="square"
+      stroke-width="1"
+    />
+  </svg>
+</body>
+`;
+
+exports[`renders test chart line11 correctly 1`] = `
+<body>
+  <span
+    style="display: none;"
+  >
+    5,3,9,6,5,9,7,3,5,2
+  </span>
+  <svg
+    class="peity"
+    height="16"
+    width="32"
+  >
+    <polyline
+      fill="none"
+      points="0 7.166666666666666 3.5555555555555554 10.5 7.111111111111111 0.5 10.666666666666666 5.5 14.222222222222221 7.166666666666666 17.77777777777778 0.5 21.333333333333332 3.833333333333334 24.888888888888886 10.5 28.444444444444443 7.166666666666666 32 12.166666666666668"
+      stroke="#4d89f9"
+      stroke-linecap="square"
+      stroke-width="1"
+    />
+  </svg>
+</body>
+`;
+
+exports[`renders test chart line12 correctly 1`] = `
+<body>
+  <span
+    style="display: none;"
+  >
+    5,0,9,6,5,9,7,3,5,2
+  </span>
+  <svg
+    class="peity"
+    height="16"
+    width="32"
+  >
+    <polygon
+      fill="#c6d9fd"
+      points="0 15.5 0 7.166666666666666 3.5555555555555554 15.5 7.111111111111111 0.5 10.666666666666666 5.5 14.222222222222221 7.166666666666666 17.77777777777778 0.5 21.333333333333332 3.833333333333334 24.888888888888886 10.5 28.444444444444443 7.166666666666666 32 12.166666666666668 32 15.5"
+    />
+    <polyline
+      fill="none"
+      points="0 7.166666666666666 3.5555555555555554 15.5 7.111111111111111 0.5 10.666666666666666 5.5 14.222222222222221 7.166666666666666 17.77777777777778 0.5 21.333333333333332 3.833333333333334 24.888888888888886 10.5 28.444444444444443 7.166666666666666 32 12.166666666666668"
+      stroke="#4d89f9"
+      stroke-linecap="square"
+      stroke-width="1"
+    />
+    <line
+      stroke="black"
+      x1="0"
+      x2="32"
+      y1="0.5"
+      y2="15.5"
+    />
+  </svg>
+</body>
+`;
+
+exports[`renders test chart pie1 correctly 1`] = `
+<body>
+  <span
+    style="display: none;"
+  >
+    1/5
+  </span>
+  <svg
+    class="peity"
+    height="16"
+    width="16"
+  >
+    <path
+      d="M 8 0 A 8 8 0 0 1 15.60845213036123 5.52786404500042 L 8 8"
+      data-value="1"
+      fill="#ff9900"
+    />
+    <path
+      d="M 15.60845213036123 5.52786404500042 A 8 8 0 1 1 7.999999999999998 0 L 8 8"
+      data-value="4"
+      fill="#fff4dd"
+    />
+  </svg>
+</body>
+`;
+
+exports[`renders test chart pie2 correctly 1`] = `
+<body>
+  <span
+    style="display: none;"
+  >
+    0.52/1.561
+  </span>
+  <svg
+    class="peity"
+    height="32"
+    width="32"
+  >
+    <path
+      d="M 16 0 A 16 16 0 0 1 29.86712759263633 23.98140165193709 L 16 16"
+      data-value="0.52"
+      fill="#ff9900"
+    />
+    <path
+      d="M 29.86712759263633 23.98140165193709 A 16 16 0 1 1 15.999999999999996 0 L 16 16"
+      data-value="1.041"
+      fill="#fff4dd"
+    />
+  </svg>
+</body>
+`;
+
+exports[`renders test chart pie3 correctly 1`] = `
+<body>
+  <span
+    style="display: none;"
+  >
+    1,4
+  </span>
+  <svg
+    class="peity"
+    height="16"
+    width="32"
+  >
+    <path
+      d="M 16 0 A 8 8 0 0 1 23.60845213036123 5.52786404500042 L 16 8"
+      data-value="1"
+      fill="#ff9900"
+    />
+    <path
+      d="M 23.60845213036123 5.52786404500042 A 8 8 0 1 1 15.999999999999998 0 L 16 8"
+      data-value="4"
+      fill="#fff4dd"
+    />
+  </svg>
+</body>
+`;
+
+exports[`renders test chart pie4 correctly 1`] = `
+<body>
+  <span
+    style="display: none;"
+  >
+    4,7,6,5
+  </span>
+  <svg
+    class="peity"
+    height="32"
+    width="16"
+  >
+    <path
+      d="M 8 8 A 8 8 0 0 1 15.277055962836148 12.67667989598491 L 8 16"
+      data-value="4"
+      fill="cyan"
+    />
+    <path
+      d="M 15.277055962836148 12.67667989598491 A 8 8 0 0 1 8 24 L 8 16"
+      data-value="7"
+      fill="magenta"
+    />
+    <path
+      d="M 8 24 A 8 8 0 0 1 0.08142846495253764 14.861481293813721 L 8 16"
+      data-value="6"
+      fill="yellow"
+    />
+    <path
+      d="M 0.08142846495253764 14.861481293813721 A 8 8 0 0 1 7.999999999999998 8 L 8 16"
+      data-value="5"
+      fill="black"
+    />
+  </svg>
+</body>
+`;
+
+exports[`renders test chart pie5 correctly 1`] = `
+<body>
+  <span
+    style="display: none;"
+  >
+    3/3
+  </span>
+  <svg
+    class="peity"
+    height="16"
+    width="16"
+  >
+    <circle
+      cx="8"
+      cy="8"
+      data-value="3"
+      fill="#ff9900"
+      r="8"
+    />
+  </svg>
+</body>
+`;
+
+exports[`renders test chart pie6 correctly 1`] = `
+<body>
+  <span
+    style="display: none;"
+  >
+    0/3
+  </span>
+  <svg
+    class="peity"
+    height="16"
+    width="16"
+  >
+    <circle
+      cx="8"
+      cy="8"
+      data-value="3"
+      fill="#fff4dd"
+      r="8"
+    />
+  </svg>
+</body>
+`;
+
+exports[`renders test chart pie7 correctly 1`] = `
+<body>
+  <span
+    style="display: none;"
+  >
+    3,0
+  </span>
+  <svg
+    class="peity"
+    height="16"
+    width="16"
+  >
+    <circle
+      cx="8"
+      cy="8"
+      data-value="3"
+      fill="#ff9900"
+      r="8"
+    />
+  </svg>
+</body>
+`;
+
+exports[`renders test chart pie8 correctly 1`] = `
+<body>
+  <span
+    style="display: none;"
+  >
+    4/3
+  </span>
+  <svg
+    class="peity"
+    height="16"
+    width="16"
+  >
+    <circle
+      cx="8"
+      cy="8"
+      data-value="4"
+      fill="#ff9900"
+      r="8"
+    />
+  </svg>
+</body>
+`;
+
+exports[`renders test chart pie9 correctly 1`] = `
+<body>
+  <span
+    style="display: none;"
+  >
+    1,-2,3
+  </span>
+  <svg
+    class="peity"
+    height="16"
+    width="16"
+  >
+    <path
+      d="M 8 0 A 8 8 0 0 1 16 8 L 8 8"
+      data-value="1"
+      fill="#ff9900"
+    />
+    <path
+      d="M 16 8 A 8 8 0 1 1 7.999999999999998 0 L 8 8"
+      data-value="3"
+      fill="#ffc66e"
+    />
+  </svg>
+</body>
+`;
+
+exports[`renders test chart pie10 correctly 1`] = `
+<body>
+  <span
+    style="display: none;"
+  >
+    -2/3
+  </span>
+  <svg
+    class="peity"
+    height="16"
+    width="16"
+  >
+    <circle
+      cx="8"
+      cy="8"
+      data-value="2"
+      fill="#fff4dd"
+      r="8"
+    />
+  </svg>
+</body>
+`;
+
+exports[`renders test chart pie11 correctly 1`] = `
+<body>
+  <span
+    style="display: none;"
+  >
+    0,0,0,0,0
+  </span>
+  <svg
+    class="peity"
+    height="16"
+    width="16"
+  >
+    <circle
+      cx="8"
+      cy="8"
+      data-value="1"
+      fill="#fff4dd"
+      r="8"
+    />
+  </svg>
+</body>
+`;
+
+exports[`renders test chart pie12 correctly 1`] = `
+<body>
+  <span
+    style="display: none;"
+  >
+    2,4,5
+  </span>
+  <svg
+    class="peity"
+    height="16"
+    width="16"
+  >
+    <path
+      d="M 8 0 A 8 8 0 0 1 15.277055962836148 4.676679895984909 L 8 8"
+      data-value="2"
+      fill="#ff9900"
+    />
+    <path
+      d="M 15.277055962836148 4.676679895984909 A 8 8 0 0 1 5.746139545268564 15.67594378891598 L 8 8"
+      data-value="4"
+      fill="#fff4dd"
+    />
+    <path
+      d="M 5.746139545268564 15.67594378891598 A 8 8 0 0 1 7.999999999999998 0 L 8 8"
+      data-value="5"
+      fill="#ffc66e"
+    />
+    <rect
+      fill="none"
+      height="3"
+      stroke="black"
+      width="3"
+      x="9.511499148708516"
+      y="9.30972146789057"
+    />
+  </svg>
+</body>
+`;

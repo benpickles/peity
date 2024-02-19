@@ -1,5 +1,7 @@
 # Peity
 
+[![Tests](https://github.com/benpickles/peity/actions/workflows/tests.yml/badge.svg)](https://github.com/benpickles/peity/actions/workflows/tests.yml)
+
 Peity (sounds like deity) is a jQuery plugin that converts an element's content into a mini `<svg>` pie, donut, line or bar chart.
 
 ## Basic Usage
@@ -28,13 +30,9 @@ More detailed usage can be found at [benpickles.github.io/peity](http://benpickl
 
 ## Development
 
-Run the automated visual regression tests with:
+Run the automated tests with:
 
-    make test
-
-Run a filtered set of tests with:
-
-    ARGS="--grep bar" make test
+    npm test
 
 To manually view all test cases run:
 
