@@ -63,16 +63,18 @@ $(function() {
   // Updating charts.
   var updatingChart = $(".updating-chart").peity("line", { width: 64 })
 
-  setInterval(function() {
-    var random = Math.round(Math.random() * 10)
-    var values = updatingChart.text().split(",")
-    values.shift()
-    values.push(random)
+  if (updatingChart.length > 0) {
+    setInterval(function() {
+      var random = Math.round(Math.random() * 10)
+      var values = updatingChart.text().split(",")
+      values.shift()
+      values.push(random)
 
-    updatingChart
-      .text(values.join(","))
-      .change()
-  }, 1000)
+      updatingChart
+        .text(values.join(","))
+        .change()
+    }, 1000)
+  }
 })
 </script>
 <script type="text/javascript">
@@ -356,16 +358,18 @@ $(".pie-colours-2").peity("pie", {
     <h4>JavaScript</h4>
     <pre><code class="javascript">var updatingChart = $(".updating-chart").peity("line", { width: 64 })
 
-setInterval(function() {
-  var random = Math.round(Math.random() * 10)
-  var values = updatingChart.text().split(",")
-  values.shift()
-  values.push(random)
+if (updatingChart.length > 0) {
+  setInterval(function() {
+    var random = Math.round(Math.random() * 10)
+    var values = updatingChart.text().split(",")
+    values.shift()
+    values.push(random)
 
-  updatingChart
-    .text(values.join(","))
-    .change()
-}, 1000)</code></pre>
+    updatingChart
+      .text(values.join(","))
+      .change()
+  }, 1000)
+}</code></pre>
   </div>
 
   <h2 id="custom-charts">Custom Charts</h2>
