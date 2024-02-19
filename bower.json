@@ -1,8 +1,0 @@
-{
-  "name": "peity",
-  "version": "3.3.0",
-  "main": "jquery.peity.js",
-  "dependencies": {
-    "jquery": ">=1.6.2"
-  }
-}

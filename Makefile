@@ -19,7 +19,7 @@ clean:
 docs: jquery.peity.min.js.gz
 	bin/update_docs $(VERSION)
 
-release: test docs bower.json package.json
+release: test docs package.json
 	@printf '\e[0;32m%-6s\e[m\n' "Happy days, everything passes. Make sure CHANGELOG.md is already up-to-date, commit everything, and tag it:"
 	@echo '  $$ git commit -m "Version $(VERSION)."'
 	@echo '  $$ git tag v$(VERSION)'
