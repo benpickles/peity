@@ -86,8 +86,9 @@
   }
 
   PeityPrototype.values = function() {
+    var invert = this.opts.invert;
     return $.map(this.$el.text().split(this.opts.delimiter), function(value) {
-      return parseFloat(value)
+      return invert ? parseFloat(value) * -1 : parseFloat(value)
     })
   }
 
@@ -250,14 +251,18 @@
       min: 0,
       stroke: "#4d89f9",
       strokeWidth: 1,
-      width: 32
+      width: 32,
+      invert: false
     },
     function(opts) {
       var values = this.values()
       if (values.length == 1) values.push(values[0])
       var max = Math.max.apply(Math, opts.max == undefined ? values : values.concat(opts.max))
         , min = Math.min.apply(Math, opts.min == undefined ? values : values.concat(opts.min))
-
+      if (max == min) {
+        max ++; min--;
+      }
+      
       var $svg = this.prepare(opts.width, opts.height)
         , strokeWidth = opts.strokeWidth
         , width = $svg.width()
@@ -321,7 +326,8 @@
       height: 16,
       min: 0,
       padding: 0.1,
-      width: 32
+      width: 32,
+      invert: false
     },
     function(opts) {
       var values = this.values()
